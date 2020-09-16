@@ -1,0 +1,26 @@
+<mat-drawer-container class="example-container">
+
+    <mat-drawer mode="side" opened>
+        Options
+        <div class="options">
+            <button (click)="clients()">Clients</button>
+            <button (click)= "users()">Users</button>
+            <button (click)="roles()">Roles</button>
+        </div>
+
+    </mat-drawer>
+
+    <mat-drawer-content>
+        <div *ngIf="isClient" >
+            <app-clients></app-clients>
+        </div>
+        <div *ngIf="isUsers">
+            <app-users></app-users>
+        </div>
+        <div *ngIf="isRoles">
+            <app-heimdall-roles></app-heimdall-roles>
+        </div>
+    </mat-drawer-content>
+
+  </mat-drawer-container>
+  

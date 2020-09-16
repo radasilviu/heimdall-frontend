@@ -1,0 +1,40 @@
+.container{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 50vh;
+}
+.roles{
+    border: 0.5rem outset black;
+    border-radius: 12px;
+    height: 50%;
+    width: 20%;
+    padding: 30px;
+    margin: 5px;
+    background-color: lightgray;
+    display: flex;
+    overflow-y:auto
+    
+}
+
+mat-list-item{
+    display: flex;
+    justify-content: end;
+}
+.addRole{
+ width: 100%;
+ height: 200px;
+ display: flex;
+ flex-direction: row;
+ justify-content: center;
+ align-items: center;
+}
+.mat-button{
+    height: 20%;
+    margin: 10px;
+}
+.is-active {
+    background-color: red;
+}

@@ -1,0 +1,16 @@
+<div class="container">
+    All Roles
+    <div class="roles">
+        <mat-list role="list">
+            <mat-list-item  style="cursor: pointer" onclick="" *ngFor="let role of allRoles" role="listitem"><span>{{role.role}}</span></mat-list-item>
+          </mat-list>      
+    </div>
+    <div class="rolebtn">
+        <mat-form-field class="example-form-field">
+            <mat-label>Clearable input</mat-label>
+            <input matInput type="text" [(ngModel)]="newRole">
+          </mat-form-field>
+        <button (click)="addRole()" mat-raised-button>Add Role</button> 
+    </div>
+
+</div>
