@@ -22,7 +22,7 @@ export class HomeComponent implements OnInit {
     this.isUsers = false;
     this.isRoles = false
   }
-  
+
   users() {
     this.isUsers = true;
     this.isClient = false;
@@ -34,8 +34,4 @@ export class HomeComponent implements OnInit {
     this.isUsers = false;
     this.isClient = false;
   }
-
-
-
-
 }

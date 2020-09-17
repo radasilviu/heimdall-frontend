@@ -15,9 +15,8 @@ export class LoginComponent implements OnInit {
 
   constructor(private auth: AuthserviceService, private router: Router) { }
 
-  ngOnInit(): void {
-  }
-
+  ngOnInit(): void {}
+  
   login() {
     if (this.username === "admin" && this.password === "admin") {
       this.auth.setLogedIn(true);

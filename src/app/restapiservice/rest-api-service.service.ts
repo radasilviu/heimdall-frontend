@@ -10,7 +10,6 @@ export class RestApiServiceService {
 
   constructor(private http: HttpClient) { }
 
-
   getAllUsers() {
     const headers = new HttpHeaders({ Authorization: 'Basic ' + btoa("admin" + ":" + "admin123") })
     return this.http.get("http://localhost:7070/user", { headers });
@@ -19,6 +18,10 @@ export class RestApiServiceService {
   getAllClients() {
     const headers = new HttpHeaders({ Authorization: 'Basic ' + btoa("admin" + ":" + "admin123") })
     return this.http.get("http://localhost:7070/client", { headers });
+  }
+  deleteClient(id){
+    const headers = new HttpHeaders({ Authorization: 'Basic ' + btoa("admin" + ":" + "admin123") })
+    return this.http.request('delete', "http://localhost:7070/client/" + id, { headers });
   }
 
   getAllRoles() {

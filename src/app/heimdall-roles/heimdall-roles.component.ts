@@ -8,30 +8,31 @@ import { RestApiServiceService } from '../restapiservice/rest-api-service.servic
 })
 export class HeimdallRolesComponent implements OnInit {
 
-  constructor(private service: RestApiServiceService) { }
+  constructor(private service:RestApiServiceService) { }
 
-
-  displayedColumns: string[] = ['Roles'];
+  displayedColumns: string[] = [ 'Roles'];
   allRoles;
   newRole;
   ngOnInit(): void {
     this.getAllRoles();
   }
 
-  getAllRoles() {
-    this.service.getAllRoles().subscribe(data => {
-      this.allRoles = data;
-    })
+  getAllRoles(){
+   this.service.getAllRoles().subscribe(data=>{
+     this.allRoles = data;
+   })
   }
-  addRole() {
-    this.service.addRole(this.newRole).subscribe(data => {
-      this.getAllRoles();
+  addRole(){
+    console.log("da")
+   this.service.addRole(this.newRole).subscribe(data =>{
+     this.getAllRoles();
+   });
+  }
+
+  deleteRole(role){
+    this.service.deleteRole(role).subscribe(data =>{
+      this.getAllRoles()
     });
   }
 
-  deleteRole(role) {
-    this.service.deleteRole(role).subscribe(data => {
-      this.getAllRoles();
-    });
-  }
 }

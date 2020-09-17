@@ -1,6 +1,7 @@
 table {
     width: 15%;
     margin: 10px;
+    table-layout: fixed;
 }
 
 table td {

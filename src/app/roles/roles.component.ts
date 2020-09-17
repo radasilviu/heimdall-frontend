@@ -1,6 +1,5 @@
 import { ChangeDetectorRef, SimpleChange, SimpleChanges } from '@angular/core';
 import { Component, OnInit, OnChanges } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
 import { RestApiServiceService } from '../restapiservice/rest-api-service.service';
 import { RoleServiceService } from '../role-service.service';
 
@@ -10,7 +9,6 @@ import { RoleServiceService } from '../role-service.service';
   styleUrls: ['./roles.component.css']
 })
 export class RolesComponent implements OnInit {
-
   curentUser;
   userRoles;
   allRoles;
@@ -30,7 +28,6 @@ export class RolesComponent implements OnInit {
       this.curentUser = data
       this.userRoles = this.curentUser.roles
     });
-
   }
 
   getAllRoles() {

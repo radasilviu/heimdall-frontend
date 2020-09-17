@@ -25,12 +25,8 @@ export class ClientsComponent implements OnInit {
 
   displayedColumns: string[] = ['id', 'name'];
 
-
-
   dataSource = ELEMENT_DATA;
   constructor( private changeDetectorRefs: ChangeDetectorRef,private service:RestApiServiceService){}
-
-  
 
   ngOnInit(): void {
     this.getAllClients();
@@ -41,7 +37,11 @@ export class ClientsComponent implements OnInit {
     .subscribe(data => {
      this.allCLients = data;
     })
-   
+  }
+  deleteClient(id){
+    this.service.deleteClient(id).subscribe(data=>{
+      this.getAllClients();
+    })
   }
 
   addClient(){
@@ -49,5 +49,4 @@ export class ClientsComponent implements OnInit {
       this.getAllClients();
      })
   }
-
 }

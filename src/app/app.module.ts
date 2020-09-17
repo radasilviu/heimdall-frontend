@@ -9,23 +9,17 @@ import { HttpClient } from '@angular/common/http';
 import {MatCheckboxModule} from '@angular/material/checkbox'; 
 import {NoopAnimationsModule} from '@angular/platform-browser/animations'
 import { HttpClientModule } from '@angular/common/http';
-
-
 import {MatListModule} from '@angular/material/list'; 
-
-
 import {MatInputModule} from '@angular/material/input'; 
 import { MatTableModule} from '@angular/material/table'; 
 import {MatSidenavModule} from '@angular/material/sidenav';
 import { ClientsComponent } from './clients/clients.component'; 
 import {MatDialogModule} from '@angular/material/dialog'; 
-
-
-
 import {MatButtonModule} from '@angular/material/button';
 import { UsersComponent } from './users/users.component';
 import { RolesComponent } from './roles/roles.component';
 import { HeimdallRolesComponent } from './heimdall-roles/heimdall-roles.component'; 
+
 @NgModule({
   declarations: [
     AppComponent,

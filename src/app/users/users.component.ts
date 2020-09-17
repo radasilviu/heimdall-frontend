@@ -4,14 +4,10 @@ import { MatTable } from '@angular/material/table';
 import { RestApiServiceService } from '../restapiservice/rest-api-service.service';
 import { RoleServiceService } from '../role-service.service';
 
-
-
 export interface User {
   username: string;
   Id: any;
 }
-
-
 
 @Component({
   selector: 'app-users',
@@ -28,7 +24,6 @@ export class UsersComponent implements OnInit {
   dataSource;
   constructor(private changeDetectorRefs: ChangeDetectorRef, private service: RestApiServiceService, private roleService: RoleServiceService) { }
 
-
   ngOnInit(): void {
     this.getAllUsers();
   }
@@ -39,7 +34,8 @@ export class UsersComponent implements OnInit {
       this.dataSource = data as User[]
       for (let i in this.dataSource) {
         this.dataSource[i].Id = i;
-      }})
+      }
+    })
     this.table.renderRows();
   }
 
