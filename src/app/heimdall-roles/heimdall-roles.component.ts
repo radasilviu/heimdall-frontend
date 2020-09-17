@@ -17,13 +17,14 @@ export class HeimdallRolesComponent implements OnInit {
 
   getAllRoles(){
     this.service.getAllRoles().subscribe(data=>{
+      console.log(data)
       for(let role in data){
         this.allRoles.push(data[role])
       }
     })
   }
   addRole(){
-    this.service.addRole(this.newRole).subscribe();
+   // this.service.addRole(this.newRole).subscribe();
   }
 
 }

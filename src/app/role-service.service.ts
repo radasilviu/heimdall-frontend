@@ -6,9 +6,13 @@ import { Injectable } from '@angular/core';
 export class RoleServiceService {
 
   username;
+  id;
 
   setusername(username){
     this.username = username;
+  }
+  setId(id){
+    this.id = id;
   }
 
   constructor() { }

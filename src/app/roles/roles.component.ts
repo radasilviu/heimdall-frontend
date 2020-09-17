@@ -12,6 +12,7 @@ export class RolesComponent implements OnInit {
   userRoles = [];
   allRoles= [];
   client;
+  id;
 
   constructor(private service:RestApiServiceService,private roleService : RoleServiceService) { }
 
@@ -37,7 +38,19 @@ export class RolesComponent implements OnInit {
       }
     })
   }
+  addRole(role){
+    this.id = this.roleService.id;
+    console.log(this.id)
+    console.log(role)
+    this.service.addRole(role,this.id).subscribe();
+  }
 
+  deleteUserRole(role){
+    console.log(role)
+    console.log(this.roleService.id);
 
+    this.service.deleteUserRole(role,this.roleService.id).subscribe();
+
+  }
 
 }

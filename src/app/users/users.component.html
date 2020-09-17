@@ -4,6 +4,9 @@
         <mat-form-field>  
           <mat-label>New User</mat-label>
           <input matInput [(ngModel)]="username">
+          <input matInput [(ngModel)]="username">
+
+          
         </mat-form-field>
         <button (click)="addUser(username)" mat-raised-button color="primary">Add</button>
     </div>
@@ -27,7 +30,7 @@
 
         <ng-container matColumnDef="role">
           <th mat-header-cell *matHeaderCellDef> role </th>
-          <td mat-cell *matCellDef="let element"> <button (click)="viewRoles(element.username)">Roles</button></td>
+          <td mat-cell *matCellDef="let element"> <button (click)="viewRoles(element.username,element.id)">Roles</button></td>
         </ng-container>
       
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
