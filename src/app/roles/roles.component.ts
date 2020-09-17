@@ -1,5 +1,5 @@
 import { ChangeDetectorRef, SimpleChange, SimpleChanges } from '@angular/core';
-import { Component, OnInit,OnChanges } from '@angular/core';
+import { Component, OnInit, OnChanges } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { RestApiServiceService } from '../restapiservice/rest-api-service.service';
 import { RoleServiceService } from '../role-service.service';
@@ -10,45 +10,45 @@ import { RoleServiceService } from '../role-service.service';
   styleUrls: ['./roles.component.css']
 })
 export class RolesComponent implements OnInit {
-  
 
-  curentUser ;
-  userRoles = []
+  curentUser;
+  userRoles;
   allRoles;
   client;
   id;
 
-
-  constructor(private service:RestApiServiceService,private roleService : RoleServiceService,private cf:ChangeDetectorRef) { }
+  displayedColumns: string[] = ['Roles'];
+  constructor(private service: RestApiServiceService, private roleService: RoleServiceService, private cf: ChangeDetectorRef) { }
 
   ngOnInit(): void {
     this.getUserRoles();
     this.getAllRoles();
   }
 
-  
-
-  getUserRoles(){
+  getUserRoles() {
     this.service.getUserByUsername(this.roleService.username).subscribe(data => {
-     this.curentUser = data
-     this.userRoles = this.curentUser.roles
+      this.curentUser = data
+      this.userRoles = this.curentUser.roles
     });
 
   }
 
-  getAllRoles(){
-    this.service.getAllRoles().subscribe(data=>{
+  getAllRoles() {
+    this.service.getAllRoles().subscribe(data => {
       this.allRoles = data
     })
   }
 
-
-  addRole(role){
+  addRole(role) {
     this.id = this.roleService.id;
-    this.service.addRole(role,this.id).subscribe();
+    this.service.addUserRole(role, this.id).subscribe(data => {
+      this.getUserRoles();
+    });
   }
 
-  deleteUserRole(role){
-    this.service.deleteUserRole(role,this.roleService.id).subscribe();
+  deleteUserRole(role) {
+    this.service.deleteUserRole(role, this.roleService.id).subscribe(data => {
+      this.getUserRoles();
+    });
   }
 }

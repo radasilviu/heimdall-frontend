@@ -8,9 +8,9 @@ describe('HeimdallRolesComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ HeimdallRolesComponent ]
+      declarations: [HeimdallRolesComponent]
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {

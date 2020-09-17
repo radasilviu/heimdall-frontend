@@ -8,32 +8,34 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HomeComponent implements OnInit {
   showFiller = false;
-  isClient=false;
-  isRoles=false;
+  isClient = false;
+  isRoles = false;
   isUsers = false;
-  
+
   constructor() { }
 
   ngOnInit(): void {
   }
 
-  clients(){
+  clients() {
     this.isClient = true;
     this.isUsers = false;
     this.isRoles = false
   }
-  users(){
+  
+  users() {
     this.isUsers = true;
     this.isClient = false;
     this.isRoles = false;
   }
-  roles(){
+
+  roles() {
     this.isRoles = true;
     this.isUsers = false;
     this.isClient = false;
   }
- 
 
- 
+
+
 
 }

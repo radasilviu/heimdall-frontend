@@ -1,38 +1,30 @@
-<div class="container">
+<div style="display: flex; justify-content: center; width: 100%; flex-direction:row;">
 
-    <div class="roles">
-        <mat-list role="list">
-            <div>
-                <div class="title">
-                    All Roles
-                </div>
 
-                <mat-list-item   *ngFor="let role of allRoles" role="listitem">
-                    <mat-list-item-content>
-                        {{role.name}}
-                        <button (click)="addRole(role.name)">add</button>
-                    </mat-list-item-content>
-                       
-                 </mat-list-item>
-            </div>
-        </mat-list>
-    </div>
+    <table mat-table [dataSource]="allRoles" class="mat-elevation-z8">
+        <ng-container matColumnDef="Roles">
+            <th mat-header-cell *matHeaderCellDef> AllRoles </th>
+            <td mat-cell *matCellDef="let element">
+                {{element.name}}
+                <button (click)="addRole(element.name)">add</button>
+            </td>
+        </ng-container>
 
-   
-    <div class="roles">
-        <mat-list role="list">
-            <div class="title">
-                User Role
-            </div>
-            <mat-list-item  style="cursor: pointer" onclick="" *ngFor="let role of userRoles" role="listitem"><span>
-                <mat-list-item-content>
-                    {{role.name}}
-                    <button (click) = deleteUserRole(role.name)>remove</button>
-                </mat-list-item-content>
-            
-            </span></mat-list-item>
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
 
-          </mat-list>          
-    </div>
+    <table mat-table [dataSource]="userRoles" class="mat-elevation-z8">
+        <ng-container matColumnDef="Roles">
+            <th mat-header-cell *matHeaderCellDef> UserRoles </th>
+            <td mat-cell *matCellDef="let element">
+                {{element.name}}
+                <button (click)=d eleteUserRole(element.name)>X</button>
+            </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+
 </div>
-

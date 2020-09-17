@@ -7,23 +7,23 @@ import { AuthserviceService } from '../authGuardian/authservice.service';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
+
 export class LoginComponent implements OnInit {
   username;
   password;
   isNotValid = false;
 
-  constructor(private auth:AuthserviceService,private router :Router) { }
+  constructor(private auth: AuthserviceService, private router: Router) { }
 
   ngOnInit(): void {
   }
 
-  login(){
-    if(this.username ==="admin" && this.password === "admin"){
+  login() {
+    if (this.username === "admin" && this.password === "admin") {
       this.auth.setLogedIn(true);
       this.router.navigate(['home'])
-      console.log("da")
     }
-    else{
+    else {
       this.isNotValid = true;
     }
   }

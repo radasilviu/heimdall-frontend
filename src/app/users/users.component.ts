@@ -1,6 +1,6 @@
 import { ChangeDetectorRef } from '@angular/core';
-import { Component, OnInit ,ViewChild} from '@angular/core';
-import {MatTable} from '@angular/material/table';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { MatTable } from '@angular/material/table';
 import { RestApiServiceService } from '../restapiservice/rest-api-service.service';
 import { RoleServiceService } from '../role-service.service';
 
@@ -8,7 +8,7 @@ import { RoleServiceService } from '../role-service.service';
 
 export interface User {
   username: string;
-  Id:any;
+  Id: any;
 }
 
 
@@ -20,41 +20,42 @@ export interface User {
 })
 export class UsersComponent implements OnInit {
   @ViewChild(MatTable) table: MatTable<any>;
-  isRoles=false;
-  displayedColumns = ['Id', 'username','role'];
-  username="";
-  password="";
+  isRoles = false;
+  displayedColumns = ['Id', 'username', 'role'];
+  username = "";
+  password = "";
 
   dataSource;
-  constructor( private changeDetectorRefs: ChangeDetectorRef,private service:RestApiServiceService,private roleService: RoleServiceService){}
+  constructor(private changeDetectorRefs: ChangeDetectorRef, private service: RestApiServiceService, private roleService: RoleServiceService) { }
 
 
   ngOnInit(): void {
     this.getAllUsers();
   }
 
-  getAllUsers(){
+  getAllUsers() {
     let clients = this.service.getAllUsers();
     clients.subscribe(data => {
       this.dataSource = data as User[]
-      for(let i in this.dataSource){
+      for (let i in this.dataSource) {
         this.dataSource[i].Id = i;
-      }
-    }
-      )
+      }})
     this.table.renderRows();
   }
 
-  viewRoles(username,id){
+  viewRoles(username, id) {
     this.roleService.setusername(username)
     this.roleService.setId(id);
-    this.isRoles=true;
+    this.isRoles = true;
   }
-  goBack(){
-    this.isRoles=false;
+
+  goBack() {
+    this.isRoles = false;
   }
-  addUser(){
-    this.service.addUser(this.username).subscribe();
+
+  addUser() {
+    this.service.addUser(this.username).subscribe(data => {
+      this.getAllUsers();
+    });
   }
-  
 }

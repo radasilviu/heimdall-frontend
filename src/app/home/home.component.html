@@ -4,14 +4,14 @@
         Options
         <div class="options">
             <button (click)="clients()">Clients</button>
-            <button (click)= "users()">Users</button>
+            <button (click)="users()">Users</button>
             <button (click)="roles()">Roles</button>
         </div>
 
     </mat-drawer>
 
     <mat-drawer-content>
-        <div *ngIf="isClient" >
+        <div *ngIf="isClient">
             <app-clients></app-clients>
         </div>
         <div *ngIf="isUsers">
@@ -22,5 +22,4 @@
         </div>
     </mat-drawer-content>
 
-  </mat-drawer-container>
-  
+</mat-drawer-container>

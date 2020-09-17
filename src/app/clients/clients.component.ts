@@ -1,6 +1,6 @@
 import { ChangeDetectorRef } from '@angular/core';
 import { Component, OnInit ,ViewChild} from '@angular/core';
-import {MatTable} from '@angular/material/table';
+import {MatTable, MatTableDataSource} from '@angular/material/table';
 import { RestApiServiceService } from '../restapiservice/rest-api-service.service';
 
 export interface Client {
@@ -19,6 +19,7 @@ const ELEMENT_DATA: Client[] = [
 
 export class ClientsComponent implements OnInit {
   newClient="";
+  allCLients;
 
   @ViewChild(MatTable) table: MatTable<any>;
 
@@ -34,22 +35,19 @@ export class ClientsComponent implements OnInit {
   ngOnInit(): void {
     this.getAllClients();
   }
+
   getAllClients(){
-    let clients = this.service.getAllClients();
-    clients.subscribe(data => {
-      console.log(data);
-      this.dataSource = data as Client[]
-      for(let i in this.dataSource){
-        this.dataSource[i].id = i;
-      }
-    }
-      )
-    this.table.renderRows();
+   this.service.getAllClients()
+    .subscribe(data => {
+     this.allCLients = data;
+    })
+   
   }
 
   addClient(){
-    this.service.addClient(this.newClient).subscribe();
-    this.table.renderRows();
+    this.service.addClient(this.newClient).subscribe(data => {
+      this.getAllClients();
+     })
   }
 
 }
