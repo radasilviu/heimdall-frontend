@@ -1,15 +1,30 @@
-<p>roles works!</p>
 <div class="container">
+
+    All Roles
     <div class="roles">
         <mat-list role="list">
-            <mat-list-item style="cursor: pointer" *ngFor="let role of allRoles" role="listitem">{{role.role}}</mat-list-item>
-           
-
+            <div>
+                <mat-list-item   *ngFor="let role of allRoles" role="listitem">
+                    <mat-list-item-content>
+                        {{role.name}}
+                        <button (click)="addRole(role.name)">add</button>
+                    </mat-list-item-content>
+                       
+                 </mat-list-item>
+            </div>
         </mat-list>
     </div>
+
+    User Role
     <div class="roles">
         <mat-list role="list">
-            <mat-list-item  style="cursor: pointer" onclick="" *ngFor="let role of userRoles" role="listitem"><span>{{role.role}}</span></mat-list-item>
+            <mat-list-item  style="cursor: pointer" onclick="" *ngFor="let role of userRoles" role="listitem"><span>
+                <mat-list-item-content>
+                    {{role.name}}
+                    <button (click) = deleteUserRole(role.name)>remove</button>
+                </mat-list-item-content>
+            
+            </span></mat-list-item>
 
           </mat-list>          
     </div>

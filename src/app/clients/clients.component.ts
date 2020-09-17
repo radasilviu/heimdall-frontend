@@ -37,6 +37,7 @@ export class ClientsComponent implements OnInit {
   getAllClients(){
     let clients = this.service.getAllClients();
     clients.subscribe(data => {
+      console.log(data);
       this.dataSource = data as Client[]
       for(let i in this.dataSource){
         this.dataSource[i].id = i;

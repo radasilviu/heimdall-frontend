@@ -23,6 +23,8 @@ export class UsersComponent implements OnInit {
   isRoles=false;
   displayedColumns = ['Id', 'username','role'];
   username="";
+  password="";
+
   dataSource;
   constructor( private changeDetectorRefs: ChangeDetectorRef,private service:RestApiServiceService,private roleService: RoleServiceService){}
 
@@ -34,6 +36,7 @@ export class UsersComponent implements OnInit {
   getAllUsers(){
     let clients = this.service.getAllUsers();
     clients.subscribe(data => {
+      console.log(data)
       this.dataSource = data as User[]
       for(let i in this.dataSource){
         this.dataSource[i].Id = i;
@@ -43,8 +46,9 @@ export class UsersComponent implements OnInit {
     this.table.renderRows();
   }
 
-  viewRoles(username){
+  viewRoles(username,id){
     this.roleService.setusername(username)
+    this.roleService.setId(id);
     this.isRoles=true;
   }
   goBack(){
