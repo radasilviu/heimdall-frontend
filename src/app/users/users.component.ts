@@ -36,7 +36,6 @@ export class UsersComponent implements OnInit {
   getAllUsers(){
     let clients = this.service.getAllUsers();
     clients.subscribe(data => {
-      console.log(data)
       this.dataSource = data as User[]
       for(let i in this.dataSource){
         this.dataSource[i].Id = i;
@@ -56,7 +55,6 @@ export class UsersComponent implements OnInit {
   }
   addUser(){
     this.service.addUser(this.username).subscribe();
-    console.log(this.username)
   }
   
 }

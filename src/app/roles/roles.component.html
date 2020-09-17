@@ -1,9 +1,12 @@
 <div class="container">
 
-    All Roles
     <div class="roles">
         <mat-list role="list">
             <div>
+                <div class="title">
+                    All Roles
+                </div>
+
                 <mat-list-item   *ngFor="let role of allRoles" role="listitem">
                     <mat-list-item-content>
                         {{role.name}}
@@ -15,9 +18,12 @@
         </mat-list>
     </div>
 
-    User Role
+   
     <div class="roles">
         <mat-list role="list">
+            <div class="title">
+                User Role
+            </div>
             <mat-list-item  style="cursor: pointer" onclick="" *ngFor="let role of userRoles" role="listitem"><span>
                 <mat-list-item-content>
                     {{role.name}}

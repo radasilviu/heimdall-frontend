@@ -9,6 +9,7 @@ import { JsonPipe } from '@angular/common';
 export class RestApiServiceService {
 
   constructor(private http:HttpClient) { }
+  
 
   getAllUsers(){
     const headers = new HttpHeaders({Authorization: 'Basic ' + btoa("admin" + ":"  + "admin123")})
@@ -39,6 +40,10 @@ export class RestApiServiceService {
   deleteUserRole(role,id){
     const headers = new HttpHeaders({Authorization: 'Basic ' + btoa("admin" + ":"  + "admin123")})
     return this.http.request('delete', "http://localhost:7070/user/"+ id + "/removeRole", { body: { name: role },headers});
+  }
+  getUserByUsername(username){
+    const headers = new HttpHeaders({Authorization: 'Basic ' + btoa("admin" + ":"  + "admin123")})
+    return this.http.get("http://localhost:7070/user/" + username ,{headers});
   }
 }
  
