@@ -2,7 +2,7 @@ import { ChangeDetectorRef } from '@angular/core';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatTable } from '@angular/material/table';
 import { RestApiServiceService } from '../restapiservice/rest-api-service.service';
-import { RoleServiceService } from '../role-service.service';
+import { RoleServiceService } from '../roleservice/role-service.service';
 
 export interface User {
   username: string;
