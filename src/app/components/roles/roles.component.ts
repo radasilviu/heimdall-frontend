@@ -1,7 +1,7 @@
 import { ChangeDetectorRef, SimpleChange, SimpleChanges } from '@angular/core';
 import { Component, OnInit, OnChanges } from '@angular/core';
-import { RestApiServiceService } from '../restapiservice/rest-api-service.service';
-import { RoleServiceService } from '../roleservice/role-service.service';
+import { RestApiServiceService } from '../../services/restapiservice/rest-api-service.service';
+import { RoleServiceService } from '../../services/roleservice/role-service.service';
 
 @Component({
   selector: 'app-roles',

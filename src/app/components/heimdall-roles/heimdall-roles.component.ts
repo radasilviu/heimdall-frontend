@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { RestApiServiceService } from '../restapiservice/rest-api-service.service';
+import { RestApiServiceService } from '../../services/restapiservice/rest-api-service.service';
 
 @Component({
   selector: 'app-heimdall-roles',
