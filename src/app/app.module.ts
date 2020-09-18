@@ -5,7 +5,7 @@ import { AppRoutingModule , routingComponents} from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
 import {AuthGuard} from './authGuardian/auth.guard'
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HTTP_INTERCEPTORS } from '@angular/common/http';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import {NoopAnimationsModule} from '@angular/platform-browser/animations'
 import { HttpClientModule } from '@angular/common/http';
@@ -21,6 +21,7 @@ import { RolesComponent } from './roles/roles.component';
 import { HeimdallRolesComponent } from './heimdall-roles/heimdall-roles.component';
 import { ClientLoginComponent } from './components/client-login/client-login.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { AuthInterceptorComponent } from './auth-interceptor/auth-interceptor.component';
 
 @NgModule({
   declarations: [
@@ -32,6 +33,7 @@ import { ReactiveFormsModule } from '@angular/forms';
     RolesComponent,
     HeimdallRolesComponent,
     ClientLoginComponent,
+    AuthInterceptorComponent,
   ],
   imports: [
     FormsModule,
@@ -48,7 +50,15 @@ import { ReactiveFormsModule } from '@angular/forms';
     BrowserModule,
     AppRoutingModule
   ],
-  providers: [AuthGuard, HttpClient],
+  providers: [
+    AuthGuard,
+     HttpClient,
+    {
+      provide:HTTP_INTERCEPTORS,
+      useClass:AuthInterceptorComponent,
+      multi:true
+    }
+    ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

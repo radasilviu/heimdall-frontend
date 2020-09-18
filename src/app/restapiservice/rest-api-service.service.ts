@@ -1,7 +1,5 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable, throwError } from 'rxjs';
-import { JsonPipe } from '@angular/common';
 
 @Injectable({
   providedIn: 'root'
@@ -11,56 +9,45 @@ export class RestApiServiceService {
   constructor(private http: HttpClient) { }
 
   getAllUsers() {
-    const headers = new HttpHeaders({ Authorization: 'Basic ' + btoa("admin" + ":" + "admin123") })
-    return this.http.get("http://localhost:7070/user", { headers });
+    return this.http.get("http://localhost:7070/user");
   }
 
   getAllClients() {
-    const headers = new HttpHeaders({ Authorization: 'Basic ' + btoa("admin" + ":" + "admin123") })
-    return this.http.get("http://localhost:7070/client", { headers });
+    return this.http.get("http://localhost:7070/client");
   }
   deleteClient(id){
-    const headers = new HttpHeaders({ Authorization: 'Basic ' + btoa("admin" + ":" + "admin123") })
-    return this.http.request('delete', "http://localhost:7070/client/" + id, { headers });
+    return this.http.request('delete', "http://localhost:7070/client/" + id);
   }
 
   getAllRoles() {
-    const headers = new HttpHeaders({ Authorization: 'Basic ' + btoa("admin" + ":" + "admin123") })
-    return this.http.get("http://localhost:7070/role", { headers });
+    return this.http.get("http://localhost:7070/role");
   }
 
   addRole(role) {
-    const headers = new HttpHeaders({ Authorization: 'Basic ' + btoa("admin" + ":" + "admin123") })
-    return this.http.post<any>("http://localhost:7070/role", { name: role }, { headers });
+    return this.http.post<any>("http://localhost:7070/role", { name: role });
   }
 
   deleteRole(id) {
-    const headers = new HttpHeaders({ Authorization: 'Basic ' + btoa("admin" + ":" + "admin123") })
-    return this.http.request('delete', "http://localhost:7070/role/" + id, { headers });
+    return this.http.request('delete', "http://localhost:7070/role/" + id);
   }
 
   addClient(clientName) {
-    const headers = new HttpHeaders({ Authorization: 'Basic ' + btoa("admin" + ":" + "admin123") })
-    return this.http.post<any>("http://localhost:7070/client", { name: clientName }, { headers });
+    return this.http.post<any>("http://localhost:7070/client", { name: clientName });
   }
 
   addUser(username) {
-    const headers = new HttpHeaders({ Authorization: 'Basic ' + btoa("admin" + ":" + "admin123") })
-    return this.http.post<any>("http://localhost:7070/user", { username: username }, { headers });
+    return this.http.post<any>("http://localhost:7070/user", { username: username });
   }
 
   addUserRole(newRole, id) {
-    const headers = new HttpHeaders({ Authorization: 'Basic ' + btoa("admin" + ":" + "admin123") })
-    return this.http.post<any>("http://localhost:7070/user/" + id + "/addRole", { name: newRole }, { headers });
+    return this.http.post<any>("http://localhost:7070/user/" + id + "/addRole", { name: newRole });
   }
 
   deleteUserRole(role, id) {
-    const headers = new HttpHeaders({ Authorization: 'Basic ' + btoa("admin" + ":" + "admin123") })
-    return this.http.request('delete', "http://localhost:7070/user/" + id + "/removeRole", { body: { name: role }, headers });
+    return this.http.request('delete', "http://localhost:7070/user/" + id + "/removeRole", { body: { name: role }});
   }
 
   getUserByUsername(username) {
-    const headers = new HttpHeaders({ Authorization: 'Basic ' + btoa("admin" + ":" + "admin123") })
-    return this.http.get("http://localhost:7070/user/" + username, { headers })
+    return this.http.get("http://localhost:7070/user/" + username)
   }
 }
