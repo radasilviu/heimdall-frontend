@@ -2,6 +2,7 @@ import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 import { ChangeDetectorRef } from '@angular/core';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatTable } from '@angular/material/table';
+import { error } from 'protractor';
 import { RestApiServiceService } from '../../services/restapiservice/rest-api-service.service';
 import { RoleServiceService } from '../../services/roleservice/role-service.service';
 
@@ -52,6 +53,9 @@ export class UsersComponent implements OnInit {
   addUser() {
     this.service.addUser(this.username).subscribe(data => {
       this.getAllUsers();
+    },error=>{
+      console.log(error)
+      this.service.openSnackBar(error.error)
     });
   }
   deleteUser(username){

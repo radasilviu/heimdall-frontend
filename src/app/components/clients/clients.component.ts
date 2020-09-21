@@ -3,6 +3,7 @@ import { Component, OnInit ,ViewChild} from '@angular/core';
 import {MatTable, MatTableDataSource} from '@angular/material/table';
 import { RestApiServiceService } from '../../services/restapiservice/rest-api-service.service';
 
+
 export interface Client {
   name: string;
 }
@@ -19,7 +20,7 @@ const ELEMENT_DATA: Client[] = [
 export class ClientsComponent implements OnInit {
   newClient="";
   allCLients;
-
+  errorMessage;
   @ViewChild(MatTable) table: MatTable<any>;
 
   displayedColumns: string[] = ['name'];
@@ -31,6 +32,7 @@ export class ClientsComponent implements OnInit {
     this.getAllClients();
   }
 
+  
   getAllClients(){
    this.service.getAllClients()
     .subscribe(data => {
@@ -46,6 +48,8 @@ export class ClientsComponent implements OnInit {
   addClient(){
     this.service.addClient(this.newClient).subscribe(data => {
       this.getAllClients();
+     },error=>{
+      this.service.openSnackBar(error.error)
      })
   }
 }

@@ -1,12 +1,20 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import {MatSnackBar} from '@angular/material/snack-bar';
 
 @Injectable({
   providedIn: 'root'
 })
 export class RestApiServiceService {
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient,private _snackBar: MatSnackBar) { }
+
+  openSnackBar(message: string) {
+    this._snackBar.open(message,'' , {
+      duration: 2000,
+    });
+  }
+
 
   getAllUsers() {
     return this.http.get("http://localhost:8081/api/user");

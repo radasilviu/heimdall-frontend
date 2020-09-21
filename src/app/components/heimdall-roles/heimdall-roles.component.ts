@@ -12,7 +12,7 @@ export class HeimdallRolesComponent implements OnInit {
 
   displayedColumns: string[] = [ 'Roles'];
   allRoles;
-  newRole;
+  newRole="";
   ngOnInit(): void {
     this.getAllRoles();
   }
@@ -25,6 +25,8 @@ export class HeimdallRolesComponent implements OnInit {
   addRole(){
    this.service.addRole(this.newRole).subscribe(data =>{
      this.getAllRoles();
+   },error=>{
+     this.service.openSnackBar(error.error)
    });
   }
 

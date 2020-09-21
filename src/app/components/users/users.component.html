@@ -3,7 +3,7 @@
     <div class="addButton">
         <mat-form-field>
             <mat-label>New User</mat-label>
-            <input matInput [(ngModel)]="username">
+            <input required matInput [(ngModel)]="username">
         </mat-form-field>
         <button (click)="addUser(username)" mat-raised-button color="primary">Add</button>
     </div>

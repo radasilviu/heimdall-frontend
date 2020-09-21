@@ -2,7 +2,7 @@
     <div class="addClient">
         <mat-form-field>
             <mat-label>New Client</mat-label>
-            <input matInput [(ngModel)]="newClient">
+            <input required matInput [(ngModel)]="newClient">
         </mat-form-field>
         <button mat-raised-button (click)="addClient()" color="primary">Add</button>
     </div>

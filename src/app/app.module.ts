@@ -21,6 +21,7 @@ import { HeimdallRolesComponent } from './components/heimdall-roles/heimdall-rol
 import { ClientLoginComponent } from './components/client-login/client-login.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import {AuthInterceptor} from './interceptors/auth/auth.interceptor';
+import {MatSnackBarModule} from '@angular/material/snack-bar'; 
 
 @NgModule({
   declarations: [
@@ -35,6 +36,7 @@ import {AuthInterceptor} from './interceptors/auth/auth.interceptor';
   ],
   imports: [
     HttpClientModule,
+    MatSnackBarModule,
     FormsModule,
     MatTableModule,
     HttpClientModule,
