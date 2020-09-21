@@ -1,6 +1,6 @@
 <diV class="clients" *ngIf="!isRoles">
 
-    <div class="addClient">
+    <div class="addButton">
         <mat-form-field>
             <mat-label>New User</mat-label>
             <input matInput [(ngModel)]="username">
@@ -9,10 +9,6 @@
     </div>
 
     <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
-        <ng-container matColumnDef="Id">
-            <th mat-header-cell *matHeaderCellDef> Id </th>
-            <td mat-cell *matCellDef="let element"> {{element.Id}} </td>
-        </ng-container>
         <ng-container matColumnDef="username">
             <th mat-header-cell *matHeaderCellDef> username </th>
             <td mat-cell *matCellDef="let element"> {{element.username}} </td>

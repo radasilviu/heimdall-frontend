@@ -1,6 +1,6 @@
 table {
     table-layout: fixed;
-    width: 80%;
+    width: 35%;
 }
 
 .clients {
@@ -12,6 +12,7 @@ table {
 }
 
 .addClient {
+    margin: 20px;
     width: 30%;
     display: flex;
     align-items: center;

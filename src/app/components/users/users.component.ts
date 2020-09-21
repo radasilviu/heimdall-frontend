@@ -7,7 +7,6 @@ import { RoleServiceService } from '../../services/roleservice/role-service.serv
 
 export interface User {
   username: string;
-  Id: any;
 }
 
 @Component({
@@ -18,7 +17,7 @@ export interface User {
 export class UsersComponent implements OnInit {
   @ViewChild(MatTable) table: MatTable<any>;
   isRoles = false;
-  displayedColumns = ['Id', 'username', 'role'];
+  displayedColumns = ['username', 'role'];
   username = "";
   password = "";
 

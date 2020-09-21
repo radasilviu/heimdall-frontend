@@ -5,7 +5,6 @@ import { RestApiServiceService } from '../../services/restapiservice/rest-api-se
 
 export interface Client {
   name: string;
-  id: any;
 }
 
 const ELEMENT_DATA: Client[] = [
@@ -23,7 +22,7 @@ export class ClientsComponent implements OnInit {
 
   @ViewChild(MatTable) table: MatTable<any>;
 
-  displayedColumns: string[] = ['id', 'name'];
+  displayedColumns: string[] = ['name'];
 
   dataSource = ELEMENT_DATA;
   constructor( private changeDetectorRefs: ChangeDetectorRef,private service:RestApiServiceService){}

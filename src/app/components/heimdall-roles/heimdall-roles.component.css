@@ -31,7 +31,6 @@ table td {
     width: 361px;
     display: flex;
     justify-content: space-evenly;
-    border: 2px solid black;
     margin: 11px;
     padding: 14px;
 }
