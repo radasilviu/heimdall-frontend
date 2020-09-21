@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { AdminAuthService } from 'src/app/services/admin-auth/admin-auth.service';
 
 
 @Component({
@@ -12,7 +14,7 @@ export class HomeComponent implements OnInit {
   isRoles = false;
   isUsers = false;
 
-  constructor() { }
+  constructor(private router: Router) { }
 
   ngOnInit(): void {
   }
@@ -33,5 +35,9 @@ export class HomeComponent implements OnInit {
     this.isRoles = true;
     this.isUsers = false;
     this.isClient = false;
+  }
+  logout(){
+    localStorage.clear();
+    window.location.reload();
   }
 }

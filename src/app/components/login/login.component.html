@@ -1,7 +1,20 @@
 <div class="container">
-    Please log in using keyclone
+    <h1>
+        Heimdall
+    </h1>
+    <div class="form">
+        <h3 *ngIf="errormessaje">
+            Invalid Credentials
+        </h3>
+        <mat-form-field class="example-form-field">
+            <mat-label> Username</mat-label>
+            <input matInput type="text" [(ngModel)]="username">
+        </mat-form-field>
 
-    <input [(ngModel)]="username">
-    <input [(ngModel)]="password">
-    <button (click)="login()">login</button>
+        <mat-form-field class="example-form-field">
+            <mat-label>Password</mat-label>
+            <input matInput type="text" [(ngModel)]="password">
+        </mat-form-field>
+        <button (click)="login()" mat-raised-button color="primary">login</button>
+    </div>
 </div>

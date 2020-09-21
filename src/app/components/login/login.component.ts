@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { error } from 'protractor';
 import { AdminAuthService} from '../../services/admin-auth/admin-auth.service';
 
 @Component({
@@ -11,7 +12,7 @@ import { AdminAuthService} from '../../services/admin-auth/admin-auth.service';
 export class LoginComponent implements OnInit {
   username;
   password;
-
+  errormessaje= false;
   constructor(private authService: AdminAuthService, private router: Router) { }
 
   ngOnInit(): void {}
@@ -22,6 +23,9 @@ export class LoginComponent implements OnInit {
       .subscribe(
         user => {
           this.router.navigate(['home']);
+        },
+        error=>{
+          this.errormessaje = true;
         }
       );
   }
