@@ -31,7 +31,6 @@ export class ClientsComponent implements OnInit {
   ngOnInit(): void {
     this.getAllClients();
   }
-
   
   getAllClients(){
    this.service.getAllClients()
@@ -39,6 +38,7 @@ export class ClientsComponent implements OnInit {
      this.allCLients = data;
     })
   }
+  
   deleteClient(clientName){
     this.service.deleteClient(clientName).subscribe(data=>{
       this.getAllClients();

@@ -16,7 +16,9 @@ export class RolesComponent implements OnInit {
   id;
 
   displayedColumns: string[] = ['Roles'];
-  constructor(private service: RestApiServiceService, private roleService: RoleServiceService, private cf: ChangeDetectorRef) { }
+  constructor(private service: RestApiServiceService,
+              private roleService: RoleServiceService, 
+              private cf: ChangeDetectorRef) { }
 
   ngOnInit(): void {
     this.getUserRoles();

@@ -58,6 +58,7 @@ export class UsersComponent implements OnInit {
       this.service.openSnackBar(error.error)
     });
   }
+  
   deleteUser(username){
     this.service.deleteUser(username).subscribe(data =>{
       this.getAllUsers();
