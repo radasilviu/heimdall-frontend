@@ -37,7 +37,6 @@ export class RolesComponent implements OnInit {
   }
 
   addRole(role) {
-    console.log(role)
     this.service.addUserRole(role,this.roleService.username
       ).subscribe(data => {
       this.getUserRoles();

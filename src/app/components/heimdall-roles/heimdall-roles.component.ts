@@ -23,7 +23,6 @@ export class HeimdallRolesComponent implements OnInit {
    })
   }
   addRole(){
-    console.log("da")
    this.service.addRole(this.newRole).subscribe(data =>{
      this.getAllRoles();
    });
