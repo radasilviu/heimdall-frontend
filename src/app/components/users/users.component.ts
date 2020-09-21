@@ -1,3 +1,4 @@
+import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 import { ChangeDetectorRef } from '@angular/core';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatTable } from '@angular/material/table';
@@ -51,6 +52,11 @@ export class UsersComponent implements OnInit {
 
   addUser() {
     this.service.addUser(this.username).subscribe(data => {
+      this.getAllUsers();
+    });
+  }
+  deleteUser(username){
+    this.service.deleteUser(username).subscribe(data =>{
       this.getAllUsers();
     });
   }

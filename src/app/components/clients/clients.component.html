@@ -10,16 +10,16 @@
     <table mat-table [dataSource]="allCLients" class="mat-elevation-z8">
         <ng-container matColumnDef="id">
             <th mat-header-cell *matHeaderCellDef> id. </th>
-            <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+            <td mat-cell *matCellDef="let element; let i = index"> {{i}} </td>
         </ng-container>
 
         <ng-container matColumnDef="name">
             <th mat-header-cell *matHeaderCellDef> Client name </th>
             <td mat-cell *matCellDef="let element">
                 <span>
-                {{element.name}}
+                {{element.clientName}}
               </span>
-                <button (click)="deleteClient(element.id)">X</button>
+                <button (click)="deleteClient(element.clientName)">X</button>
             </td>
         </ng-container>
 

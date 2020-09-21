@@ -4,7 +4,7 @@
             <th mat-header-cell *matHeaderCellDef> UserRoles </th>
             <td mat-cell *matCellDef="let element">
                 {{element.name}}
-                <button (click)="deleteRole(element.id)">X</button>
+                <button (click)="deleteRole(element.name)">X</button>
             </td>
         </ng-container>
 

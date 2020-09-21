@@ -37,14 +37,15 @@ export class RolesComponent implements OnInit {
   }
 
   addRole(role) {
-    this.id = this.roleService.id;
-    this.service.addUserRole(role, this.id).subscribe(data => {
+    console.log(role)
+    this.service.addUserRole(role,this.roleService.username
+      ).subscribe(data => {
       this.getUserRoles();
     });
   }
 
   deleteUserRole(role) {
-    this.service.deleteUserRole(role, this.roleService.id).subscribe(data => {
+    this.service.deleteUserRole(role, this.roleService.username).subscribe(data => {
       this.getUserRoles();
     });
   }

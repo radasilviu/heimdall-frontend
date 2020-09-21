@@ -15,8 +15,8 @@ export class RestApiServiceService {
   getAllClients() {
     return this.http.get("http://localhost:8081/api/client");
   }
-  deleteClient(id){
-    return this.http.request('delete', "http://localhost:8081/api/client/" + id);
+  deleteClient(clientName){
+    return this.http.request('delete', "http://localhost:8081/api/client/" + clientName);
   }
 
   getAllRoles() {
@@ -27,24 +27,27 @@ export class RestApiServiceService {
     return this.http.post<any>("http://localhost:8081/api/role", { name: role });
   }
 
-  deleteRole(id) {
-    return this.http.request('delete', "http://localhost:8081/api/role/" + id);
+  deleteRole(role) {
+    return this.http.request('delete', "http://localhost:8081/api/role/" + role);
+  }
+  deleteUser(username) {
+    return this.http.request('delete', "http://localhost:8081/api/user/" + username);
   }
 
   addClient(clientName) {
-    return this.http.post<any>("http://localhost:8081/api/client", { name: clientName });
+    return this.http.post<any>("http://localhost:8081/api/client", { clientName: clientName });
   }
 
   addUser(username) {
     return this.http.post<any>("http://localhost:8081/api/user", { username: username });
   }
 
-  addUserRole(newRole, id) {
-    return this.http.post<any>("http://localhost:8081/api/user/" + id + "/addRole", { name: newRole });
+  addUserRole(newRole,username) {
+    return this.http.post<any>("http://localhost:8081/api/user/" + username + "/addRole", { name: newRole });
   }
 
-  deleteUserRole(role, id) {
-    return this.http.request('delete', "http://localhost:8081/api/user/" + id + "/removeRole", { body: { name: role }});
+  deleteUserRole(role, username) {
+    return this.http.request('delete', "http://localhost:8081/api/user/" + username + "/removeRole", { body: { name: role }});
   }
 
   getUserByUsername(username) {
