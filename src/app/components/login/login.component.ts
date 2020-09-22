@@ -40,14 +40,11 @@ export class LoginComponent implements OnInit {
           const decodedToken = helper.decodeToken(user.access_token);
             this.auth = decodedToken.authorities;
             for(let i in this.auth){
-                console.log(this.auth[i].authority)
 
                 if(this.auth[i].authority == "ROLE_ADMIN"){
-                  console.log("im auth")
                   this.service.isAuthorized(true);
                 }
             }
-            console.log(this.service.authorized)
           this.router.navigate(['home']);
         },
         error=>{
