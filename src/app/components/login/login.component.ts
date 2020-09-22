@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { AdminAuthService} from '../../services/admin-auth/admin-auth.service';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { RestApiServiceService } from 'src/app/services/restapiservice/rest-api-service.service';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import {ActivatedRoute, Router} from '@angular/router';
+import { AdminAuthService } from '../../services/admin-auth/admin-auth.service';
 
 @Component({
   selector: 'app-login',
@@ -11,17 +12,28 @@ import { RestApiServiceService } from 'src/app/services/restapiservice/rest-api-
 })
 
 export class LoginComponent implements OnInit {
-  username;
-  password;
-  errormessaje= false;
   auth;
-  constructor(private authService: AdminAuthService, private router: Router,private service:RestApiServiceService) { }
+  errormessaje= false;
+  constructor(private authService: AdminAuthService, private router: Router, private route: ActivatedRoute) { }
 
-  ngOnInit(): void {}
+  loginForm: FormGroup;
+
+  ngOnInit(): void {
+    this.loginForm = new FormGroup({
+      username: new FormControl('', [ Validators.required]),
+      password: new FormControl('', [ Validators.required])
+    });
+  }
 
   login(): void {
+
+    const username = this.loginForm.get('username').value;
+    const password = this.loginForm.get('password').value;
+    const clientCode = this.route.snapshot.queryParamMap.get('clientCode');
+    const clientSecret = this.route.snapshot.queryParamMap.get('clientSecret');
+
     this.authService
-      .login(this.username, this.password)
+      .login(username, password, clientCode, clientSecret)
       .subscribe(
         user => {
          
