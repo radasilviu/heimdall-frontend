@@ -61,7 +61,6 @@ export class ClientsComponent implements OnInit {
     .subscribe(data => {
      this.allCLients = data;
     },error =>{
-      console.log(error)
     })
   }
   
