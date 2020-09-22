@@ -14,11 +14,13 @@ export class AdminAuthService {
 
   constructor(private http: HttpClient) { }
 
-  login(username: string, password: string): Observable<User> {
+  login(username: string, password: string, clientCode: string, clientSecret: string): Observable<User> {
     const url = Env.apiRootURL + '/admin/login';
     const body = {
       username: username,
-      password: password
+      password: password,
+      clientCode: clientCode,
+      clientSecret: clientSecret
     };
 
     return this.http.post<User>(url, body).pipe(
