@@ -2,19 +2,25 @@
     <h1>
         Heimdall
     </h1>
-    <div class="form">
-        <h3 *ngIf="errormessaje">
-            Invalid Credentials
-        </h3>
-        <mat-form-field class="example-form-field">
-            <mat-label> Username</mat-label>
-            <input matInput type="text" [(ngModel)]="username">
-        </mat-form-field>
+    <form [formGroup]="loginForm" (ngSubmit)="login()" class="col-md-6 text-center border border-light p-5">
+        <div class="form">
 
-        <mat-form-field class="example-form-field">
-            <mat-label>Password</mat-label>
-            <input matInput type="text" [(ngModel)]="password">
-        </mat-form-field>
-        <button (click)="login()" mat-raised-button color="primary">login</button>
-    </div>
+            <h3 *ngIf="errormessaje">
+                Invalid Credentials
+            </h3>
+            <mat-form-field class="example-form-field">
+                <mat-label> Username</mat-label>
+                <input matInput type="text" formControlName="username" required>
+            </mat-form-field>
+
+            <mat-form-field class="example-form-field">
+                <mat-label>Password</mat-label>
+                <input matInput type="password" formControlName="password" required>
+            </mat-form-field>
+
+
+            <button type="submit" [disabled]="!loginForm.valid" mat-raised-button color="primary">Submit</button>
+
+        </div>
+    </form>
 </div>
