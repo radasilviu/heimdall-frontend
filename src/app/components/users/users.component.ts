@@ -22,8 +22,10 @@ export class UsersComponent implements OnInit {
   displayedColumns = ['username', 'role'];
   username = "";
   password = "";
-
   dataSource;
+  isAuthorized = this.service.authorized;
+
+
   constructor(private changeDetectorRefs: ChangeDetectorRef, private service: RestApiServiceService, private roleService: RoleServiceService,public dialog: MatDialog) { }
 
   ngOnInit(): void {
@@ -42,15 +44,14 @@ export class UsersComponent implements OnInit {
       }
     });
   }
-
-
-
   updateUser(username){
     this.openDialog(username)
   }
 
   getAllUsers() {
+    
     let clients = this.service.getAllUsers();
+    if(this.service.authorized)
     clients.subscribe(data => {
       this.dataSource = data as User[]
       for (let i in this.dataSource) {
@@ -70,7 +71,8 @@ export class UsersComponent implements OnInit {
   }
 
   addUser() {
-    this.service.addUser(this.username).subscribe(data => {
+    if(this.service.authorized)
+    this.service.addUser(this.username,this.password).subscribe(data => {
       this.getAllUsers();
     },error=>{
       this.service.openSnackBar(error.error,2000)
@@ -78,6 +80,7 @@ export class UsersComponent implements OnInit {
   }
   
   deleteUser(username){
+    if(this.service.authorized)
     this.service.deleteUser(username).subscribe(data =>{
       this.getAllUsers();
     });

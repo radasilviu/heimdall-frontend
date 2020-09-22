@@ -1,10 +1,14 @@
 <diV class="clients">
+    <div class="auth" *ngIf="!isAuthorized">
+        Not authorized
+    </div>
+
     <div class="addClient">
         <mat-form-field>
             <mat-label>New Client</mat-label>
             <input required matInput [(ngModel)]="newClient">
         </mat-form-field>
-        <button mat-raised-button (click)="addClient()" color="primary">Add</button>
+        <button [disabled]="newClient === ''" mat-raised-button (click)="addClient()" color="primary">Add</button>
     </div>
 
     <table mat-table [dataSource]="allCLients" class="mat-elevation-z8">

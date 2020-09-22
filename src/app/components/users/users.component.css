@@ -43,3 +43,7 @@ mat-icon {
     cursor: pointer;
     border-radius: 15px;
 }
+
+.auth {
+    font-size: 50px;
+}

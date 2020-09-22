@@ -23,6 +23,7 @@ export class ClientsComponent implements OnInit {
   newClient="";
   allCLients;
   errorMessage;
+  isAuthorized = this.service.authorized;
 
   displayedColumns: string[] = ['name'];
 
@@ -40,7 +41,6 @@ export class ClientsComponent implements OnInit {
 
         },error =>{
           this.service.openSnackBar(error.error,2000);
-          this.openDialog(data);
         });
       }
     });
@@ -56,19 +56,24 @@ export class ClientsComponent implements OnInit {
   
   
   getAllClients(){
+    if(this.service.authorized)
    this.service.getAllClients()
     .subscribe(data => {
      this.allCLients = data;
+    },error =>{
+      console.log(error)
     })
   }
   
   deleteClient(clientName){
+    if(this.service.authorized)
     this.service.deleteClient(clientName).subscribe(data=>{
       this.getAllClients();
     })
   }
 
   addClient(){
+    if(this.service.authorized)
     this.service.addClient(this.newClient).subscribe(data => {
       this.getAllClients();
      },error=>{

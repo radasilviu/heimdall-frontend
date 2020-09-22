@@ -10,6 +10,12 @@ export class RestApiServiceService {
 
   constructor(private http: HttpClient,private _snackBar: MatSnackBar) { }
 
+  authorized = false;
+
+  isAuthorized(auth: boolean){
+    this.authorized = auth;
+  }
+
   openSnackBar(message: string, time:number) {
     this._snackBar.open(message,'' , {
       duration: time,
@@ -56,8 +62,8 @@ export class RestApiServiceService {
     return this.http.post<any>("http://localhost:8081/api/client", { clientName: clientName });
   }
 
-  addUser(username) {
-    return this.http.post<any>("http://localhost:8081/api/user", { username: username });
+  addUser(username,password) {
+    return this.http.post<any>("http://localhost:8081/api/user", { username: username, password: password });
   }
 
   addUserRole(newRole,username) {

@@ -1,11 +1,18 @@
 <diV class="clients" *ngIf="!isRoles">
-
+    <div class="auth" *ngIf="!isAuthorized">
+        Not authorized
+    </div>
     <div class="addButton">
         <mat-form-field>
-            <mat-label>New User</mat-label>
+            <mat-label>Username</mat-label>
             <input required matInput [(ngModel)]="username">
         </mat-form-field>
-        <button (click)="addUser(username)" mat-raised-button color="primary">Add</button>
+
+        <mat-form-field>
+            <mat-label>Password</mat-label>
+            <input required type="password" required matInput [(ngModel)]="password">
+        </mat-form-field>
+        <button [disabled]="password === '' || username === ''" (click)="addUser(username)" mat-raised-button color="primary">Add</button>
     </div>
 
     <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">

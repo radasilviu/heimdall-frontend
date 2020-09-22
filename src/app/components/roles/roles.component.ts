@@ -16,7 +16,8 @@ export class RolesComponent implements OnInit {
   allRoles;
   client;
   id;
-
+  isAuthorized = this.service.authorized;
+  
   displayedColumns: string[] = ['Roles'];
   constructor(private service: RestApiServiceService,
               private roleService: RoleServiceService, 
