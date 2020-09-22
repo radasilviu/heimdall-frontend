@@ -1,7 +1,9 @@
 import { ChangeDetectorRef, SimpleChange, SimpleChanges } from '@angular/core';
 import { Component, OnInit, OnChanges } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { RestApiServiceService } from '../../services/restapiservice/rest-api-service.service';
 import { RoleServiceService } from '../../services/roleservice/role-service.service';
+import { RolesDialogComponent } from '../dialogs/roles-dialog/roles-dialog.component';
 
 @Component({
   selector: 'app-roles',
@@ -25,6 +27,7 @@ export class RolesComponent implements OnInit {
     this.getAllRoles();
   }
 
+ 
   getUserRoles() {
     this.service.getUserByUsername(this.roleService.username).subscribe(data => {
       this.curentUser = data

@@ -1,0 +1,12 @@
+<div class="dialog">
+
+    <mat-form-field class="example-form-field">
+        <mat-label>New Username</mat-label>
+        <input matInput type="text" [(ngModel)]="newUsername">
+    </mat-form-field>
+    <div mat-dialog-actions>
+        <button mat-button [mat-dialog-close]="newUsername" cdkFocusInitial>Submite</button>
+        <button mat-button [mat-dialog-close]="" cdkFocusInitial>Cancel</button>
+    </div>
+
+</div>

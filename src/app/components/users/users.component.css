@@ -22,3 +22,24 @@ table {
 .addClient button {
     height: 40px;
 }
+
+.controlls {
+    float: right;
+}
+
+mat-icon {
+    margin-right: 30px;
+}
+
+.edit {
+    float: right;
+    margin-right: 20px;
+    padding: 5px;
+}
+
+.edit:hover {
+    background-color: lightblue;
+    color: white;
+    cursor: pointer;
+    border-radius: 15px;
+}

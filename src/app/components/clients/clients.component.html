@@ -11,10 +11,11 @@
         <ng-container matColumnDef="name">
             <th mat-header-cell *matHeaderCellDef> Client name </th>
             <td mat-cell *matCellDef="let element">
-                <span>
                 {{element.clientName}}
-              </span>
-                <button (click)="deleteClient(element.clientName)">X</button>
+                <div>
+                    <mat-icon (click)="deleteClient(element.clientName)" class="edit" aria-hidden="false" aria-label="create">delete</mat-icon>
+                    <mat-icon (click)="updateCLient(element.clientName)" class="edit" aria-hidden="false" aria-label="create">create</mat-icon>
+                </div>
             </td>
         </ng-container>
 

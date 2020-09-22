@@ -1,10 +1,12 @@
 import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 import { ChangeDetectorRef } from '@angular/core';
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { MatTable } from '@angular/material/table';
 import { error } from 'protractor';
 import { RestApiServiceService } from '../../services/restapiservice/rest-api-service.service';
 import { RoleServiceService } from '../../services/roleservice/role-service.service';
+import { UserDialogComponent } from '../dialogs/user-dialog/user-dialog.component';
 
 export interface User {
   username: string;
@@ -16,17 +18,35 @@ export interface User {
   styleUrls: ['./users.component.css']
 })
 export class UsersComponent implements OnInit {
-  @ViewChild(MatTable) table: MatTable<any>;
   isRoles = false;
   displayedColumns = ['username', 'role'];
   username = "";
   password = "";
 
   dataSource;
-  constructor(private changeDetectorRefs: ChangeDetectorRef, private service: RestApiServiceService, private roleService: RoleServiceService) { }
+  constructor(private changeDetectorRefs: ChangeDetectorRef, private service: RestApiServiceService, private roleService: RoleServiceService,public dialog: MatDialog) { }
 
   ngOnInit(): void {
     this.getAllUsers();
+  }
+  openDialog(username){
+    const dialogRef = this.dialog.open(UserDialogComponent);
+    dialogRef.afterClosed().subscribe(data =>{
+      if(data !== undefined){
+        this.service.updateUserName(username,data).subscribe(data =>{
+          this.getAllUsers();
+
+        },error =>{
+          this.service.openSnackBar(error.error,2000);
+        });
+      }
+    });
+  }
+
+
+
+  updateUser(username){
+    this.openDialog(username)
   }
 
   getAllUsers() {
@@ -37,7 +57,6 @@ export class UsersComponent implements OnInit {
         this.dataSource[i].Id = i;
       }
     })
-    this.table.renderRows();
   }
 
   viewRoles(username, id) {
@@ -54,8 +73,7 @@ export class UsersComponent implements OnInit {
     this.service.addUser(this.username).subscribe(data => {
       this.getAllUsers();
     },error=>{
-      console.log(error)
-      this.service.openSnackBar(error.error)
+      this.service.openSnackBar(error.error,2000)
     });
   }
   

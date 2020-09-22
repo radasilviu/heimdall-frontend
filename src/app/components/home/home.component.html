@@ -1,7 +1,6 @@
 <mat-drawer-container class="example-container">
 
     <mat-drawer mode="side" opened>
-        Options
         <div class="options">
             <button (click)="clients()">Clients</button>
             <button (click)="users()">Users</button>
@@ -9,6 +8,7 @@
             <button (click)="logout()">logout</button>
         </div>
     </mat-drawer>
+
     <mat-drawer-content>
         <div *ngIf="isClient">
             <app-clients></app-clients>

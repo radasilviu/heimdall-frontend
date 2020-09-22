@@ -22,6 +22,11 @@ import { ClientLoginComponent } from './components/client-login/client-login.com
 import { ReactiveFormsModule } from '@angular/forms';
 import {AuthInterceptor} from './interceptors/auth/auth.interceptor';
 import {MatSnackBarModule} from '@angular/material/snack-bar'; 
+import {MatIconModule} from '@angular/material/icon';
+import { ClientDialogComponent } from './components/dialogs/client-dialog/client-dialog.component';
+import { UserDialogComponent } from './components/dialogs/user-dialog/user-dialog.component';
+import { RolesDialogComponent } from './components/dialogs/roles-dialog/roles-dialog.component'; 
+
 
 @NgModule({
   declarations: [
@@ -32,11 +37,16 @@ import {MatSnackBarModule} from '@angular/material/snack-bar';
     UsersComponent,
     RolesComponent,
     HeimdallRolesComponent,
-    ClientLoginComponent
+    ClientLoginComponent,
+    ClientDialogComponent,
+    UserDialogComponent,
+    RolesDialogComponent
   ],
+  entryComponents: [ClientDialogComponent,UserDialogComponent,RolesDialogComponent],
   imports: [
     HttpClientModule,
     MatSnackBarModule,
+    MatIconModule,
     FormsModule,
     MatTableModule,
     HttpClientModule,

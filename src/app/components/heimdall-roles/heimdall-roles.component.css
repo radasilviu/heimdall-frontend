@@ -34,3 +34,16 @@ table td {
     margin: 11px;
     padding: 14px;
 }
+
+.edit {
+    float: right;
+    margin-right: 20px;
+    padding: 5px;
+}
+
+.edit:hover {
+    background-color: lightblue;
+    color: white;
+    cursor: pointer;
+    border-radius: 15px;
+}

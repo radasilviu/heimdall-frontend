@@ -22,3 +22,23 @@ table {
 button {
     float: right;
 }
+
+.edit {
+    float: right;
+    margin-right: 20px;
+    padding: 5px;
+}
+
+.edit:hover {
+    background-color: lightblue;
+    color: white;
+    cursor: pointer;
+    border-radius: 15px;
+}
+
+td {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 2.6vw;
+}

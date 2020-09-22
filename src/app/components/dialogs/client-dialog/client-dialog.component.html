@@ -1,0 +1,15 @@
+<div class="dialog">
+
+    <mat-form-field class="example-form-field">
+        <mat-label>New Client Name</mat-label>
+        <input matInput type="text" [(ngModel)]="newClient">
+    </mat-form-field>
+    <div mat-dialog-actions>
+        <div>
+
+            <button mat-button [mat-dialog-close]="newClient" cdkFocusInitial>Submite</button>
+            <button mat-button [mat-dialog-close]="" cdkFocusInitial>Cancel</button>
+        </div>
+    </div>
+
+</div>
