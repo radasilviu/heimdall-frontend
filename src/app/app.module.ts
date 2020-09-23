@@ -21,9 +21,7 @@ import { HeimdallRolesComponent } from './components/heimdall-roles/heimdall-rol
 import { ClientLoginComponent } from './components/client-login/client-login.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import {AuthInterceptor} from './interceptors/auth/auth.interceptor';
-import {MatSnackBarModule} from '@angular/material/snack-bar';
 import {MatToolbarModule} from '@angular/material/toolbar';
-import {MatIconModule, MatIconRegistry} from '@angular/material/icon';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
 import {MatIconModule} from '@angular/material/icon';
 import { ClientDialogComponent } from './components/dialogs/client-dialog/client-dialog.component';
