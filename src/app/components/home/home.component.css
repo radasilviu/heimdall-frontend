@@ -23,3 +23,7 @@ mat-drawer {
 .options button {
     margin-top: 20px;
 }
+
+.fill-remaining-space {
+  flex: 1 1 auto;
+}
