@@ -23,7 +23,6 @@ export class UsersComponent implements OnInit {
   username = "";
   password = "";
   dataSource;
-  isAuthorized = this.service.authorized;
 
 
   constructor(private changeDetectorRefs: ChangeDetectorRef, private service: RestApiServiceService, private roleService: RoleServiceService,public dialog: MatDialog) { }
@@ -51,7 +50,6 @@ export class UsersComponent implements OnInit {
   getAllUsers() {
     
     let clients = this.service.getAllUsers();
-    if(this.service.authorized)
     clients.subscribe(data => {
       this.dataSource = data as User[]
       for (let i in this.dataSource) {
@@ -71,7 +69,6 @@ export class UsersComponent implements OnInit {
   }
 
   addUser() {
-    if(this.service.authorized)
     this.service.addUser(this.username,this.password).subscribe(data => {
       this.getAllUsers();
     },error=>{
@@ -80,7 +77,6 @@ export class UsersComponent implements OnInit {
   }
   
   deleteUser(username){
-    if(this.service.authorized)
     this.service.deleteUser(username).subscribe(data =>{
       this.getAllUsers();
     });

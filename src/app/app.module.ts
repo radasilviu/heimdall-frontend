@@ -6,7 +6,7 @@ import { AppComponent } from './app.component';
 import { LoginComponent } from './components/login/login.component';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import {MatCheckboxModule} from '@angular/material/checkbox';
-import {NoopAnimationsModule} from '@angular/platform-browser/animations'
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations'
 import { HttpClientModule } from '@angular/common/http';
 import {MatListModule} from '@angular/material/list';
 import {MatInputModule} from '@angular/material/input';
@@ -26,7 +26,7 @@ import {MatIconModule} from '@angular/material/icon';
 import { ClientDialogComponent } from './components/dialogs/client-dialog/client-dialog.component';
 import { UserDialogComponent } from './components/dialogs/user-dialog/user-dialog.component';
 import { RolesDialogComponent } from './components/dialogs/roles-dialog/roles-dialog.component'; 
-
+import {MatToolbarModule} from '@angular/material/toolbar'; 
 
 @NgModule({
   declarations: [
@@ -51,13 +51,14 @@ import { RolesDialogComponent } from './components/dialogs/roles-dialog/roles-di
     MatTableModule,
     HttpClientModule,
     ReactiveFormsModule,
+    MatToolbarModule,
     MatSidenavModule,
     MatListModule,
     MatButtonModule,
     MatDialogModule,
     MatCheckboxModule,
     MatInputModule,
-    NoopAnimationsModule,
+    BrowserAnimationsModule,
     BrowserModule,
     AppRoutingModule
   ],

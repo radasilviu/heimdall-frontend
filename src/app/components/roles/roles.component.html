@@ -1,7 +1,4 @@
 <div style="display: flex; justify-content: center; width: 100%; flex-direction:row;">
-    <div class="auth" *ngIf="!isAuthorized">
-        Not authorized
-    </div>
     <table mat-table [dataSource]="allRoles" class="mat-elevation-z8">
         <ng-container matColumnDef="Roles">
             <th mat-header-cell *matHeaderCellDef> All Roles </th>

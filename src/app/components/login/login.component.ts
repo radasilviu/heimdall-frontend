@@ -12,7 +12,6 @@ import { AdminAuthService } from '../../services/admin-auth/admin-auth.service';
 })
 
 export class LoginComponent implements OnInit {
-  auth;
   errormessaje= false;
   constructor(private authService: AdminAuthService, private router: Router, private route: ActivatedRoute,private service:RestApiServiceService) { }
 
@@ -36,15 +35,6 @@ export class LoginComponent implements OnInit {
       .login(username, password, clientCode, clientSecret)
       .subscribe(
         user => {
-          const helper = new JwtHelperService();
-          const decodedToken = helper.decodeToken(user.access_token);
-            this.auth = decodedToken.authorities;
-            for(let i in this.auth){
-
-                if(this.auth[i].authority == "ROLE_ADMIN"){
-                  this.service.isAuthorized(true);
-                }
-            }
           this.router.navigate(['home']);
         },
         error=>{

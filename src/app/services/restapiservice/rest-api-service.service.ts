@@ -10,12 +10,6 @@ export class RestApiServiceService {
 
   constructor(private http: HttpClient,private _snackBar: MatSnackBar) { }
 
-  authorized = false;
-
-  isAuthorized(auth: boolean){
-    this.authorized = auth;
-  }
-
   openSnackBar(message: string, time:number) {
     this._snackBar.open(message,'' , {
       duration: time,

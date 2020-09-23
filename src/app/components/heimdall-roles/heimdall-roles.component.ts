@@ -16,8 +16,6 @@ export class HeimdallRolesComponent implements OnInit {
   displayedColumns: string[] = [ 'Roles'];
   allRoles;
   newRole="";
-  isAuthorized = this.service.authorized;
-  
   ngOnInit(): void {
     this.getAllRoles();
   }
@@ -42,14 +40,12 @@ export class HeimdallRolesComponent implements OnInit {
   }
 
   getAllRoles(){
-    if(this.service.authorized)
    this.service.getAllRoles().subscribe(data=>{
      this.allRoles = data;
    })
   }
   
   addRole(){
-    if(this.service.authorized)
    this.service.addRole(this.newRole).subscribe(data =>{
      this.getAllRoles();
    },error=>{
@@ -58,7 +54,6 @@ export class HeimdallRolesComponent implements OnInit {
   }
 
   deleteRole(role){
-    if(this.service.authorized)
     this.service.deleteRole(role).subscribe(data =>{
       this.getAllRoles()
     },error=>{

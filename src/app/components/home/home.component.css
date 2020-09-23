@@ -23,3 +23,33 @@ mat-drawer {
 .options button {
     margin-top: 20px;
 }
+
+.example-container {
+    width: 100%;
+    height: 100vh;
+    border: 1px solid rgba(0, 0, 0, 0.5);
+}
+
+.example-sidenav-content {
+    display: flex;
+    height: 100%;
+    align-items: center;
+    justify-content: center;
+}
+
+.example-sidenav {
+    padding: 20px;
+}
+
+.example-spacer {
+    flex: 1 1 auto;
+}
+
+.mat-icon {
+    width: 45px;
+    font-size: 42px;
+}
+
+.title {
+    margin-left: 50px;
+}

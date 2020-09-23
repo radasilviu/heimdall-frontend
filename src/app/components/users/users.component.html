@@ -1,7 +1,4 @@
 <diV class="clients" *ngIf="!isRoles">
-    <div class="auth" *ngIf="!isAuthorized">
-        Not authorized
-    </div>
     <div class="addButton">
         <mat-form-field>
             <mat-label>Username</mat-label>
@@ -24,7 +21,7 @@
         <ng-container matColumnDef="role">
             <th mat-header-cell *matHeaderCellDef> role </th>
             <td mat-cell *matCellDef="let element">
-                <button mat-raised-button   (click)="viewRoles(element.username,element.id)">Roles</button>
+                <button mat-raised-button (click)="viewRoles(element.username,element.id)">Roles</button>
                 <div class="controlls">
                     <mat-icon (click)="deleteUser(element.username)" class="edit" aria-hidden="false" aria-label="create">delete</mat-icon>
                     <mat-icon (click)="updateUser(element.username)" class="edit" aria-hidden="false" aria-label="create">create</mat-icon>
@@ -38,5 +35,5 @@
 </diV>
 <div *ngIf="isRoles">
     <app-roles></app-roles>
-    <button mat-stroked-button  (click)="goBack()">Back</button>
+    <button mat-stroked-button (click)="goBack()">Back</button>
 </div>
