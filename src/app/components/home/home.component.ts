@@ -7,14 +7,17 @@ import { Router } from '@angular/router';
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent {
   
   showFiller = false;
+  panelOpenState = false;
   constructor(private router: Router) { }
   ngOnInit(): void {
   }
+  realms = ["Olx","Bingo"]
 
   logout(){
+    console.log("Da")
     localStorage.clear();
     window.location.reload();
   }

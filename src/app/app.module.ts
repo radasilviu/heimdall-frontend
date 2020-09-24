@@ -27,7 +27,8 @@ import { ClientDialogComponent } from './components/dialogs/client-dialog/client
 import { UserDialogComponent } from './components/dialogs/user-dialog/user-dialog.component';
 import { RolesDialogComponent } from './components/dialogs/roles-dialog/roles-dialog.component'; 
 import {MatToolbarModule} from '@angular/material/toolbar'; 
-
+import {MatExpansionModule} from '@angular/material/expansion'; 
+import {MatMenuModule} from '@angular/material/menu'; 
 @NgModule({
   declarations: [
     AppComponent,
@@ -46,6 +47,8 @@ import {MatToolbarModule} from '@angular/material/toolbar';
   imports: [
     HttpClientModule,
     MatSnackBarModule,
+    MatExpansionModule,
+    MatMenuModule,
     MatIconModule,
     FormsModule,
     MatTableModule,

@@ -53,3 +53,16 @@ mat-drawer {
 .title {
     margin-left: 50px;
 }
+
+mat-icon {
+    cursor: pointer;
+}
+
+.realmItem button {
+    width: 100%;
+}
+
+.realmItem :hover {
+    background-color: lightcyan;
+    cursor: pointer;
+}
