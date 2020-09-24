@@ -13,7 +13,6 @@ export class RealmSettingsComponent implements OnInit {
 
   ngOnInit(): void {
     this.realm = this.realmService.getRealm();
-    console.log(this.realmService.getRealm())
   }
 
 }
