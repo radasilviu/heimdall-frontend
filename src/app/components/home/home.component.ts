@@ -1,10 +1,7 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { MatExpansionPanel } from '@angular/material/expansion';
-import { NavigationEnd, Router, RouterEvent } from '@angular/router';
+import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
-import { filter, takeUntil } from 'rxjs/operators';
 import { RealmServiceService } from 'src/app/services/realm-service/realm-service.service';
-import { RealmSettingsComponent } from '../realm-settings/realm-settings.component';
 
 
 @Component({

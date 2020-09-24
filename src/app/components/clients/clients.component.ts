@@ -1,7 +1,5 @@
-import { ChangeDetectorRef } from '@angular/core';
-import { Component, OnInit ,ViewChild} from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import {MatTable, MatTableDataSource} from '@angular/material/table';
 import { RestApiServiceService } from '../../services/restapiservice/rest-api-service.service';
 import { ClientDialogComponent } from '../dialogs/client-dialog/client-dialog.component';
 

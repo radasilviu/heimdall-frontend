@@ -1,9 +1,5 @@
-import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
-import { ChangeDetectorRef } from '@angular/core';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { MatTable } from '@angular/material/table';
-import { error } from 'protractor';
 import { RestApiServiceService } from '../../services/restapiservice/rest-api-service.service';
 import { RoleServiceService } from '../../services/roleservice/role-service.service';
 import { UserDialogComponent } from '../dialogs/user-dialog/user-dialog.component';
