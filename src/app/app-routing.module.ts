@@ -8,12 +8,13 @@ import {HomeGuard} from './guards/auth/home.guard';
 import { ClientsComponent } from './components/clients/clients.component';
 import { UsersComponent } from './components/users/users.component';
 import { RolesComponent } from './components/roles/roles.component';
+import { HeimdallRolesComponent } from './components/heimdall-roles/heimdall-roles.component';
 
 const routes: Routes = [
   {path : 'home', component: HomeComponent, canActivate: [AuthGuard] ,children: [
     {path:'clients', component:ClientsComponent},
     {path:'users', component:UsersComponent},
-    {path:'roles', component:RolesComponent}
+    {path:'roles', component:HeimdallRolesComponent}
 ,
   ]},
 

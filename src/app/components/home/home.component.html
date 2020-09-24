@@ -19,15 +19,15 @@
         <div class="options">
 
             <mat-accordion>
-                <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false">
+                <mat-expansion-panel #mep="matExpansionPanel" (opened)="panelOpenState = true" (closed)="panelOpenState = false">
                     <mat-expansion-panel-header>
                         <mat-panel-title>
-                            Realms
+                            {{currentRealm}}
                         </mat-panel-title>
                     </mat-expansion-panel-header>
                     <mat-list>
                         <div class="realmItem" *ngFor="let i of realms">
-                            <button mat-raised-button>{{i}}</button>
+                            <button (click)="mep.expanded = false;changeRealm(i)" mat-raised-button>{{i}}</button>
                         </div>
                     </mat-list>
                 </mat-expansion-panel>

@@ -1,4 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { MatExpansionPanel } from '@angular/material/expansion';
 import { Router } from '@angular/router';
 
 
@@ -8,20 +9,24 @@ import { Router } from '@angular/router';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent {
-  
+  @ViewChild('first', {static: true, read: MatExpansionPanel}) first: MatExpansionPanel;
   showFiller = false;
   panelOpenState = false;
+  currentRealm="Realms"
+
   constructor(private router: Router) { }
   ngOnInit(): void {
   }
   realms = ["Olx","Bingo"]
 
   logout(){
-    console.log("Da")
     localStorage.clear();
     window.location.reload();
   }
-
+  
+  changeRealm(realm){
+    this.currentRealm = realm
+  }
  
 
 }

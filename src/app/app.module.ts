@@ -17,7 +17,6 @@ import {MatDialogModule} from '@angular/material/dialog';
 import {MatButtonModule} from '@angular/material/button';
 import { UsersComponent } from './components/users/users.component';
 import { RolesComponent } from './components/roles/roles.component';
-import { HeimdallRolesComponent } from './components/heimdall-roles/heimdall-roles.component';
 import { ClientLoginComponent } from './components/client-login/client-login.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import {AuthInterceptor} from './interceptors/auth/auth.interceptor';
@@ -29,6 +28,7 @@ import { RolesDialogComponent } from './components/dialogs/roles-dialog/roles-di
 import {MatToolbarModule} from '@angular/material/toolbar'; 
 import {MatExpansionModule} from '@angular/material/expansion'; 
 import {MatMenuModule} from '@angular/material/menu'; 
+import { HeimdallRolesComponent } from './components/heimdall-roles/heimdall-roles.component';
 @NgModule({
   declarations: [
     AppComponent,

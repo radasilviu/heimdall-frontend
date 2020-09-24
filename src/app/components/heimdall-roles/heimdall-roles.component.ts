@@ -16,6 +16,7 @@ export class HeimdallRolesComponent implements OnInit {
   displayedColumns: string[] = [ 'Roles'];
   allRoles;
   newRole="";
+
   ngOnInit(): void {
     this.getAllRoles();
   }
