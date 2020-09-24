@@ -1,68 +1,78 @@
-* {
-    margin: 0;
-    padding: 0;
+.header {
+    height: 5vh;
+    position: sticky;
 }
 
-.example-container {
-    width: 100vw;
-    height: 100vh;
-    border: 1px solid #555;
-}
-
-mat-drawer {
-    width: 300PX;
-}
-
-.options {
-    display: flex;
-    justify-content: space-around;
-    padding: 20px;
-    flex-direction: column;
-}
-
-.options button {
-    margin-top: 20px;
-}
-
-.example-container {
-    width: 100%;
-    height: 100vh;
-    border: 1px solid rgba(0, 0, 0, 0.5);
-}
-
-.example-sidenav-content {
-    display: flex;
+.mat-toolbar {
+    background-color: black;
     height: 100%;
-    align-items: center;
-    justify-content: center;
-}
-
-.example-sidenav {
-    padding: 20px;
 }
 
 .example-spacer {
     flex: 1 1 auto;
 }
 
-.mat-icon {
-    width: 45px;
-    font-size: 42px;
-}
-
-.title {
-    margin-left: 50px;
-}
-
-mat-icon {
-    cursor: pointer;
+.container {
+    height: 100vh;
 }
 
 .realmItem button {
-    width: 100%;
+    width: 200px;
+    font-size: 20px;
 }
 
-.realmItem :hover {
-    background-color: lightcyan;
+mat-panel-title {
+    font-size: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.realmItem button:hover {
+    color: lightgray;
+}
+
+.menuItem {
+    font-size: 20px;
+}
+
+mat-icon {
+    width: auto;
+    color: white;
+    height: auto;
+    font-size: 50px;
     cursor: pointer;
+}
+
+mat-list {
+    display: flex;
+    flex: column;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.example-container {
+    height: 95vh;
+}
+
+.title {
+    margin-left: 70px;
+    font-size: 40px;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+mat-expansion-panel {
+    margin-bottom: 20px;
+}
+
+.options {
+    padding: 15px;
+    width: 15vw;
+    display: flex;
+    flex-direction: column;
+}
+
+.options button {
+    margin: 20px;
 }

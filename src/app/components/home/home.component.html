@@ -1,44 +1,51 @@
-<mat-toolbar>
-    <button (click)="drawer.toggle()" mat-icon-button class="example-icon" aria-label="Example icon-button with menu icon">
-<mat-icon>menu</mat-icon>
-</button>
-    <span class="title">Heimdall</span>
-    <span class="example-spacer"></span>
+<div class="container">
 
-    <mat-icon [matMenuTriggerFor]="menu" aria-hidden="false" aria-label="Example home icon">account_circle</mat-icon>
+    <div class="header">
+        <mat-toolbar>
+            <button (click)="drawer.toggle()" mat-icon-button class="example-icon" aria-label="Example icon-button with menu icon">
+        <mat-icon>menu</mat-icon>
+            </button>
+            <span class="title">Heimdall</span>
+            <span class="example-spacer"></span>
 
-    <mat-menu #menu="matMenu">
-        <button mat-menu-item>Settings</button>
-        <button mat-menu-item (click)="logout()">Log out</button>
-    </mat-menu>
+            <mat-icon class="account" [matMenuTriggerFor]="menu" aria-hidden="false" aria-label="Example home icon">account_circle</mat-icon>
 
-</mat-toolbar>
+            <mat-menu #menu="matMenu">
+                <button mat-menu-item>Settings</button>
+                <button mat-menu-item (click)="logout()">Log out</button>
+            </mat-menu>
 
-<mat-drawer-container class="example-container" autosize>
-    <mat-drawer #drawer class="example-sidenav" mode="side">
-        <div class="options">
+        </mat-toolbar>
+    </div>
 
-            <mat-accordion>
-                <mat-expansion-panel #mep="matExpansionPanel" (opened)="panelOpenState = true" (closed)="panelOpenState = false">
-                    <mat-expansion-panel-header>
-                        <mat-panel-title>
-                            {{currentRealm}}
-                        </mat-panel-title>
-                    </mat-expansion-panel-header>
-                    <mat-list>
-                        <div class="realmItem" *ngFor="let i of realms">
-                            <button (click)="mep.expanded = false;changeRealm(i)" mat-raised-button>{{i}}</button>
-                        </div>
-                    </mat-list>
-                </mat-expansion-panel>
-            </mat-accordion>
-            <button mat-stroked-button [routerLink]="['clients']">Clients</button>
-            <button mat-stroked-button [routerLink]="['users']">Users</button>
-            <button mat-stroked-button [routerLink]="['roles']">Roles</button>
-        </div>
-    </mat-drawer>
+    <mat-drawer-container class="example-container" autosize>
+        <mat-drawer #drawer class="example-sidenav" mode="side">
+            <div class="options">
 
+                <mat-accordion>
+                    <mat-expansion-panel #mep="matExpansionPanel" (opened)="panelOpenState = true" (closed)="panelOpenState = false">
+                        <mat-expansion-panel-header>
+                            <mat-panel-title>
+                                <div> {{currentRealm}} </div>
+                            </mat-panel-title>
+                        </mat-expansion-panel-header>
+                        <mat-list>
+                            <div class="realmItem" *ngFor="let i of realms">
+                                <button (click)="mep.expanded = false;changeRealm(i)" mat-raised-button> {{i}}</button>
+                            </div>
+                        </mat-list>
+                    </mat-expansion-panel>
+                </mat-accordion>
 
-    <router-outlet></router-outlet>
+                <button class="menuItem" mat-raised-button (click)="realmSettings()" color="primary">Realm Settings</button>
+                <button class="menuItem" mat-raised-button [routerLink]="['clients']" color="primary">Clients</button>
+                <button class="menuItem" mat-raised-button [routerLink]="['users']" color="primary">Users</button>
+                <button class="menuItem" mat-raised-button [routerLink]="['roles']" color="primary">Roles</button>
 
-</mat-drawer-container>
+            </div>
+        </mat-drawer>
+
+        <router-outlet></router-outlet>
+
+    </mat-drawer-container>
+</div>

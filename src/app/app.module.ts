@@ -29,6 +29,7 @@ import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatExpansionModule} from '@angular/material/expansion'; 
 import {MatMenuModule} from '@angular/material/menu'; 
 import { HeimdallRolesComponent } from './components/heimdall-roles/heimdall-roles.component';
+import { RealmSettingsComponent } from './components/realm-settings/realm-settings.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -41,7 +42,8 @@ import { HeimdallRolesComponent } from './components/heimdall-roles/heimdall-rol
     ClientLoginComponent,
     ClientDialogComponent,
     UserDialogComponent,
-    RolesDialogComponent
+    RolesDialogComponent,
+    RealmSettingsComponent
   ],
   entryComponents: [ClientDialogComponent,UserDialogComponent,RolesDialogComponent],
   imports: [
