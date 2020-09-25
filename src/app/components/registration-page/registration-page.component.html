@@ -4,25 +4,29 @@
     </h1>
     <div class="form">
         <form style="display: flex; justify-content: center; flex-direction: column;" [formGroup]="loginForm" (ngSubmit)="register()" class="col-md-6 text-center border border-light p-5">
+            <div *ngIf="!passwordMatch" style="color: red; margin-bottom: 20px;">
+                Password do not match!
+            </div>
             <mat-form-field appearance="outline">
-                <mat-label style="color: rgb(31, 18, 218);">Username</mat-label>
-                <input formControlName="Username" matInput placeholder="username">
+                <mat-label style="color: rgba(255, 255, 255, 0.548);">Username</mat-label>
+                <input autocomplete="off" formControlName="Username" matInput placeholder="username">
             </mat-form-field>
             <mat-form-field appearance="outline">
-                <mat-label style="opacity: 2px;">Password</mat-label>
-                <input formControlName="Password" matInput placeholder="Password">
+                <mat-label style="color: rgba(255, 255, 255, 0.548);">Password</mat-label>
+                <input autocomplete="off" type="password" formControlName="Password" matInput placeholder="Password">
             </mat-form-field>
             <mat-form-field appearance="outline">
-                <mat-label>Confirme Password</mat-label>
-                <input formControlName="Password" matInput placeholder="Password">
+                <mat-label style="color: rgba(255, 255, 255, 0.548)">Confirme Password</mat-label>
+                <input autocomplete="off" type="password" formControlName="ConfirmPassword" matInput placeholder="Password">
             </mat-form-field>
             <mat-form-field appearance="outline">
-                <mat-label>Email address</mat-label>
-                <input formControlName="Email" matInput placeholder="Email address">
+                <mat-label style="color: rgba(255, 255, 255, 0.548)">Email address</mat-label>
+                <input autocomplete="off" formControlName="Email" matInput placeholder="Email address">
             </mat-form-field>
 
-            <div>
-                <button type="submit" [disabled]="!loginForm.valid" mat-raised-button>Basic</button>
+            <div class="formBtn">
+                <button [routerLink]="['']" mat-raised-button color="primary">Back</button>
+                <button type="submit" [disabled]="!loginForm.valid" mat-raised-button>Register</button>
             </div>
 
         </form>
