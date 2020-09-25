@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
-import {HttpClient, HttpErrorResponse} from '@angular/common/http';
-import {Env} from '../../configs/env';
-import {catchError, tap} from 'rxjs/operators';
-import {BehaviorSubject, Observable, throwError} from 'rxjs';
-import {User} from '../../models/user';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { Env } from '../../configs/env';
+import { catchError, tap } from 'rxjs/operators';
+import { BehaviorSubject, Observable, throwError } from 'rxjs';
+import { User } from '../../models/User';
 
 @Injectable({
   providedIn: 'root'

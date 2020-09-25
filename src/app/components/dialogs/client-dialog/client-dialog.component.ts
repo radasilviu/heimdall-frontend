@@ -9,16 +9,15 @@ import { RestApiServiceService } from 'src/app/services/restapiservice/rest-api-
 })
 export class ClientDialogComponent implements OnInit {
 
-  newClient="";
+  newClient:string;
   constructor(
-    private service:RestApiServiceService,
+    private service: RestApiServiceService,
     public dialogRef: MatDialogRef<ClientDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: any) {}
+    @Inject(MAT_DIALOG_DATA) public data: any) { }
 
   ngOnInit(): void {
   }
-  test ="test"
-
+  
   onNoClick(): void {
     this.dialogRef.close();
   }

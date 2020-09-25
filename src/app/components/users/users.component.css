@@ -3,6 +3,13 @@ table {
     table-layout: fixed;
 }
 
+.conainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
 .clients {
     width: 100%;
     display: flex;

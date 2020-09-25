@@ -1,5 +1,4 @@
 <div class="container">
-
     <div class="header">
         <mat-toolbar>
             <button (click)="drawer.toggle()" mat-icon-button class="example-icon" aria-label="Example icon-button with menu icon">
@@ -14,14 +13,12 @@
                 <button mat-menu-item>Settings</button>
                 <button mat-menu-item (click)="logout()">Log out</button>
             </mat-menu>
-
         </mat-toolbar>
     </div>
 
     <mat-drawer-container class="example-container" autosize>
         <mat-drawer #drawer class="example-sidenav" mode="side">
             <div class="options">
-
                 <mat-accordion>
                     <mat-expansion-panel #mep="matExpansionPanel" (opened)="panelOpenState = true" (closed)="panelOpenState = false">
                         <mat-expansion-panel-header>
@@ -41,11 +38,8 @@
                 <button class="menuItem" mat-raised-button [routerLink]="['clients']" color="primary">Clients</button>
                 <button class="menuItem" mat-raised-button [routerLink]="['users']" color="primary">Users</button>
                 <button class="menuItem" mat-raised-button [routerLink]="['roles']" color="primary">Roles</button>
-
             </div>
         </mat-drawer>
-
         <router-outlet></router-outlet>
-
     </mat-drawer-container>
 </div>

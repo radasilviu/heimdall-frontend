@@ -4,7 +4,7 @@ import { Injectable } from '@angular/core';
   providedIn: 'root'
 })
 export class RealmServiceService {
-  currentRealm;
+  currentRealm:string;
 
   setCurrentRealm(currentRealm){
     this.currentRealm = currentRealm;

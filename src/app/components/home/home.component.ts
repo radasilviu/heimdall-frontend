@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { Subject } from 'rxjs';
 import { RealmServiceService } from 'src/app/services/realm-service/realm-service.service';
 
 
@@ -11,34 +10,30 @@ import { RealmServiceService } from 'src/app/services/realm-service/realm-servic
 })
 
 export class HomeComponent {
- 
-public destroyed = new Subject<any>();
+  panelOpenState:boolean = false;
+  currentRealm:string = "Realms"
 
-  showFiller = false;
-  panelOpenState = false;
-  currentRealm="Realms"
-
-  constructor(private router: Router,private realmService: RealmServiceService) { }
+  constructor(private router: Router, private realmService: RealmServiceService) { }
   ngOnInit(): void {
     this.realmService.setCurrentRealm(this.currentRealm);
   }
 
-  realms = ["Olx","Bingo"]
+  realms = ["Olx", "Bingo"]
 
-  logout(){
+  logout() {
     localStorage.clear();
     window.location.reload();
   }
-  changeRealm(realm){
+
+  changeRealm(realm) {
     this.currentRealm = realm
     this.realmService.setCurrentRealm(realm);
     this.router.navigate(['home']);
   }
 
-  realmSettings(){
-
+  realmSettings() {
     this.router.navigate(['home/realm-settings']);
   }
- 
+
 
 }

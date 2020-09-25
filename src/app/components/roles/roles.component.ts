@@ -1,9 +1,10 @@
-import { ChangeDetectorRef, SimpleChange, SimpleChanges } from '@angular/core';
-import { Component, OnInit, OnChanges } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { Client } from 'src/app/models/Client';
+import { IRole, Role } from 'src/app/models/Role';
+import { User } from 'src/app/models/User';
 import { RestApiServiceService } from '../../services/restapiservice/rest-api-service.service';
 import { RoleServiceService } from '../../services/roleservice/role-service.service';
-import { RolesDialogComponent } from '../dialogs/roles-dialog/roles-dialog.component';
 
 @Component({
   selector: 'app-roles',
@@ -11,46 +12,51 @@ import { RolesDialogComponent } from '../dialogs/roles-dialog/roles-dialog.compo
   styleUrls: ['./roles.component.css']
 })
 export class RolesComponent implements OnInit {
-  curentUser;
-  userRoles;
-  allRoles;
-  client;
-  id;
-  
+  curentUser: User;
+  allRoles: IRole[];
+  userRoles: IRole[];
+  role:Role;
   displayedColumns: string[] = ['Roles'];
-  constructor(private service: RestApiServiceService,
-              private roleService: RoleServiceService, 
-              private cf: ChangeDetectorRef) { }
 
-  ngOnInit(): void {
-    this.getUserRoles();
+  constructor(private service: RestApiServiceService,
+    private roleService: RoleServiceService,
+    private router: Router) { }
+
+  ngOnInit() {
     this.getAllRoles();
+    this.getUserRoles();
+  }
+  back() {
+    this.router.navigate(['home/users']);
   }
 
- 
   getUserRoles() {
-    this.service.getUserByUsername(this.roleService.username).subscribe(data => {
-      this.curentUser = data
-      this.userRoles = this.curentUser.roles
-    });
+    this.service.getUserByUsername(this.roleService.user.username).subscribe(data => {
+      this.userRoles = data.roles;
+    })
   }
 
   getAllRoles() {
     this.service.getAllRoles().subscribe(data => {
-      this.allRoles = data
+      this.curentUser = this.roleService.user;
+      this.allRoles = data;
     })
   }
 
-  addRole(role) {
-    this.service.addUserRole(role,this.roleService.username
-      ).subscribe(data => {
+  addRole(role:string) {
+    this.role = new Role(role)
+    this.service.addUserRole(this.role, this.curentUser.username
+    ).subscribe(data => {
       this.getUserRoles();
+      this.getAllRoles();
     });
   }
 
-  deleteUserRole(role) {
-    this.service.deleteUserRole(role, this.roleService.username).subscribe(data => {
+  deleteUserRole(role:string) {
+    this.role = new Role(role)
+    this.service.deleteUserRole(this.curentUser.username,this.role).subscribe(data => {
       this.getUserRoles();
+      this.getAllRoles();
     });
   }
 }

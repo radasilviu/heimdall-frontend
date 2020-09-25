@@ -11,15 +11,15 @@ import { AdminAuthService } from '../../services/admin-auth/admin-auth.service';
 })
 
 export class LoginComponent implements OnInit {
-  errormessaje= false;
-  constructor(private authService: AdminAuthService, private router: Router, private route: ActivatedRoute,private service:RestApiServiceService) { }
+  errormessaje:boolean = false;
+  constructor(private authService: AdminAuthService, private router: Router, private route: ActivatedRoute, private service: RestApiServiceService) { }
 
   loginForm: FormGroup;
 
   ngOnInit(): void {
     this.loginForm = new FormGroup({
-      username: new FormControl('', [ Validators.required]),
-      password: new FormControl('', [ Validators.required])
+      username: new FormControl('', [Validators.required]),
+      password: new FormControl('', [Validators.required])
     });
   }
 
@@ -36,7 +36,7 @@ export class LoginComponent implements OnInit {
         user => {
           this.router.navigate(['home']);
         },
-        error=>{
+        error => {
           this.errormessaje = true;
         }
       );

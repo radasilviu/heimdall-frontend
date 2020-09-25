@@ -11,5 +11,5 @@ export class UserDialogComponent implements OnInit {
 
   ngOnInit(): void {
   }
-  newUsername="";
+  newUsername:string;
 }
