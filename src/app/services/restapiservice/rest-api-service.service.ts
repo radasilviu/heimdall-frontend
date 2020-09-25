@@ -75,4 +75,7 @@ export class RestApiServiceService {
   getUserByUsername(username:string): Observable<User> {
     return this.http.get<User>("http://localhost:8081/api/user/" + username)
   }
+  registerUser(user:User){
+    return this.http.post<any>("http://localhost:8081/oauth/register", user);
+  }
 }

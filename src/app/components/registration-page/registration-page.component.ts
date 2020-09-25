@@ -19,7 +19,7 @@ export class RegistrationPageComponent implements OnInit {
       Username: new FormControl('', [ Validators.required]),
       Password: new FormControl('', [ Validators.required]),
       ConfirmPassword: new FormControl('', [ Validators.required]),
-      Email: new FormControl('', [ Validators.required]),
+      Email: new FormControl('', [Validators.required, Validators.email]),
     });
   }
 
@@ -28,7 +28,7 @@ export class RegistrationPageComponent implements OnInit {
     if(this.loginForm.get('Password').value == this.loginForm.get('ConfirmPassword').value){
       this.passwordMatch =  true;
       var user = new User(this.loginForm.get("Username").value,this.loginForm.get("Password").value,this.loginForm.get("Email").value)
-      this.servie.addUser(user).subscribe(data =>{
+      this.servie.registerUser(user).subscribe(data =>{
       },error =>{
         console.log(error)
       });
