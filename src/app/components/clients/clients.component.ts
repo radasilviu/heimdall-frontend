@@ -47,7 +47,7 @@ export class ClientsComponent implements OnInit {
     this.service.getAllClients()
       .subscribe(data => {
         this.allCLients = data;
-      }, error => {console.log(error) })
+      }, error => {})
   }
 
   deleteClient(clientName) {
