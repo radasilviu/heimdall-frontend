@@ -30,6 +30,7 @@ import {MatExpansionModule} from '@angular/material/expansion';
 import {MatMenuModule} from '@angular/material/menu'; 
 import { HeimdallRolesComponent } from './components/heimdall-roles/heimdall-roles.component';
 import { RealmSettingsComponent } from './components/realm-settings/realm-settings.component';
+import { RegistrationPageComponent } from './components/registration-page/registration-page.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -43,7 +44,8 @@ import { RealmSettingsComponent } from './components/realm-settings/realm-settin
     ClientDialogComponent,
     UserDialogComponent,
     RolesDialogComponent,
-    RealmSettingsComponent
+    RealmSettingsComponent,
+    RegistrationPageComponent
   ],
   entryComponents: [ClientDialogComponent,UserDialogComponent,RolesDialogComponent],
   imports: [

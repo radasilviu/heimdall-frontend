@@ -1,0 +1,31 @@
+<div class="container">
+    <h1>
+        Heimdall
+    </h1>
+    <div class="form">
+        <form style="display: flex; justify-content: center; flex-direction: column;" [formGroup]="loginForm" (ngSubmit)="register()" class="col-md-6 text-center border border-light p-5">
+            <mat-form-field appearance="outline">
+                <mat-label style="color: rgb(31, 18, 218);">Username</mat-label>
+                <input formControlName="Username" matInput placeholder="username">
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+                <mat-label style="opacity: 2px;">Password</mat-label>
+                <input formControlName="Password" matInput placeholder="Password">
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+                <mat-label>Confirme Password</mat-label>
+                <input formControlName="Password" matInput placeholder="Password">
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+                <mat-label>Email address</mat-label>
+                <input formControlName="Email" matInput placeholder="Email address">
+            </mat-form-field>
+
+            <div>
+                <button type="submit" [disabled]="!loginForm.valid" mat-raised-button>Basic</button>
+            </div>
+
+        </form>
+
+    </div>
+</div>
