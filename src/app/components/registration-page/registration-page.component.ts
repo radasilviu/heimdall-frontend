@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { User } from 'src/app/models/User';
+import { RestApiServiceService } from 'src/app/services/restapiservice/rest-api-service.service';
 
 @Component({
   selector: 'app-registration-page',
@@ -11,7 +12,7 @@ export class RegistrationPageComponent implements OnInit {
   errormessaje:string;
   loginForm: FormGroup;
   passwordMatch:boolean = true;
-  constructor() { }
+  constructor(private servie :RestApiServiceService) { }
 
   ngOnInit(): void {
     this.loginForm = new FormGroup({
@@ -26,6 +27,11 @@ export class RegistrationPageComponent implements OnInit {
     var user = new User();
     if(this.loginForm.get('Password').value == this.loginForm.get('ConfirmPassword').value){
       this.passwordMatch =  true;
+      var user = new User(this.loginForm.get("Username").value,this.loginForm.get("Password").value,this.loginForm.get("Email").value)
+      this.servie.addUser(user).subscribe(data =>{
+      },error =>{
+        console.log(error)
+      });
     }
     else{
       this.passwordMatch =  false;
