@@ -4,7 +4,7 @@
             <mat-label>New Client</mat-label>
             <input required matInput [(ngModel)]="newClient">
         </mat-form-field>
-        <button [disabled]="newClient === ''" mat-raised-button (click)="addClient()" color="primary">Add</button>
+        <button mat-raised-button (click)="addClient()" color="primary">Add</button>
     </div>
 
     <table mat-table [dataSource]="allCLients" class="mat-elevation-z8">

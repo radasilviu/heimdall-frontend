@@ -1,14 +1,10 @@
 <div class="container">
-
     <table mat-table [dataSource]="allRoles" class="mat-elevation-z8">
-
         <ng-container matColumnDef="Roles">
-
             <th mat-header-cell *matHeaderCellDef> UserRoles </th>
             <td mat-cell *matCellDef="let element">
                 {{element.name}}
                 <div>
-
                     <mat-icon (click)="deleteRole(element.name)" class="edit" aria-hidden="false" aria-label="create">delete</mat-icon>
                     <mat-icon (click)="updateRole(element.name)" class="edit" aria-hidden="false" aria-label="create">create</mat-icon>
                 </div>
@@ -18,17 +14,12 @@
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
         <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
     </table>
-
-
-
     <div class="rolebtn">
-
         <mat-form-field class="example-form-field">
 
             <mat-label>New Role</mat-label>
             <input required=true matInput type="text" [(ngModel)]="newRole">
         </mat-form-field>
-
         <button class="addRole" [disabled]="newRole === ''" mat-raised-button (click)="addRole()" color="primary">New Role</button>
     </div>
 

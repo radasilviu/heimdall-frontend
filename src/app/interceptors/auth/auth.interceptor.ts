@@ -6,13 +6,13 @@ import {
   HttpInterceptor
 } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import {AdminAuthService} from '../../services/admin-auth/admin-auth.service';
-import {User} from '../../models/user';
+import { AdminAuthService } from '../../services/admin-auth/admin-auth.service';
+import { User } from '../../models/User';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
 
-  constructor(private authService: AdminAuthService) {}
+  constructor(private authService: AdminAuthService) { }
 
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
     const token = this.authService.userSubject.getValue();

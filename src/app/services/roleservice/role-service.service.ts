@@ -1,18 +1,15 @@
 import { Injectable } from '@angular/core';
+import { User } from 'src/app/models/User';
 
 @Injectable({
   providedIn: 'root'
 })
 export class RoleServiceService {
-  username;
-  id;
+  user: User;
 
-  setusername(username){
-    this.username = username;
+  setusername(user) {
+    this.user = user;
   }
-  setId(id){
-    this.id = id;
-  }
-
+  
   constructor() { }
 }

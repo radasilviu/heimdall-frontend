@@ -6,7 +6,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./roles-dialog.component.css']
 })
 export class RolesDialogComponent implements OnInit {
-  newRoleName="";
+  newRoleName:string;
   constructor() { }
 
   ngOnInit(): void {

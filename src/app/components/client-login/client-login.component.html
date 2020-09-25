@@ -1,24 +1,24 @@
 <div class="container">
-  <h1>
-    Heimdall
-  </h1>
+    <h1>
+        Heimdall
+    </h1>
 
-  <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="col-md-6 text-center border border-light p-5">
-    <div class="form">
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="col-md-6 text-center border border-light p-5">
+        <div class="form">
 
-      <mat-form-field class="example-form-field">
-        <mat-label> Username</mat-label>
-        <input matInput type="text" formControlName="username" required>
-      </mat-form-field>
+            <mat-form-field class="example-form-field">
+                <mat-label> Username</mat-label>
+                <input matInput type="text" formControlName="username" required>
+            </mat-form-field>
 
-      <mat-form-field class="example-form-field">
-        <mat-label>Password</mat-label>
-        <input matInput type="password" formControlName="password" required>
-      </mat-form-field>
+            <mat-form-field class="example-form-field">
+                <mat-label>Password</mat-label>
+                <input matInput type="password" formControlName="password" required>
+            </mat-form-field>
 
 
-      <button type="submit" [disabled]="!loginForm.valid" mat-raised-button color="primary">Submit</button>
+            <button type="submit" [disabled]="!loginForm.valid" mat-raised-button color="primary">Submit</button>
 
-    </div>
-  </form>
+        </div>
+    </form>
 </div>

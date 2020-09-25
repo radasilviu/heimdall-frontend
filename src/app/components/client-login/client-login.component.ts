@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators, AbstractControl } from '@angular/forms';
-import {ClientLoginService} from '../../services/client-login/client-login.service';
-import {ActivatedRoute} from '@angular/router';
+import { ClientLoginService } from '../../services/client-login/client-login.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-client-login',
@@ -16,8 +16,8 @@ export class ClientLoginComponent implements OnInit {
 
   ngOnInit(): void {
     this.loginForm = new FormGroup({
-      username: new FormControl('', [ Validators.required]),
-      password: new FormControl('', [ Validators.required])
+      username: new FormControl('', [Validators.required]),
+      password: new FormControl('', [Validators.required])
     });
   }
 
