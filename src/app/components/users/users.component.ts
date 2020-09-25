@@ -35,7 +35,6 @@ export class UsersComponent implements OnInit {
       if (data !== undefined) {
         this.service.updateUserName(username, data).subscribe(data => {
           this.getAllUsers();
-
         }, error => {
           this.service.openSnackBar(error.error, 2000);
         });

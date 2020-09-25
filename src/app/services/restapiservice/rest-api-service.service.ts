@@ -3,13 +3,16 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Client } from 'src/app/models/Client';
 import { Observable } from 'rxjs';
-import { Role } from 'src/app/models/Role';
+import { IRole, Role } from 'src/app/models/Role';
 import { User } from 'src/app/models/User'
 
 @Injectable({
   providedIn: 'root'
 })
 export class RestApiServiceService {
+  role: Role;
+  user: User;
+  client: Client;
 
   constructor(private http: HttpClient, private _snackBar: MatSnackBar) { }
 
@@ -20,13 +23,17 @@ export class RestApiServiceService {
   }
 
   updateRoleByName(currentName, newName) {
-    return this.http.put("http://localhost:8081/api/role/" + currentName, { name: newName });
+    this.role = new Role(newName)
+    return this.http.put("http://localhost:8081/api/role/" + currentName, this.role);
   }
   updateClientByName(clientName, newClientName) {
-    return this.http.put("http://localhost:8081/api/client/" + clientName, { clientName: newClientName });
+    this.client = new Client(newClientName)
+    return this.http.put("http://localhost:8081/api/client/" + clientName, this.client);
   }
   updateUserName(currentUserName, newUserName) {
-    return this.http.put("http://localhost:8081/api/user/" + currentUserName, { username: newUserName });
+    this.user = new User()
+    this.user.setUsername(newUserName);
+    return this.http.put("http://localhost:8081/api/user/" + currentUserName, this.user);
   }
 
   getAllUsers() {
@@ -40,12 +47,13 @@ export class RestApiServiceService {
     return this.http.request('delete', "http://localhost:8081/api/client/" + clientName);
   }
 
-  getAllRoles(): Observable<Role[]> {
-    return this.http.get<Role[]>("http://localhost:8081/api/role");
+  getAllRoles(): Observable<IRole[]> {
+    return this.http.get<IRole[]>("http://localhost:8081/api/role");
   }
 
   addRole(role) {
-    return this.http.post<any>("http://localhost:8081/api/role", { name: role });
+    this.role = new Role(role)
+    return this.http.post<any>("http://localhost:8081/api/role", this.role);
   }
 
   deleteRole(role) {
@@ -56,19 +64,24 @@ export class RestApiServiceService {
   }
 
   addClient(clientName) {
-    return this.http.post<any>("http://localhost:8081/api/client", { clientName: clientName });
+    this.client = new Client(clientName);
+    return this.http.post<any>("http://localhost:8081/api/client", this.client);
   }
 
   addUser(username, password) {
-    return this.http.post<any>("http://localhost:8081/api/user", { username: username, password: password });
+    this.user = new User()
+    this.user.setUsernameAndPassword(username, password)
+    return this.http.post<any>("http://localhost:8081/api/user", this.user);
   }
 
   addUserRole(newRole, username) {
-    return this.http.post<any>("http://localhost:8081/api/user/" + username + "/addRole", { name: newRole });
+    this.role = new Role(newRole)
+    return this.http.post<any>("http://localhost:8081/api/user/" + username + "/addRole", this.role);
   }
 
   deleteUserRole(role, username) {
-    return this.http.request('delete', "http://localhost:8081/api/user/" + username + "/removeRole", { body: { name: role } });
+    this.role = new Role(role)
+    return this.http.request('delete', "http://localhost:8081/api/user/" + username + "/removeRole", { body: this.role });
   }
 
   getUserByUsername(username): Observable<User> {

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { Role } from 'src/app/models/Role';
+import { IRole } from 'src/app/models/Role';
 import { RestApiServiceService } from '../../services/restapiservice/rest-api-service.service';
 import { RolesDialogComponent } from '../dialogs/roles-dialog/roles-dialog.component';
 
@@ -11,7 +11,7 @@ import { RolesDialogComponent } from '../dialogs/roles-dialog/roles-dialog.compo
 })
 export class HeimdallRolesComponent implements OnInit {
   displayedColumns: string[] = ['Roles'];
-  allRoles: Role[];
+  allRoles: IRole[];
   newRole: string;
 
   constructor(private service: RestApiServiceService,
