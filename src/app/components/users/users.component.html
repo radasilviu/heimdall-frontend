@@ -2,14 +2,14 @@
     <div class="addButton">
         <mat-form-field>
             <mat-label>Username</mat-label>
-            <input required matInput [(ngModel)]="username">
+            <input required matInput #username>
         </mat-form-field>
 
         <mat-form-field>
             <mat-label>Password</mat-label>
-            <input required type="password" required matInput [(ngModel)]="password">
+            <input required type="password" #password required matInput>
         </mat-form-field>
-        <button [disabled]="password === '' || username === ''" (click)="addUser()" mat-raised-button color="primary">Add</button>
+        <button [disabled]="password === '' || username === ''" (click)="addUser(username.value,password.value)" mat-raised-button color="primary">Add</button>
     </div>
 
     <table mat-table [dataSource]="allUsers" class="mat-elevation-z8">

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Client } from 'src/app/models/Client';
-import { IRole } from 'src/app/models/Role';
+import { IRole, Role } from 'src/app/models/Role';
 import { User } from 'src/app/models/User';
 import { RestApiServiceService } from '../../services/restapiservice/rest-api-service.service';
 import { RoleServiceService } from '../../services/roleservice/role-service.service';
@@ -14,10 +14,8 @@ import { RoleServiceService } from '../../services/roleservice/role-service.serv
 export class RolesComponent implements OnInit {
   curentUser: User;
   allRoles: IRole[];
-  client: Client;
-  currentUserRoles: IRole[];
-  id: string;
-
+  userRoles: IRole[];
+  role:Role;
   displayedColumns: string[] = ['Roles'];
 
   constructor(private service: RestApiServiceService,
@@ -34,7 +32,7 @@ export class RolesComponent implements OnInit {
 
   getUserRoles() {
     this.service.getUserByUsername(this.roleService.user.username).subscribe(data => {
-      this.currentUserRoles = data.roles;
+      this.userRoles = data.roles;
     })
   }
 
@@ -45,16 +43,18 @@ export class RolesComponent implements OnInit {
     })
   }
 
-  addRole(role) {
-    this.service.addUserRole(role, this.curentUser.username
+  addRole(role:string) {
+    this.role = new Role(role)
+    this.service.addUserRole(this.role, this.curentUser.username
     ).subscribe(data => {
       this.getUserRoles();
       this.getAllRoles();
     });
   }
 
-  deleteUserRole(role) {
-    this.service.deleteUserRole(role, this.curentUser.username).subscribe(data => {
+  deleteUserRole(role:string) {
+    this.role = new Role(role)
+    this.service.deleteUserRole(this.curentUser.username,this.role).subscribe(data => {
       this.getUserRoles();
       this.getAllRoles();
     });

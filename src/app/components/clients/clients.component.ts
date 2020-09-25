@@ -12,21 +12,22 @@ import { Client } from '../../models/Client';
 })
 
 export class ClientsComponent implements OnInit {
-  newClient: Client;
+  client: Client;
   allCLients: Client[];
   errorMessage: string;
   displayedColumns: string[] = ['name'];
 
   constructor(private changeDetectorRefs: ChangeDetectorRef, private service: RestApiServiceService, public dialog: MatDialog) { }
 
-  openDialog(clientName) {
+  openDialog(currentClientName:string) {
     const dialogRef = this.dialog.open(ClientDialogComponent);
 
     dialogRef.afterClosed().subscribe(data => {
+      this.client = new Client(data);
       if (data !== undefined) {
-        this.service.updateClientByName(clientName, data).subscribe(data => {
+        this.service.updateClientByName(currentClientName, this.client).subscribe(
+          data => {
           this.getAllClients();
-
         }, error => {
           this.service.openSnackBar(error.error, 2000);
         });
@@ -38,8 +39,8 @@ export class ClientsComponent implements OnInit {
     this.getAllClients();
   }
 
-  updateCLient(clientName) {
-    const newClientName = this.openDialog(clientName);
+  updateCLient(currentClientName) {
+    this.openDialog(currentClientName);
   }
 
 
@@ -50,14 +51,15 @@ export class ClientsComponent implements OnInit {
       }, error => {})
   }
 
-  deleteClient(clientName) {
+  deleteClient(clientName:string) {
     this.service.deleteClient(clientName).subscribe(data => {
       this.getAllClients();
     })
   }
 
-  addClient() {
-    this.service.addClient(this.newClient).subscribe(data => {
+  addClient(clientName:string) {
+    this.client = new Client(clientName)
+    this.service.addClient(this.client).subscribe(data => {
       this.getAllClients();
     }, error => {
       this.service.openSnackBar(error.error, 2000)

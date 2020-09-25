@@ -14,9 +14,8 @@ import {User} from '../../models/User';
 })
 export class UsersComponent implements OnInit {
   displayedColumns = ['username', 'role'];
-  username:string;
-  password:string
   allUsers:User[];
+  user:User;
 
 
   constructor(private changeDetectorRefs: ChangeDetectorRef,
@@ -29,11 +28,12 @@ export class UsersComponent implements OnInit {
     this.getAllUsers();
   }
 
-  openDialog(username) {
+  openDialog(currentUserName:string) {
     const dialogRef = this.dialog.open(UserDialogComponent);
     dialogRef.afterClosed().subscribe(data => {
+      this.user = new User(data)
       if (data !== undefined) {
-        this.service.updateUserName(username, data).subscribe(data => {
+        this.service.updateUserName(currentUserName, this.user).subscribe(data => {
           this.getAllUsers();
         }, error => {
           this.service.openSnackBar(error.error, 2000);
@@ -41,8 +41,8 @@ export class UsersComponent implements OnInit {
       }
     });
   }
-  updateUser(username) {
-    this.openDialog(username)
+  updateUser(currentUserName:string) {
+    this.openDialog(currentUserName)
   }
 
   getAllUsers() {
@@ -52,21 +52,22 @@ export class UsersComponent implements OnInit {
     })
   }
 
-  addUser() {
-    this.service.addUser(this.username, this.password).subscribe(data => {
+  addUser(username:string,password:string) {
+    this.user = new User(username,password)
+    this.service.addUser(this.user).subscribe(data => {
       this.getAllUsers();
     }, error => {
       this.service.openSnackBar(error.error, 2000)
     });
   }
 
-  deleteUser(username) {
+  deleteUser(username:string) {
     this.service.deleteUser(username).subscribe(data => {
       this.getAllUsers();
     });
   }
 
-  userRoles(user) {
+  userRoles(user:string) {
     this.roleService.setusername(user)
     this.router.navigate(['home/users/roles']);
   }
