@@ -1,26 +1,29 @@
 import { Injectable } from '@angular/core';
-import {Observable, throwError} from 'rxjs';
 import {HttpClient, HttpErrorResponse} from '@angular/common/http';
-import {Env} from '../../../configs/env';
 import {MatSnackBar} from '@angular/material/snack-bar';
-import {catchError} from 'rxjs/operators';
+import {Observable, throwError} from 'rxjs';
 import {Realm} from '../../../models/Realm';
+import {Env} from '../../../configs/env';
+import {catchError} from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
 })
-export class RealmGeneralSettingService {
+export class RealmLoginServiceService {
 
   constructor(private http: HttpClient, private snackBar: MatSnackBar) { }
 
   update(data: any): Observable<Realm> {
-    const url = Env.apiRootURL + '/api/admin/realm/general-update';
+    const url = Env.apiRootURL + '/api/admin/realm/login-update';
     console.log(data);
     const body = {
       id: data.id,
-      name: data.name,
-      displayName: data.displayName,
-      enabled: data.enabled
+      userRegistration: data.userRegistration,
+      editUsername: data.editUsername,
+      forgotPassword: data.forgotPassword,
+      rememberMe: data.rememberMe,
+      verifyEmail: data.verifyEmail,
+      loginWithEmail: data.loginWithEmail
     };
 
     return this.http.put<Realm>(url, body).pipe(

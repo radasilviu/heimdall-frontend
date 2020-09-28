@@ -1,4 +1,4 @@
-import {Component, Inject, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {RealmGeneralSettingService} from '../../../services/realm-service/general/realm-general-setting.service';
 import {AbstractControl, FormControl, FormGroup, Validators} from '@angular/forms';
 import {MatSnackBar} from '@angular/material/snack-bar';
@@ -50,5 +50,4 @@ export class RealmGeneralSettingComponent implements OnInit {
         }
       );
   }
-
 }
