@@ -4,6 +4,7 @@ import { Env } from '../../configs/env';
 import { catchError, tap } from 'rxjs/operators';
 import { BehaviorSubject, Observable, throwError } from 'rxjs';
 import { User } from '../../models/User';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +13,7 @@ export class AdminAuthService {
 
   userSubject = new BehaviorSubject<User>(this.parseUser());
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient,private snackBar: MatSnackBar) { }
 
   login(username: string, password: string, clientCode: string, clientSecret: string): Observable<User> {
     const url = Env.apiRootURL + '/admin/login';
@@ -28,7 +29,9 @@ export class AdminAuthService {
         localStorage.setItem('user', JSON.stringify(user));
         this.userSubject.next(user);
       }),
-      catchError(this.handleError)
+      catchError(error => {
+        return this.handleError(error, this.snackBar);
+      })
     );
   }
 
@@ -36,9 +39,10 @@ export class AdminAuthService {
     return JSON.parse(localStorage.getItem('user'));
   }
 
-  handleError(error: HttpErrorResponse): Observable<never> {
-    console.error(error);
-    return throwError(
-      'Something bad happened; please try again later.');
+  handleError(error: HttpErrorResponse, snackBar: MatSnackBar): Observable<never> {
+    snackBar.open(error.error, '', {
+      duration: 3000
+    });
+    return throwError(error.message);
   }
 }
