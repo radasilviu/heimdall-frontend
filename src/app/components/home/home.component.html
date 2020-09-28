@@ -1,24 +1,24 @@
-<div class="container">
-    <div class="header">
-        <mat-toolbar>
-            <button (click)="drawer.toggle()" mat-icon-button class="example-icon" aria-label="Example icon-button with menu icon">
-        <mat-icon>menu</mat-icon>
-            </button>
-            <span class="title">Heimdall</span>
-            <span class="example-spacer"></span>
-
-            <mat-icon class="account" [matMenuTriggerFor]="menu" aria-hidden="false" aria-label="Example home icon">account_circle</mat-icon>
-
+<div class="container-fluid p-0">
+    <div class="row nav-bar d-flex align-items-center ">
+        <div class="col-1 d-flex align-items-center">
+            <mat-icon class="my-icon" (click)="drawer.toggle()">menu</mat-icon>
+        </div>
+        <div class="col">
+            <h1 class="my-h1">Heimdall</h1>
+        </div>
+        <div class="col d-flex justify-content-end">
+            <mat-icon class="my-icon" [matMenuTriggerFor]="menu" aria-hidden="false" aria-label="Example home icon">account_circle</mat-icon>
             <mat-menu #menu="matMenu">
                 <button mat-menu-item>Settings</button>
                 <button mat-menu-item (click)="logout()">Log out</button>
             </mat-menu>
-        </mat-toolbar>
+        </div>
     </div>
 
-    <mat-drawer-container class="example-container" autosize>
-        <mat-drawer #drawer class="example-sidenav" mode="side">
-            <div class="options">
+    <mat-drawer-container class="my-sidenav" autosize>
+        <mat-drawer class="my-drawer" #drawer mode="side">
+            <div class="row d-flex justify-content-center">
+
                 <mat-accordion>
                     <mat-expansion-panel #mep="matExpansionPanel" (opened)="panelOpenState = true" (closed)="panelOpenState = false">
                         <mat-expansion-panel-header>
@@ -27,17 +27,19 @@
                             </mat-panel-title>
                         </mat-expansion-panel-header>
                         <mat-list>
-                            <div class="realmItem" *ngFor="let i of realms">
+                            <div *ngFor="let i of realms">
                                 <button (click)="mep.expanded = false;changeRealm(i)" mat-raised-button> {{i}}</button>
                             </div>
                         </mat-list>
                     </mat-expansion-panel>
                 </mat-accordion>
 
-                <button class="menuItem" mat-raised-button (click)="realmSettings()" color="primary">Realm Settings</button>
-                <button class="menuItem" mat-raised-button [routerLink]="['clients']" color="primary">Clients</button>
-                <button class="menuItem" mat-raised-button [routerLink]="['users']" color="primary">Users</button>
-                <button class="menuItem" mat-raised-button [routerLink]="['roles']" color="primary">Roles</button>
+            </div>
+            <div class="row h-25 w-50 d-flex justify-content-around  flex-column">
+                <button mat-raised-button (click)="realmSettings()" color="primary">Realm Settings</button>
+                <button mat-raised-button [routerLink]="['clients']" color="primary">Clients</button>
+                <button mat-raised-button [routerLink]="['users']" color="primary">Users</button>
+                <button mat-raised-button [routerLink]="['roles']" color="primary">Roles</button>
             </div>
         </mat-drawer>
         <router-outlet></router-outlet>
