@@ -12,7 +12,7 @@ export class HomeGuard implements CanActivate {
   canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-    if (this.authService.userSubject.getValue()) {
+    if (this.authService.tokenSubject.getValue()) {
       this.router.navigate(['home']);
     }
     return true;

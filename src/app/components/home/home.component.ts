@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { AdminAuthService } from 'src/app/services/admin-auth/admin-auth.service';
 import { RealmServiceService } from 'src/app/services/realm-service/realm-service.service';
 
 
@@ -13,7 +14,7 @@ export class HomeComponent {
   panelOpenState:boolean = false;
   currentRealm:string = "Realms"
 
-  constructor(private router: Router, private realmService: RealmServiceService) { }
+  constructor(private router: Router, private realmService: RealmServiceService,private adminAuthService: AdminAuthService) { }
   ngOnInit(): void {
     this.realmService.setCurrentRealm(this.currentRealm);
   }
@@ -21,8 +22,7 @@ export class HomeComponent {
   realms = ["Olx", "Bingo"]
 
   logout() {
-    localStorage.clear();
-    window.location.reload();
+    this.adminAuthService.logout().subscribe();
   }
 
   changeRealm(realm) {
