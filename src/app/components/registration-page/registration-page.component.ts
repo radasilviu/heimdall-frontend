@@ -30,7 +30,6 @@ export class RegistrationPageComponent implements OnInit {
       var user = new User(this.loginForm.get("Username").value,this.loginForm.get("Password").value,this.loginForm.get("Email").value)
       this.servie.registerUser(user).subscribe(data =>{
       },error =>{
-        console.log(error)
       });
     }
     else{
