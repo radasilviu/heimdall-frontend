@@ -1,44 +1,90 @@
-import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { Env } from '../../configs/env';
-import { catchError, tap } from 'rxjs/operators';
+import { Injectable } from '@angular/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { Router } from '@angular/router';
 import { BehaviorSubject, Observable, throwError } from 'rxjs';
-import { User } from '../../models/User';
+import { catchError, tap } from 'rxjs/operators';
+import { Token } from 'src/app/models/token';
+import { Constants } from 'src/app/utils/constants';
+import { Env } from '../../configs/env';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AdminAuthService {
 
-  userSubject = new BehaviorSubject<User>(this.parseUser());
+  tokenSubject = new BehaviorSubject<Token>(this.parseToken());
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private snackBar: MatSnackBar,private router:Router) { }
 
-  login(username: string, password: string, clientCode: string, clientSecret: string): Observable<User> {
+  login(username: string, password: string): Observable<Token> {
     const url = Env.apiRootURL + '/admin/login';
     const body = {
       username: username,
-      password: password,
-      clientCode: clientCode,
-      clientSecret: clientSecret
+      password: password
     };
-
-    return this.http.post<User>(url, body).pipe(
-      tap(user => {
-        localStorage.setItem('user', JSON.stringify(user));
-        this.userSubject.next(user);
+    const options = {
+      headers: {
+        'whitelist': 'true'
+      }
+    };
+    return this.http.post<Token>(url, body, options).pipe(
+      tap((token: Token) => {
+        localStorage.setItem('token', JSON.stringify(token));
+        this.tokenSubject.next(token);
       }),
-      catchError(this.handleError)
+      catchError(error => {
+        return this.handleError(error, this.snackBar);
+      })
     );
   }
 
-  parseUser(): User {
-    return JSON.parse(localStorage.getItem('user'));
+  logout(): Observable<any> {
+    const url = Env.apiRootURL + '/admin/logout';
+    const body = this.tokenSubject.getValue();
+    const options = {
+      headers: {
+        'whitelist': 'true'
+      }
+    };
+
+    return this.http.post(url, body, options).pipe(
+      tap(response => {
+        this.logoutSetup();
+      }),
+      catchError(error => {
+        this.logoutSetup();
+        return this.handleError(error, this.snackBar);
+      })
+    );
   }
 
-  handleError(error: HttpErrorResponse): Observable<never> {
-    console.error(error);
-    return throwError(
-      'Something bad happened; please try again later.');
+  generateNewAccessToken(token: Token): Observable<Token> {
+    const url =  Env.apiRootURL + '/admin/refreshToken';
+    const options = {
+      headers: {
+        'whitelist': 'true'
+      }
+    };
+
+    return this.http.put<Token>(url, token, options);
+  }
+
+
+  private logoutSetup(){
+    localStorage.clear();
+    this.tokenSubject.next(null);
+    this.router.navigate(['']);
+  }
+
+  private parseToken(): Token {
+    return JSON.parse(localStorage.getItem(Constants.TOKEN_KEY));
+  }
+
+  private handleError(error: HttpErrorResponse, snackBar: MatSnackBar): Observable<never> {
+    snackBar.open(error.error, '', {
+      duration: 3000
+    });
+    return throwError(error.message);
   }
 }
