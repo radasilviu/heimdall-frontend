@@ -17,8 +17,7 @@
 
     <mat-drawer-container class="my-sidenav" autosize>
         <mat-drawer class="my-drawer" #drawer mode="side">
-            <div class="row d-flex justify-content-center">
-
+            <div class="row m-0 p-0 m-b-5 d-flex justify-content-center">
                 <mat-accordion>
                     <mat-expansion-panel #mep="matExpansionPanel" (opened)="panelOpenState = true" (closed)="panelOpenState = false">
                         <mat-expansion-panel-header>
@@ -33,13 +32,13 @@
                         </mat-list>
                     </mat-expansion-panel>
                 </mat-accordion>
-
             </div>
-            <div class="row h-25 w-50 d-flex justify-content-around  flex-column">
-                <button mat-raised-button (click)="realmSettings()" color="primary">Realm Settings</button>
-                <button mat-raised-button [routerLink]="['clients']" color="primary">Clients</button>
-                <button mat-raised-button [routerLink]="['users']" color="primary">Users</button>
-                <button mat-raised-button [routerLink]="['roles']" color="primary">Roles</button>
+
+            <div class="row m-0 p-0 d-flex justify-content-around flex-column">
+                <button type="button" (click)="realmSettings()" class="btn btn-primary btn-lg">Realm Settings</button>
+                <button type="button" [routerLink]="['clients']" class="btn btn-primary btn-lg">Clients</button>
+                <button type="button" [routerLink]="['users']" class="btn btn-primary btn-lg">Users</button>
+                <button type="button" [routerLink]="['roles']" class="btn btn-primary btn-lg">Roles</button>
             </div>
         </mat-drawer>
         <router-outlet></router-outlet>
