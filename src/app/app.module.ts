@@ -30,6 +30,10 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { MatMenuModule } from '@angular/material/menu';
 import { HeimdallRolesComponent } from './components/heimdall-roles/heimdall-roles.component';
 import { RealmSettingsComponent } from './components/realm-settings/realm-settings.component';
+import {MatTabsModule} from '@angular/material/tabs';
+import {MatCardModule} from '@angular/material/card';
+import { RealmGeneralSettingComponent } from './components/realm-settings/general/realm-general-setting.component';
+import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 
 
 @NgModule({
@@ -45,7 +49,8 @@ import { RealmSettingsComponent } from './components/realm-settings/realm-settin
     ClientDialogComponent,
     UserDialogComponent,
     RolesDialogComponent,
-    RealmSettingsComponent
+    RealmSettingsComponent,
+    RealmGeneralSettingComponent
   ],
   entryComponents: [ClientDialogComponent, UserDialogComponent, RolesDialogComponent],
   imports: [
@@ -77,7 +82,10 @@ import { RealmSettingsComponent } from './components/realm-settings/realm-settin
     MatSidenavModule,
     MatListModule,
     MatButtonModule,
-    MatIconModule
+    MatIconModule,
+    MatTabsModule,
+    MatCardModule,
+    MatSlideToggleModule
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }

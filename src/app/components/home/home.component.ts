@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import { Router } from '@angular/router';
 import { RealmServiceService } from 'src/app/services/realm-service/realm-service.service';
+import {Realm} from "../../models/Realm";
 
 
 @Component({
@@ -9,29 +10,41 @@ import { RealmServiceService } from 'src/app/services/realm-service/realm-servic
   styleUrls: ['./home.component.css']
 })
 
-export class HomeComponent {
+export class HomeComponent implements OnInit {
   panelOpenState:boolean = false;
-  currentRealm:string = "Realms"
+  currentRealm:string = ""
 
-  constructor(private router: Router, private realmService: RealmServiceService) { }
-  ngOnInit(): void {
-    this.realmService.setCurrentRealm(this.currentRealm);
+  realms: Array<Realm>;
+
+  constructor(private router: Router, private realmService: RealmServiceService) {
+    this.realmService.currentRealm.subscribe((realm: Realm) => {
+      if (realm) {
+        this.currentRealm = realm.displayName;
+      }
+    });
   }
-
-  realms = ["Olx", "Bingo"]
+  ngOnInit(): void {
+    this.realmService.getRealms()
+      .subscribe(
+        (realms: Array<Realm>) => {
+          this.realms = realms;
+          this.realmService.currentRealm.next(realms[0]);
+          localStorage.setItem('currentRealm', JSON.stringify(realms[0]));
+        }
+      );
+  }
 
   logout() {
     localStorage.clear();
     window.location.reload();
   }
 
-  changeRealm(realm) {
-    this.currentRealm = realm
-    this.realmService.setCurrentRealm(realm);
-    this.router.navigate(['home']);
+  changeRealm(realm): void {
+    this.realmService.currentRealm.next(realm);
+    localStorage.setItem('currentRealm', JSON.stringify(realm));
   }
 
-  realmSettings() {
+  realmSettings(): void {
     this.router.navigate(['home/realm-settings']);
   }
 
