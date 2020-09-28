@@ -38,7 +38,7 @@ export class AuthInterceptor implements HttpInterceptor {
               token => {
                 localStorage.setItem(Constants.TOKEN_KEY, JSON.stringify(token))
                 this.authService.tokenSubject.next(token);
-                return next.handle(request);
+                return next.handle(this.addAuthorizationHeader(request, token));
               },
             ),
             catchError(error => {
@@ -46,8 +46,8 @@ export class AuthInterceptor implements HttpInterceptor {
               this.authService.logout().subscribe();
               return EMPTY;
             })
-        );
-      }else{
+          );
+      } else {
         this.authService.logout().subscribe();
         return EMPTY;
       }
@@ -58,9 +58,9 @@ export class AuthInterceptor implements HttpInterceptor {
   }
 
 
-  addAuthorizationHeader(request, user: Token): any {
+  addAuthorizationHeader(request, token: Token): any {
     return request.clone({
-      headers: request.headers.set('Authorization', `Basic ${user.access_token}`)
+      headers: request.headers.set('Authorization', `Basic ${token.access_token}`)
     });
   }
 }
