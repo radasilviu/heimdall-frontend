@@ -1,35 +1,39 @@
-<div class="container">
-    <h1>
-        Heimdall
-    </h1>
-    <div class="form">
-        <form style="display: flex; justify-content: center; flex-direction: column;" [formGroup]="loginForm" (ngSubmit)="register()" class="col-md-6 text-center border border-light p-5">
-            <div *ngIf="!passwordMatch" style="color: red; margin-bottom: 20px;">
-                Password do not match!
-            </div>
-            <mat-form-field appearance="outline">
-                <mat-label style="color: rgba(255, 255, 255, 0.548);">Username</mat-label>
-                <input autocomplete="off" formControlName="Username" matInput placeholder="username">
-            </mat-form-field>
-            <mat-form-field appearance="outline">
-                <mat-label style="color: rgba(255, 255, 255, 0.548);">Password</mat-label>
-                <input autocomplete="off" type="password" formControlName="Password" matInput placeholder="Password">
-            </mat-form-field>
-            <mat-form-field appearance="outline">
-                <mat-label style="color: rgba(255, 255, 255, 0.548)">Confirme Password</mat-label>
-                <input autocomplete="off" type="password" formControlName="ConfirmPassword" matInput placeholder="Password">
-            </mat-form-field>
-            <mat-form-field appearance="outline">
-                <mat-label style="color: rgba(255, 255, 255, 0.548)">Email address</mat-label>
-                <input autocomplete="off" formControlName="Email" matInput placeholder="example@email.com">
-            </mat-form-field>
+<div class="container-fluid my-container">
+    <div class="row">
+        <div class="col d-flex justify-content-center">
+            <h1>
+                Heimdall
+            </h1>
+        </div>
+    </div>
+    <div class="row d-flex justify-content-center">
+        <div class="col col-lg-8 d-flex justify-content-center">
+            <form [formGroup]="loginForm" (ngSubmit)="register()" class="col-md-6 text-center border border-light p-5 d-flex border-0 flex-column">
+                <div *ngIf="!passwordMatch" style="color: red; margin-bottom: 20px;">
+                    Password do not match!
+                </div>
+                <mat-form-field appearance="outline">
+                    <mat-label style="color: rgba(255, 255, 255, 0.548);">Username</mat-label>
+                    <input autocomplete="off" formControlName="Username" matInput placeholder="username">
+                </mat-form-field>
+                <mat-form-field appearance="outline">
+                    <mat-label style="color: rgba(255, 255, 255, 0.548);">Password</mat-label>
+                    <input autocomplete="off" type="password" formControlName="Password" matInput placeholder="Password">
+                </mat-form-field>
+                <mat-form-field appearance="outline">
+                    <mat-label style="color: rgba(255, 255, 255, 0.548)">Confirme Password</mat-label>
+                    <input autocomplete="off" type="password" formControlName="ConfirmPassword" matInput placeholder="Password">
+                </mat-form-field>
+                <mat-form-field appearance="outline">
+                    <mat-label style="color: rgba(255, 255, 255, 0.548)">Email address</mat-label>
+                    <input autocomplete="off" formControlName="Email" matInput placeholder="example@email.com">
+                </mat-form-field>
 
-            <div class="formBtn">
-                <button [routerLink]="['']" mat-raised-button color="primary">Back</button>
-                <button type="submit" [disabled]="!loginForm.valid" mat-raised-button>Register</button>
-            </div>
-
-        </form>
-
+                <div>
+                    <button class="mr-4" [routerLink]="['']" mat-raised-button color="primary">Back</button>
+                    <button type="submit" [disabled]="!loginForm.valid" mat-raised-button>Register</button>
+                </div>
+            </form>
+        </div>
     </div>
 </div>

@@ -20,6 +20,11 @@ export class RegisterApiService {
   }
 
   registerUser(user:User){
-    return this.http.post<User>( registerUrl , user);
+    const options = {
+      headers:{
+        whitelist:"true"
+      }
+    }
+    return this.http.post<User>( registerUrl , user,options);
   }
 }
