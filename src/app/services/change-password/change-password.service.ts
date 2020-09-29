@@ -1,21 +1,24 @@
 import { Injectable } from '@angular/core';
 import {HttpClient, HttpErrorResponse} from '@angular/common/http';
-import {Env} from '../../configs/env';
-import {Observable, throwError} from 'rxjs';
-import {catchError} from 'rxjs/operators';
 import {MatSnackBar} from '@angular/material/snack-bar';
+import {Observable, throwError} from 'rxjs';
+import {Env} from '../../configs/env';
+import {catchError} from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
 })
-export class ForgotPasswordService {
+export class ChangePasswordService {
 
   constructor(private http: HttpClient, private snackBar: MatSnackBar) { }
 
-  sendForgotPasswordEmail(data: any): Observable<any> {
-    const url = Env.apiRootURL + '/oauth/forgot-password';
+  changePassword(data: any, email: string, forgotPasswordCode: string): Observable<any> {
+    const url = Env.apiRootURL + '/oauth/change-password';
     const body = {
-      email: data.email
+      password: data.password,
+      confirmPassword: data.confirmPassword,
+      email: email,
+      forgotPasswordCode: forgotPasswordCode
     };
 
     return this.http.post(url, body).pipe(
