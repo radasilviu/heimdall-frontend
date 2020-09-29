@@ -11,6 +11,8 @@ import { RolesComponent } from './components/roles/roles.component';
 import { HeimdallRolesComponent } from './components/heimdall-roles/heimdall-roles.component';
 import { RealmSettingsComponent } from './components/realm-settings/realm-settings.component';
 import { RegistrationPageComponent } from './components/registration-page/registration-page.component';
+import {ForgotPasswordComponent} from './components/forgot-password/forgot-password.component';
+import {ChangePasswordComponent} from './components/change-password/change-password.component';
 
 const routes: Routes = [
   {
@@ -22,10 +24,11 @@ const routes: Routes = [
       { path: 'realm-settings', component: RealmSettingsComponent },
     ]
   },
-
   { path: '', component: LoginComponent, canActivate: [HomeGuard] },
   { path: 'oauth/client-login', component: ClientLoginComponent },
-  {path:'register',component:RegistrationPageComponent}
+  {path:'register',component:RegistrationPageComponent},
+  { path: 'forgot-password', component: ForgotPasswordComponent },
+  { path: 'change-password', component: ChangePasswordComponent }
 ];
 
 @NgModule({

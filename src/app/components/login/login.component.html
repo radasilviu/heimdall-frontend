@@ -1,4 +1,4 @@
-<div class="container">
+<div class="container-fluid">
     <h1>
         Heimdall
     </h1>
@@ -21,6 +21,7 @@
                 <button type="button" [routerLink]="['register']" mat-raised-button color="primary">Register</button>
                 <button type="submit" [disabled]="!loginForm.valid" mat-raised-button color="primary">Login</button>
             </div>
+            <a [routerLink]="['/forgot-password']">Forgot password?</a>
         </div>
     </form>
 </div>
