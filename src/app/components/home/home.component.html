@@ -1,23 +1,21 @@
 <div class="container-fluid p-0">
-    <div class="row nav-bar d-flex align-items-center ">
-        <div class="col-1 d-flex align-items-center">
-            <mat-icon class="my-icon" (click)="drawer.toggle()">menu</mat-icon>
-        </div>
-        <div class="col">
-            <h1 class="my-h1">Heimdall</h1>
-        </div>
-        <div class="col d-flex justify-content-end">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <mat-icon class="my-icon mr-5" (click)="drawer.toggle()">menu</mat-icon>
+        <h1 class="my-h1">Heimdall</h1>
+
+        <div class="justify-content-end">
             <mat-icon class="my-icon" [matMenuTriggerFor]="menu" aria-hidden="false" aria-label="Example home icon">account_circle</mat-icon>
             <mat-menu #menu="matMenu">
                 <button mat-menu-item>Settings</button>
                 <button mat-menu-item (click)="logout()">Log out</button>
             </mat-menu>
         </div>
-    </div>
+    </nav>
+
 
     <mat-drawer-container class="my-sidenav" autosize>
         <mat-drawer class="my-drawer" #drawer mode="side">
-            <div class="row m-0 p-0 m-b-5 d-flex justify-content-center">
+            <div class="row m-0 p-0 mt-5 p-2 d-flex justify-content-center">
                 <mat-accordion>
                     <mat-expansion-panel #mep="matExpansionPanel" (opened)="panelOpenState = true" (closed)="panelOpenState = false">
                         <mat-expansion-panel-header>
@@ -34,7 +32,7 @@
                 </mat-accordion>
             </div>
 
-            <div class="row m-0 p-0 d-flex justify-content-around flex-column">
+            <div class="row m-0 p-3 h-50  d-flex justify-content-around flex-column">
                 <button type="button" (click)="realmSettings()" class="btn btn-primary btn-lg">Realm Settings</button>
                 <button type="button" [routerLink]="['clients']" class="btn btn-primary btn-lg">Clients</button>
                 <button type="button" [routerLink]="['users']" class="btn btn-primary btn-lg">Users</button>
