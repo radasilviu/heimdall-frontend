@@ -1,0 +1,8 @@
+.my-icon {
+    user-select: none;
+    cursor: pointer;
+}
+
+.my-icon:hover {
+    color: rgb(32, 66, 218);
+}

@@ -15,10 +15,8 @@
                     <th mat-header-cell *matHeaderCellDef> Client name </th>
                     <td mat-cell *matCellDef="let element">
                         {{element.clientName}}
-                        <div>
-                            <mat-icon (click)="deleteClient(element.clientName)" class="edit" aria-hidden="false" aria-label="create">delete</mat-icon>
-                            <mat-icon (click)="updateCLient(element.clientName)" class="edit" aria-hidden="false" aria-label="create">create</mat-icon>
-                        </div>
+                        <mat-icon (click)="deleteClient(element.clientName)" class="float-right ml-3 my-icon" aria-hidden="false" aria-label="create">delete</mat-icon>
+                        <mat-icon (click)="updateCLient(element.clientName)" class="float-right my-icon" aria-hidden="false" aria-label="create">create</mat-icon>
                     </td>
                 </ng-container>
 

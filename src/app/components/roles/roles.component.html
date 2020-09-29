@@ -1,29 +1,39 @@
-<div style="display: flex; justify-content: center; width: 100%; flex-direction:row;">
+<div class="container-fluid">
 
-    <table mat-table [dataSource]="allRoles" class="mat-elevation-z8">
-        <ng-container matColumnDef="Roles">
-            <th mat-header-cell *matHeaderCellDef> All Roles </th>
-            <td mat-cell *matCellDef="let role">
-                {{role.name}}
-                <mat-icon (click)="addRole(role.name)" class="edit" aria-hidden="false" aria-label="move">arrow_right_alt</mat-icon>
-            </td>
-        </ng-container>
+    <span (click)="back()" class="material-icons my-icon float-right m-4">
+            exit_to_app
+            </span>
+    <div class="row mt-4">
+        <div class="col d-flex justify-content-end">
+            <table mat-table [dataSource]="allRoles" class="mat-elevation-z8 my-table">
+                <ng-container matColumnDef="Roles">
+                    <th mat-header-cell *matHeaderCellDef> All Roles </th>
+                    <td class="d-flex align-content-center p-3" mat-cell *matCellDef="let role">
+                        {{role.name}}
+                        <div class="w-100">
+                            <mat-icon (click)="addRole(role.name)" class="my-icon float-right" aria-hidden="false" aria-label="move">arrow_right_alt</mat-icon>
+                        </div>
+                    </td>
+                </ng-container>
 
-        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-    </table>
-
-    <table mat-table [dataSource]="userRoles" class="mat-elevation-z8">
-        <ng-container matColumnDef="Roles">
-            <th mat-header-cell *matHeaderCellDef> User Roles </th>
-            <td mat-cell *matCellDef="let role">
-                {{role.name}}
-                <mat-icon (click)="deleteUserRole(role.name)" class="edit" aria-hidden="false" aria-label="delete">delete</mat-icon>
-            </td>
-        </ng-container>
-
-        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-    </table>
-    <button (click)="back()">Back</button>
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            </table>
+        </div>
+        <div class="col">
+            <table mat-table [dataSource]="userRoles" class="mat-elevation-z8 my-table">
+                <ng-container matColumnDef="Roles">
+                    <th mat-header-cell *matHeaderCellDef> User Roles </th>
+                    <td class="d-flex align-items-center p-3" mat-cell *matCellDef="let role">
+                        {{role.name}}
+                        <div class="w-100">
+                            <mat-icon (click)="deleteUserRole(role.name)" class="my-icon float-right" aria-hidden="false" aria-label="delete">delete</mat-icon>
+                        </div>
+                    </td>
+                </ng-container>
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            </table>
+        </div>
+    </div>
 </div>
