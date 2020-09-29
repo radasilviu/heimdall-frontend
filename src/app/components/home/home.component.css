@@ -4,8 +4,19 @@
 }
 
 .my-icon {
-    cursor: pointer;
-    font-size: 3vh;
+    font-size: 4vh;
     width: auto;
     height: auto;
+    user-select: none;
+    cursor: pointer;
+}
+
+.my-icon:hover {
+    color: rgb(32, 66, 218);
+}
+
+@media only screen and (max-width: 450px) {
+    .my-title {
+        font-size: 20px;
+    }
 }

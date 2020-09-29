@@ -1,43 +1,47 @@
 <div class="container-fluid p-0">
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <nav class="navbar navbar-light bg-light">
         <mat-icon class="my-icon mr-5" (click)="drawer.toggle()">menu</mat-icon>
-        <h1 class="my-h1">Heimdall</h1>
-
-        <div class="justify-content-end">
-            <mat-icon class="my-icon" [matMenuTriggerFor]="menu" aria-hidden="false" aria-label="Example home icon">account_circle</mat-icon>
-            <mat-menu #menu="matMenu">
-                <button mat-menu-item>Settings</button>
-                <button mat-menu-item (click)="logout()">Log out</button>
-            </mat-menu>
-        </div>
+        <p class="my-title h2 p-0 m-0 mr-auto">Heimdall</p>
+        <mat-icon class="my-icon" [matMenuTriggerFor]="menu" aria-hidden="false" aria-label="Example home icon">account_circle</mat-icon>
+        <mat-menu #menu="matMenu">
+            <button mat-menu-item>Settings</button>
+            <button mat-menu-item (click)="logout()">Log out</button>
+        </mat-menu>
     </nav>
 
 
     <mat-drawer-container class="my-sidenav" autosize>
-        <mat-drawer class="my-drawer" #drawer mode="side">
-            <div class="row m-0 p-0 mt-5 p-2 d-flex justify-content-center">
-                <mat-accordion>
-                    <mat-expansion-panel #mep="matExpansionPanel" (opened)="panelOpenState = true" (closed)="panelOpenState = false">
-                        <mat-expansion-panel-header>
-                            <mat-panel-title>
-                                <div> {{currentRealm}} </div>
-                            </mat-panel-title>
-                        </mat-expansion-panel-header>
-                        <mat-list>
-                            <div *ngFor="let i of realms">
-                                <button (click)="mep.expanded = false;changeRealm(i)" mat-raised-button> {{i}}</button>
-                            </div>
-                        </mat-list>
-                    </mat-expansion-panel>
-                </mat-accordion>
-            </div>
+        <mat-drawer class="d-flex justify-content-center p-3 " #drawer mode="side">
+            <mat-accordion class="d-flex justify-content-center mb-5">
+                <mat-expansion-panel #mep="matExpansionPanel" (opened)="panelOpenState = true" (closed)="panelOpenState = false">
+                    <mat-expansion-panel-header>
+                        <mat-panel-title>
+                            <div> {{currentRealm}} </div>
+                        </mat-panel-title>
+                    </mat-expansion-panel-header>
+                    <mat-list>
+                        <div class="d-flex justify-content-center  " *ngFor="let i of realms">
+                            <button class="w-100 mb-2" (click)="mep.expanded = false;changeRealm(i)" mat-raised-button> {{i}}</button>
+                        </div>
+                    </mat-list>
+                </mat-expansion-panel>
+            </mat-accordion>
 
-            <div class="row m-0 p-3 h-50  d-flex justify-content-around flex-column">
-                <button type="button" (click)="realmSettings()" class="btn btn-primary btn-lg">Realm Settings</button>
-                <button type="button" [routerLink]="['clients']" class="btn btn-primary btn-lg">Clients</button>
-                <button type="button" [routerLink]="['users']" class="btn btn-primary btn-lg">Users</button>
-                <button type="button" [routerLink]="['roles']" class="btn btn-primary btn-lg">Roles</button>
-            </div>
+            <ul class="d-flex flex-column">
+                <li class=" d-flex justify-content-center mb-3">
+                    <button type="button" (click)="realmSettings()" class="btn-block btn-primary btn-lg">Realm Settings</button>
+                </li>
+                <li class=" d-flex justify-content-center mb-3">
+                    <button type="button" [routerLink]="['clients']" class="btn-block btn-primary btn-lg">Clients</button>
+                </li>
+                <li class=" d-flex justify-content-center mb-3">
+                    <button type="button" [routerLink]="['users']" class="btn-block btn-primary btn-lg">Users</button>
+                </li>
+                <li class=" d-flex justify-content-center mb-3">
+                    <button type="button" [routerLink]="['roles']" class="btn-block btn-primary btn-lg">Roles</button>
+                </li>
+            </ul>
+
         </mat-drawer>
         <router-outlet></router-outlet>
     </mat-drawer-container>
