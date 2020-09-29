@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { User } from 'src/app/models/User';
+import { RegisterApiService } from 'src/app/services/restapiservice/register-api-service';
 import { RestApiServiceService } from 'src/app/services/restapiservice/rest-api-service.service';
 
 @Component({
@@ -12,7 +13,7 @@ export class RegistrationPageComponent implements OnInit {
   errormessaje:string;
   loginForm: FormGroup;
   passwordMatch:boolean = true;
-  constructor(private servie :RestApiServiceService) { }
+  constructor(private servie :RegisterApiService) { }
 
   ngOnInit(): void {
     this.loginForm = new FormGroup({

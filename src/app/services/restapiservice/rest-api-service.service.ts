@@ -5,6 +5,10 @@ import { Client } from 'src/app/models/Client';
 import { Observable } from 'rxjs';
 import { IRole, Role } from 'src/app/models/Role';
 import { User } from 'src/app/models/User'
+import { Env } from 'src/app/configs/env';
+
+
+const url = Env.apiRootURL + '/api';
 
 @Injectable({
   providedIn: 'root'
@@ -20,62 +24,59 @@ export class RestApiServiceService {
   }
 
   updateRoleByName(currentRoleName:string, newRole:Role) {
-    return this.http.put("http://localhost:8081/api/role/" + currentRoleName, newRole);
+    return this.http.put(url + "/role/" + currentRoleName, newRole);
   }
 
   updateClientByName(currentClientName:string, newClient:Client) {
-    return this.http.put("http://localhost:8081/api/client/" + currentClientName, newClient);
+    return this.http.put( url + "/client/" + currentClientName, newClient);
   }
   updateUserName(currentUserName:string, newUser:User) {
-    return this.http.put("http://localhost:8081/api/user/" + currentUserName, newUser);
+    return this.http.put( url + "/user/" + currentUserName, newUser);
   }
 
   getAllUsers() {
-    return this.http.get("http://localhost:8081/api/user");
+    return this.http.get( url + "/user");
   }
 
   getAllClients(): Observable<Client[]> {
-    return this.http.get<Client[]>("http://localhost:8081/api/client");
+    return this.http.get<Client[]>( url + "/client");
   }
   deleteClient(clientName:string) {
-    return this.http.request('delete', "http://localhost:8081/api/client/" + clientName);
+    return this.http.request('delete', url +  "/client/" + clientName);
   }
 
   getAllRoles(): Observable<IRole[]> {
-    return this.http.get<IRole[]>("http://localhost:8081/api/role");
+    return this.http.get<IRole[]>( url + "/role");
   }
 
   addRole(role:Role) {
-    return this.http.post<any>("http://localhost:8081/api/role", role);
+    return this.http.post<any>( url + "/role", role);
   }
 
   deleteRole(role:Role) {
-    return this.http.request('delete', "http://localhost:8081/api/role/" + role);
+    return this.http.request('delete', url +  "/role/" + role);
   }
   deleteUser(username:string) {
-    return this.http.request('delete', "http://localhost:8081/api/user/" + username);
+    return this.http.request('delete', url + "/user/" + username);
   }
 
   addClient(client:Client) {
-    return this.http.post<any>("http://localhost:8081/api/client", client);
+    return this.http.post<any>( url + "/client", client);
   }
 
   addUser(user:User) {
-    return this.http.post<any>("http://localhost:8081/api/user", user);
+    return this.http.post<any>( url + "/user", user);
   }
 
   addUserRole(role:Role, username:string) {
-    return this.http.post<any>("http://localhost:8081/api/user/" + username + "/addRole",role);
+    return this.http.post<any>( url + "/user/" + username + "/addRole",role);
   }
 
   deleteUserRole(userName:string, role:Role) {
-    return this.http.request('delete', "http://localhost:8081/api/user/" + userName + "/removeRole",{body:role});
+    return this.http.request('delete', url + "/user/" + userName + "/removeRole",{body:role});
   }
 
   getUserByUsername(username:string): Observable<User> {
-    return this.http.get<User>("http://localhost:8081/api/user/" + username)
-  }
-  registerUser(user:User){
-    return this.http.post<any>("http://localhost:8081/oauth/register", user);
+    return this.http.get<User>( url + "/user/" + username)
   }
 }
