@@ -11,7 +11,7 @@ import { AdminAuthService } from '../../services/admin-auth/admin-auth.service';
 })
 
 export class LoginComponent implements OnInit {
-  errormessaje:boolean = false;
+  errormessaje: boolean = false;
   constructor(private authService: AdminAuthService, private router: Router, private route: ActivatedRoute, private service: RestApiServiceService) { }
 
   loginForm: FormGroup;

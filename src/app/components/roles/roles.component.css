@@ -1,37 +1,12 @@
-table {
-    width: 15%;
-    margin: 10px;
-    table-layout: fixed;
+.my-table {
+    width: 200px;
 }
 
-table td {
-    display: flex;
-    justify-content: space-between;
-    align-content: center;
-    height: 50px;
-    align-items: center;
-}
-
-table th {
-    display: flex;
-    justify-content: center;
-    height: 53px;
-    align-items: center;
-}
-
-.edit {
-    float: right;
-    margin-right: 20px;
-    padding: 5px;
-}
-
-.edit:hover {
-    background-color: lightblue;
-    color: white;
+.my-icon {
+    user-select: none;
     cursor: pointer;
-    border-radius: 15px;
 }
 
-.auth {
-    font-size: 50px;
+.my-icon:hover {
+    color: rgb(32, 66, 218);
 }

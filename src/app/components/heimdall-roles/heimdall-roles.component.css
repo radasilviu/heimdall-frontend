@@ -1,59 +1,18 @@
-.container {
-    display: flex;
-    justify-content: center;
-    width: 100%;
-    flex-direction: column-reverse;
-    align-items: center;
+.my-table {
+    width: 300px;
 }
 
-table {
-    width: 330px;
-    table-layout: fixed;
-}
-
-table th {
-    text-align: center;
-}
-
-table tr {
-    text-align: center;
-}
-
-table td {
-    display: flex;
-    align-content: center;
-    justify-content: space-between;
-    height: 48px;
-    align-items: center;
-}
-
-.rolebtn {
-    width: 361px;
-    display: flex;
-    justify-content: space-evenly;
-    align-items: center;
-    margin: 11px;
-    padding: 14px;
-}
-
-.edit {
-    float: right;
-    margin-right: 20px;
-    padding: 5px;
-}
-
-.edit:hover {
-    background-color: lightblue;
-    color: white;
+.my-icon {
+    user-select: none;
     cursor: pointer;
-    border-radius: 15px;
 }
 
-.addRole {
-    height: 40px;
+.my-icon:hover {
+    color: rgb(32, 66, 218);
 }
 
-.auth {
-    font-size: 50px;
-    text-align: center;
+@media only screen and (max-width: 350px) {
+    .my-table {
+        width: 200px;
+    }
 }
