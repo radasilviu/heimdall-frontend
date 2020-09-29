@@ -20,12 +20,14 @@
         </div>
 
 
-        <div class="col col-lg-2 d-felx  align-items-center">
-            <button [disabled]="password === '' || username === ''" (click)="addUser(username.value,password.value,email.value)" mat-raised-button color="primary">Add</button>
+        <div class="col col-lg-2 d-flex">
+            <button class="mr-4" [disabled]="password === '' || username === ''" (click)="addUser(username.value,password.value,email.value)" mat-raised-button color="primary">Add</button>
+
+            <div *ngIf="isLoading" class="spinner-border ml-2" role="status">
+                <span class="sr-only allign-middle">Loading...</span>
+            </div>
         </div>
-        <div class="spinner-border ml-2 d-felx align-items-center" role="status">
-            <span class="sr-only">Loading...</span>
-        </div>
+
 
     </div>
     <div class="row">

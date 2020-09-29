@@ -16,6 +16,7 @@ export class UsersComponent implements OnInit {
   displayedColumns = ['username', 'role'];
   allUsers:User[];
   user:User;
+  isLoading:boolean = false;
 
 
   constructor(private changeDetectorRefs: ChangeDetectorRef,
@@ -53,13 +54,17 @@ export class UsersComponent implements OnInit {
   }
 
   addUser(username:string,password:string,email:string) {
+    this.isLoading  = true
     this.user = new User(username,password,email)
-    this.service.addUser(this.user).subscribe(data => {
+    this.service.addUser(this.user).toPromise().then(data =>{
+      this.isLoading = false;
       this.getAllUsers();
-    }, error => {
-      this.service.openSnackBar(error.error, 2000)
-    });
+    },error =>{
+      this.isLoading = false;
+    })
   }
+
+  
 
   deleteUser(username:string) {
     this.service.deleteUser(username).subscribe(data => {

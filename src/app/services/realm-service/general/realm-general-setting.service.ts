@@ -15,7 +15,6 @@ export class RealmGeneralSettingService {
 
   update(data: any): Observable<Realm> {
     const url = Env.apiRootURL + '/api/admin/realm/general-update';
-    console.log(data);
     const body = {
       id: data.id,
       name: data.name,
