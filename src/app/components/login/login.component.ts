@@ -27,11 +27,9 @@ export class LoginComponent implements OnInit {
 
     const username = this.loginForm.get('username').value;
     const password = this.loginForm.get('password').value;
-    const clientCode = this.route.snapshot.queryParamMap.get('clientCode');
-    const clientSecret = this.route.snapshot.queryParamMap.get('clientSecret');
 
     this.authService
-      .login(username, password, clientCode, clientSecret)
+      .login(username, password)
       .subscribe(
         user => {
           this.router.navigate(['home']);

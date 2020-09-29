@@ -11,7 +11,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 })
 export class ClientLoginService {
 
-  constructor(private http: HttpClient,private snackBar: MatSnackBar) { }
+  constructor(private http: HttpClient, private snackBar: MatSnackBar) { }
 
   login(data: any, clientId: string, clientSecret: string): Observable<Code> {
     const url = Env.apiRootURL + '/oauth/client-login';
@@ -23,10 +23,16 @@ export class ClientLoginService {
       password: data.password
     };
 
-    return this.http.post<Code>(url, body).pipe(
+    const options = {
+      headers: {
+        'whitelist': 'true'
+      }
+    };
+
+    return this.http.post<Code>(url, body, options).pipe(
       catchError(error => {
-          return this.handleError(error, this.snackBar);
-        })
+        return this.handleError(error, this.snackBar);
+      })
     );
   }
 
