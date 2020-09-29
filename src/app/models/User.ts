@@ -19,8 +19,9 @@ export class User implements IUser {
  setUsername(username) {
  this.username = username;
  }
- setUsernameAndPassword(username, password) {
+ setUsernameAndPassword(username, password,email) {
  this.username = username;
  this.password = password;
+ this.email = email;
  }
 }

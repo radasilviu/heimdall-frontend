@@ -9,6 +9,7 @@ const registerUrl = Env.apiRootURL + '/oauth/register';
 @Injectable({
     providedIn: 'root'
   })
+  
 export class RegisterApiService {
 
   constructor(private http: HttpClient, private _snackBar: MatSnackBar) { }

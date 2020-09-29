@@ -12,9 +12,21 @@
                 <input required type="password" #password required matInput>
             </mat-form-field>
         </div>
-        <div class="col col-lg-2 d-felx  align-items-center">
-            <button [disabled]="password === '' || username === ''" (click)="addUser(username.value,password.value)" mat-raised-button color="primary">Add</button>
+        <div>
+            <mat-form-field>
+                <mat-label>Email</mat-label>
+                <input required type="email" #email required matInput>
+            </mat-form-field>
         </div>
+
+
+        <div class="col col-lg-2 d-felx  align-items-center">
+            <button [disabled]="password === '' || username === ''" (click)="addUser(username.value,password.value,email.value)" mat-raised-button color="primary">Add</button>
+        </div>
+        <div class="spinner-border ml-2 d-felx align-items-center" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+
     </div>
     <div class="row">
         <div class="col d-flex justify-content-center">

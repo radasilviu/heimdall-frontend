@@ -52,8 +52,8 @@ export class UsersComponent implements OnInit {
     })
   }
 
-  addUser(username:string,password:string) {
-    this.user = new User(username,password)
+  addUser(username:string,password:string,email:string) {
+    this.user = new User(username,password,email)
     this.service.addUser(this.user).subscribe(data => {
       this.getAllUsers();
     }, error => {
