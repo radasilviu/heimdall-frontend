@@ -9,10 +9,9 @@ import { RealmServiceService } from 'src/app/services/realm-service/realm-servic
 export class RealmSettingsComponent implements OnInit {
 
   constructor(private realmService: RealmServiceService) { }
-  realm:string;
 
   ngOnInit(): void {
-    this.realm = this.realmService.getRealm();
+
   }
 
 }

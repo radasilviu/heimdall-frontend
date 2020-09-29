@@ -6,7 +6,7 @@ import { AppComponent } from './app.component';
 import { LoginComponent } from './components/login/login.component';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { MatCheckboxModule } from '@angular/material/checkbox';
-import { BrowserAnimationsModule, NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
 import { MatListModule } from '@angular/material/list';
 import { MatInputModule } from '@angular/material/input';
@@ -30,6 +30,13 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { MatMenuModule } from '@angular/material/menu';
 import { HeimdallRolesComponent } from './components/heimdall-roles/heimdall-roles.component';
 import { RealmSettingsComponent } from './components/realm-settings/realm-settings.component';
+import {MatTabsModule} from '@angular/material/tabs';
+import {MatCardModule} from '@angular/material/card';
+import { RealmGeneralSettingComponent } from './components/realm-settings/general/realm-general-setting.component';
+import {MatSlideToggleModule} from '@angular/material/slide-toggle';
+import { RealmLoginSettingComponent } from './components/realm-settings/login/realm-login-setting.component';
+import { ForgotPasswordComponent } from './components/forgot-password/forgot-password.component';
+import { ChangePasswordComponent } from './components/change-password/change-password.component';
 
 
 @NgModule({
@@ -45,7 +52,11 @@ import { RealmSettingsComponent } from './components/realm-settings/realm-settin
     ClientDialogComponent,
     UserDialogComponent,
     RolesDialogComponent,
-    RealmSettingsComponent
+    RealmSettingsComponent,
+    RealmGeneralSettingComponent,
+    RealmLoginSettingComponent,
+    ForgotPasswordComponent,
+    ChangePasswordComponent
   ],
   entryComponents: [ClientDialogComponent, UserDialogComponent, RolesDialogComponent],
   imports: [
@@ -77,7 +88,10 @@ import { RealmSettingsComponent } from './components/realm-settings/realm-settin
     MatSidenavModule,
     MatListModule,
     MatButtonModule,
-    MatIconModule
+    MatIconModule,
+    MatTabsModule,
+    MatCardModule,
+    MatSlideToggleModule
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }
