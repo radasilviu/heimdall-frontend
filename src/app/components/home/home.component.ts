@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import { Router } from '@angular/router';
+import { AdminAuthService } from 'src/app/services/admin-auth/admin-auth.service';
 import { RealmServiceService } from 'src/app/services/realm-service/realm-service.service';
 import {Realm} from "../../models/Realm";
 
@@ -12,17 +13,18 @@ import {Realm} from "../../models/Realm";
 
 export class HomeComponent implements OnInit {
   panelOpenState:boolean = false;
-  currentRealm:string = ""
+  currentRealm:string = "";
 
   realms: Array<Realm>;
 
-  constructor(private router: Router, private realmService: RealmServiceService) {
+  constructor(private router: Router, private realmService: RealmServiceService, private adminAuthService: AdminAuthService) {
     this.realmService.currentRealm.subscribe((realm: Realm) => {
       if (realm) {
         this.currentRealm = realm.displayName;
       }
     });
   }
+
   ngOnInit(): void {
     this.realmService.getRealms()
       .subscribe(
@@ -35,8 +37,7 @@ export class HomeComponent implements OnInit {
   }
 
   logout() {
-    localStorage.clear();
-    window.location.reload();
+    this.adminAuthService.logout().subscribe();
   }
 
   changeRealm(realm): void {
