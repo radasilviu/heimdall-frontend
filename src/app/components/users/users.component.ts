@@ -8,7 +8,6 @@ import { User } from '../../models/User';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { DeleteDialogComponent } from '../dialogs/delete-dialog/delete-dialog.component';
 
-
 @Component({
   selector: 'app-users',
   templateUrl: './users.component.html',
@@ -23,9 +22,7 @@ export class UsersComponent implements OnInit {
     username: new FormControl('', Validators.required),
     password: new FormControl('', Validators.required),
     email: new FormControl('', Validators.email)
-
   })
-
 
   constructor(private changeDetectorRefs: ChangeDetectorRef,
     private service: RestApiServiceService,
@@ -37,11 +34,10 @@ export class UsersComponent implements OnInit {
     this.getAllUsers();
   }
 
-  onSubmit(){
-    let user = new User(this.form.value.username,this.form.value.password,this.form.value.email)
+  onSubmit() {
+    let user = new User(this.form.value.username, this.form.value.password, this.form.value.email)
     this.addUser(user)
   }
-
 
   updateUser(currentUserName: string) {
     const dialogRef = this.dialog.open(UserDialogComponent);
@@ -57,7 +53,7 @@ export class UsersComponent implements OnInit {
     });
   }
 
-  deleteUser(username:string) {
+  deleteUser(username: string) {
     const dialogRef = this.dialog.open(DeleteDialogComponent);
     dialogRef.afterClosed().subscribe(data => {
       if (data == "true") {
@@ -75,20 +71,18 @@ export class UsersComponent implements OnInit {
     })
   }
 
-  addUser(user:User) {
+  addUser(user: User) {
     this.isLoading = true;
-    this.service.addUser(user).toPromise().then(data =>{
-      this.service.addUser(user);
+    this.service.addUser(user).toPromise().then(data => {
       this.getAllUsers()
       this.isLoading = false;
-    }).catch((error) =>{
-      this.isLoading=false
-    }) 
-  
+    }).catch((error) => {
+      this.isLoading = false
+    })
   }
 
-  userRoles(user: string) {
-    this.roleService.setUserName(user)
+  userRoles(username: string) {
+    this.roleService.setUserName(username)
     this.router.navigate(['home/users/roles']);
   }
 }
