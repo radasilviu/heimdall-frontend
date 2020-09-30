@@ -66,9 +66,10 @@ export class UsersComponent implements OnInit {
 
   addUser(username:string,password:string,email:string) {
     let user = new User(username,password,email)
-    this.service.addUser(user).subscribe(data => {
-      this.getAllUsers();
-    },error =>{
+    this.isLoading = true;
+    this.service.addUser(user).toPromise().then(data=>{
+      this.isLoading= false
+    },error=>{
       this.isLoading = false;
     })
   }

@@ -1,31 +1,27 @@
 <div class="container-fluid">
     <div class="row d-flex justify-content-center align-items-center m-4">
         <div class="col  col-lg-2 d-flex justify-content-end">
-            <form class="d-flex flex-raw justify-content-between" [formGroup]="form" (ngSubmit)="form.valid && onSubmit()">
-                <mat-form-field>
+            <form class="d-flex align-items-center" [formGroup]="form" (ngSubmit)="form.valid && onSubmit()">
+                <mat-form-field class="mr-3">
                     <mat-label>Username</mat-label>
                     <input matInput formControlName="username">
                 </mat-form-field>
-
-                <div class="col col-lg-2 d-flex justify-content-center ">
-                    <mat-form-field>
-                        <mat-label>Password</mat-label>
-                        <input type="password" formControlName="password" matInput>
-                    </mat-form-field>
-                </div>
-                <div>
-                    <mat-form-field>
-                        <mat-label>Email</mat-label>
-                        <input required type="email" formControlName="email" required matInput>
-                    </mat-form-field>
-                </div>
-                <div class="col col-lg-2 d-flex  align-items-center">
-                    <button [disabled]="!form.valid" mat-raised-button color="primary">Add</button>
-                </div>
+                <mat-form-field class="mr-3">
+                    <mat-label>Password</mat-label>
+                    <input type="password" formControlName="password" matInput>
+                </mat-form-field>
+                <mat-form-field class="mr-3">
+                    <mat-label>Email</mat-label>
+                    <input required type="email" formControlName="email" required matInput>
+                </mat-form-field>
+                <button [disabled]="!form.valid" mat-raised-button color="primary">Add</button>
             </form>
         </div>
-
-
+        <div class="col col-lg-2">
+            <div *ngIf="isLoading" class="spinner-border " role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
+        </div>
     </div>
     <div class="row">
         <div class="col d-flex justify-content-center">
