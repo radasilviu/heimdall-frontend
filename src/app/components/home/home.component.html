@@ -27,7 +27,7 @@
                 </mat-expansion-panel>
             </mat-accordion>
 
-            <ul class="d-flex flex-column">
+            <div class="d-flex flex-column">
                 <li class=" d-flex justify-content-center mb-3">
                     <button type="button" (click)="realmSettings()" class="btn-block btn-primary btn-lg">Realm Settings</button>
                 </li>
@@ -40,7 +40,7 @@
                 <li class=" d-flex justify-content-center mb-3">
                     <button type="button" [routerLink]="['roles']" class="btn-block btn-primary btn-lg">Roles</button>
                 </li>
-            </ul>
+            </div>
 
         </mat-drawer>
         <router-outlet></router-outlet>
