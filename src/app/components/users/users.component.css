@@ -1,56 +1,8 @@
-table {
-    width: 55%;
-    table-layout: fixed;
-}
-
-.conainer {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-}
-
-.clients {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-}
-
-.addButton {
-    margin: 20px;
-    width: 30%;
-    display: flex;
-    align-items: center;
-    justify-content: space-around;
-}
-
-.addClient button {
-    height: 40px;
-}
-
-.controlls {
-    float: right;
-}
-
-mat-icon {
-    margin-right: 30px;
-}
-
-.edit {
-    float: right;
-    margin-right: 20px;
-    padding: 5px;
-}
-
-.edit:hover {
-    background-color: lightblue;
-    color: white;
+.table-icon {
+    user-select: none;
     cursor: pointer;
-    border-radius: 15px;
 }
 
-.auth {
-    font-size: 50px;
+.table-icon:hover {
+    color: var(--hover-icon-color)
 }

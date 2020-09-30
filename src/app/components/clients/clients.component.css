@@ -1,48 +1,8 @@
-table {
-    table-layout: fixed;
-    width: 35%;
-}
-
-.clients {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-}
-
-.addClient {
-    margin: 20px;
-    width: 30%;
-    display: flex;
-    align-items: center;
-    justify-content: space-around;
-}
-
-button {
-    float: right;
-}
-
-.edit {
-    float: right;
-    margin-right: 20px;
-    padding: 5px;
-}
-
-.edit:hover {
-    background-color: lightblue;
-    color: white;
+.table-icon {
+    user-select: none;
     cursor: pointer;
-    border-radius: 15px;
 }
 
-td {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    height: 2.6vw;
-}
-
-.auth {
-    font-size: 50px;
+.table-icon:hover {
+    color: var(--hover-icon-color);
 }

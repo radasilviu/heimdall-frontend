@@ -15,7 +15,6 @@ export class RealmLoginServiceService {
 
   update(data: any): Observable<Realm> {
     const url = Env.apiRootURL + '/api/admin/realm/login-update';
-    console.log(data);
     const body = {
       id: data.id,
       userRegistration: data.userRegistration,
