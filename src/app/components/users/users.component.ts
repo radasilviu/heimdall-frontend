@@ -35,7 +35,6 @@ export class UsersComponent implements OnInit {
 
   onSubmit(){
     let user = new User(this.form.value.username,this.form.value.password)
-    console.log(user)
     this.addUser(user)
   }
 
