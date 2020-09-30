@@ -47,9 +47,6 @@ export class ClientsComponent implements OnInit {
             this.getAllClients();
           })
         }
-        else {
-          console.log("nu")
-        }
       })
     }
 

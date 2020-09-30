@@ -1,10 +1,20 @@
-.my-container {
+.background-color {
     height: 100vh;
-    background: linear-gradient(277deg, #1946db, #ca2580, #1946db);
+    background: var(--background-color);
     background-size: 400% 400%;
     -webkit-animation: AnimationName 19s ease infinite;
     -moz-animation: AnimationName 19s ease infinite;
     animation: AnimationName 19s ease infinite;
+}
+
+.title-color {
+    font-size: 4vw;
+    background: var(--login-title-color);
+    background-clip: border-box;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: #cfcfe33d;
+    font-family: Arial, Helvetica, sans-serif;
+    text-shadow: 4px 4px 2px rgba(45, 45, 89, 0.52);
 }
 
 @-webkit-keyframes AnimationName {
@@ -43,7 +53,7 @@
     }
 }
 
-.my-container h1 {
+.h1 {
     font-size: 4vw;
     margin-top: 10vw;
     margin-bottom: 4vw;

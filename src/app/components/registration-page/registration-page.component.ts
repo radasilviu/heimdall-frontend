@@ -10,10 +10,9 @@ import { RestApiServiceService } from 'src/app/services/restapiservice/rest-api-
   styleUrls: ['./registration-page.component.css']
 })
 export class RegistrationPageComponent implements OnInit {
-  errormessaje:string;
   loginForm: FormGroup;
   passwordMatch:boolean = true;
-  constructor(private servie :RegisterApiService) { }
+  constructor(private service :RegisterApiService) { }
 
   ngOnInit(): void {
     this.loginForm = new FormGroup({
@@ -29,7 +28,7 @@ export class RegistrationPageComponent implements OnInit {
     if(this.loginForm.get('Password').value == this.loginForm.get('ConfirmPassword').value){
       this.passwordMatch =  true;
       var user = new User(this.loginForm.get("Username").value,this.loginForm.get("Password").value,this.loginForm.get("Email").value)
-      this.servie.registerUser(user).subscribe(data =>{
+      this.service.registerUser(user).subscribe(data =>{
       },error =>{
       });
     }

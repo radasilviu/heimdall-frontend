@@ -43,7 +43,7 @@ export class UsersComponent implements OnInit {
   }
 
 
-  updateUserDialog(currentUserName: string) {
+  updateUser(currentUserName: string) {
     const dialogRef = this.dialog.open(UserDialogComponent);
     dialogRef.afterClosed().subscribe(data => {
       let user = new User(data)
@@ -56,7 +56,8 @@ export class UsersComponent implements OnInit {
       }
     });
   }
-  deleteUserDialog(username:string) {
+
+  deleteUser(username:string) {
     const dialogRef = this.dialog.open(DeleteDialogComponent);
     dialogRef.afterClosed().subscribe(data => {
       if (data == "true") {
@@ -64,14 +65,7 @@ export class UsersComponent implements OnInit {
           this.getAllUsers();
         });
       }
-      else {
-        console.log("nu")
-      }
     })
-  }
-
-  updateUser(currentUserName: string) {
-    this.updateUserDialog(currentUserName)
   }
 
   getAllUsers() {
@@ -87,13 +81,6 @@ export class UsersComponent implements OnInit {
     }, error => {
       this.service.openSnackBar(error.error, 2000)
     });
-  }
-
-
-
-  deleteUser(username: string) {
-    this.deleteUserDialog(username);
-
   }
 
   userRoles(user: string) {

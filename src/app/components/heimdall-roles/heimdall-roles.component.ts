@@ -62,15 +62,13 @@ export class HeimdallRolesComponent implements OnInit {
   deleteRole(role) {
     const dialogRef = this.dialog.open(DeleteDialogComponent);
     dialogRef.afterClosed().subscribe(data => {
-      this.role = new Role(data)
-      if (data !== undefined) {
+      if (data == "true") {
         this.service.deleteRole(role).subscribe(data => {
-          this.getAllRoles()
-        }, error => {
-          this.service.openSnackBar(error.error, 6000)
+          this.getAllRoles();
+        },error=>{
+          this.service.openSnackBar(error.error,4000);
         });
       }
-    });
+    })
   }
-
 }
