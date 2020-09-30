@@ -20,8 +20,13 @@ export class ChangePasswordService {
       email: email,
       forgotPasswordCode: forgotPasswordCode
     };
+    const options = {
+      headers: {
+        whitelist: 'true'
+      }
+    };
 
-    return this.http.post(url, body).pipe(
+    return this.http.post(url, body, options).pipe(
       catchError(error => {
         return this.handleError(error, this.snackBar);
       })
@@ -29,7 +34,7 @@ export class ChangePasswordService {
   }
 
   handleError(error: HttpErrorResponse, snackBar: MatSnackBar): Observable<never> {
-    snackBar.open(error.error, '', {
+    snackBar.open(error.error.message, '', {
       duration: 3000
     });
     return throwError(error.message);
