@@ -4,6 +4,7 @@ import { RestApiServiceService } from '../../services/restapiservice/rest-api-se
 import { ClientDialogComponent } from '../dialogs/client-dialog/client-dialog.component';
 import { Client } from '../../models/Client';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { DeleteDialogComponent } from '../dialogs/delete-dialog/delete-dialog.component';
 
 
 @Component({
@@ -23,9 +24,8 @@ export class ClientsComponent implements OnInit {
 
   constructor(private changeDetectorRefs: ChangeDetectorRef, private service: RestApiServiceService, public dialog: MatDialog) { }
 
-  openDialog(currentClientName:string) {
+  updateClient(currentClientName:string) {
     const dialogRef = this.dialog.open(ClientDialogComponent);
-
     dialogRef.afterClosed().subscribe(data => {
       this.client = new Client(data);
       if (data !== undefined) {
@@ -38,6 +38,20 @@ export class ClientsComponent implements OnInit {
       }
     });
   }
+  
+  deleteClient(clientName){
+      const dialogRef = this.dialog.open(DeleteDialogComponent);
+      dialogRef.afterClosed().subscribe(data => {
+        if (data == "true") {
+          this.service.deleteClient(clientName).subscribe(data => {
+            this.getAllClients();
+          })
+        }
+        else {
+          console.log("nu")
+        }
+      })
+    }
 
   ngOnInit(): void {
     this.getAllClients();
@@ -47,22 +61,11 @@ export class ClientsComponent implements OnInit {
     this.addClient(this.form.value.clientName)
   }
 
-  updateClient(currentClientName) {
-    this.openDialog(currentClientName);
-  }
-
-
   getAllClients() {
     this.service.getAllClients()
       .subscribe(data => {
         this.allClients = data;
       }, error => {})
-  }
-
-  deleteClient(clientName:string) {
-    this.service.deleteClient(clientName).subscribe(data => {
-      this.getAllClients();
-    })
   }
 
   addClient(clientName:string) {
