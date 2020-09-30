@@ -37,8 +37,9 @@ export class UsersComponent implements OnInit {
     this.getAllUsers();
   }
 
-  onSubmit() {
-    this.addUser(this.form.value.username, this.form.value.password, this.form.value.email)
+  onSubmit(){
+    let user = new User(this.form.value.username,this.form.value.password)
+    this.addUser(user)
   }
 
 
@@ -80,15 +81,12 @@ export class UsersComponent implements OnInit {
     })
   }
 
-  addUser(username: string, password: string, email: string) {
-    let user = new User(username, password, email)
-    this.isLoading = true;
-    this.service.addUser(user).toPromise().then(data => {
-      this.isLoading = false
-    })
-      .catch((err) => {
-        this.service.openSnackBar(err.error, 1500);
-      })
+  addUser(user:User) {
+    this.service.addUser(user).subscribe(data => {
+      this.getAllUsers();
+    }, error => {
+      this.service.openSnackBar(error.error, 2000)
+    });
   }
 
 

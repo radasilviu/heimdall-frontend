@@ -3,7 +3,7 @@
             exit_to_app
             </span>
     <div class="row mt-4">
-        <div class="col d-flex justify-content-end">
+        <div class="col-6 d-flex justify-content-end">
             <table mat-table [dataSource]="allRoles" class="w-25 mat-elevation-z8 my-table">
                 <ng-container matColumnDef="Roles">
                     <th mat-header-cell *matHeaderCellDef> All Roles </th>
@@ -18,7 +18,7 @@
                 <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
             </table>
         </div>
-        <div class="col">
+        <div class="col-6">
             <table mat-table [dataSource]="userRoles" class="w-25 mat-elevation-z8 my-table">
                 <ng-container matColumnDef="Roles">
                     <th mat-header-cell *matHeaderCellDef> User Roles </th>

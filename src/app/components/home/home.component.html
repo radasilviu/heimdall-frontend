@@ -21,13 +21,13 @@
                     </mat-expansion-panel-header>
                     <mat-list>
                         <div class="d-flex justify-content-center  " *ngFor="let i of realms">
-                            <button class="w-100 mb-2" (click)="mep.expanded = false;changeRealm(i)" mat-raised-button> {{i}}</button>
+                            <button class="w-100 mb-2" (click)="mep.expanded = false;changeRealm(i)" mat-raised-button> {{i.displayName}}</button>
                         </div>
                     </mat-list>
                 </mat-expansion-panel>
             </mat-accordion>
 
-            <ul class="d-flex flex-column">
+            <div class="d-flex flex-column">
                 <li class=" d-flex justify-content-center mb-3">
                     <button type="button" (click)="realmSettings()" class="btn-block btn-primary btn-lg">Realm Settings</button>
                 </li>
@@ -40,7 +40,7 @@
                 <li class=" d-flex justify-content-center mb-3">
                     <button type="button" [routerLink]="['roles']" class="btn-block btn-primary btn-lg">Roles</button>
                 </li>
-            </ul>
+            </div>
 
         </mat-drawer>
         <router-outlet></router-outlet>

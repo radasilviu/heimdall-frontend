@@ -1,6 +1,6 @@
 <div class="container-fluid">
     <div class="row">
-        <div class="col d-flex justify-content-center align-items-center">
+        <div class="col-12 d-flex justify-content-center align-items-center">
             <form [formGroup]="form" (ngSubmit)="form.valid && onSubmit()">
                 <mat-form-field class="m-4">
                     <mat-label>New Client</mat-label>
@@ -11,7 +11,7 @@
         </div>
     </div>
     <div class="row">
-        <div class="col d-flex justify-content-center">
+        <div class="col-12 d-flex justify-content-center">
             <table mat-table [dataSource]="allClients" class="mat-elevation-z8 w-50">
                 <ng-container matColumnDef="name">
                     <th mat-header-cell *matHeaderCellDef> Client name </th>

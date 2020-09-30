@@ -1,7 +1,7 @@
 <div class="container-fluid">
     <div class="row d-flex justify-content-center align-items-center m-4">
-        <div class="col  col-lg-2 d-flex justify-content-end">
-            <form class="d-flex align-items-center" [formGroup]="form" (ngSubmit)="form.valid && onSubmit()">
+        <div class="col-12 d-flex justify-content-center">
+            <form [formGroup]="form" (ngSubmit)="form.valid && onSubmit()">
                 <mat-form-field class="mr-3">
                     <mat-label>Username</mat-label>
                     <input matInput formControlName="username">
@@ -14,7 +14,7 @@
                     <mat-label>Email</mat-label>
                     <input required type="email" formControlName="email" required matInput>
                 </mat-form-field>
-                <button [disabled]="!form.valid" mat-raised-button color="primary">Add</button>
+                <button class="mr-3" [disabled]="!form.valid" mat-raised-button color="primary">Add</button>
             </form>
         </div>
         <div class="col col-lg-2">
@@ -24,7 +24,7 @@
         </div>
     </div>
     <div class="row">
-        <div class="col d-flex justify-content-center">
+        <div class="col-12 d-flex justify-content-center">
             <table mat-table [dataSource]="allUsers" class="mat-elevation-z8 w-75">
                 <ng-container matColumnDef="username">
                     <th mat-header-cell *matHeaderCellDef> Username </th>
