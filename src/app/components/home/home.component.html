@@ -21,7 +21,7 @@
                     </mat-expansion-panel-header>
                     <mat-list>
                         <div class="d-flex justify-content-center  " *ngFor="let i of realms">
-                            <button class="w-100 mb-2" (click)="mep.expanded = false;changeRealm(i)" mat-raised-button> {{i}}</button>
+                            <button class="w-100 mb-2" (click)="mep.expanded = false;changeRealm(i)" mat-raised-button> {{i.displayName}}</button>
                         </div>
                     </mat-list>
                 </mat-expansion-panel>
