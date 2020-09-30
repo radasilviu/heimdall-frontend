@@ -12,7 +12,7 @@ import { RoleServiceService } from '../../services/roleservice/role-service.serv
   styleUrls: ['./roles.component.css']
 })
 export class RolesComponent implements OnInit {
-  curentUser: User;
+  currentUser: User;
   allRoles: IRole[];
   userRoles: IRole[];
   role:Role;
@@ -38,14 +38,14 @@ export class RolesComponent implements OnInit {
 
   getAllRoles() {
     this.service.getAllRoles().subscribe(data => {
-      this.curentUser = this.roleService.user;
+      this.currentUser = this.roleService.user;
       this.allRoles = data;
     })
   }
 
   addRole(role:string) {
     this.role = new Role(role)
-    this.service.addUserRole(this.role, this.curentUser.username
+    this.service.addUserRole(this.role, this.currentUser.username
     ).subscribe(data => {
       this.getUserRoles();
       this.getAllRoles();
@@ -54,7 +54,7 @@ export class RolesComponent implements OnInit {
 
   deleteUserRole(role:string) {
     this.role = new Role(role)
-    this.service.deleteUserRole(this.curentUser.username,this.role).subscribe(data => {
+    this.service.deleteUserRole(this.currentUser.username,this.role).subscribe(data => {
       this.getUserRoles();
       this.getAllRoles();
     });

@@ -11,7 +11,7 @@ import { RestApiServiceService } from 'src/app/services/restapiservice/rest-api-
 })
 export class RegistrationPageComponent implements OnInit {
   loginForm: FormGroup;
-  passwordMatch:boolean = true;
+  isPasswordValid:boolean = true;
   constructor(private service :RegisterApiService) { }
 
   ngOnInit(): void {
@@ -26,14 +26,14 @@ export class RegistrationPageComponent implements OnInit {
   register(){
     var user = new User();
     if(this.loginForm.get('Password').value == this.loginForm.get('ConfirmPassword').value){
-      this.passwordMatch =  true;
+      this.isPasswordValid =  true;
       var user = new User(this.loginForm.get("Username").value,this.loginForm.get("Password").value,this.loginForm.get("Email").value)
       this.service.registerUser(user).subscribe(data =>{
       },error =>{
       });
     }
     else{
-      this.passwordMatch =  false;
+      this.isPasswordValid =  false;
     }
   }
 }
