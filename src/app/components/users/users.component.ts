@@ -46,7 +46,7 @@ export class UsersComponent implements OnInit {
         this.service.updateUserName(currentUserName, user).subscribe(data => {
           this.getAllUsers();
         }, error => {
-          this.service.openSnackBar(error.error, 2000);
+          this.service.openSnackBar(error.error.message, 2000);
         });
       }
     });
@@ -74,7 +74,7 @@ export class UsersComponent implements OnInit {
     this.service.addUser(user).subscribe(data =>{
       this.getAllUsers();
     },error =>{
-      this.service.openSnackBar(error.error,3000);
+      this.service.openSnackBar(error.error.message,3000);
     })
   }
 

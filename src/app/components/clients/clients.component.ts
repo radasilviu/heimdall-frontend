@@ -33,7 +33,7 @@ export class ClientsComponent implements OnInit {
           data => {
           this.getAllClients();
         }, error => {
-          this.service.openSnackBar(error.error, 2000);
+          this.service.openSnackBar(error.error.message, 2000);
         });
       }
     });
@@ -62,14 +62,14 @@ export class ClientsComponent implements OnInit {
     this.service.getAllClients()
       .subscribe(data => {
         this.allClients = data;
-      }, error => {})
+      })
   }
 
   addClient(client:IClient) {
     this.service.addClient(client).subscribe(data => {
       this.getAllClients();
     }, error => {
-      this.service.openSnackBar(error.error, 2000)
+      this.service.openSnackBar(error.error.message, 2000)
     })
   }
 }

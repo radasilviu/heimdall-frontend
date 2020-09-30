@@ -54,7 +54,8 @@ export class HeimdallRolesComponent implements OnInit {
     this.service.addRole(role).subscribe(data => {
       this.getAllRoles();
     }, error => {
-      this.service.openSnackBar(error.error, 2000)
+      console.log(error)
+      this.service.openSnackBar(error.error.message, 2000)
     });
   }
 
@@ -65,7 +66,7 @@ export class HeimdallRolesComponent implements OnInit {
         this.service.deleteRole(role).subscribe(data => {
           this.getAllRoles();
         },error=>{
-          this.service.openSnackBar(error.error,4000);
+          this.service.openSnackBar(error.error.message,4000);
         });
       }
     })
