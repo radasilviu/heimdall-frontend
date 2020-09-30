@@ -30,9 +30,10 @@ export class ClientLoginComponent implements OnInit {
     const clientId = this.route.snapshot.queryParamMap.get('clientId');
     const clientSecret = this.route.snapshot.queryParamMap.get('clientSecret');
     const redirectURL = this.route.snapshot.queryParamMap.get('redirectURL');
+    const realm = this.route.snapshot.queryParamMap.get('realm');
 
     this.clientService
-      .login(this.loginForm.value, clientId, clientSecret)
+      .login(this.loginForm.value, clientId, clientSecret, realm)
       .subscribe(
         response => {
           document.location.href = `${redirectURL}?code=${response.code}`;
