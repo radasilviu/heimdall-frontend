@@ -3,6 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { RestApiServiceService } from '../../services/restapiservice/rest-api-service.service';
 import { ClientDialogComponent } from '../dialogs/client-dialog/client-dialog.component';
 import { Client } from '../../models/Client';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 
 @Component({
@@ -13,9 +14,12 @@ import { Client } from '../../models/Client';
 
 export class ClientsComponent implements OnInit {
   client: Client;
-  allCLients: Client[];
+  allClients: Client[];
   errorMessage: string;
   displayedColumns: string[] = ['name'];
+  form = new FormGroup({
+    clientName:new FormControl('', Validators.required),
+  })
 
   constructor(private changeDetectorRefs: ChangeDetectorRef, private service: RestApiServiceService, public dialog: MatDialog) { }
 
@@ -39,7 +43,11 @@ export class ClientsComponent implements OnInit {
     this.getAllClients();
   }
 
-  updateCLient(currentClientName) {
+  onSubmit(){
+    this.addClient(this.form.value.clientName)
+  }
+
+  updateClient(currentClientName) {
     this.openDialog(currentClientName);
   }
 
@@ -47,7 +55,7 @@ export class ClientsComponent implements OnInit {
   getAllClients() {
     this.service.getAllClients()
       .subscribe(data => {
-        this.allCLients = data;
+        this.allClients = data;
       }, error => {})
   }
 

@@ -1,8 +1,8 @@
 <div class="container-fluid p-0">
     <nav class="navbar navbar-light bg-light">
-        <mat-icon class="my-icon mr-5" (click)="drawer.toggle()">menu</mat-icon>
-        <p class="my-title h2 p-0 m-0 mr-auto">Heimdall</p>
-        <mat-icon class="my-icon" [matMenuTriggerFor]="menu" aria-hidden="false" aria-label="Example home icon">account_circle</mat-icon>
+        <mat-icon class="navbar-icon mr-5" (click)="drawer.toggle()">menu</mat-icon>
+        <p class="my-title user-select-none h2 p-0 m-0 mr-auto">Heimdall</p>
+        <mat-icon class="navbar-icon" [matMenuTriggerFor]="menu" aria-hidden="false" aria-label="Account Settings icon">account_circle</mat-icon>
         <mat-menu class="p-2" #menu="matMenu">
             <button mat-menu-item>Settings</button>
             <button mat-menu-item (click)="logout()">Log out</button>
@@ -10,7 +10,7 @@
     </nav>
 
 
-    <mat-drawer-container class="my-sidenav" autosize>
+    <mat-drawer-container class="sidenav" autosize>
         <mat-drawer class="d-flex justify-content-center p-3 " #drawer mode="side">
             <mat-accordion class="d-flex justify-content-center mb-4">
                 <mat-expansion-panel class="w-100" #mep="matExpansionPanel" (opened)="panelOpenState = true" (closed)="panelOpenState = false">

@@ -7,7 +7,7 @@ import { User } from 'src/app/models/User';
 export class RoleServiceService {
   user: User;
 
-  setusername(user) {
+  setUserName(user) {
     this.user = user;
   }
   

@@ -1,13 +1,9 @@
-.my-sidenav {
+.sidenav {
     height: 93vh;
     background-color: white;
 }
 
-.my-title {
-    user-select: none;
-}
-
-.my-icon {
+.navbar-icon {
     font-size: 4vh;
     width: auto;
     height: auto;
@@ -15,12 +11,6 @@
     cursor: pointer;
 }
 
-.my-icon:hover {
-    color: rgb(32, 66, 218);
-}
-
-@media only screen and (max-width: 450px) {
-    .my-title {
-        font-size: 20px;
-    }
+.navbar-icon:hover {
+    color: var(--hover-icon-color)
 }

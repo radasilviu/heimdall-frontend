@@ -43,10 +43,6 @@
             }
         }
         
-        .errormessaje {
-            color: red;
-        }
-        
         .my-container h1 {
             font-size: 4vw;
             background: -webkit-linear-gradient(rgb(202, 190, 228), rgba(44, 41, 214, 0.753));
