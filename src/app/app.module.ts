@@ -38,6 +38,7 @@ import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import { RealmLoginSettingComponent } from './components/realm-settings/login/realm-login-setting.component';
 import { ForgotPasswordComponent } from './components/forgot-password/forgot-password.component';
 import { ChangePasswordComponent } from './components/change-password/change-password.component';
+import { DeleteDialogComponent } from './components/dialogs/delete-dialog/delete-dialog.component';
 
 
 @NgModule({
@@ -58,7 +59,8 @@ import { ChangePasswordComponent } from './components/change-password/change-pas
     RealmGeneralSettingComponent,
     RealmLoginSettingComponent,
     ForgotPasswordComponent,
-    ChangePasswordComponent
+    ChangePasswordComponent,
+    DeleteDialogComponent,
   ],
   entryComponents: [ClientDialogComponent, UserDialogComponent, RolesDialogComponent],
   imports: [
