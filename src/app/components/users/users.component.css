@@ -1,8 +1,8 @@
-.my-icon {
+.table-icon {
     user-select: none;
     cursor: pointer;
 }
 
-.my-icon:hover {
-    color: rgb(32, 66, 218);
+.table-icon:hover {
+    color: var(--hover-icon-color)
 }

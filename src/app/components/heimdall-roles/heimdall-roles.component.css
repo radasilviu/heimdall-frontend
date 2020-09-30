@@ -1,18 +1,8 @@
-.my-table {
-    width: 300px;
-}
-
-.my-icon {
+.table-icon {
     user-select: none;
     cursor: pointer;
 }
 
-.my-icon:hover {
-    color: rgb(32, 66, 218);
-}
-
-@media only screen and (max-width: 350px) {
-    .my-table {
-        width: 200px;
-    }
+.table-icon:hover {
+    color: var(--hover-icon-color)
 }

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { IRole, Role } from 'src/app/models/Role';
 import { RestApiServiceService } from '../../services/restapiservice/rest-api-service.service';
@@ -13,12 +14,19 @@ export class HeimdallRolesComponent implements OnInit {
   displayedColumns: string[] = ['Roles'];
   allRoles: IRole[];
   role:Role;
+  form = new FormGroup({
+    role:new FormControl('',Validators.required)
+  })
 
   constructor(private service: RestApiServiceService,
     public dialog: MatDialog) { }
 
   ngOnInit(): void {
     this.getAllRoles();
+  }
+
+  onSubmit(){
+    this.addRole(this.form.value.role)
   }
 
   openDialog(currentRoleName:string) {

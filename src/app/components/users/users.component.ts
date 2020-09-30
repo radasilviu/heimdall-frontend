@@ -5,6 +5,7 @@ import { RestApiServiceService } from '../../services/restapiservice/rest-api-se
 import { RoleServiceService } from '../../services/roleservice/role-service.service';
 import { UserDialogComponent } from '../dialogs/user-dialog/user-dialog.component';
 import {User} from '../../models/User';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 
 @Component({
@@ -17,6 +18,12 @@ export class UsersComponent implements OnInit {
   allUsers:User[];
   user:User;
   isLoading:boolean = false;
+  form = new FormGroup({
+    username:new FormControl('', Validators.required),
+    password:new FormControl('',Validators.required),
+    email:new FormControl('',Validators.email)
+
+  })
 
 
   constructor(private changeDetectorRefs: ChangeDetectorRef,
@@ -29,12 +36,16 @@ export class UsersComponent implements OnInit {
     this.getAllUsers();
   }
 
+  onSubmit(){
+    this.addUser(this.form.value.username,this.form.value.password,this.form.value.email)
+  }
+
   openDialog(currentUserName:string) {
     const dialogRef = this.dialog.open(UserDialogComponent);
     dialogRef.afterClosed().subscribe(data => {
-      this.user = new User(data)
+     let  user = new User(data)
       if (data !== undefined) {
-        this.service.updateUserName(currentUserName, this.user).subscribe(data => {
+        this.service.updateUserName(currentUserName, user).subscribe(data => {
           this.getAllUsers();
         }, error => {
           this.service.openSnackBar(error.error, 2000);
@@ -54,10 +65,8 @@ export class UsersComponent implements OnInit {
   }
 
   addUser(username:string,password:string,email:string) {
-    this.isLoading  = true
-    this.user = new User(username,password,email)
-    this.service.addUser(this.user).toPromise().then(data =>{
-      this.isLoading = false;
+    let user = new User(username,password,email)
+    this.service.addUser(user).subscribe(data => {
       this.getAllUsers();
     },error =>{
       this.isLoading = false;
@@ -73,7 +82,7 @@ export class UsersComponent implements OnInit {
   }
 
   userRoles(user:string) {
-    this.roleService.setusername(user)
+    this.roleService.setUserName(user)
     this.router.navigate(['home/users/roles']);
   }
 }
