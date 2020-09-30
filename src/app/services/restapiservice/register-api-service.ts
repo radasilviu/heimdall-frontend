@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { User } from 'src/app/models/User'
+import { IUser } from 'src/app/models/User'
 import { Env } from 'src/app/configs/env';
 
 const registerUrl = Env.apiRootURL + '/oauth/register';
@@ -20,12 +20,12 @@ export class RegisterApiService {
     });
   }
 
-  registerUser(user:User){
+  registerUser(user: IUser){
     const options = {
       headers:{
         whitelist:"true"
       }
     }
-    return this.http.post<User>( registerUrl , user,options);
+    return this.http.post<IUser>( registerUrl , user,options);
   }
 }

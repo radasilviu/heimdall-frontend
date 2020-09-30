@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
-import { IRole, Role } from 'src/app/models/Role';
+import { IRole } from 'src/app/models/Role';
 import { RestApiServiceService } from '../../services/restapiservice/rest-api-service.service';
 import { DeleteDialogComponent } from '../dialogs/delete-dialog/delete-dialog.component';
 import { RolesDialogComponent } from '../dialogs/roles-dialog/roles-dialog.component';
@@ -14,7 +14,7 @@ import { RolesDialogComponent } from '../dialogs/roles-dialog/roles-dialog.compo
 export class HeimdallRolesComponent implements OnInit {
   displayedColumns: string[] = ['Roles'];
   allRoles: IRole[];
-  role:Role;
+  role:IRole;
   form = new FormGroup({
     role:new FormControl('',Validators.required)
   })
@@ -27,13 +27,13 @@ export class HeimdallRolesComponent implements OnInit {
   }
 
   onSubmit(){
-    this.addRole(this.form.value.role)
+    this.addRole(this.form.value)
   }
 
   updateRole(currentRoleName:string) {
     const dialogRef = this.dialog.open(RolesDialogComponent);
     dialogRef.afterClosed().subscribe(data => {
-      this.role = new Role(data)
+      this.role = data
       if (data !== undefined) {
         this.service.updateRoleByName(currentRoleName,this.role).subscribe(data => {
           this.getAllRoles();
@@ -50,9 +50,8 @@ export class HeimdallRolesComponent implements OnInit {
     })
   }
 
-  addRole(roleName:string) {
-    this.role = new Role(roleName)
-    this.service.addRole(this.role).subscribe(data => {
+  addRole(role:IRole) {
+    this.service.addRole(role).subscribe(data => {
       this.getAllRoles();
     }, error => {
       this.service.openSnackBar(error.error, 2000)

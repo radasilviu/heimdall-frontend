@@ -6,15 +6,3 @@ export interface IUser {
     access_token?: string;
     roles?: IRole[];
 }
-
-export class User implements IUser {
-
-    public constructor(
-        public username?: string,
-        public password?: string,
-        public email?: string,
-        public access_token?: string,
-        public roles?: IRole[],
-        public isActivated?: Boolean
-    ) { }
-}

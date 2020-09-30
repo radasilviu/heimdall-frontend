@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { RestApiServiceService } from '../../services/restapiservice/rest-api-service.service';
 import { RoleServiceService } from '../../services/roleservice/role-service.service';
 import { UserDialogComponent } from '../dialogs/user-dialog/user-dialog.component';
-import { User } from '../../models/User';
+import { IUser } from '../../models/User';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { DeleteDialogComponent } from '../dialogs/delete-dialog/delete-dialog.component';
 
@@ -15,8 +15,8 @@ import { DeleteDialogComponent } from '../dialogs/delete-dialog/delete-dialog.co
 })
 export class UsersComponent implements OnInit {
   displayedColumns = ['username', 'role'];
-  allUsers: User[];
-  user: User;
+  allUsers: IUser[];
+  user: IUser;
   isLoading: boolean = false;
   form = new FormGroup({
     username: new FormControl('', Validators.required),
@@ -42,7 +42,7 @@ export class UsersComponent implements OnInit {
   updateUser(currentUserName: string) {
     const dialogRef = this.dialog.open(UserDialogComponent);
     dialogRef.afterClosed().subscribe(data => {
-      let user = new User(data)
+      let user = data
       if (data !== undefined) {
         this.service.updateUserName(currentUserName, user).subscribe(data => {
           this.getAllUsers();
@@ -67,11 +67,11 @@ export class UsersComponent implements OnInit {
   getAllUsers() {
     let clients = this.service.getAllUsers();
     clients.subscribe(data => {
-      this.allUsers = data as User[]
+      this.allUsers = data as IUser[]
     })
   }
 
-  addUser(user: User) {
+  addUser(user: IUser) {
     this.isLoading = true;
     this.service.addUser(user).subscribe(data =>{
       this.getAllUsers();

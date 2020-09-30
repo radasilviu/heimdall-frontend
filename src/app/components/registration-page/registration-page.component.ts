@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { User } from 'src/app/models/User';
+import { IUser } from 'src/app/models/User';
 import { RegisterApiService } from 'src/app/services/restapiservice/register-api-service';
 import { RestApiServiceService } from 'src/app/services/restapiservice/rest-api-service.service';
 
@@ -26,7 +26,7 @@ export class RegistrationPageComponent implements OnInit {
   register() {
     if (this.loginForm.get('password').value == this.loginForm.get('confirmPassword').value) {
       this.isPasswordValid = true;
-      let user: User = this.loginForm.value;
+      let user: IUser = this.loginForm.value;
       this.service.registerUser(user).subscribe(data => {
       }, error => {
       });
