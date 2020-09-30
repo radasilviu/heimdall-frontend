@@ -34,7 +34,9 @@ export class UsersComponent implements OnInit {
   }
 
   onSubmit(){
-    this.addUser(this.form.value.username,this.form.value.password)
+    let user = new User(this.form.value.username,this.form.value.password)
+    console.log(user)
+    this.addUser(user)
   }
 
   openDialog(currentUserName:string) {
@@ -61,8 +63,7 @@ export class UsersComponent implements OnInit {
     })
   }
 
-  addUser(username:string,password:string) {
-    let user = new User(username,password)
+  addUser(user:User) {
     this.service.addUser(user).subscribe(data => {
       this.getAllUsers();
     }, error => {
