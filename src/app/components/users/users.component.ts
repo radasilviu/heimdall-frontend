@@ -35,7 +35,7 @@ export class UsersComponent implements OnInit {
   }
 
   onSubmit() {
-    let user = new User(this.form.value.username, this.form.value.password, this.form.value.email)
+    let user = this.form.value
     this.addUser(user)
   }
 
@@ -73,11 +73,11 @@ export class UsersComponent implements OnInit {
 
   addUser(user: User) {
     this.isLoading = true;
-    this.service.addUser(user).toPromise().then(data => {
-      this.getAllUsers()
+    this.service.addUser(user).subscribe(data =>{
+      this.getAllUsers();
       this.isLoading = false;
-    }).catch((error) => {
-      this.isLoading = false
+    },error =>{
+      this.isLoading = false;
     })
   }
 
