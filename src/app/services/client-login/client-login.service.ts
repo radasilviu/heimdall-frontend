@@ -13,14 +13,15 @@ export class ClientLoginService {
 
   constructor(private http: HttpClient, private snackBar: MatSnackBar) { }
 
-  login(data: any, clientId: string, clientSecret: string): Observable<Code> {
+  login(data: any, clientId: string, clientSecret: string, realm: string): Observable<Code> {
     const url = Env.apiRootURL + '/oauth/client-login';
 
     const body = {
       clientId: clientId,
       clientSecret: clientSecret,
       username: data.username,
-      password: data.password
+      password: data.password,
+      realm: realm
     };
 
     const options = {
@@ -37,7 +38,7 @@ export class ClientLoginService {
   }
 
   handleError(error: HttpErrorResponse, snackBar: MatSnackBar): Observable<never> {
-    snackBar.open(error.error, '', {
+    snackBar.open(error.error.message, '', {
       duration: 3000
     });
     return throwError(error.message);
