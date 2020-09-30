@@ -17,7 +17,6 @@ export class UsersComponent implements OnInit {
   displayedColumns = ['username', 'role'];
   allUsers: IUser[];
   user: IUser;
-  isLoading: boolean = false;
   form = new FormGroup({
     username: new FormControl('', Validators.required),
     password: new FormControl('', Validators.required),
@@ -72,12 +71,10 @@ export class UsersComponent implements OnInit {
   }
 
   addUser(user: IUser) {
-    this.isLoading = true;
     this.service.addUser(user).subscribe(data =>{
       this.getAllUsers();
-      this.isLoading = false;
     },error =>{
-      this.isLoading = false;
+      this.service.openSnackBar(error.error,3000);
     })
   }
 
