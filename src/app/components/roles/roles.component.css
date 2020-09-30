@@ -3,6 +3,11 @@
     cursor: pointer;
 }
 
+.exit-icon:hover {
+    color: var(--hover-icon-color);
+    cursor: pointer;
+}
+
 .table-icon:hover {
     color: var(--hover-icon-color)
 }

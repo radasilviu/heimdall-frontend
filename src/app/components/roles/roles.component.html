@@ -1,8 +1,8 @@
 <div class="container-fluid">
-    <span (click)="back()" class="material-icons my-icon float-right m-4">
-            exit_to_app
-            </span>
+    <mat-icon class="navbar-icon mr-5 exit-icon float-right" (click)="back()">exit_to_app</mat-icon>
+
     <div class="row mt-4">
+
         <div class="col-6 d-flex justify-content-end">
             <table mat-table [dataSource]="allRoles" class="w-25 mat-elevation-z8 my-table">
                 <ng-container matColumnDef="Roles">
@@ -18,7 +18,7 @@
                 <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
             </table>
         </div>
-        <div class="col-12">
+        <div class="col-6">
             <table mat-table [dataSource]="userRoles" class="w-25 mat-elevation-z8 my-table">
                 <ng-container matColumnDef="Roles">
                     <th mat-header-cell *matHeaderCellDef> User Roles </th>
