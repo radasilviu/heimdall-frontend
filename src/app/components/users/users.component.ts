@@ -69,8 +69,9 @@ export class UsersComponent implements OnInit {
     this.isLoading = true;
     this.service.addUser(user).toPromise().then(data=>{
       this.isLoading= false
-    },error=>{
-      this.isLoading = false;
+    })
+    .catch((err) =>{
+      this.service.openSnackBar(err.error,1500);
     })
   }
 
