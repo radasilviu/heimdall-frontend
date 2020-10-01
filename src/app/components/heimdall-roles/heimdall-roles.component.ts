@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { MatDialog } from '@angular/material/dialog';
-import { IRole, Role } from 'src/app/models/Role';
-import { RestApiServiceService } from '../../services/restapiservice/rest-api-service.service';
-import { RolesDialogComponent } from '../dialogs/roles-dialog/roles-dialog.component';
+import {Component, OnInit} from '@angular/core';
+import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {MatDialog} from '@angular/material/dialog';
+import {IRole} from 'src/app/models/Role';
+import {RestApiServiceService} from '../../services/restapiservice/rest-api-service.service';
+import {DeleteDialogComponent} from '../dialogs/delete-dialog/delete-dialog.component';
+import {RolesDialogComponent} from '../dialogs/roles-dialog/roles-dialog.component';
 
 @Component({
   selector: 'app-heimdall-roles',
@@ -13,28 +14,27 @@ import { RolesDialogComponent } from '../dialogs/roles-dialog/roles-dialog.compo
 export class HeimdallRolesComponent implements OnInit {
   displayedColumns: string[] = ['Roles'];
   allRoles: IRole[];
-  role:Role;
   form = new FormGroup({
-    role:new FormControl('',Validators.required)
-  })
+    name: new FormControl('', Validators.required)
+  });
 
   constructor(private service: RestApiServiceService,
-    public dialog: MatDialog) { }
+              public dialog: MatDialog) {
+  }
 
   ngOnInit(): void {
     this.getAllRoles();
   }
 
-  onSubmit(){
-    this.addRole(this.form.value.role)
+  onSubmit() {
+    this.addRole(this.form.value);
   }
 
-  openDialog(currentRoleName:string) {
+  updateRole(currentRoleName: string) {
     const dialogRef = this.dialog.open(RolesDialogComponent);
     dialogRef.afterClosed().subscribe(data => {
-      this.role = new Role(data)
       if (data !== undefined) {
-        this.service.updateRoleByName(currentRoleName,this.role).subscribe(data => {
+        this.service.updateRoleByName(currentRoleName, data).subscribe(() => {
           this.getAllRoles();
         }, error => {
           this.service.openSnackBar(error.error, 2000);
@@ -43,31 +43,32 @@ export class HeimdallRolesComponent implements OnInit {
     });
   }
 
-  updateRole(currentRoleName:string) {
-    this.openDialog(currentRoleName);
-  }
-
   getAllRoles() {
     this.service.getAllRoles().subscribe(data => {
       this.allRoles = data;
-    })
+    });
   }
 
-  addRole(roleName:string) {
-    this.role = new Role(roleName)
-    this.service.addRole(this.role).subscribe(data => {
+  addRole(role :IRole) {
+    this.service.addRole(role).subscribe(() => {
+      console.log(role)
       this.getAllRoles();
     }, error => {
-      this.service.openSnackBar(error.error, 2000)
+      console.log(error);
+      this.service.openSnackBar(error.error.message, 2000);
     });
   }
 
   deleteRole(role) {
-    this.service.deleteRole(role).subscribe(data => {
-      this.getAllRoles()
-    }, error => {
-      this.service.openSnackBar(error.error, 6000)
+    const dialogRef = this.dialog.open(DeleteDialogComponent);
+    dialogRef.afterClosed().subscribe(data => {
+      if (data == 'true') {
+        this.service.deleteRole(role).subscribe(() => {
+          this.getAllRoles();
+        }, error => {
+          this.service.openSnackBar(error.error.message, 4000);
+        });
+      }
     });
   }
-
 }

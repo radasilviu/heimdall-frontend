@@ -30,6 +30,7 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { MatMenuModule } from '@angular/material/menu';
 import { HeimdallRolesComponent } from './components/heimdall-roles/heimdall-roles.component';
 import { RealmSettingsComponent } from './components/realm-settings/realm-settings.component';
+import { RegistrationPageComponent } from './components/registration-page/registration-page.component';
 import {MatTabsModule} from '@angular/material/tabs';
 import {MatCardModule} from '@angular/material/card';
 import { RealmGeneralSettingComponent } from './components/realm-settings/general/realm-general-setting.component';
@@ -37,6 +38,7 @@ import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import { RealmLoginSettingComponent } from './components/realm-settings/login/realm-login-setting.component';
 import { ForgotPasswordComponent } from './components/forgot-password/forgot-password.component';
 import { ChangePasswordComponent } from './components/change-password/change-password.component';
+import { DeleteDialogComponent } from './components/dialogs/delete-dialog/delete-dialog.component';
 
 import { SocialLoginModule, SocialAuthServiceConfig } from 'angularx-social-login';
 import {
@@ -59,10 +61,12 @@ import {
     UserDialogComponent,
     RolesDialogComponent,
     RealmSettingsComponent,
+    RegistrationPageComponent,
     RealmGeneralSettingComponent,
     RealmLoginSettingComponent,
     ForgotPasswordComponent,
-    ChangePasswordComponent
+    ChangePasswordComponent,
+    DeleteDialogComponent,
   ],
   entryComponents: [ClientDialogComponent, UserDialogComponent, RolesDialogComponent],
   imports: [
@@ -90,6 +94,8 @@ import {
     BrowserAnimationsModule,
     HttpClientModule,
     AppRoutingModule,
+    FormsModule,
+    ReactiveFormsModule,
     MatToolbarModule,
     MatSidenavModule,
     MatListModule,

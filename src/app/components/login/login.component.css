@@ -2,12 +2,12 @@
             height: 100vh;
             background: var(--background-color);
             background-size: 400% 400%;
-            -webkit-animation: AnimationName 19s ease infinite;
-            -moz-animation: AnimationName 19s ease infinite;
-            animation: AnimationName 19s ease infinite;
+            -webkit-animation: BackgroundColorAnimation 19s ease infinite;
+            -moz-animation: BackgroundColorAnimation 19s ease infinite;
+            animation: BackgroundColorAnimation 19s ease infinite;
         }
         
-        @-webkit-keyframes AnimationName {
+        @-webkit-keyframes BackgroundColorAnimation {
             0% {
                 background-position: 0% 50%
             }
@@ -19,7 +19,7 @@
             }
         }
         
-        @-moz-keyframes AnimationName {
+        @-moz-keyframes BackgroundColorAnimation {
             0% {
                 background-position: 0% 50%
             }
@@ -31,7 +31,7 @@
             }
         }
         
-        @keyframes AnimationName {
+        @keyframes BackgroundColorAnimation {
             0% {
                 background-position: 0% 50%
             }
