@@ -88,6 +88,8 @@ import { DeleteDialogComponent } from './components/dialogs/delete-dialog/delete
     BrowserAnimationsModule,
     HttpClientModule,
     AppRoutingModule,
+    FormsModule,
+    ReactiveFormsModule,
     MatToolbarModule,
     MatSidenavModule,
     MatListModule,

@@ -1,38 +1,41 @@
 <div class="container-fluid background-color ">
-    <div class="row">
-        <div class="col-12 d-flex justify-content-center">
-            <h1 class="title-color mt-5">
-                Heimdall
-            </h1>
-        </div>
+  <div class="row">
+    <div class="col-12 d-flex justify-content-center">
+      <h1 class="title-color mt-5">
+        Heimdall
+      </h1>
     </div>
-    <div class="row d-flex justify-content-center">
-        <div class="col-12  d-flex justify-content-center">
-            <form [formGroup]="loginForm" (ngSubmit)="register()" class="col-md-6 text-center border border-light p-5 d-flex border-0 flex-column">
-                <div *ngIf="!isPasswordValid" style="color: red; margin-bottom: 20px;">
-                    Password do not match!
-                </div>
-                <mat-form-field appearance="outline">
-                    <mat-label>Username</mat-label>
-                    <input autocomplete="off" formControlName="username" matInput placeholder="username">
-                </mat-form-field>
-                <mat-form-field appearance="outline">
-                    <mat-label>Password</mat-label>
-                    <input autocomplete="off" type="password" formControlName="password" matInput placeholder="Password">
-                </mat-form-field>
-                <mat-form-field appearance="outline">
-                    <mat-label>Confirm Password</mat-label>
-                    <input autocomplete="off" type="password" formControlName="confirmPassword" matInput placeholder="Password">
-                </mat-form-field>
-                <mat-form-field appearance="outline">
-                    <mat-label>Email address</mat-label>
-                    <input autocomplete="off" formControlName="email" matInput placeholder="example@email.com">
-                </mat-form-field>
-                <div>
-                    <button class="mr-4" [routerLink]="['']" mat-raised-button color="primary">Back</button>
-                    <button type="submit" [disabled]="!loginForm.valid" mat-raised-button>Register</button>
-                </div>
-            </form>
+  </div>
+  <div class="row d-flex justify-content-center">
+    <div class="col-12  d-flex justify-content-center">
+      <form [formGroup]="registerForm" (ngSubmit)="register()"
+            class="col-md-6 text-center border border-light p-5 d-flex border-0 flex-column">
+
+        <mat-form-field appearance="outline">
+          <mat-label>Username</mat-label>
+          <input required autocomplete="off" formControlName="username" matInput
+                 placeholder="username">
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>Password</mat-label>
+          <input required autocomplete="off" type="password"
+                 formControlName="password" matInput
+                 placeholder="Password">
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>Confirm Password</mat-label>
+          <input autocomplete="off" type="password"
+                 formControlName="confirmPassword" matInput placeholder="Password">
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>Email address</mat-label>
+          <input autocomplete="off" formControlName="email" matInput placeholder="example@email.com">
+        </mat-form-field>
+        <div>
+          <button class="mr-4" [routerLink]="['']" mat-raised-button color="primary">Back</button>
+          <button [disabled]="!registerForm.valid" type="submit" mat-raised-button>Register</button>
         </div>
+      </form>
     </div>
+  </div>
 </div>

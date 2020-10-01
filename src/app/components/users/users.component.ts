@@ -16,7 +16,6 @@ import { DeleteDialogComponent } from '../dialogs/delete-dialog/delete-dialog.co
 export class UsersComponent implements OnInit {
   displayedColumns = ['username', 'role'];
   allUsers: IUser[];
-  user: IUser;
   form = new FormGroup({
     username: new FormControl('', Validators.required),
     password: new FormControl('', Validators.required),
@@ -34,16 +33,14 @@ export class UsersComponent implements OnInit {
   }
 
   onSubmit() {
-    let user = this.form.value
-    this.addUser(user)
+    this.addUser(this.form.value)
   }
 
   updateUser(currentUserName: string) {
     const dialogRef = this.dialog.open(UserDialogComponent);
     dialogRef.afterClosed().subscribe(data => {
-      let user = data
       if (data !== undefined) {
-        this.service.updateUserName(currentUserName, user).subscribe(data => {
+        this.service.updateUserName(currentUserName, data).subscribe(data => {
           this.getAllUsers();
         }, error => {
           this.service.openSnackBar(error.error.message, 2000);
@@ -56,7 +53,7 @@ export class UsersComponent implements OnInit {
     const dialogRef = this.dialog.open(DeleteDialogComponent);
     dialogRef.afterClosed().subscribe(data => {
       if (data == "true") {
-        this.service.deleteUser(username).subscribe(data => {
+        this.service.deleteUser(username).subscribe(() => {
           this.getAllUsers();
         });
       }

@@ -14,7 +14,6 @@ import { DeleteDialogComponent } from '../dialogs/delete-dialog/delete-dialog.co
 })
 
 export class ClientsComponent implements OnInit {
-  client: IClient;
   allClients: IClient[];
   errorMessage: string;
   displayedColumns: string[] = ['name'];
@@ -27,9 +26,8 @@ export class ClientsComponent implements OnInit {
   updateClient(currentClientName:string) {
     const dialogRef = this.dialog.open(ClientDialogComponent);
     dialogRef.afterClosed().subscribe(data => {
-      this.client = data
       if (data !== undefined) {
-        this.service.updateClientByName(currentClientName, this.client).subscribe(
+        this.service.updateClientByName(currentClientName, data).subscribe(
           data => {
           this.getAllClients();
         }, error => {
@@ -38,12 +36,12 @@ export class ClientsComponent implements OnInit {
       }
     });
   }
-  
+
   deleteClient(clientName){
       const dialogRef = this.dialog.open(DeleteDialogComponent);
       dialogRef.afterClosed().subscribe(data => {
         if (data == "true") {
-          this.service.deleteClient(clientName).subscribe(data => {
+          this.service.deleteClient(clientName).subscribe(() => {
             this.getAllClients();
           })
         }
