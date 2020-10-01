@@ -25,7 +25,6 @@ export class RealmGeneralSettingComponent implements OnInit {
         this.realm = realm;
 
         this.realmGeneralSettingForm = new FormGroup({
-          id: new FormControl(this.realm.id),
           name: new FormControl(this.realm.name, [ Validators.required]),
           displayName: new FormControl(this.realm.displayName),
           enabled: new FormControl(this.realm.enabled)

@@ -5,6 +5,7 @@ import {catchError} from 'rxjs/operators';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {BehaviorSubject, Observable, throwError} from 'rxjs';
 import {Realm} from '../../models/Realm';
+import {IClient} from '../../models/Client';
 
 
 const url = Env.apiRootURL + '/api/admin/realm';
@@ -27,6 +28,11 @@ export class RealmServiceService {
       })
     );
   }
+
+getRealmByName(currentRealmName): Observable<Realm> {
+  return this.http.get<Realm>(url + '/' + currentRealmName)
+}
+
   updateRealmByName(currentRealmName:string ,realm:Realm){
     return this.http.put<Realm>(url + "/" + realm.displayName,realm)
   }

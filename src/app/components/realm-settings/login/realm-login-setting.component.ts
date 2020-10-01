@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {AbstractControl, FormControl, FormGroup, Validators} from '@angular/forms';
 import {Realm} from '../../../models/Realm';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {RealmServiceService} from '../../../services/realm-service/realm-service.service';
 import {RealmLoginServiceService} from '../../../services/realm-service/login/realm-login-service.service';
+import {Subscription} from 'rxjs';
 
 @Component({
   selector: 'app-realm-login-setting',
@@ -11,21 +12,22 @@ import {RealmLoginServiceService} from '../../../services/realm-service/login/re
   styleUrls: ['./realm-login-setting.component.css']
 })
 export class RealmLoginSettingComponent implements OnInit {
-
+  currentRealm;
   realmLoginSettingForm: FormGroup;
   realm: Realm;
+  myModel:boolean;
 
   constructor(private realmLoginSettingService: RealmLoginServiceService, private snackBar: MatSnackBar,
               private realmService: RealmServiceService) {
   }
 
   ngOnInit(): void {
+    this.myModel = true
+    this.getRealmByName(this.realmService.currentRealm.value.name)
     this.realmService.currentRealm.subscribe(
       (realm: Realm) => {
         this.realm = realm;
-
         this.realmLoginSettingForm = new FormGroup({
-          id: new FormControl(this.realm.id),
           userRegistration: new FormControl(this.realm.userRegistration),
           editUsername: new FormControl(this.realm.editUsername),
           forgotPassword: new FormControl(this.realm.forgotPassword),
@@ -36,15 +38,22 @@ export class RealmLoginSettingComponent implements OnInit {
       });
   }
 
+  getRealmByName(name) {
+    let Realm = this.realmService.getRealmByName(name);
+      Realm.subscribe(data => {
+        this.currentRealm = data as Realm
+        console.log(data)
+      })
+  }
+
+
   onSubmit(): void {
     console.log(this.realmLoginSettingForm.value)
-
     this.realmLoginSettingService
-
       .update(this.realmLoginSettingForm.value)
       .subscribe(
         (realm: Realm) => {
-          this.snackBar.open('Updated', '',{
+          this.snackBar.open('Updated', '', {
             duration: 3000
           });
         }
