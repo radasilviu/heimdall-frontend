@@ -4,7 +4,6 @@ import { AdminAuthService } from 'src/app/services/admin-auth/admin-auth.service
 import { RealmServiceService } from 'src/app/services/realm-service/realm-service.service';
 import {Realm} from '../../models/Realm';
 
-
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -48,6 +47,4 @@ export class HomeComponent implements OnInit {
   realmSettings(): void {
     this.router.navigate(['home/realm-settings']);
   }
-
-
 }

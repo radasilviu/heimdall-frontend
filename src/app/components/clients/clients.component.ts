@@ -2,8 +2,9 @@ import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { RestApiServiceService } from '../../services/restapiservice/rest-api-service.service';
 import { ClientDialogComponent } from '../dialogs/client-dialog/client-dialog.component';
-import { Client } from '../../models/Client';
+import { IClient } from '../../models/Client';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { DeleteDialogComponent } from '../dialogs/delete-dialog/delete-dialog.component';
 
 
 @Component({
@@ -13,8 +14,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 })
 
 export class ClientsComponent implements OnInit {
-  client: Client;
-  allClients: Client[];
+  allClients: IClient[];
   errorMessage: string;
   displayedColumns: string[] = ['name'];
   form = new FormGroup({
@@ -23,54 +23,51 @@ export class ClientsComponent implements OnInit {
 
   constructor(private changeDetectorRefs: ChangeDetectorRef, private service: RestApiServiceService, public dialog: MatDialog) { }
 
-  openDialog(currentClientName:string) {
+  updateClient(currentClientName:string) {
     const dialogRef = this.dialog.open(ClientDialogComponent);
-
     dialogRef.afterClosed().subscribe(data => {
-      this.client = new Client(data);
       if (data !== undefined) {
-        this.service.updateClientByName(currentClientName, this.client).subscribe(
+        this.service.updateClientByName(currentClientName, data).subscribe(
           data => {
           this.getAllClients();
         }, error => {
-          this.service.openSnackBar(error.error, 2000);
+          this.service.openSnackBar(error.error.message, 2000);
         });
       }
     });
   }
+
+  deleteClient(clientName){
+      const dialogRef = this.dialog.open(DeleteDialogComponent);
+      dialogRef.afterClosed().subscribe(data => {
+        if (data == "true") {
+          this.service.deleteClient(clientName).subscribe(() => {
+            this.getAllClients();
+          })
+        }
+      })
+    }
 
   ngOnInit(): void {
     this.getAllClients();
   }
 
   onSubmit(){
-    this.addClient(this.form.value.clientName)
+    this.addClient(this.form.value)
   }
-
-  updateClient(currentClientName) {
-    this.openDialog(currentClientName);
-  }
-
 
   getAllClients() {
     this.service.getAllClients()
       .subscribe(data => {
         this.allClients = data;
-      }, error => {})
+      })
   }
 
-  deleteClient(clientName:string) {
-    this.service.deleteClient(clientName).subscribe(data => {
-      this.getAllClients();
-    })
-  }
-
-  addClient(clientName:string) {
-    this.client = new Client(clientName)
-    this.service.addClient(this.client).subscribe(data => {
+  addClient(client:IClient) {
+    this.service.addClient(client).subscribe(data => {
       this.getAllClients();
     }, error => {
-      this.service.openSnackBar(error.error, 2000)
+      this.service.openSnackBar(error.error.message, 2000)
     })
   }
 }

@@ -4,9 +4,9 @@ import { Router } from '@angular/router';
 import { RestApiServiceService } from '../../services/restapiservice/rest-api-service.service';
 import { RoleServiceService } from '../../services/roleservice/role-service.service';
 import { UserDialogComponent } from '../dialogs/user-dialog/user-dialog.component';
-import {User} from '../../models/User';
+import { IUser } from '../../models/User';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-
+import { DeleteDialogComponent } from '../dialogs/delete-dialog/delete-dialog.component';
 
 @Component({
   selector: 'app-users',
@@ -15,13 +15,12 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 })
 export class UsersComponent implements OnInit {
   displayedColumns = ['username', 'role'];
-  allUsers:User[];
+  allUsers: IUser[];
   form = new FormGroup({
-    username:new FormControl('', Validators.required),
-    password:new FormControl('',Validators.required)
-
+    username: new FormControl('', Validators.required),
+    password: new FormControl('', Validators.required),
+    email: new FormControl('', Validators.email)
   })
-
 
   constructor(private changeDetectorRefs: ChangeDetectorRef,
     private service: RestApiServiceService,
@@ -33,51 +32,51 @@ export class UsersComponent implements OnInit {
     this.getAllUsers();
   }
 
-  onSubmit(){
-    let user = new User(this.form.value.username,this.form.value.password)
-    this.addUser(user)
+  onSubmit() {
+    this.addUser(this.form.value)
   }
 
-  openDialog(currentUserName:string) {
+  updateUser(currentUserName: string) {
     const dialogRef = this.dialog.open(UserDialogComponent);
     dialogRef.afterClosed().subscribe(data => {
-     let  user = new User(data)
       if (data !== undefined) {
-        this.service.updateUserName(currentUserName, user).subscribe(data => {
+        this.service.updateUserName(currentUserName, data).subscribe(data => {
           this.getAllUsers();
         }, error => {
-          this.service.openSnackBar(error.error, 2000);
+          this.service.openSnackBar(error.error.message, 2000);
         });
       }
     });
   }
-  updateUser(currentUserName:string) {
-    this.openDialog(currentUserName)
+
+  deleteUser(username: string) {
+    const dialogRef = this.dialog.open(DeleteDialogComponent);
+    dialogRef.afterClosed().subscribe(data => {
+      if (data == "true") {
+        this.service.deleteUser(username).subscribe(() => {
+          this.getAllUsers();
+        });
+      }
+    })
   }
 
   getAllUsers() {
     let clients = this.service.getAllUsers();
     clients.subscribe(data => {
-      this.allUsers = data as User[]
+      this.allUsers = data as IUser[]
     })
   }
 
-  addUser(user:User) {
-    this.service.addUser(user).subscribe(data => {
+  addUser(user: IUser) {
+    this.service.addUser(user).subscribe(data =>{
       this.getAllUsers();
-    }, error => {
-      this.service.openSnackBar(error.error, 2000)
-    });
+    },error =>{
+      this.service.openSnackBar(error.error.message,3000);
+    })
   }
 
-  deleteUser(username:string) {
-    this.service.deleteUser(username).subscribe(data => {
-      this.getAllUsers();
-    });
-  }
-
-  userRoles(user:string) {
-    this.roleService.setUserName(user)
+  userRoles(username: string) {
+    this.roleService.setUserName(username)
     this.router.navigate(['home/users/roles']);
   }
 }

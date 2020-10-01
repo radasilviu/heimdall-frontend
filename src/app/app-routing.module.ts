@@ -16,6 +16,7 @@ import { UserProfileComponent } from './components/user-profile/user-profile.com
 import { UserProfileLoginComponent } from './components/user-profile-login/user-profile-login.component';
 import { NotFoundComponent } from './components/error-pages/not-found/not-found.component';
 import { RealmNotFoundComponent } from './components/error-pages/realm-not-found/realm-not-found.component';
+import { RegistrationPageComponent } from './components/registration-page/registration-page.component';
 
 const routes: Routes = [
   {
@@ -29,6 +30,7 @@ const routes: Routes = [
   },
   { path: '', component: LoginComponent, canActivate: [HomeGuard] },
   { path: 'oauth/client-login', component: ClientLoginComponent },
+  { path: 'register', component: RegistrationPageComponent },
   { path: 'forgot-password', component: ForgotPasswordComponent },
   { path: 'change-password', component: ChangePasswordComponent },
   { path: 'user-profile/:realm', component: UserProfileComponent, canActivate: [AuthGuard] },

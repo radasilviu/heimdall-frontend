@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
-import { User } from 'src/app/models/User';
+import { IUser } from 'src/app/models/User';
 
 @Injectable({
   providedIn: 'root'
 })
 export class RoleServiceService {
-  user: User;
+  user: IUser;
 
   setUserName(user) {
     this.user = user;
