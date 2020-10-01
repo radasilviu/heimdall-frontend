@@ -24,32 +24,34 @@ export class RealmGeneralSettingComponent implements OnInit {
       (realm: Realm) => {
         this.realm = realm;
         this.realmGeneralSettingForm = new FormGroup({
-          name: new FormControl(this.realm.name, [ Validators.required]),
+          name: new FormControl(this.realm.name, [Validators.required]),
           displayName: new FormControl(this.realm.displayName),
           enabled: new FormControl(this.realm.enabled)
         });
       });
   }
 
-  get name(): AbstractControl { return this.realmGeneralSettingForm.get('name'); }
+  get name(): AbstractControl {
+    return this.realmGeneralSettingForm.get('name');
+  }
 
-  get displayName(): AbstractControl { return this.realmGeneralSettingForm.get('displayName'); }
+  get displayName(): AbstractControl {
+    return this.realmGeneralSettingForm.get('displayName');
+  }
 
-  get enabled(): AbstractControl { return this.realmGeneralSettingForm.get('enabled'); }
+  get enabled(): AbstractControl {
+    return this.realmGeneralSettingForm.get('enabled');
+  }
 
   onSubmit(): void {
     this.realmGeneralSettingService
-      .update(this.realmService.currentRealm.value.name,this.realmGeneralSettingForm.value)
+      .update(this.realmService.currentRealm.value.name, this.realmGeneralSettingForm.value)
       .subscribe(
         (realm: Realm) => {
-          this.snackBar.open('Updated', '',{
+          this.snackBar.open('Updated', '', {
             duration: 3000
           });
         }
       );
-  }
-
-  updateRealmName(){
-    this.realmService.updateRealmByName(this.realm.name, this.realmGeneralSettingForm.value).subscribe();
   }
 }
