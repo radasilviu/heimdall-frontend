@@ -34,8 +34,7 @@ export class UserProfileLoginComponent implements OnInit {
   }
 
   login(): void {
-    this.authService
-      .profileLogin(this.loginForm.value, this.realm.name)
+    this.authService.profileLogin(this.loginForm.value, this.realm.name)
       .subscribe(
         (token: Token) => {
           this.realmService.currentRealm.next(this.realm);

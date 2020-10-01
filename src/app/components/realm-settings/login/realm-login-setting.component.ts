@@ -22,10 +22,11 @@ export class RealmLoginSettingComponent implements OnInit {
   }
 
   ngOnInit(): void {
-
-    this.realmService.getRealmByName(this.realmService.currentRealm.value.name)
+    this.realmService.getRealmByName(this.realmService.currentRealm.value)
     .subscribe(data => {
       this.currentRealm = data as Realm
+    },error=>{
+      console.log(error)
     })
 
     this.realmService.currentRealm.subscribe(
