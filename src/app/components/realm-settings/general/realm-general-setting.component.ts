@@ -50,4 +50,8 @@ export class RealmGeneralSettingComponent implements OnInit {
         }
       );
   }
+
+  updateRealmName(){
+    this.realmService.updateRealmByName(this.realm.name, this.realmGeneralSettingForm.value).subscribe();
+  }
 }

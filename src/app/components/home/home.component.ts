@@ -39,6 +39,7 @@ export class HomeComponent implements OnInit {
     this.adminAuthService.logout().subscribe();
   }
 
+
   changeRealm(realm): void {
     this.realmService.currentRealm.next(realm);
     localStorage.setItem('currentRealm', JSON.stringify(realm));
