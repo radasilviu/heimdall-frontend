@@ -13,8 +13,8 @@ export class RealmGeneralSettingService {
 
   constructor(private http: HttpClient, private snackBar: MatSnackBar) { }
 
-  update(data: any): Observable<Realm> {
-    const url = Env.apiRootURL + '/api/admin/realm/general-update';
+  update(currentRealmName:string,data: any): Observable<Realm> {
+    const url = Env.apiRootURL + '/api/admin/realm/general-update' + currentRealmName ;
     const body = {
       name: data.name,
       displayName: data.displayName,

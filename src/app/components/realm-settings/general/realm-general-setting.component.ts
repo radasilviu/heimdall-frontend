@@ -23,7 +23,6 @@ export class RealmGeneralSettingComponent implements OnInit {
     this.realmService.currentRealm.subscribe(
       (realm: Realm) => {
         this.realm = realm;
-
         this.realmGeneralSettingForm = new FormGroup({
           name: new FormControl(this.realm.name, [ Validators.required]),
           displayName: new FormControl(this.realm.displayName),
@@ -40,7 +39,7 @@ export class RealmGeneralSettingComponent implements OnInit {
 
   onSubmit(): void {
     this.realmGeneralSettingService
-      .update(this.realmGeneralSettingForm.value)
+      .update(this.realmService.currentRealm.value.name,this.realmGeneralSettingForm.value)
       .subscribe(
         (realm: Realm) => {
           this.snackBar.open('Updated', '',{
