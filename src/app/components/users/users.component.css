@@ -6,3 +6,11 @@
 .table-icon:hover {
     color: var(--hover-icon-color)
 }
+
+.client-table {
+    table-layout: fixed;
+}
+
+td {
+    overflow: hidden;
+}

@@ -10,13 +10,17 @@
                     <mat-label>Password</mat-label>
                     <input type="password" formControlName="password" matInput>
                 </mat-form-field>
+                <mat-form-field class="mr-3">
+                    <mat-label>Email</mat-label>
+                    <input required type="email" formControlName="email" required matInput>
+                </mat-form-field>
                 <button class="mr-3" [disabled]="!form.valid" mat-raised-button color="primary">Add</button>
             </form>
         </div>
     </div>
     <div class="row">
         <div class="col-12 d-flex justify-content-center">
-            <table mat-table [dataSource]="allUsers" class="mat-elevation-z8 w-75">
+            <table mat-table [dataSource]="allUsers" class="mat-elevation-z8 w-75 client-table ">
                 <ng-container matColumnDef="username">
                     <th mat-header-cell *matHeaderCellDef> Username </th>
                     <td mat-cell *matCellDef="let element"> {{element.username}} </td>
