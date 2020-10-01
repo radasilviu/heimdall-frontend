@@ -22,8 +22,12 @@ export class RealmLoginSettingComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.myModel = true
-    this.getRealmByName(this.realmService.currentRealm.value.name)
+
+    this.realmService.getRealmByName(this.realmService.currentRealm.value.name)
+    .subscribe(data => {
+      this.currentRealm = data as Realm
+    })
+
     this.realmService.currentRealm.subscribe(
       (realm: Realm) => {
         this.realm = realm;
@@ -38,17 +42,8 @@ export class RealmLoginSettingComponent implements OnInit {
       });
   }
 
-  getRealmByName(name) {
-    let Realm = this.realmService.getRealmByName(name);
-      Realm.subscribe(data => {
-        this.currentRealm = data as Realm
-        console.log(data)
-      })
-  }
-
 
   onSubmit(): void {
-    console.log(this.realmLoginSettingForm.value)
     this.realmLoginSettingService
       .update(this.realmLoginSettingForm.value)
       .subscribe(

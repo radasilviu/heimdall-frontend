@@ -1,35 +1,35 @@
 <form [formGroup]="realmLoginSettingForm" (ngSubmit)="onSubmit()">
   <div class="row h-100 justify-content-center align-items-center">
-    <div class="col-12">
+    <div class="col-12" *ngIf="currentRealm">
       <mat-slide-toggle color="primary" [checked]="currentRealm.editUsername" formControlName="userRegistration" >
         User registration
       </mat-slide-toggle>
     </div>
-    <div class="col-12">
+    <div class="col-12" *ngIf="currentRealm">
       <mat-slide-toggle  color="primary"  [checked]="currentRealm.editUsername" formControlName="editUsername">
         Edit username
       </mat-slide-toggle>
     </div>
 
-    <div class="col-12">
+    <div class="col-12" *ngIf="currentRealm">
       <mat-slide-toggle color="primary" [checked]="currentRealm.forgotPassword" formControlName="forgotPassword">
         Forgot password
       </mat-slide-toggle>
     </div>
 
-    <div class="col-12">
+    <div class="col-12" *ngIf="currentRealm">
       <mat-slide-toggle color="primary" [checked]="currentRealm.rememberMe" formControlName="rememberMe">
         Remember Me
       </mat-slide-toggle>
     </div>
 
-    <div class="col-12">
+    <div class="col-12" *ngIf="currentRealm">
       <mat-slide-toggle color="primary" [checked]="currentRealm.verifyEmail" formControlName="verifyEmail">
         Verify email
       </mat-slide-toggle>
     </div>
 
-    <div class="col-12">
+    <div class="col-12" *ngIf="currentRealm">
       <mat-slide-toggle color="primary" [checked]="currentRealm.loginWithEmail" formControlName="loginWithEmail" >
         Login with email
       </mat-slide-toggle>
