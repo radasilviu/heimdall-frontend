@@ -5,6 +5,7 @@ import { Code } from 'src/app/models/code';
 import { Env } from '../../configs/env';
 import { catchError } from 'rxjs/operators';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { OAuthSocialUser } from '../../models/social_user.model'
 
 @Injectable({
   providedIn: 'root'
@@ -31,6 +32,27 @@ export class ClientLoginService {
     };
 
     return this.http.post<Code>(url, body, options).pipe(
+      catchError(error => {
+        return this.handleError(error, this.snackBar);
+      })
+    );
+  }
+
+
+  socialLogin(socialUser: OAuthSocialUser, clientId: string, clientSecret: string,realm:string): Observable<Code> {
+    const url = Env.apiRootURL + '/oauth2/social-login';
+
+    socialUser.clientId = clientId;
+    socialUser.clientSecret = clientSecret;
+    socialUser.realm = realm;
+
+    const options = {
+      headers: {
+        'whitelist': 'true'
+      }
+    };
+
+    return this.http.post<Code>(url, socialUser, options).pipe(
       catchError(error => {
         return this.handleError(error, this.snackBar);
       })

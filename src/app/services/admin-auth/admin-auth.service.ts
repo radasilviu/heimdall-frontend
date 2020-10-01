@@ -82,9 +82,32 @@ export class AdminAuthService {
   }
 
   private handleError(error: HttpErrorResponse, snackBar: MatSnackBar): Observable<never> {
-    snackBar.open(error.error, '', {
+    snackBar.open(error.error.message, '', {
       duration: 3000
     });
     return throwError(error.message);
+  }
+
+  profileLogin(data: any, realm: string): Observable<Token> {
+    const url = Env.apiRootURL + '/oauth/user-profile/login';
+    const body = {
+      username: data.username,
+      password: data.password,
+      realm: realm
+    };
+    const options = {
+      headers: {
+        'whitelist': 'true'
+      }
+    };
+    return this.http.post<Token>(url, body, options).pipe(
+      tap((token: Token) => {
+        localStorage.setItem('token', JSON.stringify(token));
+        this.tokenSubject.next(token);
+      }),
+      catchError(error => {
+        return this.handleError(error, this.snackBar);
+      })
+    );
   }
 }

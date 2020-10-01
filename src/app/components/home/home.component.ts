@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import { Router } from '@angular/router';
 import { AdminAuthService } from 'src/app/services/admin-auth/admin-auth.service';
 import { RealmServiceService } from 'src/app/services/realm-service/realm-service.service';
-import {Realm} from "../../models/Realm";
+import {Realm} from '../../models/Realm';
 
 @Component({
   selector: 'app-home',
@@ -11,8 +11,8 @@ import {Realm} from "../../models/Realm";
 })
 
 export class HomeComponent implements OnInit {
-  panelOpenState:boolean = false;
-  currentRealm:string = "";
+  panelOpenState = false;
+  currentRealm = '';
 
   realms: Array<Realm>;
 
@@ -35,7 +35,7 @@ export class HomeComponent implements OnInit {
       );
   }
 
-  logout() {
+  logout(): void {
     this.adminAuthService.logout().subscribe();
   }
 

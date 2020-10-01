@@ -31,16 +31,26 @@ import { MatMenuModule } from '@angular/material/menu';
 import { HeimdallRolesComponent } from './components/heimdall-roles/heimdall-roles.component';
 import { RealmSettingsComponent } from './components/realm-settings/realm-settings.component';
 import { RegistrationPageComponent } from './components/registration-page/registration-page.component';
-import {MatTabsModule} from '@angular/material/tabs';
-import {MatCardModule} from '@angular/material/card';
+import { MatTabsModule } from '@angular/material/tabs';
+import { MatCardModule } from '@angular/material/card';
 import { RealmGeneralSettingComponent } from './components/realm-settings/general/realm-general-setting.component';
-import {MatSlideToggleModule} from '@angular/material/slide-toggle';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { RealmLoginSettingComponent } from './components/realm-settings/login/realm-login-setting.component';
 import { ForgotPasswordComponent } from './components/forgot-password/forgot-password.component';
 import { ChangePasswordComponent } from './components/change-password/change-password.component';
+import { UserProfileComponent } from './components/user-profile/user-profile.component';
+import { UserProfileLoginComponent } from './components/user-profile-login/user-profile-login.component';
+import { NotFoundComponent } from './components/error-pages/not-found/not-found.component';
+import { RealmNotFoundComponent } from './components/error-pages/realm-not-found/realm-not-found.component';
 import { DeleteDialogComponent } from './components/dialogs/delete-dialog/delete-dialog.component';
 import { AddRealmComponent } from './components/add-realm/add-realm.component';
 
+import { SocialLoginModule, SocialAuthServiceConfig } from 'angularx-social-login';
+import {
+  GoogleLoginProvider,
+  FacebookLoginProvider,
+  AmazonLoginProvider,
+} from 'angularx-social-login';
 
 @NgModule({
   declarations: [
@@ -62,7 +72,6 @@ import { AddRealmComponent } from './components/add-realm/add-realm.component';
     ForgotPasswordComponent,
     ChangePasswordComponent,
     DeleteDialogComponent,
-    AddRealmComponent,
   ],
   entryComponents: [ClientDialogComponent, UserDialogComponent, RolesDialogComponent],
   imports: [
@@ -99,10 +108,25 @@ import { AddRealmComponent } from './components/add-realm/add-realm.component';
     MatIconModule,
     MatTabsModule,
     MatCardModule,
-    MatSlideToggleModule
+    MatSlideToggleModule,
+    SocialLoginModule
   ],
   providers: [
-    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+    {
+      provide: 'SocialAuthServiceConfig',
+      useValue: {
+        autoLogin: false,
+        providers: [
+          {
+            id: GoogleLoginProvider.PROVIDER_ID,
+            provider: new GoogleLoginProvider(
+              '381043353625-kvdt5on5nhj6o991pui9ktnmi65vq409.apps.googleusercontent.com'
+            ),
+          },
+        ],
+      } as SocialAuthServiceConfig
+    }
   ],
   bootstrap: [AppComponent]
 })

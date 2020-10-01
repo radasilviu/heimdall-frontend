@@ -3,6 +3,10 @@
         Heimdall
     </h1>
 
+    <div>
+        <button (click)="loginWitSocialProvider('GOOGLE')" mat-raised-button color="primary">Login with Google </button>
+    </div>
+
     <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="col-md-6 text-center border border-light p-5">
         <div class="form">
 
