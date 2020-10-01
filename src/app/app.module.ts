@@ -97,7 +97,7 @@ import {
     MatIconModule,
     MatTabsModule,
     MatCardModule,
-    MatSlideToggleModule
+    MatSlideToggleModule,
     SocialLoginModule
   ],
   providers: [
