@@ -30,13 +30,17 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { MatMenuModule } from '@angular/material/menu';
 import { HeimdallRolesComponent } from './components/heimdall-roles/heimdall-roles.component';
 import { RealmSettingsComponent } from './components/realm-settings/realm-settings.component';
-import {MatTabsModule} from '@angular/material/tabs';
-import {MatCardModule} from '@angular/material/card';
+import { MatTabsModule } from '@angular/material/tabs';
+import { MatCardModule } from '@angular/material/card';
 import { RealmGeneralSettingComponent } from './components/realm-settings/general/realm-general-setting.component';
-import {MatSlideToggleModule} from '@angular/material/slide-toggle';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { RealmLoginSettingComponent } from './components/realm-settings/login/realm-login-setting.component';
 import { ForgotPasswordComponent } from './components/forgot-password/forgot-password.component';
 import { ChangePasswordComponent } from './components/change-password/change-password.component';
+import { UserProfileComponent } from './components/user-profile/user-profile.component';
+import { UserProfileLoginComponent } from './components/user-profile-login/user-profile-login.component';
+import { NotFoundComponent } from './components/error-pages/not-found/not-found.component';
+import { RealmNotFoundComponent } from './components/error-pages/realm-not-found/realm-not-found.component';
 
 
 @NgModule({
@@ -56,7 +60,11 @@ import { ChangePasswordComponent } from './components/change-password/change-pas
     RealmGeneralSettingComponent,
     RealmLoginSettingComponent,
     ForgotPasswordComponent,
-    ChangePasswordComponent
+    ChangePasswordComponent,
+    UserProfileComponent,
+    UserProfileLoginComponent,
+    NotFoundComponent,
+    RealmNotFoundComponent
   ],
   entryComponents: [ClientDialogComponent, UserDialogComponent, RolesDialogComponent],
   imports: [

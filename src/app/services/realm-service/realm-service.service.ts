@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
-import {HttpClient, HttpErrorResponse} from "@angular/common/http";
-import {Env} from "../../configs/env";
-import {catchError} from "rxjs/operators";
-import {MatSnackBar} from "@angular/material/snack-bar";
-import {BehaviorSubject, Observable, throwError} from "rxjs";
-import {Realm} from "../../models/Realm";
+import {HttpClient, HttpErrorResponse} from '@angular/common/http';
+import {Env} from '../../configs/env';
+import {catchError} from 'rxjs/operators';
+import {MatSnackBar} from '@angular/material/snack-bar';
+import {BehaviorSubject, Observable, throwError} from 'rxjs';
+import {Realm} from '../../models/Realm';
+import {Router} from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +14,7 @@ export class RealmServiceService {
 
   currentRealm = new BehaviorSubject<Realm>(this.parseCurrentRealm());
 
-  constructor(private http: HttpClient, private snackBar: MatSnackBar) { }
+  constructor(private http: HttpClient, private snackBar: MatSnackBar, private router: Router) { }
 
   getRealms(): Observable<Array<Realm>> {
     const url = Env.apiRootURL + '/api/admin/realm/list';
@@ -25,8 +26,24 @@ export class RealmServiceService {
     );
   }
 
+  checkRealmExists(realm: string): Observable<Realm> {
+    const url = `${Env.apiRootURL}/api/realm/check/${realm}`;
+    const options = {
+      headers: {
+        whitelist: 'true'
+      }
+    };
+
+    return this.http.get<Realm>(url, options).pipe(
+      catchError(error => {
+        this.router.navigate(['realm/not-found']);
+        return this.handleError(error, this.snackBar);
+      })
+    );
+  }
+
   handleError(error: HttpErrorResponse, snackBar: MatSnackBar): Observable<never> {
-    snackBar.open(error.error, '', {
+    snackBar.open(error.error.message || 'Server error', '', {
       duration: 3000
     });
     return throwError(error.message);

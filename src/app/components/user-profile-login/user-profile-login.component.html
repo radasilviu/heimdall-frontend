@@ -1,0 +1,34 @@
+<div class="container vh-100">
+  <div class="row h-100 justify-content-center align-items-center">
+    <mat-card>
+      <mat-card-content>
+        <form [formGroup]="loginForm" (ngSubmit)="login()" class="text-center p-5">
+          <p class="h4 mb-4">Profile</p>
+
+          <div class="col-12">
+            <mat-form-field>
+              <mat-label> Username</mat-label>
+              <input matInput type="text" formControlName="username" required>
+            </mat-form-field>
+          </div>
+
+          <div class="col-12">
+            <mat-form-field>
+              <mat-label>Password</mat-label>
+              <input matInput type="password" formControlName="password" required>
+            </mat-form-field>
+          </div>
+
+          <div class="d-flex justify-content-around">
+            <div>
+              <a [routerLink]="['/forgot-password']">Forgot password?</a>
+            </div>
+          </div>
+
+          <button type="submit" [disabled]="loginForm.invalid" mat-raised-button color="primary" class="mt-3">Login</button>
+
+        </form>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>
