@@ -37,7 +37,10 @@ export class RealmLoginSettingComponent implements OnInit {
   }
 
   onSubmit(): void {
+    console.log(this.realmLoginSettingForm.value)
+
     this.realmLoginSettingService
+
       .update(this.realmLoginSettingForm.value)
       .subscribe(
         (realm: Realm) => {
