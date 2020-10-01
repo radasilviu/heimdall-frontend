@@ -39,6 +39,7 @@ import { RealmLoginSettingComponent } from './components/realm-settings/login/re
 import { ForgotPasswordComponent } from './components/forgot-password/forgot-password.component';
 import { ChangePasswordComponent } from './components/change-password/change-password.component';
 import { DeleteDialogComponent } from './components/dialogs/delete-dialog/delete-dialog.component';
+import { AddRealmComponent } from './components/add-realm/add-realm.component';
 
 
 @NgModule({
@@ -61,6 +62,7 @@ import { DeleteDialogComponent } from './components/dialogs/delete-dialog/delete
     ForgotPasswordComponent,
     ChangePasswordComponent,
     DeleteDialogComponent,
+    AddRealmComponent,
   ],
   entryComponents: [ClientDialogComponent, UserDialogComponent, RolesDialogComponent],
   imports: [

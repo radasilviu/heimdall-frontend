@@ -13,6 +13,7 @@ import { RealmSettingsComponent } from './components/realm-settings/realm-settin
 import { RegistrationPageComponent } from './components/registration-page/registration-page.component';
 import { ForgotPasswordComponent } from './components/forgot-password/forgot-password.component';
 import { ChangePasswordComponent } from './components/change-password/change-password.component';
+import {AddRealmComponent} from './components/add-realm/add-realm.component';
 
 const routes: Routes = [
   {
@@ -22,6 +23,8 @@ const routes: Routes = [
       { path: 'users/roles', component: RolesComponent },
       { path: 'roles', component: HeimdallRolesComponent },
       { path: 'realm-settings', component: RealmSettingsComponent },
+      { path: 'add-realm', component: AddRealmComponent },
+
     ]
   },
   { path: '', component: LoginComponent, canActivate: [HomeGuard] },

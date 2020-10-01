@@ -54,4 +54,6 @@ export class RealmGeneralSettingComponent implements OnInit {
         }
       );
   }
+
+
 }
