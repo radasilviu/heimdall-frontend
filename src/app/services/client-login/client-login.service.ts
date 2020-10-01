@@ -39,11 +39,12 @@ export class ClientLoginService {
   }
 
 
-  socialLogin(socialUser: OAuthSocialUser, clientId: string, clientSecret: string): Observable<Code> {
+  socialLogin(socialUser: OAuthSocialUser, clientId: string, clientSecret: string,realm:string): Observable<Code> {
     const url = Env.apiRootURL + '/oauth2/social-login';
 
     socialUser.clientId = clientId;
     socialUser.clientSecret = clientSecret;
+    socialUser.realm = realm;
 
     const options = {
       headers: {

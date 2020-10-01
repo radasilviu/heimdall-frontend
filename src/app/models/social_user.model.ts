@@ -11,4 +11,5 @@ export interface OAuthSocialUser{
     provider?: string;
     clientId?:string;
     clientSecret?:string;
+    realm?:string;
 }

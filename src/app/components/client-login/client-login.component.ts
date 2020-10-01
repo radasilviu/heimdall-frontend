@@ -67,7 +67,7 @@ export class ClientLoginComponent implements OnInit {
 
     obs.subscribe((socialUser: OAuthSocialUser) => {
 
-      this.clientService.socialLogin(socialUser, this.clientId, this.clientSecret)
+      this.clientService.socialLogin(socialUser, this.clientId, this.clientSecret,this.realm)
         .subscribe(
           response => {
             document.location.href = `${this.redirectURL}?code=${response.code}`;
