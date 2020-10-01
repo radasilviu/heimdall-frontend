@@ -1,6 +1,8 @@
 /* You can add global styles to this file, and also import other style files */
+
 @import "~@angular/material/prebuilt-themes/indigo-pink.css";
-*{
-    margin: 0;
-    padding: 0;
+:root {
+    --hover-icon-color: rgb(32, 66, 218);
+    --background-color: linear-gradient(277deg, #1946db, #ca2580, #1946db);
+    --login-title-color: -webkit-linear-gradient(rgb(202, 190, 228), rgba(44, 41, 214, 0.753));
 }

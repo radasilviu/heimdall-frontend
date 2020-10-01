@@ -1,86 +1,16 @@
-.header {
-    height: 5vh;
-    position: sticky;
+.sidenav {
+    height: 93vh;
+    background-color: white;
 }
 
-.mat-toolbar {
-    background-color: black;
-    height: 100%;
-}
-
-.example-spacer {
-    flex: 1 1 auto;
-}
-
-.container {
-    height: 100vh;
-}
-
-.realmItem button {
-    width: 200px;
-    font-size: 20px;
-}
-
-mat-expansion-panel-header {
-    border-radius: 10px 10px 0 0;
-}
-
-mat-panel-title {
-    font-size: 30px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.realmItem button:hover {
-    color: lightgray;
-}
-
-.menuItem {
-    font-size: 20px;
-}
-
-mat-icon {
+.navbar-icon {
+    font-size: 4vh;
     width: auto;
-    color: white;
     height: auto;
-    font-size: 50px;
+    user-select: none;
     cursor: pointer;
 }
 
-mat-list {
-    display: flex;
-    flex: column;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-}
-
-.example-container {
-    height: 95vh;
-}
-
-.title {
-    margin-left: 70px;
-    font-size: 40px;
-    font-family: Arial, Helvetica, sans-serif;
-}
-
-mat-expansion-panel {
-    margin-bottom: 20px;
-}
-
-.options {
-    padding: 15px;
-    width: 15vw;
-    display: flex;
-    flex-direction: column;
-}
-
-.options button {
-    margin-top: 20px;
-}
-
-.fill-remaining-space {
-    flex: 1 1 auto;
+.navbar-icon:hover {
+    color: var(--hover-icon-color)
 }

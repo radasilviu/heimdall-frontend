@@ -1,26 +1,32 @@
-<div class="container">
-    <table mat-table [dataSource]="allRoles" class="mat-elevation-z8">
-        <ng-container matColumnDef="Roles">
-            <th mat-header-cell *matHeaderCellDef> UserRoles </th>
-            <td mat-cell *matCellDef="let element">
-                {{element.name}}
-                <div>
-                    <mat-icon (click)="deleteRole(element.name)" class="edit" aria-hidden="false" aria-label="create">delete</mat-icon>
-                    <mat-icon (click)="updateRole(element.name)" class="edit" aria-hidden="false" aria-label="create">create</mat-icon>
-                </div>
-            </td>
-        </ng-container>
+<div class="container-fluid">
+    <div class="row m-5 d-flex justify-content-center">
+        <form [formGroup]="form" (ngSubmit)="form.valid && onSubmit()" class="d-flex justify-content-between align-items-center">
+            <mat-form-field>
+                <mat-label>New Role</mat-label>
+                <input formControlName="role" required=true matInput type="text" #role>
+            </mat-form-field>
+            <button class="ml-4" mat-raised-button [disabled]="!form.valid" color="primary">New Role</button>
+        </form>
 
-        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-    </table>
-    <div class="rolebtn">
-        <mat-form-field class="example-form-field">
-
-            <mat-label>New Role</mat-label>
-            <input required=true matInput type="text" #role>
-        </mat-form-field>
-        <button class="addRole" mat-raised-button (click)="addRole(role.value)" color="primary">New Role</button>
     </div>
+    <div class="row">
+        <div class="col-8 d-flex justify-content-center offset-2">
+            <table mat-table [dataSource]="allRoles" class="mat-elevation-z8 w-25">
+                <ng-container matColumnDef="Roles">
+                    <th mat-header-cell *matHeaderCellDef> UserRoles </th>
+                    <td mat-cell *matCellDef="let element">
+                        {{element.name}}
+                        <mat-icon (click)="deleteRole(element.name)" class="mr-3 table-icon float-right ml-4" aria-hidden="false" aria-label="create">delete</mat-icon>
+                        <mat-icon (click)="updateRole(element.name)" class="table-icon float-right" aria-hidden="false" aria-label="create">create</mat-icon>
+                    </td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            </table>
+        </div>
+    </div>
+
+
 
 </div>

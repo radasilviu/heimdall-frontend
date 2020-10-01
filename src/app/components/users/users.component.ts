@@ -5,6 +5,7 @@ import { RestApiServiceService } from '../../services/restapiservice/rest-api-se
 import { RoleServiceService } from '../../services/roleservice/role-service.service';
 import { UserDialogComponent } from '../dialogs/user-dialog/user-dialog.component';
 import {User} from '../../models/User';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 
 @Component({
@@ -15,7 +16,11 @@ import {User} from '../../models/User';
 export class UsersComponent implements OnInit {
   displayedColumns = ['username', 'role'];
   allUsers:User[];
-  user:User;
+  form = new FormGroup({
+    username:new FormControl('', Validators.required),
+    password:new FormControl('',Validators.required)
+
+  })
 
 
   constructor(private changeDetectorRefs: ChangeDetectorRef,
@@ -28,12 +33,17 @@ export class UsersComponent implements OnInit {
     this.getAllUsers();
   }
 
+  onSubmit(){
+    let user = new User(this.form.value.username,this.form.value.password)
+    this.addUser(user)
+  }
+
   openDialog(currentUserName:string) {
     const dialogRef = this.dialog.open(UserDialogComponent);
     dialogRef.afterClosed().subscribe(data => {
-      this.user = new User(data)
+     let  user = new User(data)
       if (data !== undefined) {
-        this.service.updateUserName(currentUserName, this.user).subscribe(data => {
+        this.service.updateUserName(currentUserName, user).subscribe(data => {
           this.getAllUsers();
         }, error => {
           this.service.openSnackBar(error.error, 2000);
@@ -52,9 +62,8 @@ export class UsersComponent implements OnInit {
     })
   }
 
-  addUser(username:string,password:string) {
-    this.user = new User(username,password)
-    this.service.addUser(this.user).subscribe(data => {
+  addUser(user:User) {
+    this.service.addUser(user).subscribe(data => {
       this.getAllUsers();
     }, error => {
       this.service.openSnackBar(error.error, 2000)
@@ -68,7 +77,7 @@ export class UsersComponent implements OnInit {
   }
 
   userRoles(user:string) {
-    this.roleService.setusername(user)
+    this.roleService.setUserName(user)
     this.router.navigate(['home/users/roles']);
   }
 }

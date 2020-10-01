@@ -19,7 +19,7 @@ export class ClientLoginComponent implements OnInit {
   clientSecret: string;
   redirectURL: string;
 
-  constructor(private clientService: ClientLoginService, private route: ActivatedRoute, private router: Router, private socialAuthService: SocialAuthService) { }
+  constructor(private clientService: ClientLoginService, private route: ActivatedRoute) { }
 
   ngOnInit(): void {
     this.loginForm = new FormGroup({
@@ -38,9 +38,14 @@ export class ClientLoginComponent implements OnInit {
 
   onSubmit(): void {
 
+    const clientId = this.route.snapshot.queryParamMap.get('clientId');
+    const clientSecret = this.route.snapshot.queryParamMap.get('clientSecret');
+    const redirectURL = this.route.snapshot.queryParamMap.get('redirectURL');
+    const realm = this.route.snapshot.queryParamMap.get('realm');
 
     this.clientService
       .login(this.loginForm.value, this.clientId, this.clientSecret)
+      .login(this.loginForm.value, clientId, clientSecret, realm)
       .subscribe(
         response => {
           document.location.href = `${this.redirectURL}?code=${response.code}`;
