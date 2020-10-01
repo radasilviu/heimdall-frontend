@@ -15,7 +15,7 @@ export class HeimdallRolesComponent implements OnInit {
   displayedColumns: string[] = ['Roles'];
   allRoles: IRole[];
   form = new FormGroup({
-    role: new FormControl('', Validators.required)
+    name: new FormControl('', Validators.required)
   });
 
   constructor(private service: RestApiServiceService,
@@ -34,7 +34,7 @@ export class HeimdallRolesComponent implements OnInit {
     const dialogRef = this.dialog.open(RolesDialogComponent);
     dialogRef.afterClosed().subscribe(data => {
       if (data !== undefined) {
-        this.service.updateRoleByName(currentRoleName, data).subscribe(data => {
+        this.service.updateRoleByName(currentRoleName, data).subscribe(() => {
           this.getAllRoles();
         }, error => {
           this.service.openSnackBar(error.error, 2000);
@@ -49,8 +49,9 @@ export class HeimdallRolesComponent implements OnInit {
     });
   }
 
-  addRole(role: IRole) {
+  addRole(role :IRole) {
     this.service.addRole(role).subscribe(() => {
+      console.log(role)
       this.getAllRoles();
     }, error => {
       console.log(error);
@@ -62,7 +63,7 @@ export class HeimdallRolesComponent implements OnInit {
     const dialogRef = this.dialog.open(DeleteDialogComponent);
     dialogRef.afterClosed().subscribe(data => {
       if (data == 'true') {
-        this.service.deleteRole(role).subscribe(data => {
+        this.service.deleteRole(role).subscribe(() => {
           this.getAllRoles();
         }, error => {
           this.service.openSnackBar(error.error.message, 4000);
