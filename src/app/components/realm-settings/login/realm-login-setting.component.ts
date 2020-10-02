@@ -12,26 +12,19 @@ import {Subscription} from 'rxjs';
   styleUrls: ['./realm-login-setting.component.css']
 })
 export class RealmLoginSettingComponent implements OnInit {
-  currentRealm;
   realmLoginSettingForm: FormGroup;
   realm: Realm;
-  myModel:boolean;
+  myModel: boolean;
 
   constructor(private realmLoginSettingService: RealmLoginServiceService, private snackBar: MatSnackBar,
               private realmService: RealmServiceService) {
   }
 
   ngOnInit(): void {
-    this.realmService.getRealmByName(this.realmService.currentRealm.value)
-    .subscribe(data => {
-      this.currentRealm = data as Realm
-    },error=>{
-      console.log(error)
-    })
-
     this.realmService.currentRealm.subscribe(
       (realm: Realm) => {
         this.realm = realm;
+        this.getRealmByName(this.realmService.currentRealm.value);
         this.realmLoginSettingForm = new FormGroup({
           userRegistration: new FormControl(this.realm.userRegistration),
           editUsername: new FormControl(this.realm.editUsername),
@@ -43,12 +36,20 @@ export class RealmLoginSettingComponent implements OnInit {
       });
   }
 
+  getRealmByName(name) {
+    this.realmService.getRealmByName(name).subscribe((data:Realm) => {
+      this.realm = data;
+    });
+  }
+
 
   onSubmit(): void {
     this.realmLoginSettingService
       .update(this.realmLoginSettingForm.value)
       .subscribe(
         (realm: Realm) => {
+          this.getRealmByName(this.realmService.currentRealm.value);
+          this.realm = realm;
           this.snackBar.open('Updated', '', {
             duration: 3000
           });
