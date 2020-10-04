@@ -41,10 +41,12 @@ export class RealmGeneralSettingComponent implements OnInit {
   onSubmit(): void {
     this.realmService.updateRealmByName(this.realmName,this.generalForm.value).subscribe(data =>{
       this.realmService.editRealm(data);
+
+      this.realmService.getRealms().subscribe(data =>{
+        this.realmService.editRealms(data);
+      })
     })
-    this.realmService.getRealms().subscribe(data =>{
-      this.realmService.editRealms(data);
-    })
+
   }
 
 
