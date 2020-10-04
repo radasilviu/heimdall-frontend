@@ -20,7 +20,6 @@ export class RealmLoginServiceService {
     const url = Env.apiRootURL + '/api/admin/realm/login-update';
     const body = {
       id: data.id,
-      name: this.realmService.currentRealm.value.name,
       userRegistration: data.userRegistration,
       editUsername: data.editUsername,
       forgotPassword: data.forgotPassword,

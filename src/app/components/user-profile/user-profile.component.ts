@@ -15,7 +15,7 @@ export class UserProfileComponent implements OnInit {
   constructor(private adminAuthService: AdminAuthService, private realmService: RealmServiceService) { }
 
   ngOnInit(): void {
-    this.realm = this.realmService.currentRealm.getValue();
+
   }
 
   logout(): void {

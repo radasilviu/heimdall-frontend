@@ -1,9 +1,13 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {RealmGeneralSettingService} from '../../../services/realm-service/general/realm-general-setting.service';
-import {AbstractControl, FormControl, FormGroup, Validators} from '@angular/forms';
+import {AbstractControl, Form, FormControl, FormGroup, Validators} from '@angular/forms';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {Realm} from '../../../models/Realm';
 import {RealmServiceService} from '../../../services/realm-service/realm-service.service';
+import {Output, EventEmitter} from '@angular/core';
+import {Event} from '@angular/router';
+import {interval, Observable, Subject} from 'rxjs';
+
 
 @Component({
   selector: 'app-realm-general-setting',
@@ -12,47 +16,35 @@ import {RealmServiceService} from '../../../services/realm-service/realm-service
 })
 export class RealmGeneralSettingComponent implements OnInit {
 
-  realmGeneralSettingForm: FormGroup;
-  realm: Realm;
+  realm:Realm;
+  realmName:string
+  generalForm = new FormGroup({
+    name:new FormControl('',Validators.required),
+    displayName:new FormControl('',Validators.required),
+    enabled:new FormControl('', Validators.required)
+  })
 
-  constructor(private realmGeneralSettingService: RealmGeneralSettingService, private snackBar: MatSnackBar,
-              private realmService: RealmServiceService) {
+  constructor(private realmService: RealmServiceService) {
   }
 
   ngOnInit(): void {
-    this.realmService.currentRealm.subscribe(
-      (realm: Realm) => {
-        this.realm = realm;
-        this.realmGeneralSettingForm = new FormGroup({
-          name: new FormControl(this.realm.name, [Validators.required]),
-          displayName: new FormControl(this.realm.displayName),
-          enabled: new FormControl(this.realm.enabled)
-        });
-      });
-  }
-
-  get name(): AbstractControl {
-    return this.realmGeneralSettingForm.get('name');
-  }
-
-  get displayName(): AbstractControl {
-    return this.realmGeneralSettingForm.get('displayName');
-  }
-
-  get enabled(): AbstractControl {
-    return this.realmGeneralSettingForm.get('enabled');
+   this.realmService.getRealm.subscribe(data => {
+     this.realmName = data.name
+      this.generalForm.patchValue({
+      name:data.name,
+      displayName:data.displayName,
+      enabled:data.enabled
+    })
+   })
   }
 
   onSubmit(): void {
-    this.realmGeneralSettingService
-      .update(this.realmService.currentRealm.value.name, this.realmGeneralSettingForm.value)
-      .subscribe(
-        (realm: Realm) => {
-          this.snackBar.open('Updated', '', {
-            duration: 3000
-          });
-        }
-      );
+    this.realmService.updateRealmByName(this.realmName,this.generalForm.value).subscribe(data =>{
+      this.realmService.editRealm(data);
+    })
+    this.realmService.getRealms().subscribe(data =>{
+      this.realmService.editRealms(data);
+    })
   }
 
 

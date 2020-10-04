@@ -19,17 +19,21 @@
                              (closed)="panelOpenState = false">
           <mat-expansion-panel-header>
             <mat-panel-title>
-              <div> {{currentRealm}} </div>
+              <ng-container *ngIf="realm">
+                <div> {{realm.displayName}}</div>
+
+              </ng-container>
             </mat-panel-title>
           </mat-expansion-panel-header>
           <mat-list>
             <div class="d-flex justify-content-center  " *ngFor="let i of realms">
-              <button class="w-100 mb-2" (click)="mep.expanded = false;changeRealm(i)"
+              <button class="w-100 mb-2" (click)="changeRealm(i)"
                       mat-raised-button> {{i.displayName}}</button>
             </div>
           </mat-list>
           <mat-action-row class="d-flex align-items-center justify-content-center">
-            <button type="button" [routerLink]="['add-realm']" class="btn-block btn-primary btn-lg ">Add New Realm</button>
+            <button type="button" [routerLink]="['add-realm']" class="btn-block btn-primary btn-lg ">Add New Realm
+            </button>
           </mat-action-row>
         </mat-expansion-panel>
       </mat-accordion>
