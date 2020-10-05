@@ -21,15 +21,18 @@ export class RealmSettingsComponent implements OnInit {
     })
   }
 
+
   deleteRealmByName() {
     const dialogRef = this.dialog.open(DeleteDialogComponent);
     dialogRef.afterClosed().subscribe(data => {
+      if(data == "true"){
         this.realmService.deleteRealmByName(this.realm).subscribe(data =>{
           this.realmService.getRealms().subscribe(data =>{
             this.realmService.editRealms(data);
             this.realmService.editRealm(data[0])
           })
         });
+      }
     });
   }
 }
