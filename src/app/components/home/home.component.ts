@@ -31,8 +31,18 @@ export class HomeComponent implements OnInit {
     this.realmService.getAllRealms.subscribe(realms => {
       this.realms = realms;
     });
-
   }
+
+  getRealm(realm){
+    this.realmService.getRealms().subscribe(data => {
+      this.realmService.editRealm(realm);
+    });
+    this.realmService.getRealm.subscribe(realm => this.realm = realm);
+    this.realmService.getAllRealms.subscribe(realms => {
+      this.realms = realms;
+    });
+  }
+
 
   changeRealm(realm) {
     this.realmService.editRealm(realm);
@@ -43,6 +53,8 @@ export class HomeComponent implements OnInit {
   }
 
   realmSettings(): void {
+    this.getRealm(this.realm)
     this.router.navigate(['home/realm-settings']);
+
   }
 }
