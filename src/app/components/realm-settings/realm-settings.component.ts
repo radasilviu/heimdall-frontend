@@ -25,9 +25,7 @@ export class RealmSettingsComponent implements OnInit {
   deleteRealmByName() {
     const dialogRef = this.dialog.open(DeleteDialogComponent);
     dialogRef.afterClosed().subscribe(data => {
-      if (data == 'true') {
         this.realmService.deleteRealmByName(this.realm).subscribe();
-      }
     });
   }
 
