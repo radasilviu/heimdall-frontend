@@ -1,13 +1,22 @@
 import { TestBed } from '@angular/core/testing';
 
-import { AdminAuth } from './admin-auth.service';
+import { AdminAuthService } from './admin-auth.service';
+import {HttpClientTestingModule} from '@angular/common/http/testing';
+import {RouterTestingModule} from '@angular/router/testing';
+import {MatSnackBar, MatSnackBarModule} from '@angular/material/snack-bar';
 
 describe('AuthService', () => {
-  let service: AdminAuth;
+  let service: AdminAuthService;
 
   beforeEach(() => {
-    TestBed.configureTestingModule({});
-    service = TestBed.inject(AdminAuth);
+    TestBed.configureTestingModule({
+      imports: [
+        HttpClientTestingModule,
+        MatSnackBarModule,
+        RouterTestingModule
+      ],
+    });
+    service = TestBed.inject(AdminAuthService);
   });
 
   it('should be created', () => {
