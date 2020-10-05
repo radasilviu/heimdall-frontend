@@ -1,7 +1,6 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {RealmServiceService} from 'src/app/services/realm-service/realm-service.service';
 import {Realm} from '../../models/Realm';
-import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {DeleteDialogComponent} from '../dialogs/delete-dialog/delete-dialog.component';
 import {MatDialog} from '@angular/material/dialog';
 
@@ -25,9 +24,12 @@ export class RealmSettingsComponent implements OnInit {
   deleteRealmByName() {
     const dialogRef = this.dialog.open(DeleteDialogComponent);
     dialogRef.afterClosed().subscribe(data => {
-        this.realmService.deleteRealmByName(this.realm).subscribe();
+        this.realmService.deleteRealmByName(this.realm).subscribe(data =>{
+          this.realmService.getRealms().subscribe(data =>{
+            this.realmService.editRealms(data);
+            this.realmService.editRealm(data[0])
+          })
+        });
     });
   }
-
-
 }

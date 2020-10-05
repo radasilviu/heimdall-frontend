@@ -1,21 +1,21 @@
-<form [formGroup]="generalForm"  (ngSubmit)="onSubmit()">
+<form [formGroup]="generalForm" (ngSubmit)="onSubmit()">
   <div class="row h-100 justify-content-center align-items-center">
     <div class="col-12">
-      <mat-form-field appearance="standard" >
+      <mat-form-field appearance="standard">
         <mat-label>Name</mat-label>
-        <input formControlName="name" #realmName matInput >
+        <input formControlName="name" #realmName matInput>
       </mat-form-field>
     </div>
 
     <div class="col-12">
-      <mat-form-field  appearance="standard">
+      <mat-form-field appearance="standard">
         <mat-label>Display Name</mat-label>
-        <input formControlName="displayName"  matInput >
+        <input formControlName="displayName" matInput>
       </mat-form-field>
     </div>
 
     <div class="col-12">
-      <mat-slide-toggle formControlName="enabled"  color="primary" >
+      <mat-slide-toggle formControlName="enabled" color="primary">
         Enabled
       </mat-slide-toggle>
     </div>
