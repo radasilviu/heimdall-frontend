@@ -17,12 +17,17 @@ export class AddRealmComponent implements OnInit {
 
   ngOnInit(): void {
     this.newRealm = this.formBuilder.group({
-      name: new FormControl('', [Validators.required]),
+      name: new FormControl('', Validators.required),
+      displayName:new FormControl('',Validators.required),
     });
   }
 
   addNewRealm(){
-    this.realmService.addNewRealm(this.newRealm.value).subscribe();
+    this.realmService.addNewRealm(this.newRealm.value).subscribe(data =>{
+      this.realmService.getRealms().subscribe(data =>{
+        this.realmService.editRealms(data);
+      })
+    });
   }
 
 }

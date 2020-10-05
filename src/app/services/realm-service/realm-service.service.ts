@@ -43,8 +43,7 @@ export class RealmServiceService {
   }
 
   addNewRealm(realm: Realm) {
-
-    return this.http.post<Realm>(url, realm);
+    return this.http.post<Realm>(url + "/", realm);
   }
 
   deleteRealmByName(realm: Realm) {
