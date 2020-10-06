@@ -3,6 +3,7 @@ import { FormControl, FormGroup, Validators, AbstractControl } from '@angular/fo
 import { ClientLoginService } from '../../services/client-login/client-login.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { from, Observable } from 'rxjs';
+// @ts-ignore
 import { FacebookLoginProvider, GoogleLoginProvider, SocialAuthService } from 'angularx-social-login';
 import { OAuthSocialUser } from 'src/app/models/social_user.model';
 

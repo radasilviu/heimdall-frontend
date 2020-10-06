@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
-import { Router } from '@angular/router';
-import { AdminAuthService } from 'src/app/services/admin-auth/admin-auth.service';
-import { RealmServiceService } from 'src/app/services/realm-service/realm-service.service';
+import {Router} from '@angular/router';
+import {AdminAuthService} from 'src/app/services/admin-auth/admin-auth.service';
+import {RealmServiceService} from 'src/app/services/realm-service/realm-service.service';
 import {Realm} from '../../models/Realm';
 
 @Component({
@@ -12,39 +12,49 @@ import {Realm} from '../../models/Realm';
 
 export class HomeComponent implements OnInit {
   panelOpenState = false;
-  currentRealm = '';
-
-  realms: Array<Realm>;
+  realm: Realm;
+  realms: Realm[];
 
   constructor(private router: Router, private realmService: RealmServiceService, private adminAuthService: AdminAuthService) {
-    this.realmService.currentRealm.subscribe((realm: Realm) => {
-      if (realm) {
-        this.currentRealm = realm.displayName;
-      }
-    });
   }
 
   ngOnInit(): void {
-    this.realmService.getRealms()
-      .subscribe(
-        (realms: Array<Realm>) => {
-          this.realms = realms;
-          this.realmService.currentRealm.next(realms[0]);
-          localStorage.setItem('currentRealm', JSON.stringify(realms[0]));
-        }
-      );
+    this.getAllRealms();
+  }
+
+  getAllRealms() {
+    this.realmService.getRealms().subscribe(data => {
+      this.realmService.editRealms(data);
+      this.realmService.editRealm(data[0]);
+    });
+    this.realmService.getRealm.subscribe(realm => this.realm = realm);
+    this.realmService.getAllRealms.subscribe(realms => {
+      this.realms = realms;
+    });
+  }
+
+  getRealm(realm){
+    this.realmService.getRealms().subscribe(data => {
+      this.realmService.editRealm(realm);
+    });
+    this.realmService.getRealm.subscribe(realm => this.realm = realm);
+    this.realmService.getAllRealms.subscribe(realms => {
+      this.realms = realms;
+    });
+  }
+
+
+  changeRealm(realm) {
+    this.realmService.editRealm(realm);
   }
 
   logout(): void {
     this.adminAuthService.logout().subscribe();
   }
 
-  changeRealm(realm): void {
-    this.realmService.currentRealm.next(realm);
-    localStorage.setItem('currentRealm', JSON.stringify(realm));
-  }
-
   realmSettings(): void {
+    this.getRealm(this.realm)
     this.router.navigate(['home/realm-settings']);
+
   }
 }

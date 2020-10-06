@@ -1,37 +1,36 @@
-<form [formGroup]="realmLoginSettingForm" (ngSubmit)="onSubmit()">
+<form [formGroup]="loginForm" *ngIf="this.loginForm" (ngSubmit)="onSubmit()">
   <div class="row h-100 justify-content-center align-items-center">
     <div class="col-12">
-      <mat-slide-toggle color="primary" [checked]="realmLoginSettingForm.value.userRegistration" formControlName="userRegistration">
+      <mat-slide-toggle color="primary" formControlName="userRegistration">
         User registration
       </mat-slide-toggle>
     </div>
-
     <div class="col-12">
-      <mat-slide-toggle color="primary" [checked]="realmLoginSettingForm.value.editUsername" formControlName="editUsername">
+      <mat-slide-toggle color="primary" formControlName="editUsername">
         Edit username
       </mat-slide-toggle>
     </div>
 
     <div class="col-12">
-      <mat-slide-toggle color="primary" [checked]="realmLoginSettingForm.value.forgotPassword" formControlName="forgotPassword">
+      <mat-slide-toggle color="primary" formControlName="forgotPassword">
         Forgot password
       </mat-slide-toggle>
     </div>
 
     <div class="col-12">
-      <mat-slide-toggle color="primary" [checked]="realmLoginSettingForm.value.rememberMe" formControlName="rememberMe">
+      <mat-slide-toggle color="primary" formControlName="rememberMe">
         Remember Me
       </mat-slide-toggle>
     </div>
 
     <div class="col-12">
-      <mat-slide-toggle color="primary" [checked]="realmLoginSettingForm.value.verifyEmail" formControlName="verifyEmail">
+      <mat-slide-toggle color="primary" formControlName="verifyEmail">
         Verify email
       </mat-slide-toggle>
     </div>
 
     <div class="col-12">
-      <mat-slide-toggle color="primary" [checked]="realmLoginSettingForm.value.loginWithEmail" formControlName="loginWithEmail">
+      <mat-slide-toggle color="primary" formControlName="loginWithEmail">
         Login with email
       </mat-slide-toggle>
     </div>
@@ -41,7 +40,4 @@
     Save
   </button>
 
-  <button mat-raised-button color="basic" type="button" class="ml-1">
-    Cancel
-  </button>
 </form>

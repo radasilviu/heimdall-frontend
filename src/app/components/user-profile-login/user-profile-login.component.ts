@@ -24,23 +24,13 @@ export class UserProfileLoginComponent implements OnInit {
       username: new FormControl('', [Validators.required]),
       password: new FormControl('', [Validators.required])
     });
-
-    this.route.paramMap.subscribe(params => {
-      this.realmService.checkRealmExists(params.get('realm'))
-        .subscribe((realm: Realm) => {
-          this.realm = realm;
-        });
-    });
   }
 
   login(): void {
-    this.authService
-      .profileLogin(this.loginForm.value, this.realm.name)
+    this.authService.profileLogin(this.loginForm.value, this.realm.name)
       .subscribe(
         (token: Token) => {
-          this.realmService.currentRealm.next(this.realm);
           localStorage.setItem('token', JSON.stringify(token));
-          localStorage.setItem('currentRealm', JSON.stringify(this.realm));
           this.router.navigate([`/user-profile/${this.realm.name}`]);
         }
       );

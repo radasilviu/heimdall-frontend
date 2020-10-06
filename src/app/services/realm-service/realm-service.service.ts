@@ -1,55 +1,52 @@
-import { Injectable } from '@angular/core';
-import {HttpClient, HttpErrorResponse} from '@angular/common/http';
+import {Injectable} from '@angular/core';
+import {HttpClient} from '@angular/common/http';
 import {Env} from '../../configs/env';
-import {catchError} from 'rxjs/operators';
 import {MatSnackBar} from '@angular/material/snack-bar';
-import {BehaviorSubject, Observable, throwError} from 'rxjs';
+import {Observable, Subject,} from 'rxjs';
 import {Realm} from '../../models/Realm';
 import {Router} from '@angular/router';
+
+const url = Env.apiRootURL + '/api/admin/realm';
 
 @Injectable({
   providedIn: 'root'
 })
 export class RealmServiceService {
+  realms: any = new Subject<Realm>();
+  currentRealm = new Subject<Realm>();
 
-  currentRealm = new BehaviorSubject<Realm>(this.parseCurrentRealm());
+  getAllRealms = this.realms.asObservable();
 
-  constructor(private http: HttpClient, private snackBar: MatSnackBar, private router: Router) { }
+  getRealm = this.currentRealm.asObservable();
 
-  getRealms(): Observable<Array<Realm>> {
-    const url = Env.apiRootURL + '/api/admin/realm/list';
-
-    return this.http.get<Array<Realm>>(url).pipe(
-      catchError(error => {
-        return this.handleError(error, this.snackBar);
-      })
-    );
+  editRealm(realm) {
+    this.currentRealm.next(realm);
   }
 
-  checkRealmExists(realm: string): Observable<Realm> {
-    const url = `${Env.apiRootURL}/api/realm/check/${realm}`;
-    const options = {
-      headers: {
-        whitelist: 'true'
-      }
-    };
-
-    return this.http.get<Realm>(url, options).pipe(
-      catchError(error => {
-        this.router.navigate(['realm/not-found']);
-        return this.handleError(error, this.snackBar);
-      })
-    );
+  editRealms(realms) {
+    this.realms.next(realms);
   }
 
-  handleError(error: HttpErrorResponse, snackBar: MatSnackBar): Observable<never> {
-    snackBar.open(error.error.message || 'Server error', '', {
-      duration: 3000
-    });
-    return throwError(error.message);
+  constructor(private http: HttpClient, private snackBar: MatSnackBar, private router: Router) {
   }
 
-  parseCurrentRealm(): Realm {
-    return JSON.parse(localStorage.getItem('currentRealm'));
+  getRealms(): Observable<Realm[]> {
+    return this.http.get<Realm[]>(url + '/list');
+  }
+
+  updateRealmByName(currentRealmName: string, realm: Realm) {
+    return this.http.put<Realm>(url + '/general-update/' + currentRealmName, realm);
+  }
+
+  updateLoginSettings(realm, loginForm) {
+    return this.http.put(url + '/login-update/' + realm.name, loginForm);
+  }
+
+  addNewRealm(realm: Realm) {
+    return this.http.post<Realm>(url + "/", realm);
+  }
+
+  deleteRealmByName(realm: Realm) {
+    return this.http.delete(url + '/' + realm.name);
   }
 }

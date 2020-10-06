@@ -1,30 +1,30 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { UsersComponent } from './users.component';
+import { AddRealmComponent } from './add-realm.component';
 import {HttpClientTestingModule} from '@angular/common/http/testing';
 import {RouterTestingModule} from '@angular/router/testing';
-import {MatSnackBar, MatSnackBarModule} from '@angular/material/snack-bar';
-import {MatDialogModule} from '@angular/material/dialog';
+import {FormBuilder, ReactiveFormsModule} from '@angular/forms';
+import {MatSnackBarModule} from '@angular/material/snack-bar';
 
-describe('UsersComponent', () => {
-  let component: UsersComponent;
-  let fixture: ComponentFixture<UsersComponent>;
+describe('AddRealmComponent', () => {
+  let component: AddRealmComponent;
+  let fixture: ComponentFixture<AddRealmComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [
         HttpClientTestingModule,
+        ReactiveFormsModule,
         RouterTestingModule,
         MatSnackBarModule,
-        MatDialogModule
       ],
-      declarations: [UsersComponent]
+      declarations: [ AddRealmComponent ]
     })
-      .compileComponents();
+    .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(UsersComponent);
+    fixture = TestBed.createComponent(AddRealmComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

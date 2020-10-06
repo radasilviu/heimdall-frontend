@@ -12,6 +12,7 @@ import { HeimdallRolesComponent } from './components/heimdall-roles/heimdall-rol
 import { RealmSettingsComponent } from './components/realm-settings/realm-settings.component';
 import { ForgotPasswordComponent } from './components/forgot-password/forgot-password.component';
 import { ChangePasswordComponent } from './components/change-password/change-password.component';
+import {AddRealmComponent} from './components/add-realm/add-realm.component';
 import { UserProfileComponent } from './components/user-profile/user-profile.component';
 import { UserProfileLoginComponent } from './components/user-profile-login/user-profile-login.component';
 import { NotFoundComponent } from './components/error-pages/not-found/not-found.component';
@@ -26,6 +27,8 @@ const routes: Routes = [
       { path: 'users/roles', component: RolesComponent },
       { path: 'roles', component: HeimdallRolesComponent },
       { path: 'realm-settings', component: RealmSettingsComponent },
+      { path: 'add-realm', component: AddRealmComponent },
+
     ]
   },
   { path: '', component: LoginComponent, canActivate: [HomeGuard] },
