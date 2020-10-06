@@ -18,6 +18,9 @@ import { UserProfileLoginComponent } from './components/user-profile-login/user-
 import { NotFoundComponent } from './components/error-pages/not-found/not-found.component';
 import { RealmNotFoundComponent } from './components/error-pages/realm-not-found/realm-not-found.component';
 import { RegistrationPageComponent } from './components/registration-page/registration-page.component';
+import {IdentityProviderComponent} from './components/identity-provider/identity-provider.component';
+import {UsersGroupsComponent} from './components/users-groups/users-groups.component';
+import {CreateGroupComponent} from './components/users-groups/create-group/create-group.component';
 
 const routes: Routes = [
   {
@@ -25,9 +28,12 @@ const routes: Routes = [
       { path: 'clients', component: ClientsComponent },
       { path: 'users', component: UsersComponent },
       { path: 'users/roles', component: RolesComponent },
+      {path:'identity-provider',component:IdentityProviderComponent},
       { path: 'roles', component: HeimdallRolesComponent },
       { path: 'realm-settings', component: RealmSettingsComponent },
       { path: 'add-realm', component: AddRealmComponent },
+      {path:'users-group',component: UsersGroupsComponent},
+      {path:'create-group',component:CreateGroupComponent}
 
     ]
   },
@@ -39,7 +45,6 @@ const routes: Routes = [
   { path: 'user-profile/:realm', component: UserProfileComponent, canActivate: [AuthGuard] },
   { path: 'user-profile/:realm/login', component: UserProfileLoginComponent },
   { path: 'realm/not-found', component: RealmNotFoundComponent },
-  { path: '404', component: NotFoundComponent},
   { path: '**', redirectTo: '/404'}
 ];
 
