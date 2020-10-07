@@ -20,7 +20,6 @@ export class CreateGroupComponent implements OnInit {
   }
 
   onSubmit(){
-    console.log(this.createGroup.value)
     this.groupService.addNewGroup(this.createGroup.value).subscribe(data =>{
       this.router.navigate(['/home/users-group']);
     },error => {

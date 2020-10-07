@@ -22,7 +22,6 @@ export class LoginComponent implements OnInit {
 
   ngOnInit(): void {
     this.identityProviderService.getGoogleProvider().subscribe(data =>{
-      console.log(data)
     })
     this.loginForm = new FormGroup({
       username: new FormControl('', [Validators.required]),

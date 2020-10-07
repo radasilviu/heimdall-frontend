@@ -34,8 +34,8 @@ export class RestApiServiceService {
     return this.http.put( url + "/user/" + currentUserName, newUser);
   }
 
-  getAllUsers() {
-    return this.http.get( url + "/user");
+  getAllUsers():Observable<IUser[]> {
+    return this.http.get<IUser[]>( url + "/user");
   }
 
   getAllClients(): Observable<IClient[]> {

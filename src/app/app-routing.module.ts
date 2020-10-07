@@ -21,6 +21,7 @@ import { RegistrationPageComponent } from './components/registration-page/regist
 import {IdentityProviderComponent} from './components/identity-provider/identity-provider.component';
 import {UsersGroupsComponent} from './components/users-groups/users-groups.component';
 import {CreateGroupComponent} from './components/users-groups/create-group/create-group.component';
+import {GroupUsersComponent} from './components/users-groups/group-users/group-users.component';
 
 const routes: Routes = [
   {
@@ -33,7 +34,8 @@ const routes: Routes = [
       { path: 'realm-settings', component: RealmSettingsComponent },
       { path: 'add-realm', component: AddRealmComponent },
       {path:'users-group',component: UsersGroupsComponent},
-      {path:'create-group',component:CreateGroupComponent}
+      {path:'create-group',component:CreateGroupComponent},
+      {path:'group-users',component:GroupUsersComponent}
 
     ]
   },
