@@ -1,9 +1,10 @@
 import {Injectable} from '@angular/core';
-import {BehaviorSubject, Observable} from 'rxjs';
+import {BehaviorSubject, Observable, Subject} from 'rxjs';
 import {Group} from '../../models/Group';
 import {HttpClient} from '@angular/common/http';
 import {Env} from '../../configs/env';
 import {G} from '@angular/cdk/keycodes';
+import {IUser} from '../../models/User';
 
 const url = Env.apiRootURL + '/api/client/group';
 
@@ -12,26 +13,23 @@ const url = Env.apiRootURL + '/api/client/group';
 })
 export class GroupServiceService {
 
-
-  private group = new BehaviorSubject(null);
-
-  getGroup = this.group.asObservable();
-
   constructor(private http: HttpClient) {
   }
 
-  setGroup(group) {
-    this.group.next(group);
+  addUserToGroup(groupName: string, user: IUser) {
+    return this.http.put(url + '/' + groupName + '/addUser', user);
   }
 
-
-  findGroupByName(group){
-    return this.http.get<Group>(url + "/" + group.name);
+  deleteUserFromGroup(group: Group, user: IUser) {
+    return this.http.delete<Group>(url + '/' + group.name + '/deleteUser/' + user.username);
   }
 
+  getUsersFromGroup(groupName: string): Observable<IUser[]> {
+    return this.http.get<IUser[]>(url + '/' + groupName + '/users');
+  }
 
-  updateGroupByName(Group) {
-    return this.http.put(url + '/' + Group.name, Group);
+  getGroupByName(group: string): Observable<Group> {
+    return this.http.get<Group>(url + '/' + group);
   }
 
 

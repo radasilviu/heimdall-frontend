@@ -3,7 +3,7 @@
     <div class="col-10 offset-1">
       <nav class="groupNav navbar navbar-dark bg-primary ">
         <a class="navbar-brand" href="#">Groups</a>
-        <button [routerLink]="['/home/create-group']" mat-raised-button color="primary">Add</button>
+        <button [routerLink]="['/home/create-group']" mat-raised-button>Add</button>
       </nav>
       <table class="table groupTable border border-dark  ">
         <thead>
@@ -17,7 +17,7 @@
           <td class="groupName" scope="row">{{group.name}}
           </td>
           <td>
-            <button  class="mr-4" (click)="groupUsers(group)"  mat-raised-button color="primary">Details</button>
+            <button class="mr-4" (click)="(groupUsers(group))" mat-raised-button color="primary">Details</button>
             <button (click)="deleteGroup(group)" mat-raised-button color="warn">Delete</button>
           </td>
         </tr>

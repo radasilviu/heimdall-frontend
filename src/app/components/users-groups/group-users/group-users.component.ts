@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
-import {Group} from '../../../models/Group';
+import {Component, OnInit} from '@angular/core';
 import {GroupServiceService} from '../../../services/group-service/group-service.service';
 import {RestApiServiceService} from '../../../services/restapiservice/rest-api-service.service';
 import {IUser} from '../../../models/User';
+import {Router} from '@angular/router';
+import {Group} from '../../../models/Group';
 
 @Component({
   selector: 'app-group-users',
@@ -11,33 +12,51 @@ import {IUser} from '../../../models/User';
 })
 export class GroupUsersComponent implements OnInit {
 
-  constructor(private restApiService:RestApiServiceService, private groupService:GroupServiceService) { }
-  group:Group
-  users:IUser[]
-  groupUsers:IUser[] = []
+  constructor(private router: Router,
+              private restApiService: RestApiServiceService,
+              private groupService: GroupServiceService) {
+  }
+
+  group: Group;
+  users: IUser[];
+  groupUsers: IUser[] = [];
 
   ngOnInit(): void {
+    this.getGroup();
+    this.getAllUsers();
+  }
 
-    this.restApiService.getAllUsers().subscribe(data =>{
-      this.users = data
-    })
-
-    this.groupService.getGroup.subscribe(data =>{
+  getGroup() {
+    let group = localStorage.getItem('groupName');
+    this.groupService.getGroupByName(group).subscribe(data => {
       this.group = data;
-    })
-
+    });
+    this.groupService.getUsersFromGroup(group).subscribe(data => {
+      this.groupUsers = data;
+    });
   }
 
-
-  addUserToGroup(user){
-    this.groupUsers.push(user)
-    this.group.users = this.groupUsers;
-    this.groupService.updateGroupByName(this.group).subscribe(data =>{
-     this.groupService.getAllGroups().subscribe(data =>{
-       console.log(data)
-     })
-    })
-
+  getAllUsers() {
+    this.restApiService.getAllUsers().subscribe(data => {
+      this.users = data;
+    });
   }
 
+  addUserToGroup(user) {
+    let group = localStorage.getItem('groupName');
+    this.groupService.addUserToGroup(group, user).subscribe(data => {
+      this.getGroup();
+    });
+  }
+
+  deleteUserFromGroup(user) {
+    this.groupService.deleteUserFromGroup(this.group, user).subscribe(data => {
+      this.getGroup();
+    });
+  }
+
+  userRoles(user) {
+    localStorage.setItem('currentUser', user.username);
+    this.router.navigate(['home/users/roles']);
+  }
 }

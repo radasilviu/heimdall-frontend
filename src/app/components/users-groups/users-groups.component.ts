@@ -1,5 +1,4 @@
-import { Component, OnInit } from '@angular/core';
-import {IUser} from '../../models/User';
+import {Component, OnInit} from '@angular/core';
 import {Group} from '../../models/Group';
 import {GroupServiceService} from '../../services/group-service/group-service.service';
 import {Router} from '@angular/router';
@@ -11,27 +10,28 @@ import {Router} from '@angular/router';
 })
 export class UsersGroupsComponent implements OnInit {
 
-  constructor(private groupService:GroupServiceService,private router: Router) { }
+  constructor(private groupService: GroupServiceService, private router: Router) {
+  }
 
-  Groups:Group[];
+  Groups: Group[];
 
   ngOnInit(): void {
     this.getAllGroups();
-
   }
 
-  getAllGroups(){
+  getAllGroups() {
     this.groupService.getAllGroups().subscribe(data =>
-      this.Groups = data)
+      this.Groups = data);
   }
 
-  deleteGroup(group){
-    this.groupService.deleteGroupByName(group).subscribe(data =>{
+  deleteGroup(group) {
+    this.groupService.deleteGroupByName(group).subscribe(data => {
       this.getAllGroups();
-    })
+    });
   }
-  groupUsers(group){
-    this.groupService.setGroup(group);
+
+  groupUsers(group) {
+    localStorage.setItem('groupName', group.name);
     this.router.navigate(['/home/group-users']);
   }
 }

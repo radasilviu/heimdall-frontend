@@ -1,11 +1,11 @@
-import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { IClient } from 'src/app/models/Client';
-import { Observable } from 'rxjs';
-import { IRole } from 'src/app/models/Role';
-import { IUser } from 'src/app/models/User'
-import { Env } from 'src/app/configs/env';
+import {Injectable} from '@angular/core';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {MatSnackBar} from '@angular/material/snack-bar';
+import {IClient} from 'src/app/models/Client';
+import {Observable} from 'rxjs';
+import {IRole} from 'src/app/models/Role';
+import {IUser} from 'src/app/models/User';
+import {Env} from 'src/app/configs/env';
 
 
 const url = Env.apiRootURL + '/api';
@@ -15,7 +15,8 @@ const url = Env.apiRootURL + '/api';
 })
 export class RestApiServiceService {
 
-  constructor(private http: HttpClient, private _snackBar: MatSnackBar) { }
+  constructor(private http: HttpClient, private _snackBar: MatSnackBar) {
+  }
 
   openSnackBar(message: string, time: number) {
     this._snackBar.open(message, '', {
@@ -23,60 +24,63 @@ export class RestApiServiceService {
     });
   }
 
-  updateRoleByName(currentRoleName:string, newRole:IRole) {
-    return this.http.put(url + "/role/" + currentRoleName, newRole);
+  updateRoleByName(currentRoleName: string, newRole: IRole) {
+    return this.http.put(url + '/role/' + currentRoleName, newRole);
   }
 
-  updateClientByName(currentClientName:string, newClient:IClient) {
-    return this.http.put( url + "/client/" + currentClientName, newClient);
-  }
-  updateUserName(currentUserName:string, newUser:IUser) {
-    return this.http.put( url + "/user/" + currentUserName, newUser);
+  updateClientByName(currentClientName: string, newClient: IClient) {
+    return this.http.put(url + '/client/' + currentClientName, newClient);
   }
 
-  getAllUsers():Observable<IUser[]> {
-    return this.http.get<IUser[]>( url + "/user");
+  updateUserName(currentUserName: string, newUser: IUser) {
+    return this.http.put(url + '/user/' + currentUserName, newUser);
+  }
+
+  getAllUsers(): Observable<IUser[]> {
+    return this.http.get<IUser[]>(url + '/user');
   }
 
   getAllClients(): Observable<IClient[]> {
-    return this.http.get<IClient[]>( url + "/client");
+    return this.http.get<IClient[]>(url + '/client');
   }
-  deleteClient(clientName:string) {
-    return this.http.request('delete', url +  "/client/" + clientName);
+
+  deleteClient(clientName: string) {
+    return this.http.request('delete', url + '/client/' + clientName);
   }
 
   getAllRoles(): Observable<IRole[]> {
-    return this.http.get<IRole[]>( url + "/role");
+    return this.http.get<IRole[]>(url + '/role');
   }
 
-  addRole(role:IRole) {
-    return this.http.post<any>( url + "/role", role);
+  addRole(role: IRole) {
+    return this.http.post<any>(url + '/role', role);
   }
 
-  deleteRole(role:IRole) {
-    return this.http.request('delete', url +  "/role/" + role);
-  }
-  deleteUser(username:string) {
-    return this.http.request('delete', url + "/user/" + username);
+  deleteRole(role: IRole) {
+    return this.http.request('delete', url + '/role/' + role);
   }
 
-  addClient(client:IClient) {
-    return this.http.post<any>( url + "/client", client);
+  deleteUser(username: string) {
+    return this.http.request('delete', url + '/user/' + username);
   }
 
-  addUser(user:IUser) {
-    return this.http.post<any>( url + "/user", user);
+  addClient(client: IClient) {
+    return this.http.post<any>(url + '/client', client);
   }
 
-  addUserRole(role:string, username:string) {
-    return this.http.post<any>( url + "/user/" + username + "/addRole",role);
+  addUser(user: IUser) {
+    return this.http.post<any>(url + '/user', user);
   }
 
-  deleteUserRole(userName:string, role:string) {
-    return this.http.request('delete', url + "/user/" + userName + "/removeRole",{body:role});
+  addUserRole(role: IRole, user: IUser) {
+    return this.http.post<any>(url + '/user/' + user.username + '/addRole', role.name);
   }
 
-  getUserByUsername(username:string): Observable<IUser> {
-    return this.http.get<IUser>( url + "/user/" + username)
+  deleteUserRole(user: IUser, role: IRole) {
+    return this.http.request('delete', url + '/user/' + user.username + '/removeRole', {body: role.name});
+  }
+
+  getUserByUsername(user: string): Observable<IUser> {
+    return this.http.get<IUser>(url + '/user/' + user);
   }
 }

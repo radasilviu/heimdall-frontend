@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {GroupServiceService} from '../../../services/group-service/group-service.service';
 import {Router} from '@angular/router';
@@ -10,23 +10,20 @@ import {Router} from '@angular/router';
 })
 export class CreateGroupComponent implements OnInit {
 
-  constructor(private groupService : GroupServiceService ,private router: Router) { }
+  constructor(private groupService: GroupServiceService, private router: Router) {
+  }
 
   createGroup = new FormGroup({
-    name:new FormControl('',Validators.required)
-  })
+    name: new FormControl('', Validators.required)
+  });
 
   ngOnInit(): void {
   }
 
-  onSubmit(){
-    this.groupService.addNewGroup(this.createGroup.value).subscribe(data =>{
+  onSubmit() {
+    this.groupService.addNewGroup(this.createGroup.value).subscribe(data => {
       this.router.navigate(['/home/users-group']);
-    },error => {
-
     });
-
-
   }
 
 }
