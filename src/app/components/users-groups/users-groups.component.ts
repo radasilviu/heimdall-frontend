@@ -4,7 +4,6 @@ import {GroupServiceService} from '../../services/group-service/group-service.se
 import {Router} from '@angular/router';
 import {MatDialog} from '@angular/material/dialog';
 import {DeleteDialogComponent} from '../dialogs/delete-dialog/delete-dialog.component';
-import {RestApiServiceService} from '../../services/restapiservice/rest-api-service.service';
 
 @Component({
   selector: 'app-users-groups',

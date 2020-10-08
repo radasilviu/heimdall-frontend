@@ -1,10 +1,9 @@
-import { TestBed } from '@angular/core/testing';
+import {TestBed} from '@angular/core/testing';
 
-import { RealmLoginServiceService } from './realm-login-service.service';
+import {RealmLoginServiceService} from './realm-login-service.service';
 import {HttpClientTestingModule} from '@angular/common/http/testing';
 import {RouterTestingModule} from '@angular/router/testing';
-import {MatDialog} from '@angular/material/dialog';
-import {MatSnackBar, MatSnackBarModule} from '@angular/material/snack-bar';
+import {MatSnackBarModule} from '@angular/material/snack-bar';
 
 describe('RealmLoginServiceService', () => {
   let service: RealmLoginServiceService;
