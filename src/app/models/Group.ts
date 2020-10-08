@@ -1,6 +1,6 @@
-import {IUser} from './User'
+import {User} from './User'
 
 export interface Group{
   name:string
-  users:Array<IUser>
+  users:Array<User>
 }

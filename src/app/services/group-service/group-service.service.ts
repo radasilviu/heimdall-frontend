@@ -4,7 +4,7 @@ import {Group} from '../../models/Group';
 import {HttpClient} from '@angular/common/http';
 import {Env} from '../../configs/env';
 import {G} from '@angular/cdk/keycodes';
-import {IUser} from '../../models/User';
+import {User} from '../../models/User';
 
 const url = Env.apiRootURL + '/api/client/group';
 
@@ -16,16 +16,16 @@ export class GroupServiceService {
   constructor(private http: HttpClient) {
   }
 
-  addUserToGroup(groupName: string, user: IUser) {
+  addUserToGroup(groupName: string, user: User) {
     return this.http.put(url + '/' + groupName + '/addUser', user);
   }
 
-  deleteUserFromGroup(group: Group, user: IUser) {
+  deleteUserFromGroup(group: Group, user: User) {
     return this.http.delete<Group>(url + '/' + group.name + '/deleteUser/' + user.username);
   }
 
-  getUsersFromGroup(groupName: string): Observable<IUser[]> {
-    return this.http.get<IUser[]>(url + '/' + groupName + '/users');
+  getUsersFromGroup(groupName: string): Observable<User[]> {
+    return this.http.get<User[]>(url + '/' + groupName + '/users');
   }
 
   getGroupByName(group: string): Observable<Group> {

@@ -1,3 +1,3 @@
-export interface IClient {
+export interface Client {
     clientName:string
 }

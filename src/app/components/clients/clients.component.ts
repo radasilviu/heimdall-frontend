@@ -2,7 +2,7 @@ import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { RestApiServiceService } from '../../services/restapiservice/rest-api-service.service';
 import { ClientDialogComponent } from '../dialogs/client-dialog/client-dialog.component';
-import { IClient } from '../../models/Client';
+import { Client } from '../../models/Client';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { DeleteDialogComponent } from '../dialogs/delete-dialog/delete-dialog.component';
 
@@ -14,7 +14,7 @@ import { DeleteDialogComponent } from '../dialogs/delete-dialog/delete-dialog.co
 })
 
 export class ClientsComponent implements OnInit {
-  allClients: IClient[];
+  allClients: Client[];
   errorMessage: string;
   displayedColumns: string[] = ['name'];
   form = new FormGroup({
@@ -63,7 +63,7 @@ export class ClientsComponent implements OnInit {
       })
   }
 
-  addClient(client:IClient) {
+  addClient(client:Client) {
     this.service.addClient(client).subscribe(data => {
       this.getAllClients();
     }, error => {

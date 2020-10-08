@@ -3,7 +3,7 @@ import {MatDialog} from '@angular/material/dialog';
 import {Router} from '@angular/router';
 import {RestApiServiceService} from '../../services/restapiservice/rest-api-service.service';
 import {UserDialogComponent} from '../dialogs/user-dialog/user-dialog.component';
-import {IUser} from '../../models/User';
+import {User} from '../../models/User';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {DeleteDialogComponent} from '../dialogs/delete-dialog/delete-dialog.component';
 
@@ -14,7 +14,7 @@ import {DeleteDialogComponent} from '../dialogs/delete-dialog/delete-dialog.comp
 })
 export class UsersComponent implements OnInit {
   displayedColumns = ['username', 'role'];
-  allUsers: IUser[];
+  allUsers: User[];
   form = new FormGroup({
     username: new FormControl('', Validators.required),
     password: new FormControl('', Validators.required),
@@ -62,11 +62,11 @@ export class UsersComponent implements OnInit {
   getAllUsers() {
     let clients = this.service.getAllUsers();
     clients.subscribe(data => {
-      this.allUsers = data as IUser[];
+      this.allUsers = data as User[];
     });
   }
 
-  addUser(user: IUser) {
+  addUser(user: User) {
     this.service.addUser(user).subscribe(data => {
       this.getAllUsers();
     }, error => {

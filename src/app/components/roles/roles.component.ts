@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
-import {IRole} from 'src/app/models/Role';
-import {IUser} from 'src/app/models/User';
+import {Role} from 'src/app/models/Role';
+import {User} from 'src/app/models/User';
 import {RestApiServiceService} from '../../services/restapiservice/rest-api-service.service';
 
 @Component({
@@ -10,10 +10,10 @@ import {RestApiServiceService} from '../../services/restapiservice/rest-api-serv
   styleUrls: ['./roles.component.css']
 })
 export class RolesComponent implements OnInit {
-  currentUser: IUser;
-  userRoles: IRole[];
-  allRoles: IRole[];
-  user:IUser;
+  currentUser: User;
+  userRoles: Role[];
+  allRoles: Role[];
+  user:User;
 
   displayedColumns: string[] = ['Roles'];
 

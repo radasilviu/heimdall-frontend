@@ -1,9 +1,11 @@
 import {Component, OnInit} from '@angular/core';
 import {GroupServiceService} from '../../../services/group-service/group-service.service';
 import {RestApiServiceService} from '../../../services/restapiservice/rest-api-service.service';
-import {IUser} from '../../../models/User';
+import {User} from '../../../models/User';
 import {Router} from '@angular/router';
 import {Group} from '../../../models/Group';
+import {DeleteDialogComponent} from '../../dialogs/delete-dialog/delete-dialog.component';
+import {MatDialog} from '@angular/material/dialog';
 
 @Component({
   selector: 'app-group-users',
@@ -14,12 +16,13 @@ export class GroupUsersComponent implements OnInit {
 
   constructor(private router: Router,
               private restApiService: RestApiServiceService,
-              private groupService: GroupServiceService) {
+              private groupService: GroupServiceService,
+              public dialog: MatDialog) {
   }
 
   group: Group;
-  users: IUser[];
-  groupUsers: IUser[] = [];
+  users: User[];
+  groupUsers: User[] = [];
 
   ngOnInit(): void {
     this.getGroup();
@@ -50,8 +53,15 @@ export class GroupUsersComponent implements OnInit {
   }
 
   deleteUserFromGroup(user) {
-    this.groupService.deleteUserFromGroup(this.group, user).subscribe(data => {
-      this.getGroup();
+
+    let dialogRef = this.dialog.open(DeleteDialogComponent);
+
+    dialogRef.afterClosed().subscribe(data => {
+      if (data == 'true') {
+        this.groupService.deleteUserFromGroup(this.group, user).subscribe(data => {
+          this.getGroup();
+        });
+      }
     });
   }
 

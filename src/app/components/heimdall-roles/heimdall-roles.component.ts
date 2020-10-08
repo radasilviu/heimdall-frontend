@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {MatDialog} from '@angular/material/dialog';
-import {IRole} from 'src/app/models/Role';
+import {Role} from 'src/app/models/Role';
 import {RestApiServiceService} from '../../services/restapiservice/rest-api-service.service';
 import {DeleteDialogComponent} from '../dialogs/delete-dialog/delete-dialog.component';
 import {RolesDialogComponent} from '../dialogs/roles-dialog/roles-dialog.component';
@@ -13,7 +13,7 @@ import {RolesDialogComponent} from '../dialogs/roles-dialog/roles-dialog.compone
 })
 export class HeimdallRolesComponent implements OnInit {
   displayedColumns: string[] = ['Roles'];
-  allRoles: IRole[];
+  allRoles: Role[];
   form = new FormGroup({
     name: new FormControl('', Validators.required)
   });
@@ -49,7 +49,7 @@ export class HeimdallRolesComponent implements OnInit {
     });
   }
 
-  addRole(role :IRole) {
+  addRole(role :Role) {
     this.service.addRole(role).subscribe(() => {
       this.getAllRoles();
     }, error => {
