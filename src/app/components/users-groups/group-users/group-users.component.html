@@ -1,16 +1,15 @@
 <div class="container-fluid">
   <div class="row">
-    <div class="col-12 offset-10">
-      <button [routerLink]="['/home/users-group']" mat-raised-button color="primary">Back</button>
+    <div class="col-12 ">
+      <button class="float-right m-5" [routerLink]="['/home/users-group']" mat-raised-button color="primary">Back</button>
     </div>
   </div>
   <div class="row mt-4">
     <div class="col-10 offset-1">
       <nav class="groupNav navbar navbar-dark bg-primary ">
         <a *ngIf="group" class="navbar-brand">{{group.name}}</a>
-        <a *ngIf="!group" class="navbar-brand">No group selected, please go back and select a group</a>
         <div class="dropdown usersList">
-          <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown"
+          <button class="btn btn-light dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown"
                   aria-haspopup="true" aria-expanded="false">
             Add user in this group
           </button>
@@ -22,9 +21,9 @@
       <table class="table groupTable">
         <thead>
         <tr>
-          <th class="col-8" scope="col">Users</th>
-          <th class="col-2" scope="col">User Role</th>
-          <th class="col-2" scope="col"></th>
+          <th scope="col">Users</th>
+          <th scope="col">User Role</th>
+          <th scope="col"></th>
         </tr>
         </thead>
         <tbody>
