@@ -14,6 +14,7 @@ import {RolesDialogComponent} from '../dialogs/roles-dialog/roles-dialog.compone
 export class HeimdallRolesComponent implements OnInit {
   displayedColumns: string[] = ['Roles'];
   allRoles: Role[];
+  role = <Role>{}
   form = new FormGroup({
     name: new FormControl('', Validators.required)
   });
@@ -34,7 +35,8 @@ export class HeimdallRolesComponent implements OnInit {
     const dialogRef = this.dialog.open(RolesDialogComponent);
     dialogRef.afterClosed().subscribe(data => {
       if (data !== undefined) {
-        this.service.updateRoleByName(currentRoleName, data).subscribe(() => {
+        this.role.name = data
+        this.service.updateRoleByName(currentRoleName, this.role).subscribe(() => {
           this.getAllRoles();
         }, error => {
           this.service.openSnackBar(error.error, 2000);

@@ -16,6 +16,8 @@ import { DeleteDialogComponent } from '../dialogs/delete-dialog/delete-dialog.co
 export class ClientsComponent implements OnInit {
   allClients: Client[];
   errorMessage: string;
+   Client = <Client>{};
+
   displayedColumns: string[] = ['name'];
   form = new FormGroup({
     clientName:new FormControl('', Validators.required),
@@ -27,11 +29,13 @@ export class ClientsComponent implements OnInit {
     const dialogRef = this.dialog.open(ClientDialogComponent);
     dialogRef.afterClosed().subscribe(data => {
       if (data !== undefined) {
-        this.service.updateClientByName(currentClientName, data).subscribe(
+        this.Client.clientName = data;
+        this.service.updateClientByName(currentClientName, this.Client).subscribe(
           data => {
           this.getAllClients();
         }, error => {
-          this.service.openSnackBar(error.error.message, 2000);
+            console.log(error)
+              // this.service.openSnackBar(error.error.message, 2000);
         });
       }
     });

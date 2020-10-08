@@ -4,7 +4,7 @@
             <form [formGroup]="form" (ngSubmit)="form.valid && onSubmit()">
                 <mat-form-field class="m-4">
                     <mat-label>New Client</mat-label>
-                    <input formControlName="clientName" required required matInput>
+                    <input aut formControlName="clientName" required required matInput>
                 </mat-form-field>
                 <button [disabled]="!form.valid" mat-raised-button color="primary">Add</button>
             </form>

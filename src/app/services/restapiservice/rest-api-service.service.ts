@@ -28,8 +28,11 @@ export class RestApiServiceService {
     return this.http.put(url + '/role/' + currentRoleName, newRole);
   }
 
-  updateClientByName(currentClientName: string, newClient: Client) {
-    return this.http.put(url + '/client/' + currentClientName, newClient);
+  updateClientByName(currentClientName: string, client: Client) {
+    console.log(currentClientName)
+    console.log(client)
+
+    return this.http.put(url + '/client/' + currentClientName, client);
   }
 
   updateUserName(currentUserName: string, newUser: User) {
