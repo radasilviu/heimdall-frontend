@@ -20,7 +20,7 @@ export class GroupServiceService {
   }
 
   deleteUserFromGroup(group: Group, user: User) {
-    return this.http.delete<Group>(url + '/' + group.name + '/deleteUser/' + user.username);
+    return this.http.put<Group>(url + '/' + group.name + '/deleteUser/' + user.username,{});
   }
 
   getUsersFromGroup(groupName: string): Observable<User[]> {
