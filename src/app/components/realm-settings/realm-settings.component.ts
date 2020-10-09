@@ -29,7 +29,9 @@ export class RealmSettingsComponent implements OnInit {
       if (data == 'true') {
         this.realmService.deleteRealmByName(this.realm).subscribe(data => {
           this.realmService.getRealms().subscribe(data => {
-            this.realmService.editRealm(data[0]);
+            this.realmService.editRealms(data);
+          }, error => {
+            console.log(error);
           });
         });
       }

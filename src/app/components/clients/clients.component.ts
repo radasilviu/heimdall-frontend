@@ -51,6 +51,8 @@ export class ClientsComponent implements OnInit {
       if (data == 'true') {
         this.service.deleteClient(clientName).subscribe(() => {
           this.getAllClients();
+        }, error => {
+          console.log(error);
         });
       }
     });
