@@ -2,7 +2,8 @@ import {Component, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
 import {Role} from 'src/app/models/Role';
 import {User} from 'src/app/models/User';
-import {RestApiServiceService} from '../../services/restapiservice/rest-api-service.service';
+import {RoleServiceService} from '../../services/role-service/role-service.service';
+import {UserServiceService} from '../../services/user-service/user-service.service';
 
 @Component({
   selector: 'app-roles',
@@ -13,13 +14,13 @@ export class RolesComponent implements OnInit {
   currentUser: User;
   userRoles: Role[];
   allRoles: Role[];
-  user:User;
+  user: User;
 
   displayedColumns: string[] = ['Roles'];
 
-  constructor(private service: RestApiServiceService,
-              private router: Router,
-              private restApi: RestApiServiceService) {
+  constructor(private roleService: RoleServiceService,
+              private userServcie: UserServiceService,
+              private router: Router,) {
   }
 
   ngOnInit() {
@@ -28,16 +29,16 @@ export class RolesComponent implements OnInit {
   }
 
   getUserRoles() {
-    let user = localStorage.getItem("currentUser")
-    this.restApi.getUserByUsername(user).subscribe(data =>{
-      this.userRoles = data.roles
+    let user = localStorage.getItem('currentUser');
+    this.userServcie.getUserByUsername(user).subscribe(data => {
+      this.userRoles = data.roles;
       this.user = data;
 
-    })
+    });
   }
 
   getAllRoles() {
-    this.restApi.getAllRoles().subscribe(data => {
+    this.roleService.getAllRoles().subscribe(data => {
       this.allRoles = data;
     });
   }
@@ -47,14 +48,14 @@ export class RolesComponent implements OnInit {
   }
 
   addRole(role) {
-    this.restApi.addUserRole(role, this.user).subscribe(data => {
-      this.getUserRoles()
+    this.roleService.addUserRole(role, this.user).subscribe(data => {
+      this.getUserRoles();
     });
   }
 
   deleteRole(role) {
-    this.restApi.deleteUserRole(this.user, role).subscribe(data => {
-      this.getUserRoles()
+    this.roleService.deleteUserRole(this.user, role).subscribe(data => {
+      this.getUserRoles();
     });
   }
 }

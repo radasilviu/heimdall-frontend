@@ -1,11 +1,12 @@
 import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
 import {MatDialog} from '@angular/material/dialog';
 import {Router} from '@angular/router';
-import {RestApiServiceService} from '../../services/restapiservice/rest-api-service.service';
 import {UserDialogComponent} from '../dialogs/user-dialog/user-dialog.component';
 import {User} from '../../models/User';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {DeleteDialogComponent} from '../dialogs/delete-dialog/delete-dialog.component';
+import {UserServiceService} from '../../services/user-service/user-service.service';
+import {SnackBarServiceService} from '../../services/snack-bar/snack-bar-service.service';
 
 @Component({
   selector: 'app-users',
@@ -15,7 +16,7 @@ import {DeleteDialogComponent} from '../dialogs/delete-dialog/delete-dialog.comp
 export class UsersComponent implements OnInit {
   displayedColumns = ['username', 'role'];
   allUsers: User[];
-  user = <User>{}
+  user = <User> {};
   form = new FormGroup({
     username: new FormControl('', Validators.required),
     password: new FormControl('', Validators.required),
@@ -23,8 +24,9 @@ export class UsersComponent implements OnInit {
   });
 
   constructor(private changeDetectorRefs: ChangeDetectorRef,
-              private service: RestApiServiceService,
-              public dialog: MatDialog,
+              private dialog: MatDialog,
+              private userService: UserServiceService,
+              private snackBar: SnackBarServiceService,
               private router: Router) {
   }
 
@@ -40,11 +42,11 @@ export class UsersComponent implements OnInit {
     const dialogRef = this.dialog.open(UserDialogComponent);
     dialogRef.afterClosed().subscribe(data => {
       if (data !== undefined) {
-        this.user.username = data
-        this.service.updateUserName(currentUserName, this.user).subscribe(data => {
+        this.user.username = data;
+        this.userService.updateUserName(currentUserName, this.user).subscribe(data => {
           this.getAllUsers();
         }, error => {
-          this.service.openSnackBar(error.error.message, 2000);
+          this.snackBar.openSnackBar(error.error.message, 2000);
         });
       }
     });
@@ -54,7 +56,7 @@ export class UsersComponent implements OnInit {
     const dialogRef = this.dialog.open(DeleteDialogComponent);
     dialogRef.afterClosed().subscribe(data => {
       if (data == 'true') {
-        this.service.deleteUser(username).subscribe(() => {
+        this.userService.deleteUser(username).subscribe(() => {
           this.getAllUsers();
         });
       }
@@ -62,17 +64,16 @@ export class UsersComponent implements OnInit {
   }
 
   getAllUsers() {
-    let clients = this.service.getAllUsers();
-    clients.subscribe(data => {
+    this.userService.getAllUsers().subscribe(data => {
       this.allUsers = data as User[];
     });
   }
 
   addUser(user: User) {
-    this.service.addUser(user).subscribe(data => {
+    this.userService.addUser(user).subscribe(data => {
       this.getAllUsers();
     }, error => {
-      this.service.openSnackBar(error.error.message, 3000);
+      this.snackBar.openSnackBar(error.error.message, 3000);
     });
   }
 

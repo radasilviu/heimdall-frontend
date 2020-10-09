@@ -1,11 +1,11 @@
 import {Component, OnInit} from '@angular/core';
 import {GroupServiceService} from '../../../services/group-service/group-service.service';
-import {RestApiServiceService} from '../../../services/restapiservice/rest-api-service.service';
 import {User} from '../../../models/User';
 import {Router} from '@angular/router';
 import {Group} from '../../../models/Group';
 import {DeleteDialogComponent} from '../../dialogs/delete-dialog/delete-dialog.component';
 import {MatDialog} from '@angular/material/dialog';
+import {UserServiceService} from '../../../services/user-service/user-service.service';
 
 @Component({
   selector: 'app-group-users',
@@ -15,8 +15,8 @@ import {MatDialog} from '@angular/material/dialog';
 export class GroupUsersComponent implements OnInit {
 
   constructor(private router: Router,
-              private restApiService: RestApiServiceService,
               private groupService: GroupServiceService,
+              private userService: UserServiceService,
               public dialog: MatDialog) {
   }
 
@@ -40,7 +40,7 @@ export class GroupUsersComponent implements OnInit {
   }
 
   getAllUsers() {
-    this.restApiService.getAllUsers().subscribe(data => {
+    this.userService.getAllUsers().subscribe(data => {
       this.users = data;
     });
   }
@@ -53,7 +53,6 @@ export class GroupUsersComponent implements OnInit {
   }
 
   deleteUserFromGroup(user) {
-
     let dialogRef = this.dialog.open(DeleteDialogComponent);
 
     dialogRef.afterClosed().subscribe(data => {
