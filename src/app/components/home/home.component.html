@@ -21,7 +21,9 @@
             <mat-panel-title>
               <ng-container *ngIf="realm">
                 <div> {{realm.displayName}}</div>
-
+              </ng-container>
+              <ng-container *ngIf="!realm">
+                <div> {{defaultRealm}}</div>
               </ng-container>
             </mat-panel-title>
           </mat-expansion-panel-header>
@@ -43,16 +45,16 @@
           <button type="button" (click)="realmSettings()" class="btn-block btn-primary btn-lg">Realm Settings</button>
         </li>
         <li class=" d-flex justify-content-center mb-3">
-          <button type="button" [routerLink]="['clients']" class="btn-block btn-primary btn-lg">Clients</button>
+          <button type="button"  (click)="goToClients()" class="btn-block btn-primary btn-lg">Clients</button>
         </li>
         <li class=" d-flex justify-content-center mb-3">
-          <button type="button" [routerLink]="['users']" class="btn-block btn-primary btn-lg">Users</button>
+          <button type="button" (click)="gotUsers()" class="btn-block btn-primary btn-lg">Users</button>
         </li>
         <li class=" d-flex justify-content-center mb-3">
-          <button type="button" [routerLink]="['users-group']" class="btn-block btn-primary btn-lg">Users Group</button>
+          <button type="button"  (click)="goToGroups()" class="btn-block btn-primary btn-lg">Users Group</button>
         </li>
         <li class=" d-flex justify-content-center mb-3">
-          <button type="button" [routerLink]="['roles']" class="btn-block btn-primary btn-lg">Roles</button>
+          <button type="button" (click)="gotoRoles()" class="btn-block btn-primary btn-lg">Roles</button>
         </li>
         <li class=" d-flex justify-content-center mb-3">
           <button type="button" [routerLink]="['identity-provider']" class="btn-block btn-primary btn-lg">Identity-Provider</button>

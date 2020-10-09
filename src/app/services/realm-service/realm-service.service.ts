@@ -12,20 +12,6 @@ const url = Env.apiRootURL + '/api/admin/realm';
   providedIn: 'root'
 })
 export class RealmServiceService {
-  realms: any = new Subject<Realm>();
-  currentRealm = new Subject<Realm>();
-
-  getAllRealms = this.realms.asObservable();
-
-  getRealm = this.currentRealm.asObservable();
-
-  editRealm(realm) {
-    this.currentRealm.next(realm);
-  }
-
-  editRealms(realms) {
-    this.realms.next(realms);
-  }
 
   constructor(private http: HttpClient, private snackBar: MatSnackBar, private router: Router) {
   }

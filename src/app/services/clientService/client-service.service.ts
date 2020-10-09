@@ -1,8 +1,9 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Client} from '../../models/Client';
-import {Observable} from 'rxjs';
+import {Observable, Subject} from 'rxjs';
 import {Env} from '../../configs/env';
+import {Role} from '../../models/Role';
 
 const url = Env.apiRootURL + '/api';
 
@@ -11,24 +12,26 @@ const url = Env.apiRootURL + '/api';
 })
 export class ClientServiceService {
 
+  allClients = new Subject<Client[]>();
+
   constructor(private http: HttpClient) {}
 
-  updateClientByName(currentClientName: string, client: Client) {
+  updateClientByName(currentClientName: string, client: Client,realm:string) {
 
-    return this.http.put(url + '/client/' + currentClientName, client);
+    return this.http.put(url + '/client/'+  realm + "/" + currentClientName, client);
   }
 
-  getAllClients(): Observable<Client[]> {
-    return this.http.get<Client[]>(url + '/client');
+  getAllClients(realm:string): Observable<Client[]> {
+    return this.http.get<Client[]>(url + '/client/' + realm );
   }
 
 
-  deleteClient(clientName: string) {
-    return this.http.request('delete', url + '/client/' + clientName);
+  deleteClient(clientName: string,realm:string) {
+    return this.http.request('delete', url + '/client/'+ realm + "/" + clientName);
   }
 
-  addClient(client: Client) {
-    return this.http.post<any>(url + '/client', client);
+  addClient(client: Client,realm:string) {
+    return this.http.post<any>(url + '/client/' + realm, client);
   }
 
 }

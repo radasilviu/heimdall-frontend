@@ -1,10 +1,9 @@
 import {Injectable} from '@angular/core';
-import {Observable} from 'rxjs';
+import {Observable, Subject} from 'rxjs';
 import {Role} from '../../models/Role';
 import {User} from '../../models/User';
 import {HttpClient} from '@angular/common/http';
 import {Env} from '../../configs/env';
-
 const url = Env.apiRootURL + '/api';
 
 @Injectable({
@@ -12,29 +11,32 @@ const url = Env.apiRootURL + '/api';
 })
 export class RoleServiceService {
 
+
+   allRoles = new Subject<Role[]>();
+
   constructor(private http: HttpClient) {}
 
-  getAllRoles(): Observable<Role[]> {
-    return this.http.get<Role[]>(url + '/role');
+  getAllRoles(realm:string): Observable<Role[]> {
+    return this.http.get<Role[]>(url + '/role/'+ realm, );
   }
 
-  addRole(role: Role) {
-    return this.http.post<any>(url + '/role', role);
+  addRole(role: Role,realm:string) {
+    return this.http.post<any>(url + '/role/'+ realm, role);
   }
 
-  deleteRole(role: Role) {
-    return this.http.request('delete', url + '/role/' + role);
+  deleteRole(role: Role,realm:string) {
+    return this.http.request('delete', url + '/role/'+ realm +"/" + role);
   }
 
-  addUserRole(role: Role, user: User) {
-    return this.http.post<any>(url + '/user/' + user.username + '/addRole', role.name);
+  addUserRole(role: Role, user: User,realm:string) {
+    return this.http.post<any>(url + '/user/' + realm + "/" + user.username + '/addRole', role.name);
   }
 
-  updateRoleByName(currentRoleName: string, newRole: Role) {
-    return this.http.put(url + '/role/' + currentRoleName, newRole);
+  updateRoleByName(currentRoleName: string, newRole: Role, realm:string) {
+    return this.http.put(url + '/role/'+ realm + currentRoleName, newRole);
   }
 
-  deleteUserRole(user: User, role: Role) {
-    return this.http.request('delete', url + '/user/' + user.username + '/removeRole', {body: role.name});
+  deleteUserRole(user: User, role: Role, realm:string) {
+    return this.http.request('delete', url + '/user/' + realm +"/" + user.username + '/removeRole', {body: role.name});
   }
 }

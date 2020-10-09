@@ -21,7 +21,7 @@ export class GroupUsersComponent implements OnInit {
   }
 
   group: Group;
-  users: User[];
+  users;
   groupUsers: User[] = [];
 
   ngOnInit(): void {
@@ -30,34 +30,38 @@ export class GroupUsersComponent implements OnInit {
   }
 
   getGroup() {
+    let realm = localStorage.getItem("realm")
     let group = localStorage.getItem('groupName');
-    this.groupService.getGroupByName(group).subscribe(data => {
+    this.groupService.getGroupByName(group,realm).subscribe(data => {
       this.group = data;
     });
-    this.groupService.getUsersFromGroup(group).subscribe(data => {
+    this.groupService.getUsersFromGroup(group,realm).subscribe(data => {
       this.groupUsers = data;
     });
   }
 
   getAllUsers() {
-    this.userService.getAllUsers().subscribe(data => {
-      this.users = data;
-    });
+    this.userService.allUsers.subscribe(data =>{
+      this.users = data
+    })
   }
 
   addUserToGroup(user) {
+    let realm = localStorage.getItem("realm")
     let group = localStorage.getItem('groupName');
-    this.groupService.addUserToGroup(group, user).subscribe(data => {
+    this.groupService.addUserToGroup(group, user,realm).subscribe(data => {
       this.getGroup();
     });
   }
 
   deleteUserFromGroup(user) {
+    let realm = localStorage.getItem("realm")
+
     let dialogRef = this.dialog.open(DeleteDialogComponent);
 
     dialogRef.afterClosed().subscribe(data => {
       if (data == 'true') {
-        this.groupService.deleteUserFromGroup(this.group, user).subscribe(data => {
+        this.groupService.deleteUserFromGroup(this.group, user,realm).subscribe(data => {
           this.getGroup();
         });
       }

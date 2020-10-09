@@ -26,7 +26,7 @@ export class HeimdallRolesComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getAllRoles();
+    this.getRealmRoles();
   }
 
   onSubmit() {
@@ -38,8 +38,9 @@ export class HeimdallRolesComponent implements OnInit {
     dialogRef.afterClosed().subscribe(data => {
       if (data !== undefined) {
         this.role.name = data;
-        this.service.updateRoleByName(currentRoleName, this.role).subscribe(() => {
-          this.getAllRoles();
+        let realm = localStorage.getItem("realm")
+        this.service.updateRoleByName(currentRoleName, this.role,realm).subscribe(() => {
+          this.updateView();
         }, error => {
           this.snackBar.openSnackBar(error.error, 2000);
         });
@@ -47,15 +48,23 @@ export class HeimdallRolesComponent implements OnInit {
     });
   }
 
-  getAllRoles() {
-    this.service.getAllRoles().subscribe(data => {
-      this.allRoles = data;
-    });
+  updateView(){
+    let realm = localStorage.getItem("realm")
+    this.service.getAllRoles(realm).subscribe(data =>{
+      this.allRoles = data
+    })
+  }
+
+  getRealmRoles() {
+   this.service.allRoles.subscribe(data =>{
+     this.allRoles = data
+   })
   }
 
   addRole(role: Role) {
-    this.service.addRole(role).subscribe(() => {
-      this.getAllRoles();
+    let realm = localStorage.getItem("realm")
+    this.service.addRole(role,realm).subscribe(() => {
+      this.updateView();
     }, error => {
       this.snackBar.openSnackBar(error.error.message, 2000);
     });
@@ -65,8 +74,9 @@ export class HeimdallRolesComponent implements OnInit {
     const dialogRef = this.dialog.open(DeleteDialogComponent);
     dialogRef.afterClosed().subscribe(data => {
       if (data == 'true') {
-        this.service.deleteRole(role).subscribe(() => {
-          this.getAllRoles();
+        let realm = localStorage.getItem("realm")
+        this.service.deleteRole(role,realm).subscribe(() => {
+          this.updateView();
         }, error => {
           this.snackBar.openSnackBar(error.error.message, 4000);
         });

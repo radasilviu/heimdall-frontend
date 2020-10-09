@@ -18,9 +18,9 @@ export class RealmSettingsComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.realmService.getRealm.subscribe(realm => {
-      this.realm = realm;
-    });
+    // this.realmService.getRealm.subscribe(realm => {
+    //   this.realm = realm;
+    // });
   }
 
   deleteRealmByName() {
@@ -29,7 +29,7 @@ export class RealmSettingsComponent implements OnInit {
       if (data == 'true') {
         this.realmService.deleteRealmByName(this.realm).subscribe(data => {
           this.realmService.getRealms().subscribe(data => {
-            this.realmService.editRealms(data);
+          //  this.realmService.editRealms(data);
           });
         });
       }

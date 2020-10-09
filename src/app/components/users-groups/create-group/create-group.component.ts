@@ -24,7 +24,8 @@ export class CreateGroupComponent implements OnInit {
   }
 
   onSubmit() {
-    this.groupService.addNewGroup(this.createGroup.value).subscribe(data => {
+    let realm = localStorage.getItem("realm")
+    this.groupService.addNewGroup(this.createGroup.value,realm).subscribe(data => {
       this.router.navigate(['/home/users-group']);
     }, error => {
       this.snackbar.openSnackBar(error.error.message, 3000);

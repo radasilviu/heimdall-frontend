@@ -15,7 +15,7 @@ import {SnackBarServiceService} from '../../services/snack-bar/snack-bar-service
 })
 export class UsersComponent implements OnInit {
   displayedColumns = ['username', 'role'];
-  allUsers: User[];
+  allUsers;
   user = <User> {};
   form = new FormGroup({
     username: new FormControl('', Validators.required),
@@ -31,20 +31,36 @@ export class UsersComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getAllUsers();
+    this.getUsers();
   }
 
   onSubmit() {
     this.addUser(this.form.value);
   }
 
+
+  updateView() {
+    let realm = localStorage.getItem('realm');
+    this.userService.getAllUsers(realm).subscribe(data => {
+      this.allUsers = data;
+    });
+  }
+
+  getUsers() {
+    this.userService.allUsers.subscribe(data => {
+      this.allUsers = data;
+    });
+  }
+
+
   updateUser(currentUserName: string) {
+    let realm = localStorage.getItem("realm")
     const dialogRef = this.dialog.open(UserDialogComponent);
     dialogRef.afterClosed().subscribe(data => {
       if (data !== undefined) {
         this.user.username = data;
-        this.userService.updateUserName(currentUserName, this.user).subscribe(data => {
-          this.getAllUsers();
+        this.userService.updateUserName(currentUserName, this.user,realm).subscribe(data => {
+          this.updateView();
         }, error => {
           this.snackBar.openSnackBar(error.error.message, 2000);
         });
@@ -53,25 +69,23 @@ export class UsersComponent implements OnInit {
   }
 
   deleteUser(username: string) {
+    let realm = localStorage.getItem('realm');
     const dialogRef = this.dialog.open(DeleteDialogComponent);
     dialogRef.afterClosed().subscribe(data => {
       if (data == 'true') {
-        this.userService.deleteUser(username).subscribe(() => {
-          this.getAllUsers();
+        this.userService.deleteUser(username, realm).subscribe(() => {
+          this.updateView();
         });
       }
     });
   }
 
-  getAllUsers() {
-    this.userService.getAllUsers().subscribe(data => {
-      this.allUsers = data as User[];
-    });
-  }
 
   addUser(user: User) {
-    this.userService.addUser(user).subscribe(data => {
-      this.getAllUsers();
+    let realm = localStorage.getItem('realm');
+
+    this.userService.addUser(user, realm).subscribe(data => {
+      this.updateView();
     }, error => {
       this.snackBar.openSnackBar(error.error.message, 3000);
     });

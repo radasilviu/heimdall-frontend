@@ -19,43 +19,53 @@ export class RolesComponent implements OnInit {
   displayedColumns: string[] = ['Roles'];
 
   constructor(private roleService: RoleServiceService,
-              private userServcie: UserServiceService,
-              private router: Router,) {
+              private userService: UserServiceService,
+              private router: Router,
+              ) {
   }
 
   ngOnInit() {
-    this.getUserRoles();
+
+    this.updateView();
     this.getAllRoles();
   }
 
-  getUserRoles() {
+
+  updateView() {
     let user = localStorage.getItem('currentUser');
-    this.userServcie.getUserByUsername(user).subscribe(data => {
+    let realm = localStorage.getItem("realm")
+    this.userService.getUserByUsername(user,realm).subscribe(data => {
       this.userRoles = data.roles;
       this.user = data;
-
     });
   }
 
   getAllRoles() {
-    this.roleService.getAllRoles().subscribe(data => {
+    let realm = localStorage.getItem("realm")
+    this.roleService.getAllRoles(realm).subscribe(data => {
       this.allRoles = data;
     });
   }
 
   back() {
+    let realm = localStorage.getItem("realm")
+    this.userService.getAllUsers(realm).subscribe(data =>{
+      this.userService.allUsers.next(data)
+    })
     this.router.navigate(['home/users']);
   }
 
   addRole(role) {
-    this.roleService.addUserRole(role, this.user).subscribe(data => {
-      this.getUserRoles();
+    let realm = localStorage.getItem("realm")
+    this.roleService.addUserRole(role, this.user,realm).subscribe(data => {
+      this.updateView();
     });
   }
 
   deleteRole(role) {
-    this.roleService.deleteUserRole(this.user, role).subscribe(data => {
-      this.getUserRoles();
+    let realm = localStorage.getItem("realm")
+    this.roleService.deleteUserRole(this.user, role,realm).subscribe(data => {
+      this.updateView();
     });
   }
 }

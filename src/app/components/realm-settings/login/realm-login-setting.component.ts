@@ -23,24 +23,23 @@ export class RealmLoginSettingComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.realmService.getRealm.subscribe(data => this.realm = data);
-    this.realmService.getRealm.subscribe(data => {
-      this.loginForm.patchValue({
-        userRegistration: data.userRegistration,
-        editUsername: data.editUsername,
-        forgotPassword: data.forgotPassword,
-        rememberMe: data.rememberMe,
-        verifyEmail: data.verifyEmail,
-        loginWithEmail: data.loginWithEmail
-      });
-    });
+    // this.realmService.getRealm.subscribe(data => {
+    //   this.loginForm.patchValue({
+    //     userRegistration: data.userRegistration,
+    //     editUsername: data.editUsername,
+    //     forgotPassword: data.forgotPassword,
+    //     rememberMe: data.rememberMe,
+    //     verifyEmail: data.verifyEmail,
+    //     loginWithEmail: data.loginWithEmail
+    //   });
+    // });
   }
 
   onSubmit() {
-    this.realmService.updateLoginSettings(this.realm, this.loginForm.value).subscribe(data => {
-      this.realmService.getRealms().subscribe(data => {
-        this.realmService.editRealms(data);
-      });
-    });
+    // this.realmService.updateLoginSettings(this.realm, this.loginForm.value).subscribe(data => {
+    //   this.realmService.getRealms().subscribe(data => {
+    //     this.realmService.editRealms(data);
+    //   });
+    // });
   }
 }

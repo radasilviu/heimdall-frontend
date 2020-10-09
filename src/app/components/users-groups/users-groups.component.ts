@@ -17,24 +17,34 @@ export class UsersGroupsComponent implements OnInit {
               public dialog: MatDialog) {
   }
 
-  Groups: Group[];
+  allGroups: Group[];
 
   ngOnInit(): void {
-    this.getAllGroups();
+    this.getGroups();
   }
 
-  getAllGroups() {
-    this.groupService.getAllGroups().subscribe(data =>
-      this.Groups = data);
+  updateView() {
+    let realm = localStorage.getItem('realm');
+    this.groupService.getAllGroups(realm).subscribe(data => {
+      this.allGroups = data;
+    });
   }
+
+  getGroups() {
+    this.groupService.allGroups.subscribe(data => {
+      this.allGroups= data;
+    });
+  }
+
 
   deleteGroup(group) {
     let dialogRef = this.dialog.open(DeleteDialogComponent);
+    let realm = localStorage.getItem("realm")
 
     dialogRef.afterClosed().subscribe(data => {
       if (data == 'true') {
-        this.groupService.deleteGroupByName(group).subscribe(data => {
-          this.getAllGroups();
+        this.groupService.deleteGroupByName(group,realm).subscribe(data => {
+          this.updateView();
         });
       }
     });

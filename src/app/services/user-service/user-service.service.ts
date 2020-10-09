@@ -1,8 +1,9 @@
 import {Injectable} from '@angular/core';
 import {User} from '../../models/User';
-import {Observable} from 'rxjs';
+import {Observable, Subject} from 'rxjs';
 import {HttpClient} from '@angular/common/http';
 import {Env} from '../../configs/env';
+import {Client} from '../../models/Client';
 
 const url = Env.apiRootURL + '/api';
 
@@ -11,26 +12,28 @@ const url = Env.apiRootURL + '/api';
 })
 export class UserServiceService {
 
+  allUsers = new Subject<User[]>();
+
   constructor(private http: HttpClient) {
   }
 
-  updateUserName(currentUserName: string, newUser: User) {
-    return this.http.put(url + '/user/' + currentUserName, newUser);
+  updateUserName(currentUserName: string, newUser: User,realm:string) {
+    return this.http.put(url + '/user/'+realm +"/" + currentUserName, newUser);
   }
 
-  getAllUsers(): Observable<User[]> {
-    return this.http.get<User[]>(url + '/user');
+  getAllUsers(realm: string): Observable<User[]> {
+    return this.http.get<User[]>(url + '/user/' + realm);
   }
 
-  deleteUser(username: string) {
-    return this.http.request('delete', url + '/user/' + username);
+  deleteUser(username: string,realm:string) {
+    return this.http.request('delete', url + '/user/'+ realm + "/" + username);
   }
 
-  addUser(user: User) {
-    return this.http.post<any>(url + '/user', user);
+  addUser(user: User,realm:string) {
+    return this.http.post<any>(url + '/user/'+ realm, user);
   }
 
-  getUserByUsername(user: string): Observable<User> {
-    return this.http.get<User>(url + '/user/' + user);
+  getUserByUsername(user: string,realm:string): Observable<User> {
+    return this.http.get<User>(url + '/user/' + realm + "/" + user);
   }
 }

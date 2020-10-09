@@ -31,13 +31,14 @@ export class ClientsComponent implements OnInit {
   }
 
   updateClient(currentClientName: string) {
+    let realm = localStorage.getItem('realm');
     const dialogRef = this.dialog.open(ClientDialogComponent);
     dialogRef.afterClosed().subscribe(data => {
       if (data !== undefined) {
         this.Client.clientName = data;
-        this.service.updateClientByName(currentClientName, this.Client).subscribe(
+        this.service.updateClientByName(currentClientName, this.Client, realm).subscribe(
           data => {
-            this.getAllClients();
+            this.updateView();
           }, error => {
             this.snackBar.openSnackBar(error.error.message, 2000);
           });
@@ -46,11 +47,13 @@ export class ClientsComponent implements OnInit {
   }
 
   deleteClient(clientName) {
+    let realm = localStorage.getItem('realm');
+
     const dialogRef = this.dialog.open(DeleteDialogComponent);
     dialogRef.afterClosed().subscribe(data => {
       if (data == 'true') {
-        this.service.deleteClient(clientName).subscribe(() => {
-          this.getAllClients();
+        this.service.deleteClient(clientName, realm).subscribe(() => {
+          this.updateView();
         });
       }
     });
@@ -64,16 +67,24 @@ export class ClientsComponent implements OnInit {
     this.addClient(this.form.value);
   }
 
+  updateView() {
+    let realm = localStorage.getItem('realm');
+    this.service.getAllClients(realm).subscribe(data => {
+      this.allClients = data;
+    });
+  }
+
   getAllClients() {
-    this.service.getAllClients()
-      .subscribe(data => {
-        this.allClients = data;
-      });
+    this.service.allClients.subscribe(data =>{
+      this.allClients = data
+    })
   }
 
   addClient(client: Client) {
-    this.service.addClient(client).subscribe(data => {
-      this.getAllClients();
+    let realm = localStorage.getItem('realm');
+
+    this.service.addClient(client, realm).subscribe(data => {
+      this.updateView();
     }, error => {
       this.snackBar.openSnackBar(error.error.message, 2000);
     });
