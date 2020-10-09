@@ -18,7 +18,6 @@ export class IdentityProviderComponent implements OnInit {
 
   ngOnInit(): void {
     this.identityService.getGoogleProvider().subscribe(data =>{
-      console.log(data)
       this.identityGroup.patchValue({
         googleIsActive:data
       })
