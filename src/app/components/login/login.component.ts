@@ -25,7 +25,7 @@ export class LoginComponent implements OnInit {
   loginForm: FormGroup;
 
   ngOnInit(): void {
-    this.realm = "realm1"
+    this.realm = "master0"
 
     this.identityProviderService.getGoogleProvider().subscribe(data => {
     });
