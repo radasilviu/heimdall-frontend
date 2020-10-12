@@ -3,6 +3,8 @@ import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {Router} from '@angular/router';
 import {AdminAuthService} from '../../services/admin-auth/admin-auth.service';
 import {IdentityProviderServiceService} from '../../services/identity-provider-service/identity-provider-service.service';
+import {RealmServiceService} from '../../services/realm-service/realm-service.service';
+import {Realm} from '../../models/Realm';
 
 @Component({
   selector: 'app-login',
@@ -12,15 +14,19 @@ import {IdentityProviderServiceService} from '../../services/identity-provider-s
 
 export class LoginComponent implements OnInit {
   errorMessage: boolean = false;
+  realm;
 
   constructor(private identityProviderService: IdentityProviderServiceService,
               private authService: AdminAuthService,
-              private router: Router) {
+              private router: Router,
+              private realmService:RealmServiceService) {
   }
 
   loginForm: FormGroup;
 
   ngOnInit(): void {
+    this.realm = "realm1"
+
     this.identityProviderService.getGoogleProvider().subscribe(data => {
     });
     this.loginForm = new FormGroup({
@@ -30,12 +36,12 @@ export class LoginComponent implements OnInit {
   }
 
   login(): void {
-
     const username = this.loginForm.get('username').value;
     const password = this.loginForm.get('password').value;
 
     this.authService
-      .login(username, password)
+      .login(username, password,this.realm)
+
       .subscribe(
         user => {
           this.router.navigate(['home']);

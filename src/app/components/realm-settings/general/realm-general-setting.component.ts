@@ -29,7 +29,6 @@ export class RealmGeneralSettingComponent implements OnInit {
         displayName:data.displayName,
         enabled:data.enabled
       })
-      console.log(data)
     });
   }
 

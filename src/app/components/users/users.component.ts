@@ -41,9 +41,10 @@ export class UsersComponent implements OnInit {
 
   getUsers() {
     let realm = localStorage.getItem('realm');
-
     this.userService.getAllUsers(realm).subscribe(data => {
       this.allUsers = data;
+      console.log(data)
+
     });
   }
 
