@@ -4,6 +4,7 @@ import {GroupServiceService} from '../../services/group-service/group-service.se
 import {Router} from '@angular/router';
 import {MatDialog} from '@angular/material/dialog';
 import {DeleteDialogComponent} from '../dialogs/delete-dialog/delete-dialog.component';
+import {SnackBarServiceService} from '../../services/snack-bar/snack-bar-service.service';
 
 @Component({
   selector: 'app-users-groups',
@@ -14,7 +15,8 @@ export class UsersGroupsComponent implements OnInit {
 
   constructor(private groupService: GroupServiceService,
               private router: Router,
-              public dialog: MatDialog) {
+              public dialog: MatDialog,
+              private snackbar: SnackBarServiceService) {
   }
 
   Groups: Group[];
@@ -24,8 +26,11 @@ export class UsersGroupsComponent implements OnInit {
   }
 
   getAllGroups() {
-    this.groupService.getAllGroups().subscribe(data =>
-      this.Groups = data);
+    this.groupService.getAllGroups().subscribe(data => {
+      this.Groups = data;
+    }, error => {
+      this.snackbar.openSnackBar(error.error.message, 3000);
+    });
   }
 
   deleteGroup(group) {
@@ -35,6 +40,8 @@ export class UsersGroupsComponent implements OnInit {
       if (data == 'true') {
         this.groupService.deleteGroupByName(group).subscribe(data => {
           this.getAllGroups();
+        }, error => {
+          this.snackbar.openSnackBar(error.error.message, 3000);
         });
       }
     });

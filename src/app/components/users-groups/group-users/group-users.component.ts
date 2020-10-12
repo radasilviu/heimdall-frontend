@@ -6,6 +6,7 @@ import {Group} from '../../../models/Group';
 import {DeleteDialogComponent} from '../../dialogs/delete-dialog/delete-dialog.component';
 import {MatDialog} from '@angular/material/dialog';
 import {UserServiceService} from '../../../services/user-service/user-service.service';
+import {SnackBarServiceService} from '../../../services/snack-bar/snack-bar-service.service';
 
 @Component({
   selector: 'app-group-users',
@@ -17,7 +18,8 @@ export class GroupUsersComponent implements OnInit {
   constructor(private router: Router,
               private groupService: GroupServiceService,
               private userService: UserServiceService,
-              public dialog: MatDialog) {
+              private dialog: MatDialog,
+              private snackbar: SnackBarServiceService ) {
   }
 
   group: Group;
@@ -33,15 +35,21 @@ export class GroupUsersComponent implements OnInit {
     let group = localStorage.getItem('groupName');
     this.groupService.getGroupByName(group).subscribe(data => {
       this.group = data;
+    },error => {
+      this.snackbar.openSnackBar(error.error.message, 3000);
     });
     this.groupService.getUsersFromGroup(group).subscribe(data => {
       this.groupUsers = data;
+    },error => {
+      this.snackbar.openSnackBar(error.error.message, 3000);
     });
   }
 
   getAllUsers() {
     this.userService.getAllUsers().subscribe(data => {
       this.users = data;
+    },error => {
+      this.snackbar.openSnackBar(error.error.message, 3000);
     });
   }
 
@@ -49,6 +57,8 @@ export class GroupUsersComponent implements OnInit {
     let group = localStorage.getItem('groupName');
     this.groupService.addUserToGroup(group, user).subscribe(data => {
       this.getGroup();
+    },error => {
+      this.snackbar.openSnackBar(error.error.message, 3000);
     });
   }
 
@@ -59,6 +69,8 @@ export class GroupUsersComponent implements OnInit {
       if (data == 'true') {
         this.groupService.deleteUserFromGroup(this.group, user).subscribe(data => {
           this.getGroup();
+        },error => {
+          this.snackbar.openSnackBar(error.error.message, 3000);
         });
       }
     });
