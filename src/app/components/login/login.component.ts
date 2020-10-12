@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
-import { RestApiServiceService } from 'src/app/services/restapiservice/rest-api-service.service';
-import { AdminAuthService } from '../../services/admin-auth/admin-auth.service';
+import {Component, OnInit} from '@angular/core';
+import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {Router} from '@angular/router';
+import {AdminAuthService} from '../../services/admin-auth/admin-auth.service';
+import {IdentityProviderService} from '../../services/identity-provider-service/identity-provider-service';
 
 @Component({
   selector: 'app-login',
@@ -12,11 +12,17 @@ import { AdminAuthService } from '../../services/admin-auth/admin-auth.service';
 
 export class LoginComponent implements OnInit {
   errorMessage: boolean = false;
-  constructor(private authService: AdminAuthService, private router: Router, private route: ActivatedRoute, private service: RestApiServiceService) { }
+
+  constructor(private identityProviderService: IdentityProviderService,
+              private authService: AdminAuthService,
+              private router: Router) {
+  }
 
   loginForm: FormGroup;
 
   ngOnInit(): void {
+    this.identityProviderService.getGoogleProvider().subscribe(data => {
+    });
     this.loginForm = new FormGroup({
       username: new FormControl('', [Validators.required]),
       password: new FormControl('', [Validators.required])

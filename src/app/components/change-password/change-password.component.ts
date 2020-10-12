@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
 import {MatSnackBar} from '@angular/material/snack-bar';
-import {ChangePasswordService} from '../../services/change-password/change-password.service';
+import {ChangePasswordService} from '../../services/change-password-service/change-password.service';
 
 @Component({
   selector: 'app-change-password',

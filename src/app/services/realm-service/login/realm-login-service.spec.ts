@@ -1,22 +1,23 @@
-import { TestBed } from '@angular/core/testing';
+import {TestBed} from '@angular/core/testing';
 
-import { ClientLoginService } from './client-login.service';
+import {RealmLoginService} from './realm-login-service';
 import {HttpClientTestingModule} from '@angular/common/http/testing';
 import {RouterTestingModule} from '@angular/router/testing';
-import {MatSnackBar, MatSnackBarModule} from '@angular/material/snack-bar';
+import {MatSnackBarModule} from '@angular/material/snack-bar';
 
-describe('ClientServiceService', () => {
-  let service: ClientLoginService;
+describe('RealmLoginServiceService', () => {
+  let service: RealmLoginService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
+
       imports: [
         HttpClientTestingModule,
         RouterTestingModule,
         MatSnackBarModule
       ],
     });
-    service = TestBed.inject(ClientLoginService);
+    service = TestBed.inject(RealmLoginService);
   });
 
   it('should be created', () => {

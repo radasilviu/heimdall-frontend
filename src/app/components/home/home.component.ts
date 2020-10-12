@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
 import {AdminAuthService} from 'src/app/services/admin-auth/admin-auth.service';
-import {RealmServiceService} from 'src/app/services/realm-service/realm-service.service';
+import {RealmService} from 'src/app/services/realm-service/realm-service';
 import {Realm} from '../../models/Realm';
 
 @Component({
@@ -15,7 +15,7 @@ export class HomeComponent implements OnInit {
   realm: Realm;
   realms: Realm[];
 
-  constructor(private router: Router, private realmService: RealmServiceService, private adminAuthService: AdminAuthService) {
+  constructor(private router: Router, private realmService: RealmService, private adminAuthService: AdminAuthService) {
   }
 
   ngOnInit(): void {

@@ -1,12 +1,12 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
-import { Router } from '@angular/router';
-import { RestApiServiceService } from '../../services/restapiservice/rest-api-service.service';
-import { RoleServiceService } from '../../services/roleservice/role-service.service';
-import { UserDialogComponent } from '../dialogs/user-dialog/user-dialog.component';
-import { IUser } from '../../models/User';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { DeleteDialogComponent } from '../dialogs/delete-dialog/delete-dialog.component';
+import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
+import {MatDialog} from '@angular/material/dialog';
+import {Router} from '@angular/router';
+import {UserDialogComponent} from '../dialogs/user-dialog/user-dialog.component';
+import {User} from '../../models/User';
+import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {DeleteDialogComponent} from '../dialogs/delete-dialog/delete-dialog.component';
+import {UserService} from '../../services/user-service/user-service';
+import {SnackBarService} from '../../services/snack-bar/snack-bar-service';
 
 @Component({
   selector: 'app-users',
@@ -15,35 +15,38 @@ import { DeleteDialogComponent } from '../dialogs/delete-dialog/delete-dialog.co
 })
 export class UsersComponent implements OnInit {
   displayedColumns = ['username', 'role'];
-  allUsers: IUser[];
+  allUsers: User[];
+  user = <User> {};
   form = new FormGroup({
     username: new FormControl('', Validators.required),
     password: new FormControl('', Validators.required),
     email: new FormControl('', Validators.email)
-  })
+  });
 
   constructor(private changeDetectorRefs: ChangeDetectorRef,
-    private service: RestApiServiceService,
-    private roleService: RoleServiceService,
-    public dialog: MatDialog,
-    private router: Router) { }
+              private dialog: MatDialog,
+              private userService: UserService,
+              private snackBar: SnackBarService,
+              private router: Router) {
+  }
 
   ngOnInit(): void {
     this.getAllUsers();
   }
 
   onSubmit() {
-    this.addUser(this.form.value)
+    this.addUser(this.form.value);
   }
 
   updateUser(currentUserName: string) {
     const dialogRef = this.dialog.open(UserDialogComponent);
     dialogRef.afterClosed().subscribe(data => {
       if (data !== undefined) {
-        this.service.updateUserName(currentUserName, data).subscribe(data => {
+        this.user.username = data;
+        this.userService.updateUserName(currentUserName, this.user).subscribe(data => {
           this.getAllUsers();
         }, error => {
-          this.service.openSnackBar(error.error.message, 2000);
+          this.snackBar.openSnackBar(error.error.message, 2000);
         });
       }
     });
@@ -52,31 +55,30 @@ export class UsersComponent implements OnInit {
   deleteUser(username: string) {
     const dialogRef = this.dialog.open(DeleteDialogComponent);
     dialogRef.afterClosed().subscribe(data => {
-      if (data == "true") {
-        this.service.deleteUser(username).subscribe(() => {
+      if (data == 'true') {
+        this.userService.deleteUser(username).subscribe(() => {
           this.getAllUsers();
         });
       }
-    })
+    });
   }
 
   getAllUsers() {
-    let clients = this.service.getAllUsers();
-    clients.subscribe(data => {
-      this.allUsers = data as IUser[]
-    })
+    this.userService.getAllUsers().subscribe(data => {
+      this.allUsers = data as User[];
+    });
   }
 
-  addUser(user: IUser) {
-    this.service.addUser(user).subscribe(data =>{
+  addUser(user: User) {
+    this.userService.addUser(user).subscribe(data => {
       this.getAllUsers();
-    },error =>{
-      this.service.openSnackBar(error.error.message,3000);
-    })
+    }, error => {
+      this.snackBar.openSnackBar(error.error.message, 3000);
+    });
   }
 
-  userRoles(username: string) {
-    this.roleService.setUserName(username)
+  userRoles(user) {
+    localStorage.setItem('currentUser', user.username);
     this.router.navigate(['home/users/roles']);
   }
 }

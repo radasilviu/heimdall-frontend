@@ -1,10 +1,11 @@
 import {Component, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {MatDialog} from '@angular/material/dialog';
-import {IRole} from 'src/app/models/Role';
-import {RestApiServiceService} from '../../services/restapiservice/rest-api-service.service';
+import {Role} from 'src/app/models/Role';
 import {DeleteDialogComponent} from '../dialogs/delete-dialog/delete-dialog.component';
 import {RolesDialogComponent} from '../dialogs/roles-dialog/roles-dialog.component';
+import {RoleService} from '../../services/role-service/role-service';
+import {SnackBarService} from '../../services/snack-bar/snack-bar-service';
 
 @Component({
   selector: 'app-heimdall-roles',
@@ -13,12 +14,14 @@ import {RolesDialogComponent} from '../dialogs/roles-dialog/roles-dialog.compone
 })
 export class HeimdallRolesComponent implements OnInit {
   displayedColumns: string[] = ['Roles'];
-  allRoles: IRole[];
+  allRoles: Role[];
+  role = <Role> {};
   form = new FormGroup({
     name: new FormControl('', Validators.required)
   });
 
-  constructor(private service: RestApiServiceService,
+  constructor(private service: RoleService,
+              private snackBar: SnackBarService,
               public dialog: MatDialog) {
   }
 
@@ -34,10 +37,11 @@ export class HeimdallRolesComponent implements OnInit {
     const dialogRef = this.dialog.open(RolesDialogComponent);
     dialogRef.afterClosed().subscribe(data => {
       if (data !== undefined) {
-        this.service.updateRoleByName(currentRoleName, data).subscribe(() => {
+        this.role.name = data;
+        this.service.updateRoleByName(currentRoleName, this.role).subscribe(() => {
           this.getAllRoles();
         }, error => {
-          this.service.openSnackBar(error.error, 2000);
+          this.snackBar.openSnackBar(error.error, 2000);
         });
       }
     });
@@ -49,12 +53,11 @@ export class HeimdallRolesComponent implements OnInit {
     });
   }
 
-  addRole(role :IRole) {
+  addRole(role: Role) {
     this.service.addRole(role).subscribe(() => {
       this.getAllRoles();
     }, error => {
-      console.log(error);
-      this.service.openSnackBar(error.error.message, 2000);
+      this.snackBar.openSnackBar(error.error.message, 2000);
     });
   }
 
@@ -65,7 +68,7 @@ export class HeimdallRolesComponent implements OnInit {
         this.service.deleteRole(role).subscribe(() => {
           this.getAllRoles();
         }, error => {
-          this.service.openSnackBar(error.error.message, 4000);
+          this.snackBar.openSnackBar(error.error.message, 4000);
         });
       }
     });

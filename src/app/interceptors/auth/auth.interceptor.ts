@@ -1,15 +1,11 @@
-import {
-  HttpEvent, HttpHandler,
-
-  HttpInterceptor, HttpRequest
-} from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import {HttpEvent, HttpHandler, HttpInterceptor, HttpRequest} from '@angular/common/http';
+import {Injectable} from '@angular/core';
 import * as moment from 'moment';
-import { EMPTY, Observable } from 'rxjs';
-import { catchError, switchMap } from 'rxjs/operators';
-import { Token } from 'src/app/models/token';
-import { Constants } from 'src/app/utils/constants';
-import { AdminAuthService } from '../../services/admin-auth/admin-auth.service';
+import {EMPTY, Observable} from 'rxjs';
+import {catchError, switchMap} from 'rxjs/operators';
+import {Token} from 'src/app/models/token';
+import {Constants} from 'src/app/utils/constants';
+import {AdminAuthService} from '../../services/admin-auth/admin-auth.service';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {

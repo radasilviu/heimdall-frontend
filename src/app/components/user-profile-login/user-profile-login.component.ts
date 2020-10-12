@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { AdminAuthService } from '../../services/admin-auth/admin-auth.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { RealmServiceService } from '../../services/realm-service/realm-service.service';
+import { RealmService } from '../../services/realm-service/realm-service';
 import { Realm } from '../../models/Realm';
 import { Token } from '../../models/token';
 
@@ -17,7 +17,7 @@ export class UserProfileLoginComponent implements OnInit {
   realm: Realm;
 
   constructor(private authService: AdminAuthService, private router: Router, private route: ActivatedRoute,
-              private realmService: RealmServiceService) { }
+              private realmService: RealmService) { }
 
   ngOnInit(): void {
     this.loginForm = new FormGroup({

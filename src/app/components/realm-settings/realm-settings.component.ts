@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {RealmServiceService} from 'src/app/services/realm-service/realm-service.service';
+import {RealmService} from 'src/app/services/realm-service/realm-service';
 import {Realm} from '../../models/Realm';
 import {DeleteDialogComponent} from '../dialogs/delete-dialog/delete-dialog.component';
 import {MatDialog} from '@angular/material/dialog';
@@ -11,26 +11,26 @@ import {MatDialog} from '@angular/material/dialog';
 })
 export class RealmSettingsComponent implements OnInit {
 
-  realm:Realm;
-  constructor(private realmService: RealmServiceService, private dialog: MatDialog) {
+  realm: Realm;
+
+  constructor(private realmService: RealmService,
+              private dialog: MatDialog) {
   }
 
   ngOnInit() {
-    this.realmService.getRealm.subscribe(realm =>{
+    this.realmService.getRealm.subscribe(realm => {
       this.realm = realm;
-    })
+    });
   }
-
 
   deleteRealmByName() {
     const dialogRef = this.dialog.open(DeleteDialogComponent);
     dialogRef.afterClosed().subscribe(data => {
-      if(data == "true"){
-        this.realmService.deleteRealmByName(this.realm).subscribe(data =>{
-          this.realmService.getRealms().subscribe(data =>{
+      if (data == 'true') {
+        this.realmService.deleteRealmByName(this.realm).subscribe(data => {
+          this.realmService.getRealms().subscribe(data => {
             this.realmService.editRealms(data);
-            this.realmService.editRealm(data[0])
-          })
+          });
         });
       }
     });

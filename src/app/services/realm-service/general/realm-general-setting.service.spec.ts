@@ -1,9 +1,9 @@
-import { TestBed } from '@angular/core/testing';
+import {TestBed} from '@angular/core/testing';
 
-import { RealmGeneralSettingService } from './realm-general-setting.service';
+import {RealmGeneralSettingService} from './realm-general-setting.service';
 import {HttpClientTestingModule} from '@angular/common/http/testing';
 import {RouterTestingModule} from '@angular/router/testing';
-import {MatSnackBar, MatSnackBarModule} from '@angular/material/snack-bar';
+import {MatSnackBarModule} from '@angular/material/snack-bar';
 
 describe('RealmGeneralSettingService', () => {
   let service: RealmGeneralSettingService;

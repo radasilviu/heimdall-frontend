@@ -1,12 +1,12 @@
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { Router } from '@angular/router';
-import { BehaviorSubject, Observable, throwError } from 'rxjs';
-import { catchError, tap } from 'rxjs/operators';
-import { Token } from 'src/app/models/token';
-import { Constants } from 'src/app/utils/constants';
-import { Env } from '../../configs/env';
+import {HttpClient, HttpErrorResponse} from '@angular/common/http';
+import {Injectable} from '@angular/core';
+import {MatSnackBar} from '@angular/material/snack-bar';
+import {Router} from '@angular/router';
+import {BehaviorSubject, Observable, throwError} from 'rxjs';
+import {catchError, tap} from 'rxjs/operators';
+import {Token} from 'src/app/models/token';
+import {Constants} from 'src/app/utils/constants';
+import {Env} from '../../configs/env';
 
 @Injectable({
   providedIn: 'root'
