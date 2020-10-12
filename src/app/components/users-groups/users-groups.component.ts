@@ -14,7 +14,8 @@ export class UsersGroupsComponent implements OnInit {
 
   constructor(private groupService: GroupServiceService,
               private router: Router,
-              public dialog: MatDialog) {
+              public dialog: MatDialog,
+              private snackbar,SnackbarC) {
   }
 
   allGroups: Group[];
@@ -45,6 +46,8 @@ export class UsersGroupsComponent implements OnInit {
       if (data == 'true') {
         this.groupService.deleteGroupByName(group,realm).subscribe(data => {
           this.updateView();
+        },error => {
+          this.sna
         });
       }
     });
