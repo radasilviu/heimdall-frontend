@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {RealmServiceService} from 'src/app/services/realm-service/realm-service.service';
+import {RealmService} from 'src/app/services/realm-service/realm-service';
 import {Realm} from '../../models/Realm';
 import {DeleteDialogComponent} from '../dialogs/delete-dialog/delete-dialog.component';
 import {MatDialog} from '@angular/material/dialog';
@@ -13,7 +13,7 @@ export class RealmSettingsComponent implements OnInit {
 
   realm: Realm;
 
-  constructor(private realmService: RealmServiceService,
+  constructor(private realmService: RealmService,
               private dialog: MatDialog) {
   }
 

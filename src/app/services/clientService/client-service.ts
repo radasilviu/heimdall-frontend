@@ -9,7 +9,7 @@ const url = Env.apiRootURL + '/api';
 @Injectable({
   providedIn: 'root'
 })
-export class ClientServiceService {
+export class ClientService {
 
   constructor(private http: HttpClient) {}
 

@@ -4,8 +4,8 @@ import {MatDialog} from '@angular/material/dialog';
 import {Role} from 'src/app/models/Role';
 import {DeleteDialogComponent} from '../dialogs/delete-dialog/delete-dialog.component';
 import {RolesDialogComponent} from '../dialogs/roles-dialog/roles-dialog.component';
-import {RoleServiceService} from '../../services/role-service/role-service.service';
-import {SnackBarServiceService} from '../../services/snack-bar/snack-bar-service.service';
+import {RoleService} from '../../services/role-service/role-service';
+import {SnackBarService} from '../../services/snack-bar/snack-bar-service';
 
 @Component({
   selector: 'app-heimdall-roles',
@@ -20,8 +20,8 @@ export class HeimdallRolesComponent implements OnInit {
     name: new FormControl('', Validators.required)
   });
 
-  constructor(private service: RoleServiceService,
-              private snackBar: SnackBarServiceService,
+  constructor(private service: RoleService,
+              private snackBar: SnackBarService,
               public dialog: MatDialog) {
   }
 

@@ -1,12 +1,12 @@
 import {Component, OnInit} from '@angular/core';
-import {GroupServiceService} from '../../../services/group-service/group-service.service';
+import {GroupService} from '../../../services/group-service/group-service';
 import {User} from '../../../models/User';
 import {Router} from '@angular/router';
 import {Group} from '../../../models/Group';
 import {DeleteDialogComponent} from '../../dialogs/delete-dialog/delete-dialog.component';
 import {MatDialog} from '@angular/material/dialog';
-import {UserServiceService} from '../../../services/user-service/user-service.service';
-import {SnackBarServiceService} from '../../../services/snack-bar/snack-bar-service.service';
+import {UserService} from '../../../services/user-service/user-service';
+import {SnackBarService} from '../../../services/snack-bar/snack-bar-service';
 
 @Component({
   selector: 'app-group-users',
@@ -16,10 +16,10 @@ import {SnackBarServiceService} from '../../../services/snack-bar/snack-bar-serv
 export class GroupUsersComponent implements OnInit {
 
   constructor(private router: Router,
-              private groupService: GroupServiceService,
-              private userService: UserServiceService,
+              private groupService: GroupService,
+              private userService: UserService,
               private dialog: MatDialog,
-              private snackbar: SnackBarServiceService ) {
+              private snackbar: SnackBarService ) {
   }
 
   group: Group;

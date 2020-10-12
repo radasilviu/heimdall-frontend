@@ -2,8 +2,8 @@ import {Component, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
 import {Role} from 'src/app/models/Role';
 import {User} from 'src/app/models/User';
-import {RoleServiceService} from '../../services/role-service/role-service.service';
-import {UserServiceService} from '../../services/user-service/user-service.service';
+import {RoleService} from '../../services/role-service/role-service';
+import {UserService} from '../../services/user-service/user-service';
 
 @Component({
   selector: 'app-roles',
@@ -18,8 +18,8 @@ export class RolesComponent implements OnInit {
 
   displayedColumns: string[] = ['Roles'];
 
-  constructor(private roleService: RoleServiceService,
-              private userServcie: UserServiceService,
+  constructor(private roleService: RoleService,
+              private userServcie: UserService,
               private router: Router,) {
   }
 

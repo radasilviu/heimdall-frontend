@@ -1,10 +1,10 @@
 import {Component, OnInit} from '@angular/core';
 import {Group} from '../../models/Group';
-import {GroupServiceService} from '../../services/group-service/group-service.service';
+import {GroupService} from '../../services/group-service/group-service';
 import {Router} from '@angular/router';
 import {MatDialog} from '@angular/material/dialog';
 import {DeleteDialogComponent} from '../dialogs/delete-dialog/delete-dialog.component';
-import {SnackBarServiceService} from '../../services/snack-bar/snack-bar-service.service';
+import {SnackBarService} from '../../services/snack-bar/snack-bar-service';
 
 @Component({
   selector: 'app-users-groups',
@@ -13,10 +13,10 @@ import {SnackBarServiceService} from '../../services/snack-bar/snack-bar-service
 })
 export class UsersGroupsComponent implements OnInit {
 
-  constructor(private groupService: GroupServiceService,
+  constructor(private groupService: GroupService,
               private router: Router,
               public dialog: MatDialog,
-              private snackbar: SnackBarServiceService) {
+              private snackbar: SnackBarService) {
   }
 
   Groups: Group[];

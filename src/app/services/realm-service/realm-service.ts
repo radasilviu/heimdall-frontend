@@ -11,7 +11,7 @@ const url = Env.apiRootURL + '/api/admin/realm';
 @Injectable({
   providedIn: 'root'
 })
-export class RealmServiceService {
+export class RealmService {
   realms: any = new Subject<Realm>();
   currentRealm = new Subject<Realm>();
 

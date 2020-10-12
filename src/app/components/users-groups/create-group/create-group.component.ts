@@ -1,8 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {GroupServiceService} from '../../../services/group-service/group-service.service';
+import {GroupService} from '../../../services/group-service/group-service';
 import {Router} from '@angular/router';
-import {SnackBarServiceService} from '../../../services/snack-bar/snack-bar-service.service';
+import {SnackBarService} from '../../../services/snack-bar/snack-bar-service';
 
 @Component({
   selector: 'app-create-group',
@@ -11,9 +11,9 @@ import {SnackBarServiceService} from '../../../services/snack-bar/snack-bar-serv
 })
 export class CreateGroupComponent implements OnInit {
 
-  constructor(private groupService: GroupServiceService,
+  constructor(private groupService: GroupService,
               private router: Router,
-              private snackbar: SnackBarServiceService) {
+              private snackbar: SnackBarService) {
   }
 
   createGroup = new FormGroup({

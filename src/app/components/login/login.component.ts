@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {Router} from '@angular/router';
 import {AdminAuthService} from '../../services/admin-auth/admin-auth.service';
-import {IdentityProviderServiceService} from '../../services/identity-provider-service/identity-provider-service.service';
+import {IdentityProviderService} from '../../services/identity-provider-service/identity-provider-service';
 
 @Component({
   selector: 'app-login',
@@ -13,7 +13,7 @@ import {IdentityProviderServiceService} from '../../services/identity-provider-s
 export class LoginComponent implements OnInit {
   errorMessage: boolean = false;
 
-  constructor(private identityProviderService: IdentityProviderServiceService,
+  constructor(private identityProviderService: IdentityProviderService,
               private authService: AdminAuthService,
               private router: Router) {
   }

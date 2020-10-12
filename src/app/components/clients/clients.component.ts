@@ -4,8 +4,8 @@ import {ClientDialogComponent} from '../dialogs/client-dialog/client-dialog.comp
 import {Client} from '../../models/Client';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {DeleteDialogComponent} from '../dialogs/delete-dialog/delete-dialog.component';
-import {ClientServiceService} from '../../services/clientService/client-service.service';
-import {SnackBarServiceService} from '../../services/snack-bar/snack-bar-service.service';
+import {ClientService} from '../../services/clientService/client-service';
+import {SnackBarService} from '../../services/snack-bar/snack-bar-service';
 
 
 @Component({
@@ -25,8 +25,8 @@ export class ClientsComponent implements OnInit {
   });
 
   constructor(private changeDetectorRefs: ChangeDetectorRef,
-              private service: ClientServiceService,
-              private snackBar: SnackBarServiceService,
+              private service: ClientService,
+              private snackBar: SnackBarService,
               public dialog: MatDialog) {
   }
 

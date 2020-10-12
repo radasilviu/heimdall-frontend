@@ -10,7 +10,7 @@ const url = Env.apiRootURL + '/api/client/group';
 @Injectable({
   providedIn: 'root'
 })
-export class GroupServiceService {
+export class GroupService {
 
   constructor(private http: HttpClient) {
   }

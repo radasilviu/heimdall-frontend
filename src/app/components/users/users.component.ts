@@ -5,8 +5,8 @@ import {UserDialogComponent} from '../dialogs/user-dialog/user-dialog.component'
 import {User} from '../../models/User';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {DeleteDialogComponent} from '../dialogs/delete-dialog/delete-dialog.component';
-import {UserServiceService} from '../../services/user-service/user-service.service';
-import {SnackBarServiceService} from '../../services/snack-bar/snack-bar-service.service';
+import {UserService} from '../../services/user-service/user-service';
+import {SnackBarService} from '../../services/snack-bar/snack-bar-service';
 
 @Component({
   selector: 'app-users',
@@ -25,8 +25,8 @@ export class UsersComponent implements OnInit {
 
   constructor(private changeDetectorRefs: ChangeDetectorRef,
               private dialog: MatDialog,
-              private userService: UserServiceService,
-              private snackBar: SnackBarServiceService,
+              private userService: UserService,
+              private snackBar: SnackBarService,
               private router: Router) {
   }
 

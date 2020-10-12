@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
-import {RegisterApiService} from 'src/app/services/restapiservice/register-api-service';
+import {RegisterApiService} from 'src/app/services/register-service/register-api-service';
 import {PasswordMatcher} from './PasswordMatcher';
 
 @Component({
