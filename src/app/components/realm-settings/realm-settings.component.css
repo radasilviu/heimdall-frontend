@@ -1,0 +1,8 @@
+.realm-icon {
+  user-select: none;
+  cursor: pointer;
+}
+
+.realm-icon:hover{
+  color: var(--hover-icon-color);
+}

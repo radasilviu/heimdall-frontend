@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators, AbstractControl } from '@angular/forms';
-import { ClientLoginService } from '../../services/client-login/client-login.service';
-import { ActivatedRoute, Router } from '@angular/router';
-import { from, Observable } from 'rxjs';
-import { FacebookLoginProvider, GoogleLoginProvider, SocialAuthService } from 'angularx-social-login';
-import { OAuthSocialUser } from 'src/app/models/social_user.model';
+import {Component, OnInit} from '@angular/core';
+import {FormControl, FormGroup, Validators, AbstractControl} from '@angular/forms';
+import {ClientLoginService} from '../../services/client-login-service/client-login.service';
+import {ActivatedRoute, Router} from '@angular/router';
+import {from, Observable} from 'rxjs';
+// @ts-ignore
+import {FacebookLoginProvider, GoogleLoginProvider, SocialAuthService} from 'angularx-social-login';
+import {OAuthSocialUser} from 'src/app/models/social_user.model';
 
 
 @Component({
@@ -21,7 +22,8 @@ export class ClientLoginComponent implements OnInit {
   realm: string;
 
 
-  constructor(private clientService: ClientLoginService, private route: ActivatedRoute, private socialAuthService: SocialAuthService) { }
+  constructor(private clientService: ClientLoginService, private route: ActivatedRoute, private socialAuthService: SocialAuthService) {
+  }
 
   ngOnInit(): void {
     this.loginForm = new FormGroup({
@@ -36,9 +38,13 @@ export class ClientLoginComponent implements OnInit {
 
   }
 
-  get username(): AbstractControl { return this.loginForm.get('username'); }
+  get username(): AbstractControl {
+    return this.loginForm.get('username');
+  }
 
-  get password(): AbstractControl { return this.loginForm.get('password'); }
+  get password(): AbstractControl {
+    return this.loginForm.get('password');
+  }
 
   onSubmit(): void {
     this.clientService
@@ -53,29 +59,26 @@ export class ClientLoginComponent implements OnInit {
   loginWitSocialProvider(provider: String) {
     let obs;
     switch (provider) {
-      case "GOOGLE":
-        obs = from(this.socialAuthService.signIn(GoogleLoginProvider.PROVIDER_ID))
+      case 'GOOGLE':
+        obs = from(this.socialAuthService.signIn(GoogleLoginProvider.PROVIDER_ID));
         break;
-      case "FACEBOOK":
-        obs = from(this.socialAuthService.signIn(FacebookLoginProvider.PROVIDER_ID))
+      case 'FACEBOOK':
+        obs = from(this.socialAuthService.signIn(FacebookLoginProvider.PROVIDER_ID));
         break;
       default:
-        obs = from(this.socialAuthService.signIn(GoogleLoginProvider.PROVIDER_ID))
+        obs = from(this.socialAuthService.signIn(GoogleLoginProvider.PROVIDER_ID));
         break;
     }
 
 
     obs.subscribe((socialUser: OAuthSocialUser) => {
 
-      this.clientService.socialLogin(socialUser, this.clientId, this.clientSecret,this.realm)
-        .subscribe(
-          response => {
-            document.location.href = `${this.redirectURL}?code=${response.code}`;
-          }
-        );
-    },
-      (error: any) => {
-        console.log(error);
+        this.clientService.socialLogin(socialUser, this.clientId, this.clientSecret, this.realm)
+          .subscribe(
+            response => {
+              document.location.href = `${this.redirectURL}?code=${response.code}`;
+            }
+          );
       }
     );
   }

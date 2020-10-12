@@ -1,0 +1,20 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-12">
+      <h1>Create Group</h1>
+    </div>
+    <div class="row">
+      <form [formGroup]="createGroup" (ngSubmit)="onSubmit()">
+        <div class="col-12 d-flex justify-content-center align-items-center ml-5 mt-5">
+          <div class="input-group-prepend">
+            <span class="input-group-text" id="">Group Name</span>
+          </div>
+          <input formControlName="name" type="text" class="form-control mr-5">
+          <button type="submit" class="mr-5 btn-block btn-primary btn-lg">Save</button>
+          <button type="button" [routerLink]="['/home/users-group']" class="btn-block m-0 alert-danger btn-lg">Cancel
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

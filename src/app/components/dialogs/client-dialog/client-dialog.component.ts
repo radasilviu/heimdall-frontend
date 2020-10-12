@@ -1,6 +1,5 @@
-import { Component, Inject, OnInit } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { RestApiServiceService } from 'src/app/services/restapiservice/rest-api-service.service';
+import {Component, Inject, OnInit} from '@angular/core';
+import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 
 @Component({
   selector: 'app-client-dialog',
@@ -9,15 +8,16 @@ import { RestApiServiceService } from 'src/app/services/restapiservice/rest-api-
 })
 export class ClientDialogComponent implements OnInit {
 
-  newClient:string;
+  newClient: string;
+
   constructor(
-    private service: RestApiServiceService,
     public dialogRef: MatDialogRef<ClientDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: any) { }
+    @Inject(MAT_DIALOG_DATA) public data: any) {
+  }
 
   ngOnInit(): void {
   }
-  
+
   onNoClick(): void {
     this.dialogRef.close();
   }

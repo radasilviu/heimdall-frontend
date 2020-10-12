@@ -1,3 +1,3 @@
-export interface IRole {
+export interface Role {
     name:string
 }
