@@ -30,6 +30,18 @@ export class ClientsComponent implements OnInit {
               public dialog: MatDialog) {
   }
 
+  ngOnInit(): void {
+    this.service.pageRefresh.subscribe(() =>{
+      this.getAllClients()
+    })
+    this.getAllClients()
+  }
+
+  getAllClients(){
+    let realm = localStorage.getItem('realm');
+    this.service.getAllClients(realm).subscribe((clients :Client[]) => this.allClients = clients)
+  }
+
   updateClient(currentClientName: string) {
     let realm = localStorage.getItem('realm');
     const dialogRef = this.dialog.open(ClientDialogComponent);
@@ -38,7 +50,6 @@ export class ClientsComponent implements OnInit {
         this.Client.clientName = data;
         this.service.updateClientByName(currentClientName, this.Client, realm).subscribe(
           data => {
-            this.updateView();
           }, error => {
             this.snackBar.openSnackBar(error.error.message, 2000);
           });
@@ -53,38 +64,24 @@ export class ClientsComponent implements OnInit {
     dialogRef.afterClosed().subscribe(data => {
       if (data == 'true') {
         this.service.deleteClient(clientName, realm).subscribe(() => {
-          this.updateView();
         });
       }
     });
   }
 
-  ngOnInit(): void {
-    this.getAllClients();
-  }
+
 
   onSubmit() {
     this.addClient(this.form.value);
   }
 
-  updateView() {
-    let realm = localStorage.getItem('realm');
-    this.service.getAllClients(realm).subscribe(data => {
-      this.allClients = data;
-    });
-  }
 
-  getAllClients() {
-    this.service.allClients.subscribe(data =>{
-      this.allClients = data
-    })
-  }
+
 
   addClient(client: Client) {
     let realm = localStorage.getItem('realm');
 
     this.service.addClient(client, realm).subscribe(data => {
-      this.updateView();
     }, error => {
       this.snackBar.openSnackBar(error.error.message, 2000);
     });

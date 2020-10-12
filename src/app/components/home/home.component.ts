@@ -43,21 +43,6 @@ export class HomeComponent implements OnInit {
 
   changeRealm(realm) {
     this.realm = realm;
-    this.roleService.getAllRoles(this.realm.name).subscribe(data =>{
-      this.roleService.allRoles.next(data)
-    })
-
-    this.userService.getAllUsers(this.realm.name).subscribe(data =>{
-      this.userService.allUsers.next(data)
-    })
-
-    this.clientService.getAllClients(this.realm.name).subscribe(data =>{
-      this.clientService.allClients.next(data)
-    })
-
-    this.groupsService.getAllGroups(this.realm.name).subscribe(data =>{
-      this.groupsService.allGroups.next(data)
-    })
     localStorage.setItem("realm",realm.name)
   }
 
@@ -70,30 +55,18 @@ export class HomeComponent implements OnInit {
   }
 
   gotUsers(){
-    this.userService.getAllUsers(this.realm.name).subscribe(data =>{
-      this.userService.allUsers.next(data)
-    })
     this.router.navigate(['home/users']);
   }
 
   gotoRoles(){
-    this.roleService.getAllRoles(this.realm.name).subscribe(data =>{
-      this.roleService.allRoles.next(data)
-    })
     this.router.navigate(['home/roles']);
   }
 
   goToClients(){
-    this.clientService.getAllClients(this.realm.name).subscribe(data =>{
-      this.clientService.allClients.next(data)
-    })
     this.router.navigate(['home/clients']);
   }
 
   goToGroups(){
-    this.groupsService.getAllGroups(this.realm.name).subscribe(data =>{
-      this.groupsService.allGroups.next(data)
-    })
     this.router.navigate(['home/users-group']);
   }
 

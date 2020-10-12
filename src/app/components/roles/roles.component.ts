@@ -49,9 +49,7 @@ export class RolesComponent implements OnInit {
 
   back() {
     let realm = localStorage.getItem("realm")
-    this.userService.getAllUsers(realm).subscribe(data =>{
-      this.userService.allUsers.next(data)
-    })
+
     this.router.navigate(['home/users']);
   }
 

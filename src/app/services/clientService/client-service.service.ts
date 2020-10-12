@@ -4,6 +4,7 @@ import {Client} from '../../models/Client';
 import {Observable, Subject} from 'rxjs';
 import {Env} from '../../configs/env';
 import {Role} from '../../models/Role';
+import {tap} from 'rxjs/operators';
 
 const url = Env.apiRootURL + '/api';
 
@@ -12,13 +13,18 @@ const url = Env.apiRootURL + '/api';
 })
 export class ClientServiceService {
 
-  allClients = new Subject<Client[]>();
+  private refresh = new Subject<Client[]>();
+
+  get pageRefresh(){
+    return this.refresh;
+  }
 
   constructor(private http: HttpClient) {}
 
   updateClientByName(currentClientName: string, client: Client,realm:string) {
-
-    return this.http.put(url + '/client/'+  realm + "/" + currentClientName, client);
+    return this.http.put(url + '/client/'+  realm + "/" + currentClientName, client).pipe(tap(() =>{
+      this.refresh.next()
+    }))
   }
 
   getAllClients(realm:string): Observable<Client[]> {
@@ -27,11 +33,14 @@ export class ClientServiceService {
 
 
   deleteClient(clientName: string,realm:string) {
-    return this.http.request('delete', url + '/client/'+ realm + "/" + clientName);
+    return this.http.request('delete', url + '/client/'+ realm + "/" + clientName).pipe(tap(() =>{
+      this.refresh.next()
+    }))
   }
 
   addClient(client: Client,realm:string) {
-    return this.http.post<any>(url + '/client/' + realm, client);
+    return this.http.post<any>(url + '/client/' + realm, client).pipe(tap(() =>{
+      this.refresh.next()
+    }))
   }
-
 }

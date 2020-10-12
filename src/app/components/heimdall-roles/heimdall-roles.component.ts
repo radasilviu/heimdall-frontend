@@ -26,7 +26,16 @@ export class HeimdallRolesComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.service.pageRefresh.subscribe(() => {
+      this.getRealmRoles();
+    });
     this.getRealmRoles();
+  }
+  getRealmRoles(){
+    let realm = localStorage.getItem("realm")
+    this.service.getAllRoles(realm).subscribe(data =>{
+      this.allRoles = data
+    })
   }
 
   onSubmit() {
@@ -38,9 +47,8 @@ export class HeimdallRolesComponent implements OnInit {
     dialogRef.afterClosed().subscribe(data => {
       if (data !== undefined) {
         this.role.name = data;
-        let realm = localStorage.getItem("realm")
-        this.service.updateRoleByName(currentRoleName, this.role,realm).subscribe(() => {
-          this.updateView();
+        let realm = localStorage.getItem('realm');
+        this.service.updateRoleByName(currentRoleName, this.role, realm).subscribe(() => {
         }, error => {
           this.snackBar.openSnackBar(error.error, 2000);
         });
@@ -48,23 +56,10 @@ export class HeimdallRolesComponent implements OnInit {
     });
   }
 
-  updateView(){
-    let realm = localStorage.getItem("realm")
-    this.service.getAllRoles(realm).subscribe(data =>{
-      this.allRoles = data
-    })
-  }
-
-  getRealmRoles() {
-   this.service.allRoles.subscribe(data =>{
-     this.allRoles = data
-   })
-  }
 
   addRole(role: Role) {
-    let realm = localStorage.getItem("realm")
-    this.service.addRole(role,realm).subscribe(() => {
-      this.updateView();
+    let realm = localStorage.getItem('realm');
+    this.service.addRole(role, realm).subscribe(() => {
     }, error => {
       this.snackBar.openSnackBar(error.error.message, 2000);
     });
@@ -74,9 +69,8 @@ export class HeimdallRolesComponent implements OnInit {
     const dialogRef = this.dialog.open(DeleteDialogComponent);
     dialogRef.afterClosed().subscribe(data => {
       if (data == 'true') {
-        let realm = localStorage.getItem("realm")
-        this.service.deleteRole(role,realm).subscribe(() => {
-          this.updateView();
+        let realm = localStorage.getItem('realm');
+        this.service.deleteRole(role, realm).subscribe(() => {
         }, error => {
           this.snackBar.openSnackBar(error.error.message, 4000);
         });

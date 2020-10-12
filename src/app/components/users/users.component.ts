@@ -31,6 +31,9 @@ export class UsersComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.userService.pageRefresh.subscribe(() => {
+      this.getUsers();
+    });
     this.getUsers();
   }
 
@@ -38,29 +41,22 @@ export class UsersComponent implements OnInit {
     this.addUser(this.form.value);
   }
 
-
-  updateView() {
-    let realm = localStorage.getItem('realm');
-    this.userService.getAllUsers(realm).subscribe(data => {
-      this.allUsers = data;
-    });
-  }
-
   getUsers() {
-    this.userService.allUsers.subscribe(data => {
+    let realm = localStorage.getItem('realm');
+
+    this.userService.getAllUsers(realm).subscribe(data => {
       this.allUsers = data;
     });
   }
 
 
   updateUser(currentUserName: string) {
-    let realm = localStorage.getItem("realm")
+    let realm = localStorage.getItem('realm');
     const dialogRef = this.dialog.open(UserDialogComponent);
     dialogRef.afterClosed().subscribe(data => {
       if (data !== undefined) {
         this.user.username = data;
-        this.userService.updateUserName(currentUserName, this.user,realm).subscribe(data => {
-          this.updateView();
+        this.userService.updateUserName(currentUserName, this.user, realm).subscribe(data => {
         }, error => {
           this.snackBar.openSnackBar(error.error.message, 2000);
         });
@@ -74,18 +70,15 @@ export class UsersComponent implements OnInit {
     dialogRef.afterClosed().subscribe(data => {
       if (data == 'true') {
         this.userService.deleteUser(username, realm).subscribe(() => {
-          this.updateView();
         });
       }
     });
   }
 
-
   addUser(user: User) {
     let realm = localStorage.getItem('realm');
 
     this.userService.addUser(user, realm).subscribe(data => {
-      this.updateView();
     }, error => {
       this.snackBar.openSnackBar(error.error.message, 3000);
     });

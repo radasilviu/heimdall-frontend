@@ -41,9 +41,7 @@ export class GroupUsersComponent implements OnInit {
   }
 
   getAllUsers() {
-    this.userService.allUsers.subscribe(data =>{
-      this.users = data
-    })
+
   }
 
   addUserToGroup(user) {
