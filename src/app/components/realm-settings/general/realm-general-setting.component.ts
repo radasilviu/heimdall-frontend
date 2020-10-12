@@ -11,7 +11,7 @@ import {RealmServiceService} from '../../../services/realm-service/realm-service
 export class RealmGeneralSettingComponent implements OnInit {
 
   realm: Realm;
-  realmName: string;
+
   generalForm = new FormGroup({
     name: new FormControl('', Validators.required),
     displayName: new FormControl('', Validators.required),
@@ -22,25 +22,20 @@ export class RealmGeneralSettingComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.realmService.getRealms().subscribe(() => {
-      this.getRealmByName();
-    });
-    this.getRealmByName();
-  }
-  getRealmByName(){
-    let realm = localStorage.getItem("realm")
-    this.realmService.getRealmByName(realm).subscribe((data:Realm) => {
+    this.realmService.realm.subscribe((data:Realm) => {
       this.realm = data
       this.generalForm.patchValue({
-        name: data.name,
-        displayName: data.displayName,
-        enabled: data.enabled,
-      });
-    })
+        name:data.name,
+        displayName:data.displayName,
+        enabled:data.enabled
+      })
+      console.log(data)
+    });
   }
 
+
   onSubmit(): void {
-    let relam = localStorage.getItem("realm")
-    this.realmService.updateRealmByName(relam, this.generalForm.value).subscribe();
+    let realm = localStorage.getItem("realm")
+    this.realmService.updateRealmByName(realm, this.generalForm.value).subscribe();
   }
 }

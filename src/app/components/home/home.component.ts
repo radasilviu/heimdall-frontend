@@ -6,7 +6,6 @@ import {Realm} from '../../models/Realm';
 import {RoleServiceService} from '../../services/role-service/role-service.service';
 import {ClientServiceService} from '../../services/clientService/client-service.service';
 import {UserServiceService} from '../../services/user-service/user-service.service';
-import {UsersGroupsComponent} from '../users-groups/users-groups.component';
 import {GroupServiceService} from '../../services/group-service/group-service.service';
 
 @Component({
@@ -30,28 +29,35 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnInit(): void {
-
-    this.realmService.realms.subscribe(() =>{
+     this.realmService.realm.subscribe((data:Realm) =>{
+    this.realm = data
+    })
+    this.realmService.serviceRealms.subscribe(() =>{
       this.getAllRealms();
     })
     this.getAllRealms();
   }
 
   getAllRealms() {
-    this.realmService.getRealms().subscribe(data => {
+    this.realmService.getAllRealms().subscribe(data => {
       this.realms = data;
     });
   }
 
 
   changeRealm(realm) {
-    this.realm = realm;
+    this.realmService.setRealm(realm)
+
+    this.realmService.realm.subscribe((data:Realm) =>{
+      this.realm = data
+    })
+
     localStorage.setItem("realm",realm.name)
     this.userService.getUsers(realm.name);
     this.clientService.getClients(realm.name);
     this.roleService.getRoles(realm.name);
     this.groupsService.getGroups(realm.name);
-
+    this.realmService.getRealm(realm.name);
   }
 
   logout(): void {
@@ -59,6 +65,12 @@ export class HomeComponent implements OnInit {
   }
 
   realmSettings(): void {
+    let realm = localStorage.getItem("realm")
+    this.realmService.getRealmByName(realm).subscribe(data =>{
+      this.realmService.setRealm(data);
+      this.realmService.getRealm(realm);
+
+    })
     this.router.navigate(['home/realm-settings']);
   }
 

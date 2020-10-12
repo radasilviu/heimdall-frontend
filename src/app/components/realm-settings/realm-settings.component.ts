@@ -23,18 +23,17 @@ export class RealmSettingsComponent implements OnInit {
 
 
   getRealm(){
-    let realm = localStorage.getItem("realm")
-   this.realmService.getRealmByName(realm).subscribe(data =>{
-     this.realm = data
-   })
+    this.realmService.realm.subscribe((data:Realm) =>{
+      this.realm = data
+    })
   }
-
 
   deleteRealmByName() {
     const dialogRef = this.dialog.open(DeleteDialogComponent);
     dialogRef.afterClosed().subscribe(data => {
       if (data == 'true') {
         this.realmService.deleteRealmByName(this.realm).subscribe();
+
       }
     });
   }

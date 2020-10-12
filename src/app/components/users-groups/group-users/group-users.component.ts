@@ -48,7 +48,6 @@ export class GroupUsersComponent implements OnInit {
 
     this.userService.getAllUsers(realm).subscribe(data =>{
       this.users = data
-      console.log(data)
     })
   }
 

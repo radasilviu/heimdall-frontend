@@ -37,9 +37,7 @@ export class UsersComponent implements OnInit {
     this.getUsers();
   }
 
-  onSubmit() {
-    this.addUser(this.form.value);
-  }
+
 
   getUsers() {
     let realm = localStorage.getItem('realm');
@@ -49,6 +47,9 @@ export class UsersComponent implements OnInit {
     });
   }
 
+  onSubmit() {
+    this.addUser(this.form.value);
+  }
 
   updateUser(currentUserName: string) {
     let realm = localStorage.getItem('realm');

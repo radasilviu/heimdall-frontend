@@ -9,7 +9,6 @@ import {RealmServiceService} from '../../../services/realm-service/realm-service
   styleUrls: ['./realm-login-setting.component.css']
 })
 export class RealmLoginSettingComponent implements OnInit {
-  realm: Realm;
   loginForm = new FormGroup({
     userRegistration: new FormControl(false, Validators.required),
     editUsername: new FormControl(false, Validators.required),
@@ -23,15 +22,15 @@ export class RealmLoginSettingComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.realmService.realms.subscribe(() => {
+    let realm = localStorage.getItem("realm")
+    this.realmService.serviceRealms.subscribe(() => {
       this.getRealmByName();
     });
     this.getRealmByName();
   }
+
   getRealmByName(){
-    let realm = localStorage.getItem("realm")
-    this.realmService.getRealmByName(realm).subscribe((data:Realm) => {
-      this.realm = data
+    this.realmService.realm.subscribe((data:Realm) => {
       this.loginForm.patchValue({
         userRegistration: data.userRegistration,
         editUsername: data.editUsername,
@@ -44,8 +43,10 @@ export class RealmLoginSettingComponent implements OnInit {
   }
 
   onSubmit() {
-    this.realmService.updateLoginSettings(this.realm, this.loginForm.value).subscribe(data => {
-      this.realmService.getRealms().subscribe(data => {
+    let realm = localStorage.getItem("realm")
+
+    this.realmService.updateLoginSettings(realm, this.loginForm.value).subscribe(data => {
+      this.realmService.serviceRealms.subscribe(data => {
       });
     });
   }
