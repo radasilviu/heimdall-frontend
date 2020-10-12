@@ -17,7 +17,6 @@ import {GroupServiceService} from '../../services/group-service/group-service.se
 
 export class HomeComponent implements OnInit {
   panelOpenState = false;
-  defaultRealm = "Default Realm";
   realm:Realm;
   realms: Realm[];
 
@@ -31,6 +30,10 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnInit(): void {
+
+    this.realmService.realms.subscribe(() =>{
+      this.getAllRealms();
+    })
     this.getAllRealms();
   }
 
@@ -44,6 +47,11 @@ export class HomeComponent implements OnInit {
   changeRealm(realm) {
     this.realm = realm;
     localStorage.setItem("realm",realm.name)
+    this.userService.getUsers(realm.name);
+    this.clientService.getClients(realm.name);
+    this.roleService.getRoles(realm.name);
+    this.groupsService.getGroups(realm.name);
+
   }
 
   logout(): void {
@@ -57,6 +65,8 @@ export class HomeComponent implements OnInit {
   gotUsers(){
     this.router.navigate(['home/users']);
   }
+
+
 
   gotoRoles(){
     this.router.navigate(['home/roles']);

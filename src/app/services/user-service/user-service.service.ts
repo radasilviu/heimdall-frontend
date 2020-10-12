@@ -19,6 +19,12 @@ export class UserServiceService {
     return this.refresh;
   }
 
+  getUsers(realmName){
+    this.getAllUsers(realmName).subscribe(data =>{
+      this.refresh.next(data);
+    })
+  }
+
   constructor(private http: HttpClient) {
   }
 

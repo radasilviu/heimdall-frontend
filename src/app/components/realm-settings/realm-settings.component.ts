@@ -18,20 +18,23 @@ export class RealmSettingsComponent implements OnInit {
   }
 
   ngOnInit() {
-    // this.realmService.getRealm.subscribe(realm => {
-    //   this.realm = realm;
-    // });
+    this.getRealm()
   }
+
+
+  getRealm(){
+    let realm = localStorage.getItem("realm")
+   this.realmService.getRealmByName(realm).subscribe(data =>{
+     this.realm = data
+   })
+  }
+
 
   deleteRealmByName() {
     const dialogRef = this.dialog.open(DeleteDialogComponent);
     dialogRef.afterClosed().subscribe(data => {
       if (data == 'true') {
-        this.realmService.deleteRealmByName(this.realm).subscribe(data => {
-          this.realmService.getRealms().subscribe(data => {
-          //  this.realmService.editRealms(data);
-          });
-        });
+        this.realmService.deleteRealmByName(this.realm).subscribe();
       }
     });
   }

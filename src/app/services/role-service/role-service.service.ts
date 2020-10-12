@@ -19,6 +19,12 @@ export class RoleServiceService {
      return this.refresh;
    }
 
+
+  getRoles(realmName){
+    this.getAllRoles(realmName).subscribe(data =>{
+      this.refresh.next(data)
+    })
+  }
   constructor(private http: HttpClient) {}
 
   getAllRoles(realm:string): Observable<Role[]> {

@@ -26,6 +26,9 @@ export class GroupUsersComponent implements OnInit {
 
   ngOnInit(): void {
     this.getGroup();
+    this.userService.pageRefresh.subscribe(()=>{
+      this.getAllUsers();
+    })
     this.getAllUsers();
   }
 
@@ -41,7 +44,12 @@ export class GroupUsersComponent implements OnInit {
   }
 
   getAllUsers() {
+    let realm = localStorage.getItem("realm")
 
+    this.userService.getAllUsers(realm).subscribe(data =>{
+      this.users = data
+      console.log(data)
+    })
   }
 
   addUserToGroup(user) {

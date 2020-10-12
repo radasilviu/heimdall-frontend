@@ -22,6 +22,10 @@ export class UsersGroupsComponent implements OnInit {
   allGroups: Group[];
 
   ngOnInit(): void {
+
+    this.groupService.pageRefresh.subscribe(()=>{
+      this.getGroups();
+    })
     this.getGroups();
   }
 
@@ -33,7 +37,9 @@ export class UsersGroupsComponent implements OnInit {
   }
 
   getGroups() {
-    this.groupService.allGroups.subscribe(data => {
+    let realm = localStorage.getItem('realm');
+
+    this.groupService.getAllGroups(realm).subscribe(data => {
       this.allGroups= data;
     });
   }
