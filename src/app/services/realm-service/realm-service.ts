@@ -14,32 +14,13 @@ const url = Env.apiRootURL + '/api/admin/realm';
 })
 export class RealmService {
 
-  private realms = new Subject();
 
-  private realm = new Subject();
-
-
-  get currentRealm() {
-    return this.realm;
+  constructor(private http: HttpClient, private snackBar: MatSnackBar, private router: Router) {
   }
 
-  setRealm(realm) {
-    this.realm.next(realm);
-  }
-
-  setRealms(realms) {
-    this.realms.next(realms);
-  }
-
-  get allRealms() {
-    return this.realms;
-  }
 
   getRealmByName(realmName) {
     return this.http.get<Realm>(url + '/' + realmName);
-  }
-
-  constructor(private http: HttpClient, private snackBar: MatSnackBar, private router: Router) {
   }
 
   getAllRealms(): Observable<Realm[]> {
@@ -47,27 +28,19 @@ export class RealmService {
   }
 
   updateRealmByName(currentRealmName: string, realm: Realm) {
-    return this.http.put<Realm>(url + '/general-update/' + currentRealmName, realm).pipe(tap(() => {
-      this.realms.next();
-    }));
+    return this.http.put<Realm>(url + '/general-update/' + currentRealmName, realm)
   }
 
 
   updateLoginSettings(realm, loginForm) {
-    return this.http.put(url + '/login-update/' + realm, loginForm).pipe(tap(() => {
-      this.realms.next();
-    }));
+    return this.http.put(url + '/login-update/' + realm, loginForm)
   }
 
   addNewRealm(realm: Realm) {
-    return this.http.post<Realm>(url + '/', realm).pipe(tap(() => {
-      this.realms.next();
-    }));
+    return this.http.post<Realm>(url + '/', realm)
   }
 
   deleteRealmByName(realm: Realm) {
-    return this.http.delete(url + '/' + realm.name).pipe(tap(() => {
-      this.realms.next();
-    }));
+    return this.http.delete(url + '/' + realm.name)
   }
 }

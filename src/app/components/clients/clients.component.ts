@@ -31,22 +31,21 @@ export class ClientsComponent implements OnInit {
               private service: ClientService,
               private snackBar: SnackBarService,
               public dialog: MatDialog,
-              private realmService: RealmService) {
+              private clientService:ClientService) {
   }
 
   ngOnInit(): void {
-
-    this.realmService.currentRealm.subscribe(() => {
-      this.service.pageRefresh.subscribe(() => {
-        this.getAllClients();
-      });
+    this.clientService.clients.subscribe(() =>{
       this.getAllClients();
-    });
+    })
+    this.getAllClients();
   }
 
   getAllClients() {
-    let realm = localStorage.getItem('realm');
-    this.service.getAllClients(realm).subscribe((clients: Client[]) => this.allClients = clients);
+    let realm = localStorage.getItem("realm")
+    this.clientService.getAllClients(JSON.parse(realm).name).subscribe(data =>{
+      this.allClients = data
+    })
   }
 
   updateClient(currentClientName: string) {
@@ -56,7 +55,7 @@ export class ClientsComponent implements OnInit {
     dialogRef.afterClosed().subscribe(data => {
       if (data !== undefined) {
         this.Client.clientName = data;
-        this.service.updateClientByName(currentClientName, this.Client, realm).subscribe(
+        this.service.updateClientByName(currentClientName, this.Client, JSON.parse(realm).name).subscribe(
           data => {
           }, error => {
             this.snackBar.openSnackBar(error.error.message, 2000);
@@ -71,7 +70,7 @@ export class ClientsComponent implements OnInit {
     const dialogRef = this.dialog.open(DeleteDialogComponent);
     dialogRef.afterClosed().subscribe(data => {
       if (data == 'true') {
-        this.service.deleteClient(clientName, realm).subscribe(() => {
+        this.service.deleteClient(clientName,  JSON.parse(realm).name).subscribe(() => {
         });
       }
     });
@@ -87,7 +86,7 @@ export class ClientsComponent implements OnInit {
     let realm = localStorage.getItem('realm');
 
 
-    this.service.addClient(client, realm).subscribe(data => {
+    this.service.addClient(client, JSON.parse(realm).name).subscribe(data => {
     }, error => {
       this.snackBar.openSnackBar(error.error.message, 2000);
     });

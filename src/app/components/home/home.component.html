@@ -48,7 +48,7 @@
           <button type="button"  [routerLink]="['clients']"class="btn-block btn-primary btn-lg">Clients</button>
         </li>
         <li class=" d-flex justify-content-center mb-3">
-          <button type="button" [routerLink]="['users']" class="btn-block btn-primary btn-lg">Users</button>
+          <button type="button" (click)="goToUsers()" class="btn-block btn-primary btn-lg">Users</button>
         </li>
         <li class=" d-flex justify-content-center mb-3">
           <button type="button"  [routerLink]="['users-group']" class="btn-block btn-primary btn-lg">Users Group</button>
@@ -65,6 +65,6 @@
       </div>
 
     </mat-drawer>
-    <router-outlet></router-outlet>
+    <router-outlet [allUsers]="users"></router-outlet>
   </mat-drawer-container>
 </div>

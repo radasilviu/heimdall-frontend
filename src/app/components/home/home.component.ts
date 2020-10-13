@@ -7,6 +7,7 @@ import {RoleService} from '../../services/role-service/role-service';
 import {ClientService} from '../../services/clientService/client-service';
 import {UserService} from '../../services/user-service/user-service';
 import {GroupService} from '../../services/group-service/group-service';
+import {User} from '../../models/User';
 
 @Component({
   selector: 'app-home',
@@ -18,6 +19,7 @@ export class HomeComponent implements OnInit {
   panelOpenState = false;
   realm: Realm;
   realms: Realm[];
+  users: User[];
 
   constructor(private router: Router,
               private realmService: RealmService,
@@ -29,12 +31,7 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.realmService.currentRealm.subscribe((data: Realm) => {
-      this.realm = data;
-    });
-    this.realmService.allRealms.subscribe(() => {
-      this.getAllRealms();
-    });
+    this.realm = JSON.parse(localStorage.getItem("realm"))
     this.getAllRealms();
   }
 
@@ -44,11 +41,17 @@ export class HomeComponent implements OnInit {
     });
   }
 
-
   changeRealm(realm) {
-     localStorage.setItem("realm",realm.name)
-    this.realmService.setRealm(realm);
+    this.userService.setUsers(realm);
+    this.clientService.setClients(realm)
+    this.realm = realm;
+    localStorage.setItem('realm', JSON.stringify(realm));
   }
+
+  goToUsers() {
+    this.router.navigate(['home/users']);
+  }
+
 
   logout(): void {
     this.adminAuthService.logout().subscribe();

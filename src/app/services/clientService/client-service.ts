@@ -13,17 +13,19 @@ const url = Env.apiRootURL + '/api';
 })
 export class ClientService {
 
-  private refresh = new Subject<Client[]>();
+   clients = new Subject<Client[]>();
 
-  get pageRefresh(){
-    return this.refresh;
+    setClients(realm){
+      this.getAllClients(realm.name).subscribe(data =>{
+        return this.clients.next(data);
+      })
   }
 
   constructor(private http: HttpClient) {}
 
   updateClientByName(currentClientName: string, client: Client,realm:string) {
     return this.http.put(url + '/client/'+  realm + "/" + currentClientName, client).pipe(tap(() =>{
-      this.refresh.next()
+      this.clients.next()
     }))
   }
 
@@ -34,13 +36,13 @@ export class ClientService {
 
   deleteClient(clientName: string,realm:string) {
     return this.http.request('delete', url + '/client/'+ realm + "/" + clientName).pipe(tap(() =>{
-      this.refresh.next()
+      this.clients.next()
     }))
   }
 
   addClient(client: Client,realm:string) {
     return this.http.post<any>(url + '/client/' + realm, client).pipe(tap(() =>{
-      this.refresh.next()
+      this.clients.next()
     }))
   }
 }

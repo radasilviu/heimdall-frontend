@@ -5,5 +5,5 @@ export interface User {
   password?: string;
   access_token?: string;
   roles?: Role[];
-  isLoggedIn?: boolean;
+  loggedIn?: boolean;
 }

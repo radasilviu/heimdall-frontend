@@ -20,20 +20,29 @@ export class UserSessionComponent implements OnInit {
   ngOnInit(): void {
     this.realmService.currentRealm.subscribe(() => {
       this.userService.pageRefresh.subscribe(() => {
-        this.getAllSessionUsers()
+        this.getAllSessionUsers();
+        this.getAllUsers();
       });
-      this.getAllSessionUsers()
+      this.getAllSessionUsers();
+      this.getAllUsers();
     });
 
   }
 
-  getAllSessionUsers(){
-    let realm = localStorage.getItem("realm")
-    this.userService.getSessionUsers(realm).subscribe((data:User[]) =>{
-      this.users = data
+    getAllSessionUsers(){
+      let realm = localStorage.getItem("realm")
+      this.userService.getSessionUsers(realm).subscribe((data:User[]) =>{
+        console.log(data)
+      });
+    }
+
+  getAllUsers() {
+    let realm = localStorage.getItem('realm');
+    this.userService.getAllUsers(realm).subscribe(data => {
+      this.users = data;
+      console.log(data)
     });
   }
-
 
   logAllUserOut(){
 

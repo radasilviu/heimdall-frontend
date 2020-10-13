@@ -1,4 +1,4 @@
-import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
+import {ChangeDetectorRef, Component, Input, OnInit} from '@angular/core';
 import {MatDialog} from '@angular/material/dialog';
 import {Router} from '@angular/router';
 import {UserDialogComponent} from '../dialogs/user-dialog/user-dialog.component';
@@ -6,7 +6,6 @@ import {User} from '../../models/User';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {DeleteDialogComponent} from '../dialogs/delete-dialog/delete-dialog.component';
 import {RealmService} from '../../services/realm-service/realm-service';
-import {Realm} from '../../models/Realm';
 import {UserService} from '../../services/user-service/user-service';
 import {SnackBarService} from '../../services/snack-bar/snack-bar-service';
 
@@ -17,9 +16,9 @@ import {SnackBarService} from '../../services/snack-bar/snack-bar-service';
 })
 export class UsersComponent implements OnInit {
   displayedColumns = ['username', 'role'];
-  allUsers: User[];
+  @Input() allUsers: User[];
   user = <User> {};
-  realm: Realm;
+
   form = new FormGroup({
     username: new FormControl('', Validators.required),
     password: new FormControl('', Validators.required),
@@ -35,21 +34,17 @@ export class UsersComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.realmService.currentRealm.subscribe(() => {
-      this.userService.pageRefresh.subscribe(() => {
-        this.getAllUsers();
-      });
-      this.getAllUsers();
-    });
+    this.userService.users.subscribe(() =>{
+      this.getAllUsers()
+    })
+   this.getAllUsers();
   }
 
-  getAllUsers() {
-    let realm = localStorage.getItem('realm');
-
-    this.userService.getAllUsers(realm).subscribe(data => {
-      console.log(data)
-      this.allUsers = data;
-    });
+  getAllUsers(){
+    let realm = localStorage.getItem("realm")
+    this.userService.getAllUsers(JSON.parse(realm).name).subscribe((data:User[]) =>{
+      this.allUsers = data
+    })
   }
 
 
@@ -60,12 +55,11 @@ export class UsersComponent implements OnInit {
   updateUser(currentUserName: string) {
     let realm = localStorage.getItem('realm');
 
-
     const dialogRef = this.dialog.open(UserDialogComponent);
     dialogRef.afterClosed().subscribe(data => {
       if (data !== undefined) {
         this.user.username = data;
-        this.userService.updateUserName(currentUserName, this.user, realm).subscribe(data => {
+        this.userService.updateUserName(currentUserName, this.user, JSON.parse(realm).name).subscribe(data => {
         }, error => {
           this.snackBar.openSnackBar(error.error.message, 2000);
         });
@@ -73,13 +67,17 @@ export class UsersComponent implements OnInit {
     });
   }
 
+
+
+
+
   deleteUser(username: string) {
     let realm = localStorage.getItem('realm');
 
     const dialogRef = this.dialog.open(DeleteDialogComponent);
     dialogRef.afterClosed().subscribe(data => {
       if (data == 'true') {
-        this.userService.deleteUser(username, realm).subscribe(() => {
+        this.userService.deleteUser(username, JSON.parse(realm).name).subscribe(() => {
         });
       }
     });
@@ -88,7 +86,7 @@ export class UsersComponent implements OnInit {
   addUser(user: User) {
     let realm = localStorage.getItem('realm');
 
-    this.userService.addUser(user, realm).subscribe(data => {
+    this.userService.addUser(user, JSON.parse(realm).name).subscribe(data => {
     }, error => {
       this.snackBar.openSnackBar(error.error.message, 3000);
     });
