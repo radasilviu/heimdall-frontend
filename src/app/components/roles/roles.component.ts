@@ -20,7 +20,7 @@ export class RolesComponent implements OnInit {
 
 
   constructor(private roleService: RoleService,
-              private userServcie: UserService,
+              private userService: UserService,
               private router: Router,) {
   }
 

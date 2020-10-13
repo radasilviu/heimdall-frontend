@@ -4,7 +4,7 @@ import {GroupService} from '../../../services/group-service/group-service';
 import {Router} from '@angular/router';
 import {SnackBarService} from '../../../services/snack-bar/snack-bar-service';
 import {Realm} from '../../../models/Realm';
-import {RealmServiceService} from '../../../services/realm-service/realm-service.service';
+import {RealmService} from '../../../services/realm-service/realm-service';
 
 @Component({
   selector: 'app-create-group',
@@ -13,10 +13,10 @@ import {RealmServiceService} from '../../../services/realm-service/realm-service
 })
 export class CreateGroupComponent implements OnInit {
 realm:Realm;
-  constructor(private groupService: GroupServiceService,
+  constructor(private groupService: GroupService,
               private router: Router,
-              private snackbar: SnackBarServiceService,
-              private realmService:RealmServiceService) {
+              private snackbar: SnackBarService,
+              private realmService:RealmService) {
   }
 
   createGroup = new FormGroup({
@@ -30,8 +30,9 @@ realm:Realm;
   }
 
   onSubmit() {
+    let realm = localStorage.getItem("realm")
 
-    this.groupService.addNewGroup(this.createGroup.value,this.realm.name).subscribe(data => {
+    this.groupService.addNewGroup(this.createGroup.value,realm).subscribe(data => {
     }, error => {
       this.snackbar.openSnackBar(error.error.message, 3000);
     });

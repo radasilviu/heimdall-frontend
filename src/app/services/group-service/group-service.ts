@@ -22,12 +22,6 @@ export class GroupService {
   constructor(private http: HttpClient) {
   }
 
-  getGroups(realmName){
-    this.getAllGroups(realmName).subscribe(data =>{
-      this._refresh.next(data)
-    })
-  }
-
   addUserToGroup(groupName: string, user: User, realm: string) {
     return this.http.put(url + '/' + realm + "/group/" + groupName + '/addUser', user).pipe(tap(() =>{
       this._refresh.next()

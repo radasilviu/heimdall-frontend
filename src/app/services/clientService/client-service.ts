@@ -19,13 +19,6 @@ export class ClientService {
     return this.refresh;
   }
 
-
-  getClients(realmName){
-    this.getAllClients(realmName).subscribe(data =>{
-      this.refresh.next(data)
-    })
-  }
-
   constructor(private http: HttpClient) {}
 
   updateClientByName(currentClientName: string, client: Client,realm:string) {

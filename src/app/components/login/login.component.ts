@@ -3,8 +3,7 @@ import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {Router} from '@angular/router';
 import {AdminAuthService} from '../../services/admin-auth/admin-auth.service';
 import {IdentityProviderService} from '../../services/identity-provider-service/identity-provider-service';
-import {IdentityProviderServiceService} from '../../services/identity-provider-service/identity-provider-service.service';
-import {RealmServiceService} from '../../services/realm-service/realm-service.service';
+import {RealmService} from '../../services/realm-service/realm-service';
 import {Realm} from '../../models/Realm';
 
 @Component({
@@ -15,12 +14,12 @@ import {Realm} from '../../models/Realm';
 
 export class LoginComponent implements OnInit {
   errorMessage: boolean = false;
-  realm:Realm;
+  realm;
 
   constructor(private identityProviderService: IdentityProviderService,
               private authService: AdminAuthService,
               private router: Router,
-              private realmService:RealmServiceService) {
+              private realmService:RealmService) {
   }
 
   loginForm: FormGroup;

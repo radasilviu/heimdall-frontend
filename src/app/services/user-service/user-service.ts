@@ -19,11 +19,6 @@ export class UserService {
     return this.refresh;
   }
 
-  getUsers(realmName){
-    this.getAllUsers(realmName).subscribe(data =>{
-      this.refresh.next(data);
-    })
-  }
 
   constructor(private http: HttpClient) {
   }
@@ -37,6 +32,9 @@ export class UserService {
   getAllUsers(realm: string): Observable<User[]> {
     return this.http.get<User[]>(url + '/user/' + realm);
   }
+    getSessionUsers(realm:string) {
+      return this.http.post(url +  '/user/updateState', realm);
+    }
 
   deleteUser(username: string,realm:string) {
     return this.http.request('delete', url + '/user/'+ realm + "/" + username).pipe(tap(()=>{

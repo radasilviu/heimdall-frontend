@@ -12,33 +12,30 @@ const url = Env.apiRootURL + '/api/admin/realm';
 @Injectable({
   providedIn: 'root'
 })
-export class RealmServiceService {
+export class RealmService {
 
   private realms = new Subject();
 
   private realm = new Subject();
 
 
-  get currentRealm(){
-    return this.realm
+  get currentRealm() {
+    return this.realm;
   }
 
-  setRealm(realm){
-    this.realm.next(realm)
+  setRealm(realm) {
+    this.realm.next(realm);
   }
 
-  setRealms(realms){
-    this.realms.next(realms)
+  setRealms(realms) {
+    this.realms.next(realms);
   }
 
-  get allRealms(){
-    return this.realms
+  get allRealms() {
+    return this.realms;
   }
 
-
-
-
-  getRealmByName(realmName){
+  getRealmByName(realmName) {
     return this.http.get<Realm>(url + '/' + realmName);
   }
 
@@ -46,32 +43,31 @@ export class RealmServiceService {
   }
 
   getAllRealms(): Observable<Realm[]> {
-    return this.http.get<Realm[]>(url + '/list')
+    return this.http.get<Realm[]>(url + '/list');
   }
 
   updateRealmByName(currentRealmName: string, realm: Realm) {
-    return this.http.put<Realm>(url + '/general-update/' + currentRealmName, realm).pipe(tap(() =>{
-      this.realms.next()
-    }))
+    return this.http.put<Realm>(url + '/general-update/' + currentRealmName, realm).pipe(tap(() => {
+      this.realms.next();
+    }));
   }
-
 
 
   updateLoginSettings(realm, loginForm) {
-    return this.http.put(url + '/login-update/' + realm, loginForm).pipe(tap(() =>{
-      this.realms.next()
-    }))
+    return this.http.put(url + '/login-update/' + realm, loginForm).pipe(tap(() => {
+      this.realms.next();
+    }));
   }
 
   addNewRealm(realm: Realm) {
-    return this.http.post<Realm>(url + "/", realm).pipe(tap(() =>{
-      this.realms.next()
-    }))
+    return this.http.post<Realm>(url + '/', realm).pipe(tap(() => {
+      this.realms.next();
+    }));
   }
 
   deleteRealmByName(realm: Realm) {
-    return this.http.delete(url + '/' + realm.name).pipe(tap(() =>{
-      this.realms.next()
-    }))
+    return this.http.delete(url + '/' + realm.name).pipe(tap(() => {
+      this.realms.next();
+    }));
   }
 }

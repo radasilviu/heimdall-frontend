@@ -55,6 +55,7 @@ import { IdentityProviderComponent } from './components/identity-provider/identi
 import { UsersGroupsComponent } from './components/users-groups/users-groups.component';
 import { CreateGroupComponent } from './components/users-groups/create-group/create-group.component';
 import { GroupUsersComponent } from './components/users-groups/group-users/group-users.component';
+import { UserSessionComponent } from './components/user-session/user-session.component';
 
 @NgModule({
   declarations: [
@@ -83,6 +84,7 @@ import { GroupUsersComponent } from './components/users-groups/group-users/group
     UsersGroupsComponent,
     CreateGroupComponent,
     GroupUsersComponent,
+    UserSessionComponent,
   ],
   entryComponents: [ClientDialogComponent, UserDialogComponent, RolesDialogComponent],
   imports: [

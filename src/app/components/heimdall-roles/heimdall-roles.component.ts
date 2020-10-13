@@ -4,12 +4,10 @@ import {MatDialog} from '@angular/material/dialog';
 import {Role} from 'src/app/models/Role';
 import {DeleteDialogComponent} from '../dialogs/delete-dialog/delete-dialog.component';
 import {RolesDialogComponent} from '../dialogs/roles-dialog/roles-dialog.component';
+import {RealmService} from '../../services/realm-service/realm-service';
 import {RoleService} from '../../services/role-service/role-service';
-import {SnackBarService} from '../../services/snack-bar/snack-bar-service';
-import {RoleServiceService} from '../../services/role-service/role-service.service';
-import {SnackBarServiceService} from '../../services/snack-bar/snack-bar-service.service';
-import {RealmServiceService} from '../../services/realm-service/realm-service.service';
 import {Realm} from '../../models/Realm';
+import {SnackBarService} from '../../services/snack-bar/snack-bar-service';
 
 @Component({
   selector: 'app-heimdall-roles',
@@ -25,10 +23,10 @@ export class HeimdallRolesComponent implements OnInit {
     name: new FormControl('', Validators.required)
   });
 
-  constructor(private service: RoleServiceService,
-              private snackBar: SnackBarServiceService,
+  constructor(private service: RoleService,
+              private snackBar: SnackBarService,
               public dialog: MatDialog,
-              private realmService: RealmServiceService) {
+              private realmService: RealmService) {
   }
 
   ngOnInit(): void {
@@ -57,7 +55,7 @@ export class HeimdallRolesComponent implements OnInit {
     dialogRef.afterClosed().subscribe(data => {
       if (data !== undefined) {
         this.role.name = data;
-        this.service.updateRoleByName(currentRoleName, this.role, realm).subscribe(() => {
+        this.service.updateRoleByName(currentRoleName, this.role, this.realm.name).subscribe(() => {
         }, error => {
           this.snackBar.openSnackBar(error.error, 2000);
         });
