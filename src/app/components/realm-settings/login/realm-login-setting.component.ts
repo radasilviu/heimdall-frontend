@@ -23,17 +23,27 @@ export class RealmLoginSettingComponent implements OnInit {
   constructor(private realmService: RealmService) {
   }
 
+
   ngOnInit(): void {
-    this.realmService.currentRealm.subscribe((data:Realm) => {
+    this.realmService.realm.subscribe(() =>{
+      this.getRealm();
+    })
+    this.getRealm();
+  }
+
+  getRealm(){
+    let realm = localStorage.getItem("realm")
+    this.realmService.getRealmByName(JSON.parse(realm).name).subscribe(data =>{
       this.realm = data
+
       this.loginForm.patchValue({
-        userRegistration: data.userRegistration,
-        editUsername: data.editUsername,
-        forgotPassword: data.forgotPassword,
-        rememberMe: data.rememberMe,
-        verifyEmail: data.verifyEmail,
-        loginWithEmail: data.loginWithEmail
-      });
+            userRegistration: data.userRegistration,
+            editUsername: data.editUsername,
+            forgotPassword: data.forgotPassword,
+            rememberMe: data.rememberMe,
+            verifyEmail: data.verifyEmail,
+            loginWithEmail: data.loginWithEmail
+          });
     })
   }
 

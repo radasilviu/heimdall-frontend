@@ -13,16 +13,18 @@ const url = Env.apiRootURL + '/api';
 export class RoleService {
 
 
-   private refresh = new Subject<Role[]>();
+    roles = new Subject<Role[]>();
 
-   get pageRefresh(){
-     return this.refresh;
+    setRoles(realm){
+     this.getAllRoles(realm.name).subscribe(data =>{
+       return this.roles.next(data);
+     })
    }
 
 
   getRoles(realmName){
     this.getAllRoles(realmName).subscribe(data =>{
-      this.refresh.next(data)
+      this.roles.next(data)
     })
   }
   constructor(private http: HttpClient) {}
@@ -33,31 +35,31 @@ export class RoleService {
 
   addRole(role: Role,realm:string) {
     return this.http.post<any>(url + '/role/'+ realm, role).pipe(tap(() =>{
-      this.refresh.next()
+      this.roles.next()
     }))
   }
 
   deleteRole(role: Role,realm:string) {
     return this.http.request('delete', url + '/role/'+ realm +"/" + role).pipe(tap(() =>{
-      this.refresh.next()
+      this.roles.next()
     }))
   }
 
   addUserRole(role: Role, user: User,realm:string) {
     return this.http.post<any>(url + '/user/' + realm + "/" + user.username + '/addRole', role.name).pipe(tap(() =>{
-      this.refresh.next()
+      this.roles.next()
     }))
   }
 
   updateRoleByName(currentRoleName: string, newRole: Role, realm:string) {
     return this.http.put(url + '/role/'+ realm +"/" + currentRoleName, newRole).pipe(tap(() =>{
-      this.refresh.next()
+      this.roles.next()
     }))
   }
 
   deleteUserRole(user: User, role: Role, realm:string) {
     return this.http.request('delete', url + '/user/' + realm +"/" + user.username + '/removeRole', {body: role.name}).pipe(tap(() =>{
-      this.refresh.next()
+      this.roles.next()
     }))
   }
 }

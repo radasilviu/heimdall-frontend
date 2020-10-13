@@ -18,14 +18,18 @@ export class RealmSettingsComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.getRealm()
+    this.realmService.realm.subscribe(()=>{
+      this.getRealm();
+    })
+    this.getRealm();
   }
 
 
   getRealm(){
-    this.realmService.currentRealm.subscribe((data:Realm) =>{
-      this.realm = data
-    })
+      let realm = localStorage.getItem("realm")
+      this.realmService.getRealmByName(JSON.parse(realm).name).subscribe(data =>{
+        this.realm = data
+      })
   }
 
   deleteRealmByName() {

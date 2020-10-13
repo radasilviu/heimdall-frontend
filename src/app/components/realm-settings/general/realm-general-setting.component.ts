@@ -21,22 +21,31 @@ export class RealmGeneralSettingComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.realmService.currentRealm.subscribe((data:Realm) =>{
-      this.realm = data
+      this.realmService.realm.subscribe(() =>{
+        this.getRealm();
+      })
+    this.getRealm();
+  }
+
+  getRealm(){
+      let realm = localStorage.getItem("realm")
+      this.realmService.getRealmByName(JSON.parse(realm).name).subscribe(data =>{
+        this.realm = data
+
         this.generalForm.patchValue({
           name:data.name,
           displayName:data.displayName,
           enabled:data.enabled
         })
-
-    })
+      })
   }
 
 
   onSubmit(): void {
-    this.realmService.updateRealmByName(this.realm.name, this.generalForm.value).subscribe(data => {
+    let realm = localStorage.getItem("realm")
+    this.realmService.updateRealmByName(JSON.parse(realm).name, this.generalForm.value).subscribe(data => {
+      localStorage.setItem("realm", JSON.stringify(data))
       this.realmService.setRealm(data)
-      localStorage.setItem("realm", data.name)
     });
   }}
 

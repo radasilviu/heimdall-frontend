@@ -24,15 +24,13 @@ realm:Realm;
   });
 
   ngOnInit(): void {
-    this.realmService.currentRealm.subscribe((data:Realm) =>{
-      this.realm = data
-    })
+
   }
 
   onSubmit() {
     let realm = localStorage.getItem("realm")
 
-    this.groupService.addNewGroup(this.createGroup.value,realm).subscribe(data => {
+    this.groupService.addNewGroup(this.createGroup.value,JSON.parse(realm).name).subscribe(data => {
     }, error => {
       this.snackbar.openSnackBar(error.error.message, 3000);
     });

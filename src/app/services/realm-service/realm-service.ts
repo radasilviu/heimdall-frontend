@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Env} from '../../configs/env';
 import {MatSnackBar} from '@angular/material/snack-bar';
-import {Observable, Subject,} from 'rxjs';
+import {Observable, Subject, Subscription,} from 'rxjs';
 import {Realm} from '../../models/Realm';
 import {Router} from '@angular/router';
 import {tap} from 'rxjs/operators';
@@ -18,9 +18,23 @@ export class RealmService {
   constructor(private http: HttpClient, private snackBar: MatSnackBar, private router: Router) {
   }
 
+  realm = new Subject();
 
-  getRealmByName(realmName) {
-    return this.http.get<Realm>(url + '/' + realmName);
+  getRealm():Subscription{
+    return this.realm.subscribe();
+  }
+
+
+  setRealm(realm){
+    this.getRealmByName(realm.name).subscribe(data =>{
+      this.realm.next(data)
+    })
+  }
+
+
+
+  getRealmByName(realm) {
+    return this.http.get<Realm>(url + '/' + realm);
   }
 
   getAllRealms(): Observable<Realm[]> {
@@ -28,19 +42,27 @@ export class RealmService {
   }
 
   updateRealmByName(currentRealmName: string, realm: Realm) {
-    return this.http.put<Realm>(url + '/general-update/' + currentRealmName, realm)
+    return this.http.put<Realm>(url + '/general-update/' + currentRealmName, realm).pipe(tap(() =>{
+      this.realm.next()
+    }))
   }
 
 
   updateLoginSettings(realm, loginForm) {
-    return this.http.put(url + '/login-update/' + realm, loginForm)
+    return this.http.put(url + '/login-update/' + realm, loginForm).pipe(tap(() =>{
+      this.realm.next()
+    }))
   }
 
   addNewRealm(realm: Realm) {
-    return this.http.post<Realm>(url + '/', realm)
+    return this.http.post<Realm>(url + '/', realm).pipe(tap(() =>{
+      this.realm.next()
+    }))
   }
 
   deleteRealmByName(realm: Realm) {
-    return this.http.delete(url + '/' + realm.name)
+    return this.http.delete(url + '/' + realm.name).pipe(tap(() =>{
+      this.realm.next()
+    }))
   }
 }

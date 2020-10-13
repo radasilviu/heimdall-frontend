@@ -27,17 +27,16 @@ export class UsersGroupsComponent implements OnInit {
   allGroups: Group[];
 
   ngOnInit(): void {
-    this.realmService.currentRealm.subscribe(() => {
-      this.groupService.refresh.subscribe(() => {
-        this.getAllGroups();
-      });
-      this.getAllGroups();
-    });
+   this.groupService.groups.subscribe(() =>{
+     this.getAllGroups();
+   })
+    this.getAllGroups();
   }
 
   getAllGroups() {
     let realm = localStorage.getItem('realm');
-    this.groupService.getAllGroups(realm).subscribe(data => {
+
+    this.groupService.getAllGroups(JSON.parse(realm).name).subscribe(data => {
       this.allGroups = data;
     }, error => {
       this.snackbar.openSnackBar(error.error.message, 3000);
@@ -52,7 +51,7 @@ export class UsersGroupsComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(data => {
       if (data == 'true') {
-        this.groupService.deleteGroupByName(group, realm).subscribe(data => {
+        this.groupService.deleteGroupByName(group, JSON.parse(realm).name).subscribe(data => {
 
         }, error => {
           this.snackbar.openSnackBar(error.message, 2000);

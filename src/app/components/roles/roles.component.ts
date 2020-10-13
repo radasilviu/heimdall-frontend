@@ -4,6 +4,7 @@ import {Role} from 'src/app/models/Role';
 import {User} from 'src/app/models/User';
 import {RoleService} from '../../services/role-service/role-service';
 import {UserService} from '../../services/user-service/user-service';
+import {GroupService} from '../../services/group-service/group-service';
 
 @Component({
   selector: 'app-roles',
@@ -21,49 +22,49 @@ export class RolesComponent implements OnInit {
 
   constructor(private roleService: RoleService,
               private userService: UserService,
-              private router: Router,) {
+              private router: Router,
+              private groupService:GroupService) {
   }
 
   ngOnInit() {
-
-    this.updateView();
-    this.getAllRoles();
+    this.roleService.roles.subscribe(() =>{
+      this.getAllRoles()
+      this.getUserRoles()
+    })
+    this.getUserRoles()
+    this.getAllRoles()
   }
 
 
-  updateView() {
-    let user = localStorage.getItem('currentUser');
-    let realm = localStorage.getItem("realm")
-    this.userService.getUserByUsername(user,realm).subscribe(data => {
-      this.userRoles = data.roles;
-      this.user = data;
-    });
-  }
+
 
   getAllRoles() {
     let realm = localStorage.getItem("realm")
-    this.roleService.getAllRoles(realm).subscribe(data => {
+
+    this.roleService.getAllRoles(JSON.parse(realm).name).subscribe(data => {
       this.allRoles = data;
     });
   }
 
-  back() {
+  getUserRoles(){
     let realm = localStorage.getItem("realm")
+    let userName = localStorage.getItem("currentUser")
+    this.userService.getUserByUsername(userName,JSON.parse(realm).name).subscribe((data:User) =>{
+      this.user = data
+      this.userRoles = data.roles
+    })
 
-    this.router.navigate(['home/users']);
   }
 
   addRole(role) {
     let realm = localStorage.getItem("realm")
-    this.roleService.addUserRole(role, this.user,realm).subscribe(data => {
-      this.updateView();
+    this.roleService.addUserRole(role, this.user,JSON.parse(realm).name).subscribe(data => {
     });
   }
 
   deleteRole(role) {
     let realm = localStorage.getItem("realm")
-    this.roleService.deleteUserRole(this.user, role,realm).subscribe(data => {
-      this.updateView();
+    this.roleService.deleteUserRole(this.user, role,JSON.parse(realm).name).subscribe(data => {
     });
   }
 }

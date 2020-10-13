@@ -31,46 +31,38 @@ export class GroupUsersComponent implements OnInit {
   groupUsers: User[] = [];
 
   ngOnInit(): void {
-    this.getGroup();
-    this.userService.pageRefresh.subscribe(() => {
+    this.groupService.groups.subscribe(() =>{
+      this.getGroupUsers()
       this.getAllUsers();
-    });
+    })
+    this.getGroupUsers()
     this.getAllUsers();
   }
 
-  getGroup() {
-    let realm = localStorage.getItem("Realm")
-
-    this.groupService.getGroupByName(this.group.name, realm).subscribe(data => {
-      this.group = data;
-    }, error => {
-      this.snackbar.openSnackBar(error.error.message, 3000);
-    });
-    this.groupService.getUsersFromGroup(this.group.name, realm).subscribe(data => {
-      this.groupUsers = data;
-    }, error => {
-      this.snackbar.openSnackBar(error.error.message, 3000);
-    });
+  getAllUsers(){
+    let realm = localStorage.getItem("realm")
+    this.userService.getAllUsers(JSON.parse(realm).name).subscribe(data =>{
+      this.users = data
+    })
   }
 
-  getAllUsers() {
-    let realm = localStorage.getItem("Realm")
+  getGroupUsers(){
+    let group = localStorage.getItem("groupName")
+    let realm = localStorage.getItem("realm")
 
-    this.userService.getAllUsers(realm).subscribe(data => {
-      this.users = data;
-    });
-    this.userService.getAllUsers(realm).subscribe(data => {
-      this.users = data;
-    }, error => {
-      this.snackbar.openSnackBar(error.error.message, 3000);
-    });
+    this.groupService.getGroupByName(group,JSON.parse(realm).name).subscribe(data =>{
+      this.group =data;
+      this.groupUsers = data.users
+    })
   }
+
+
+
 
   addUserToGroup(user) {
     let realm = localStorage.getItem('realm');
     let group = localStorage.getItem('groupName');
-    this.groupService.addUserToGroup(group, user, realm).subscribe(data => {
-      this.getGroup();
+    this.groupService.addUserToGroup(group, user, JSON.parse(realm).name).subscribe(data => {
     }, error => {
       this.snackbar.openSnackBar(error.error.message, 3000);
     });
@@ -83,8 +75,7 @@ export class GroupUsersComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(data => {
       if (data == 'true') {
-        this.groupService.deleteUserFromGroup(this.group, user, realm).subscribe(data => {
-          this.getGroup();
+        this.groupService.deleteUserFromGroup(this.group, user, JSON.parse(realm).name).subscribe(data => {
         }, error => {
           this.snackbar.openSnackBar(error.error.message, 3000);
         });

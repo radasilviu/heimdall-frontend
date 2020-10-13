@@ -8,6 +8,7 @@ import {ClientService} from '../../services/clientService/client-service';
 import {UserService} from '../../services/user-service/user-service';
 import {GroupService} from '../../services/group-service/group-service';
 import {User} from '../../models/User';
+import {Subscription} from 'rxjs';
 
 @Component({
   selector: 'app-home',
@@ -17,7 +18,7 @@ import {User} from '../../models/User';
 
 export class HomeComponent implements OnInit {
   panelOpenState = false;
-  realm: Realm;
+  realm: Subscription;
   realms: Realm[];
   users: User[];
 
@@ -32,6 +33,10 @@ export class HomeComponent implements OnInit {
 
   ngOnInit(): void {
     this.realm = JSON.parse(localStorage.getItem("realm"))
+
+    this.realmService.realm.subscribe(() =>{
+      this.getAllRealms()
+    })
     this.getAllRealms();
   }
 
@@ -44,7 +49,10 @@ export class HomeComponent implements OnInit {
   changeRealm(realm) {
     this.userService.setUsers(realm);
     this.clientService.setClients(realm)
-    this.realm = realm;
+    this.roleService.setRoles(realm)
+    this.groupsService.setGroups(realm)
+    this.realmService.setRealm(realm)
+
     localStorage.setItem('realm', JSON.stringify(realm));
   }
 
