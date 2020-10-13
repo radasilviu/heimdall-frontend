@@ -78,6 +78,12 @@ export class ClientsComponent implements OnInit {
     this.addClient(this.form.value);
   }
 
+  getAllClients() {
+    this.service.getAllClients()
+      .subscribe(data => {
+        this.allClients = data;
+      });
+  }
 
   addClient(client: Client) {
 

@@ -11,7 +11,7 @@ const url = Env.apiRootURL + '/api/client';
 @Injectable({
   providedIn: 'root'
 })
-export class GroupServiceService {
+export class GroupService {
 
   private _refresh = new Subject<Group[]>();
 

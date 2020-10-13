@@ -4,7 +4,7 @@ import {BehaviorSubject} from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
-export class IdentityProviderServiceService {
+export class IdentityProviderService {
 
    google = new BehaviorSubject<boolean>(false)
 

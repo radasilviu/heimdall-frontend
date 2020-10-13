@@ -9,6 +9,8 @@ import {UserServiceService} from '../../services/user-service/user-service.servi
 import {SnackBarServiceService} from '../../services/snack-bar/snack-bar-service.service';
 import {RealmServiceService} from '../../services/realm-service/realm-service.service';
 import {Realm} from '../../models/Realm';
+import {UserService} from '../../services/user-service/user-service';
+import {SnackBarService} from '../../services/snack-bar/snack-bar-service';
 
 @Component({
   selector: 'app-users',
@@ -17,7 +19,7 @@ import {Realm} from '../../models/Realm';
 })
 export class UsersComponent implements OnInit {
   displayedColumns = ['username', 'role'];
-  allUsers;
+  allUsers: User[];
   user = <User> {};
   realm: Realm;
   form = new FormGroup({
@@ -32,6 +34,9 @@ export class UsersComponent implements OnInit {
               private snackBar: SnackBarServiceService,
               private router: Router,
               private realmService: RealmServiceService) {
+              private userService: UserService,
+              private snackBar: SnackBarService,
+              private router: Router) {
   }
 
   ngOnInit(): void {

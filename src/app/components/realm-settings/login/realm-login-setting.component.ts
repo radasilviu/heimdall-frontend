@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {Realm} from '../../../models/Realm';
-import {RealmServiceService} from '../../../services/realm-service/realm-service.service';
+import {RealmService} from '../../../services/realm-service/realm-service';
 
 @Component({
   selector: 'app-realm-login-setting',
@@ -20,7 +20,7 @@ export class RealmLoginSettingComponent implements OnInit {
     loginWithEmail: new FormControl(false, Validators.required),
   });
 
-  constructor(private realmService: RealmServiceService) {
+  constructor(private realmService: RealmService) {
   }
 
   ngOnInit(): void {

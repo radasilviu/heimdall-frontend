@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {Realm} from '../../../models/Realm';
-import {RealmServiceService} from '../../../services/realm-service/realm-service.service';
+import {RealmService} from '../../../services/realm-service/realm-service';
 
 @Component({
   selector: 'app-realm-general-setting',
@@ -17,7 +17,7 @@ export class RealmGeneralSettingComponent implements OnInit {
     enabled: new FormControl(Validators.required)
   });
 
-  constructor(private realmService: RealmServiceService) {
+  constructor(private realmService: RealmService) {
   }
 
   ngOnInit(): void {

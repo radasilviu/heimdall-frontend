@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
 import {AdminAuthService} from 'src/app/services/admin-auth/admin-auth.service';
-import {RealmServiceService} from 'src/app/services/realm-service/realm-service.service';
+import {RealmService} from 'src/app/services/realm-service/realm-service';
 import {Realm} from '../../models/Realm';
 import {RoleServiceService} from '../../services/role-service/role-service.service';
 import {ClientServiceService} from '../../services/clientService/client-service.service';
@@ -48,7 +48,6 @@ export class HomeComponent implements OnInit {
   changeRealm(realm) {
     this.realmService.setRealm(realm);
   }
-
 
   logout(): void {
     this.adminAuthService.logout().subscribe();

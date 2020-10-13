@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {IdentityProviderServiceService} from '../../services/identity-provider-service/identity-provider-service.service';
+import {IdentityProviderService} from '../../services/identity-provider-service/identity-provider-service';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import validate = WebAssembly.validate;
 
@@ -10,7 +10,7 @@ import validate = WebAssembly.validate;
 })
 export class IdentityProviderComponent implements OnInit {
 
-  constructor(private identityService:IdentityProviderServiceService) { }
+  constructor(private identityService:IdentityProviderService) { }
 
   identityGroup = new FormGroup({
     googleIsActive: new FormControl(false, Validators.required),

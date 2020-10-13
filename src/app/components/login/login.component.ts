@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {Router} from '@angular/router';
 import {AdminAuthService} from '../../services/admin-auth/admin-auth.service';
+import {IdentityProviderService} from '../../services/identity-provider-service/identity-provider-service';
 import {IdentityProviderServiceService} from '../../services/identity-provider-service/identity-provider-service.service';
 import {RealmServiceService} from '../../services/realm-service/realm-service.service';
 import {Realm} from '../../models/Realm';
@@ -14,9 +15,9 @@ import {Realm} from '../../models/Realm';
 
 export class LoginComponent implements OnInit {
   errorMessage: boolean = false;
-  realm;
+  realm:Realm;
 
-  constructor(private identityProviderService: IdentityProviderServiceService,
+  constructor(private identityProviderService: IdentityProviderService,
               private authService: AdminAuthService,
               private router: Router,
               private realmService:RealmServiceService) {
@@ -36,6 +37,7 @@ export class LoginComponent implements OnInit {
   }
 
   login(): void {
+
     const username = this.loginForm.get('username').value;
     const password = this.loginForm.get('password').value;
 

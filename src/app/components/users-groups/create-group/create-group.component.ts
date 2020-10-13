@@ -1,8 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {GroupServiceService} from '../../../services/group-service/group-service.service';
+import {GroupService} from '../../../services/group-service/group-service';
 import {Router} from '@angular/router';
-import {SnackBarServiceService} from '../../../services/snack-bar/snack-bar-service.service';
+import {SnackBarService} from '../../../services/snack-bar/snack-bar-service';
 import {Realm} from '../../../models/Realm';
 import {RealmServiceService} from '../../../services/realm-service/realm-service.service';
 

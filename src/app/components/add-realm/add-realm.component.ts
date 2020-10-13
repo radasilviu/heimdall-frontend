@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {PasswordMatcher} from '../registration-page/PasswordMatcher';
-import {RealmServiceService} from '../../services/realm-service/realm-service.service';
+import {RealmService} from '../../services/realm-service/realm-service';
 
 @Component({
   selector: 'app-add-realm',
@@ -10,7 +10,7 @@ import {RealmServiceService} from '../../services/realm-service/realm-service.se
 })
 export class AddRealmComponent implements OnInit {
 
-  constructor( private formBuilder: FormBuilder,private realmService:RealmServiceService) { }
+  constructor( private formBuilder: FormBuilder,private realmService:RealmService) { }
 
   newRealm: FormGroup;
 

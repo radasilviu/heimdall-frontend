@@ -1,9 +1,10 @@
 import {Component, OnInit} from '@angular/core';
 import {Group} from '../../models/Group';
-import {GroupServiceService} from '../../services/group-service/group-service.service';
+import {GroupService} from '../../services/group-service/group-service';
 import {Router} from '@angular/router';
 import {MatDialog} from '@angular/material/dialog';
 import {DeleteDialogComponent} from '../dialogs/delete-dialog/delete-dialog.component';
+import {SnackBarService} from '../../services/snack-bar/snack-bar-service';
 import {SnackBarServiceService} from '../../services/snack-bar/snack-bar-service.service';
 import {RealmServiceService} from '../../services/realm-service/realm-service.service';
 import {Realm} from '../../models/Realm';
@@ -16,11 +17,13 @@ import {Realm} from '../../models/Realm';
 export class UsersGroupsComponent implements OnInit {
   realm:Realm;
 
-  constructor(private groupService: GroupServiceService,
+  constructor(private groupService: GroupService,
               private router: Router,
               public dialog: MatDialog,
               private snackbar:SnackBarServiceService,
               private realmService:RealmServiceService) {
+              public dialog: MatDialog,
+              private snackbar: SnackBarService) {
   }
 
 
@@ -39,7 +42,9 @@ export class UsersGroupsComponent implements OnInit {
   getAllGroups(){
     this.groupService.getAllGroups(this.realm.name).subscribe(data =>{
       this.allGroups = data
-    })
+    }, error => {
+      this.snackbar.openSnackBar(error.error.message, 3000);
+    });)
   }
 
   deleteGroup(group) {

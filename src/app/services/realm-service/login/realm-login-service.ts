@@ -5,16 +5,16 @@ import {Observable, throwError} from 'rxjs';
 import {Realm} from '../../../models/Realm';
 import {Env} from '../../../configs/env';
 import {catchError} from 'rxjs/operators';
-import {RealmServiceService} from '../realm-service.service';
+import {RealmService} from '../realm-service';
 
 
 @Injectable({
   providedIn: 'root'
 })
-export class RealmLoginServiceService {
+export class RealmLoginService {
 
 
-  constructor(private http: HttpClient, private snackBar: MatSnackBar, private realmService: RealmServiceService) {
+  constructor(private http: HttpClient, private snackBar: MatSnackBar, private realmService: RealmService) {
   }
 
   update(data: any): Observable<Realm> {

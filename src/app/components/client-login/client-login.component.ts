@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators, AbstractControl} from '@angular/forms';
-import {ClientLoginService} from '../../services/client-login/client-login.service';
+import {ClientLoginService} from '../../services/client-login-service/client-login.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {from, Observable} from 'rxjs';
 // @ts-ignore
