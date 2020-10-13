@@ -7,6 +7,7 @@ import {DeleteDialogComponent} from '../dialogs/delete-dialog/delete-dialog.comp
 import {SnackBarService} from '../../services/snack-bar/snack-bar-service';
 import {RealmService} from '../../services/realm-service/realm-service';
 import {Realm} from '../../models/Realm';
+import {Subscription} from 'rxjs';
 
 @Component({
   selector: 'app-users-groups',
@@ -15,6 +16,7 @@ import {Realm} from '../../models/Realm';
 })
 export class UsersGroupsComponent implements OnInit {
   realm: Realm;
+  private subscription:Subscription
 
   constructor(private groupService: GroupService,
               private router: Router,
@@ -27,11 +29,15 @@ export class UsersGroupsComponent implements OnInit {
   allGroups: Group[];
 
   ngOnInit(): void {
-   this.groupService.groups.subscribe(() =>{
+   this.subscription = this.groupService.groups.subscribe(() =>{
      this.getAllGroups();
    })
     this.getAllGroups();
   }
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
+  }
+
 
   getAllGroups() {
     let realm = localStorage.getItem('realm');
@@ -51,7 +57,7 @@ export class UsersGroupsComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(data => {
       if (data == 'true') {
-        this.groupService.deleteGroupByName(group, JSON.parse(realm).name).subscribe(data => {
+      this.subscription = this.groupService.deleteGroupByName(group, JSON.parse(realm).name).subscribe(data => {
 
         }, error => {
           this.snackbar.openSnackBar(error.message, 2000);

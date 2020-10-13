@@ -8,6 +8,7 @@ import {DeleteDialogComponent} from '../dialogs/delete-dialog/delete-dialog.comp
 import {RealmService} from '../../services/realm-service/realm-service';
 import {UserService} from '../../services/user-service/user-service';
 import {SnackBarService} from '../../services/snack-bar/snack-bar-service';
+import {Subscription} from 'rxjs';
 
 @Component({
   selector: 'app-users',
@@ -16,8 +17,9 @@ import {SnackBarService} from '../../services/snack-bar/snack-bar-service';
 })
 export class UsersComponent implements OnInit {
   displayedColumns = ['username', 'role'];
-  @Input() allUsers: User[];
+   allUsers: User[];
   user = <User> {};
+  private subscription:Subscription
 
   form = new FormGroup({
     username: new FormControl('', Validators.required),
@@ -34,10 +36,14 @@ export class UsersComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.userService.users.subscribe(() =>{
+    this.subscription = this.userService.users.subscribe(() =>{
       this.getAllUsers()
     })
    this.getAllUsers();
+  }
+
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
   }
 
   getAllUsers(){

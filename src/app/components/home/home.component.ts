@@ -18,9 +18,11 @@ import {Subscription} from 'rxjs';
 
 export class HomeComponent implements OnInit {
   panelOpenState = false;
-  realm: Subscription;
+  realm: Realm;
   realms: Realm[];
   users: User[];
+
+  private subscription:Subscription;
 
   constructor(private router: Router,
               private realmService: RealmService,
@@ -34,10 +36,14 @@ export class HomeComponent implements OnInit {
   ngOnInit(): void {
     this.realm = JSON.parse(localStorage.getItem("realm"))
 
-    this.realmService.realm.subscribe(() =>{
+   this.subscription =  this.realmService.realm.subscribe(() =>{
       this.getAllRealms()
     })
     this.getAllRealms();
+  }
+
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
   }
 
   getAllRealms() {
@@ -52,7 +58,7 @@ export class HomeComponent implements OnInit {
     this.roleService.setRoles(realm)
     this.groupsService.setGroups(realm)
     this.realmService.setRealm(realm)
-
+    this.realm = realm
     localStorage.setItem('realm', JSON.stringify(realm));
   }
 

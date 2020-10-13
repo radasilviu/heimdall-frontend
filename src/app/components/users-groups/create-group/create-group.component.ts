@@ -5,6 +5,7 @@ import {Router} from '@angular/router';
 import {SnackBarService} from '../../../services/snack-bar/snack-bar-service';
 import {Realm} from '../../../models/Realm';
 import {RealmService} from '../../../services/realm-service/realm-service';
+import {Subscription} from 'rxjs';
 
 @Component({
   selector: 'app-create-group',
@@ -13,6 +14,8 @@ import {RealmService} from '../../../services/realm-service/realm-service';
 })
 export class CreateGroupComponent implements OnInit {
 realm:Realm;
+private subscription:Subscription
+
   constructor(private groupService: GroupService,
               private router: Router,
               private snackbar: SnackBarService,
@@ -27,10 +30,14 @@ realm:Realm;
 
   }
 
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
+  }
+
   onSubmit() {
     let realm = localStorage.getItem("realm")
 
-    this.groupService.addNewGroup(this.createGroup.value,JSON.parse(realm).name).subscribe(data => {
+    this.subscription = this.groupService.addNewGroup(this.createGroup.value,JSON.parse(realm).name).subscribe(data => {
     }, error => {
       this.snackbar.openSnackBar(error.error.message, 3000);
     });

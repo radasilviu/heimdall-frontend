@@ -17,6 +17,7 @@ import {Realm} from '../../../models/Realm';
 })
 export class GroupUsersComponent implements OnInit {
   realm: Realm;
+  private subscription
 
   constructor(private router: Router,
               private groupService: GroupService,
@@ -31,12 +32,15 @@ export class GroupUsersComponent implements OnInit {
   groupUsers: User[] = [];
 
   ngOnInit(): void {
-    this.groupService.groups.subscribe(() =>{
+    this.subscription = this.groupService.groups.subscribe(() =>{
       this.getGroupUsers()
       this.getAllUsers();
     })
     this.getGroupUsers()
     this.getAllUsers();
+  }
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
   }
 
   getAllUsers(){

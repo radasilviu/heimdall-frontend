@@ -7,6 +7,7 @@ import {RolesDialogComponent} from '../dialogs/roles-dialog/roles-dialog.compone
 import {RoleService} from '../../services/role-service/role-service';
 import {Realm} from '../../models/Realm';
 import {SnackBarService} from '../../services/snack-bar/snack-bar-service';
+import {Subscription} from 'rxjs';
 
 @Component({
   selector: 'app-heimdall-roles',
@@ -18,6 +19,9 @@ export class HeimdallRolesComponent implements OnInit {
   allRoles: Role[];
   role = <Role> {};
   realm:Realm;
+  private subscription:Subscription
+
+
   form = new FormGroup({
     name: new FormControl('', Validators.required)
   });
@@ -29,10 +33,13 @@ export class HeimdallRolesComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.roleService.roles.subscribe(() =>{
+   this.subscription =  this.roleService.roles.subscribe(() =>{
       this.getAllRoles();
     })
     this.getAllRoles();
+  }
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
   }
 
   getAllRoles(){

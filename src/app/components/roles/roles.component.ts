@@ -5,6 +5,7 @@ import {User} from 'src/app/models/User';
 import {RoleService} from '../../services/role-service/role-service';
 import {UserService} from '../../services/user-service/user-service';
 import {GroupService} from '../../services/group-service/group-service';
+import {Subscription} from 'rxjs';
 
 @Component({
   selector: 'app-roles',
@@ -16,6 +17,7 @@ export class RolesComponent implements OnInit {
   userRoles: Role[];
   allRoles: Role[];
   user: User;
+  private subscription:Subscription
 
   displayedColumns: string[] = ['Roles'];
 
@@ -27,7 +29,7 @@ export class RolesComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.roleService.roles.subscribe(() =>{
+   this.subscription =  this.roleService.roles.subscribe(() =>{
       this.getAllRoles()
       this.getUserRoles()
     })
@@ -35,6 +37,9 @@ export class RolesComponent implements OnInit {
     this.getAllRoles()
   }
 
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
+  }
 
 
 

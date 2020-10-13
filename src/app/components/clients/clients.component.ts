@@ -8,6 +8,7 @@ import {ClientService} from '../../services/clientService/client-service';
 import {SnackBarService} from '../../services/snack-bar/snack-bar-service';
 import {RealmService} from '../../services/realm-service/realm-service';
 import {Realm} from '../../models/Realm';
+import {Subscription} from 'rxjs';
 
 
 @Component({
@@ -21,6 +22,7 @@ export class ClientsComponent implements OnInit {
   errorMessage: string;
   realm: Realm;
   Client = <Client> {};
+  private subscription:Subscription;
 
   displayedColumns: string[] = ['name'];
   form = new FormGroup({
@@ -35,11 +37,16 @@ export class ClientsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.clientService.clients.subscribe(() =>{
+   this.subscription =  this.clientService.clients.subscribe(() =>{
       this.getAllClients();
     })
     this.getAllClients();
   }
+
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
+  }
+
 
   getAllClients() {
     let realm = localStorage.getItem("realm")
