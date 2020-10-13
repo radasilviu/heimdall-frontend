@@ -23,11 +23,7 @@ export class AddRealmComponent implements OnInit {
   }
 
   addNewRealm(){
-    this.realmService.addNewRealm(this.newRealm.value).subscribe(data =>{
-      this.realmService.serviceRealms.subscribe(data =>{
-      //  this.realmService.editRealms(data);
-      })
-    });
+    this.realmService.addNewRealm(this.newRealm.value).subscribe();
   }
 
 }

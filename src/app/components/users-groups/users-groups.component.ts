@@ -5,6 +5,8 @@ import {Router} from '@angular/router';
 import {MatDialog} from '@angular/material/dialog';
 import {DeleteDialogComponent} from '../dialogs/delete-dialog/delete-dialog.component';
 import {SnackBarServiceService} from '../../services/snack-bar/snack-bar-service.service';
+import {RealmServiceService} from '../../services/realm-service/realm-service.service';
+import {Realm} from '../../models/Realm';
 
 @Component({
   selector: 'app-users-groups',
@@ -12,47 +14,41 @@ import {SnackBarServiceService} from '../../services/snack-bar/snack-bar-service
   styleUrls: ['./users-groups.component.css']
 })
 export class UsersGroupsComponent implements OnInit {
+  realm:Realm;
 
   constructor(private groupService: GroupServiceService,
               private router: Router,
               public dialog: MatDialog,
-              private snackbar:SnackBarServiceService) {
+              private snackbar:SnackBarServiceService,
+              private realmService:RealmServiceService) {
   }
+
 
   allGroups: Group[];
 
   ngOnInit(): void {
-
-    this.groupService.pageRefresh.subscribe(()=>{
-      this.getGroups();
+    this.realmService.currentRealm.subscribe((data:Realm) =>{
+     this.realm = data
+      this.groupService.refresh.subscribe(()=>{
+        this.getAllGroups();
+      })
+      this.getAllGroups();
     })
-    this.getGroups();
   }
 
-  updateView() {
-    let realm = localStorage.getItem('realm');
-    this.groupService.getAllGroups(realm).subscribe(data => {
-      this.allGroups = data;
-    });
+  getAllGroups(){
+    this.groupService.getAllGroups(this.realm.name).subscribe(data =>{
+      this.allGroups = data
+    })
   }
-
-  getGroups() {
-    let realm = localStorage.getItem('realm');
-
-    this.groupService.getAllGroups(realm).subscribe(data => {
-      this.allGroups= data;
-    });
-  }
-
 
   deleteGroup(group) {
     let dialogRef = this.dialog.open(DeleteDialogComponent);
-    let realm = localStorage.getItem("realm")
 
     dialogRef.afterClosed().subscribe(data => {
       if (data == 'true') {
-        this.groupService.deleteGroupByName(group,realm).subscribe(data => {
-          this.updateView();
+        this.groupService.deleteGroupByName(group,this.realm.name).subscribe(data => {
+
         },error => {
           this.snackbar.openSnackBar(error.message,2000)
         });

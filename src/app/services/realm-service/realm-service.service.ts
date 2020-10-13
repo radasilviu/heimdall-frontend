@@ -16,25 +16,26 @@ export class RealmServiceService {
 
   private realms = new Subject();
 
-  private currentRealm = new Subject();
+  private realm = new Subject();
 
-  get realm(){
-    return this.currentRealm;
-  }
 
-  get serviceRealms(){
-    return this.realms;
+  get currentRealm(){
+    return this.realm
   }
 
   setRealm(realm){
-    this.currentRealm.next(realm)
+    this.realm.next(realm)
   }
 
-  getRealm(realm){
-    this.getRealmByName(realm).subscribe(data =>{
-      this.currentRealm.next(data)
-    })
+  setRealms(realms){
+    this.realms.next(realms)
   }
+
+  get allRealms(){
+    return this.realms
+  }
+
+
 
 
   getRealmByName(realmName){
@@ -45,7 +46,7 @@ export class RealmServiceService {
   }
 
   getAllRealms(): Observable<Realm[]> {
-    return this.http.get<Realm[]>(url + '/list');
+    return this.http.get<Realm[]>(url + '/list')
   }
 
   updateRealmByName(currentRealmName: string, realm: Realm) {

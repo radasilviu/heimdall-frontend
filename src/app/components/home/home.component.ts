@@ -16,25 +16,25 @@ import {GroupServiceService} from '../../services/group-service/group-service.se
 
 export class HomeComponent implements OnInit {
   panelOpenState = false;
-  realm:Realm;
+  realm: Realm;
   realms: Realm[];
 
   constructor(private router: Router,
               private realmService: RealmServiceService,
               private adminAuthService: AdminAuthService,
-              private roleService:RoleServiceService,
-              private clientService:ClientServiceService,
-              private userService:UserServiceService,
-              private groupsService:GroupServiceService) {
+              private roleService: RoleServiceService,
+              private clientService: ClientServiceService,
+              private userService: UserServiceService,
+              private groupsService: GroupServiceService) {
   }
 
   ngOnInit(): void {
-     this.realmService.realm.subscribe((data:Realm) =>{
-    this.realm = data
-    })
-    this.realmService.serviceRealms.subscribe(() =>{
+    this.realmService.currentRealm.subscribe((data:Realm) => {
+      this.realm = data;
+    });
+    this.realmService.allRealms.subscribe(() => {
       this.getAllRealms();
-    })
+    });
     this.getAllRealms();
   }
 
@@ -46,49 +46,33 @@ export class HomeComponent implements OnInit {
 
 
   changeRealm(realm) {
-    this.realmService.setRealm(realm)
-
-    this.realmService.realm.subscribe((data:Realm) =>{
-      this.realm = data
-    })
-
-    localStorage.setItem("realm",realm.name)
-    this.userService.getUsers(realm.name);
-    this.clientService.getClients(realm.name);
-    this.roleService.getRoles(realm.name);
-    this.groupsService.getGroups(realm.name);
-    this.realmService.getRealm(realm.name);
+    this.realmService.setRealm(realm);
   }
+
 
   logout(): void {
     this.adminAuthService.logout().subscribe();
   }
 
   realmSettings(): void {
-    let realm = localStorage.getItem("realm")
-    this.realmService.getRealmByName(realm).subscribe(data =>{
-      this.realmService.setRealm(data);
-      this.realmService.getRealm(realm);
-
-    })
+    this.realmService.setRealm(this.realm);
     this.router.navigate(['home/realm-settings']);
   }
 
-  gotUsers(){
+  gotUsers() {
     this.router.navigate(['home/users']);
   }
 
 
-
-  gotoRoles(){
+  gotoRoles() {
     this.router.navigate(['home/roles']);
   }
 
-  goToClients(){
+  goToClients() {
     this.router.navigate(['home/clients']);
   }
 
-  goToGroups(){
+  goToGroups() {
     this.router.navigate(['home/users-group']);
   }
 

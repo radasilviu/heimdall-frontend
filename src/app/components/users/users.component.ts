@@ -7,6 +7,8 @@ import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {DeleteDialogComponent} from '../dialogs/delete-dialog/delete-dialog.component';
 import {UserServiceService} from '../../services/user-service/user-service.service';
 import {SnackBarServiceService} from '../../services/snack-bar/snack-bar-service.service';
+import {RealmServiceService} from '../../services/realm-service/realm-service.service';
+import {Realm} from '../../models/Realm';
 
 @Component({
   selector: 'app-users',
@@ -17,6 +19,7 @@ export class UsersComponent implements OnInit {
   displayedColumns = ['username', 'role'];
   allUsers;
   user = <User> {};
+  realm: Realm;
   form = new FormGroup({
     username: new FormControl('', Validators.required),
     password: new FormControl('', Validators.required),
@@ -27,26 +30,26 @@ export class UsersComponent implements OnInit {
               private dialog: MatDialog,
               private userService: UserServiceService,
               private snackBar: SnackBarServiceService,
-              private router: Router) {
+              private router: Router,
+              private realmService: RealmServiceService) {
   }
 
   ngOnInit(): void {
-    this.userService.pageRefresh.subscribe(() => {
-      this.getUsers();
+    this.realmService.currentRealm.subscribe((data: Realm) => {
+      this.realm = data;
+      this.userService.pageRefresh.subscribe(() => {
+        this.getAllUsers();
+      });
+      this.getAllUsers();
     });
-    this.getUsers();
   }
 
-
-
-  getUsers() {
-    let realm = localStorage.getItem('realm');
-    this.userService.getAllUsers(realm).subscribe(data => {
+  getAllUsers() {
+    this.userService.getAllUsers(this.realm.name).subscribe(data => {
       this.allUsers = data;
-      console.log(data)
-
     });
   }
+
 
   onSubmit() {
     this.addUser(this.form.value);

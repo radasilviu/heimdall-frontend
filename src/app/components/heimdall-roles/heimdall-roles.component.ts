@@ -6,6 +6,8 @@ import {DeleteDialogComponent} from '../dialogs/delete-dialog/delete-dialog.comp
 import {RolesDialogComponent} from '../dialogs/roles-dialog/roles-dialog.component';
 import {RoleServiceService} from '../../services/role-service/role-service.service';
 import {SnackBarServiceService} from '../../services/snack-bar/snack-bar-service.service';
+import {RealmServiceService} from '../../services/realm-service/realm-service.service';
+import {Realm} from '../../models/Realm';
 
 @Component({
   selector: 'app-heimdall-roles',
@@ -16,26 +18,32 @@ export class HeimdallRolesComponent implements OnInit {
   displayedColumns: string[] = ['Roles'];
   allRoles: Role[];
   role = <Role> {};
+  realm:Realm;
   form = new FormGroup({
     name: new FormControl('', Validators.required)
   });
 
   constructor(private service: RoleServiceService,
               private snackBar: SnackBarServiceService,
-              public dialog: MatDialog) {
+              public dialog: MatDialog,
+              private realmService: RealmServiceService) {
   }
 
   ngOnInit(): void {
-    this.service.pageRefresh.subscribe(() => {
-      this.getRealmRoles();
+
+    this.realmService.currentRealm.subscribe((data: Realm) => {
+      this.realm = data;
+      this.service.pageRefresh.subscribe(()=>{
+        this.getAllRoles();
+      })
+      this.getAllRoles();
     });
-    this.getRealmRoles();
   }
-  getRealmRoles(){
-    let realm = localStorage.getItem("realm")
-    this.service.getAllRoles(realm).subscribe(data =>{
-      this.allRoles = data
-    })
+
+  getAllRoles(){
+    this.service.getAllRoles(this.realm.name).subscribe(data => {
+      this.allRoles = data;
+    });
   }
 
   onSubmit() {
@@ -56,10 +64,8 @@ export class HeimdallRolesComponent implements OnInit {
     });
   }
 
-
   addRole(role: Role) {
-    let realm = localStorage.getItem('realm');
-    this.service.addRole(role, realm).subscribe(() => {
+    this.service.addRole(role, this.realm.name).subscribe(() => {
     }, error => {
       this.snackBar.openSnackBar(error.error.message, 2000);
     });
@@ -69,8 +75,7 @@ export class HeimdallRolesComponent implements OnInit {
     const dialogRef = this.dialog.open(DeleteDialogComponent);
     dialogRef.afterClosed().subscribe(data => {
       if (data == 'true') {
-        let realm = localStorage.getItem('realm');
-        this.service.deleteRole(role, realm).subscribe(() => {
+        this.service.deleteRole(role, this.realm.name).subscribe(() => {
         }, error => {
           this.snackBar.openSnackBar(error.error.message, 4000);
         });

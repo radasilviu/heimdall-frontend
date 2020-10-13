@@ -23,7 +23,7 @@ export class RealmSettingsComponent implements OnInit {
 
 
   getRealm(){
-    this.realmService.realm.subscribe((data:Realm) =>{
+    this.realmService.currentRealm.subscribe((data:Realm) =>{
       this.realm = data
     })
   }
@@ -33,7 +33,6 @@ export class RealmSettingsComponent implements OnInit {
     dialogRef.afterClosed().subscribe(data => {
       if (data == 'true') {
         this.realmService.deleteRealmByName(this.realm).subscribe();
-
       }
     });
   }
