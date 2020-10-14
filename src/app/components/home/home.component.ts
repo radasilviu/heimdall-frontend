@@ -10,6 +10,7 @@ import {GroupService} from '../../services/group-service/group-service';
 import {User} from '../../models/User';
 import {Subscription} from 'rxjs';
 import {SnackBarService} from '../../services/snack-bar/snack-bar-service';
+import jwt_decode from 'jwt-decode';
 
 @Component({
   selector: 'app-home',
@@ -36,6 +37,7 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.admin = jwt_decode(localStorage.getItem('token')).iss;
     this.realm = JSON.parse(localStorage.getItem('realm'));
 
     this.subscription = this.realmService.realm.subscribe(() => {
@@ -43,7 +45,6 @@ export class HomeComponent implements OnInit {
     });
     this.getAllRealms();
   }
-
 
   ngOnDestroy() {
     this.subscription.unsubscribe();
