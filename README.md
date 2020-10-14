@@ -5,7 +5,7 @@
     docker build -t heimdall-frontend . 
 
 #### Compose your docker-compose file
-    docker-compose up
+    docker run --name frontend -d -p 4201:4200 heimdall-frontend
 
 
 # App
