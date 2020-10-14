@@ -22,6 +22,7 @@ export class HomeComponent implements OnInit {
   realm: Realm;
   realms: Realm[];
   users: User[];
+  admin: User;
   private subscription: Subscription;
 
   constructor(private router: Router,
@@ -42,6 +43,7 @@ export class HomeComponent implements OnInit {
     });
     this.getAllRealms();
   }
+
 
   ngOnDestroy() {
     this.subscription.unsubscribe();
