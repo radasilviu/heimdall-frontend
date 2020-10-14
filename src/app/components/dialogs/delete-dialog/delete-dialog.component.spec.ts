@@ -1,10 +1,9 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { DeleteDialogComponent } from './delete-dialog.component';
+import {DeleteDialogComponent} from './delete-dialog.component';
 import {HttpClientTestingModule} from '@angular/common/http/testing';
 import {RouterTestingModule} from '@angular/router/testing';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
-import { MatDialogRef} from '@angular/material/dialog';
 
 describe('DeleteDialogComponent', () => {
   let component: DeleteDialogComponent;

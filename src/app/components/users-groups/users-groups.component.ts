@@ -16,7 +16,7 @@ import {Subscription} from 'rxjs';
 })
 export class UsersGroupsComponent implements OnInit {
   realm: Realm;
-  private subscription:Subscription
+  private subscription: Subscription;
 
   constructor(private groupService: GroupService,
               private router: Router,
@@ -25,19 +25,18 @@ export class UsersGroupsComponent implements OnInit {
               private snackbar: SnackBarService) {
   }
 
-
   allGroups: Group[];
 
   ngOnInit(): void {
-   this.subscription = this.groupService.groups.subscribe(() =>{
-     this.getAllGroups();
-   })
+    this.subscription = this.groupService.groups.subscribe(() => {
+      this.getAllGroups();
+    }, error => this.snackbar.openSnackBar(error.error.message, 4000));
     this.getAllGroups();
   }
+
   ngOnDestroy() {
     this.subscription.unsubscribe();
   }
-
 
   getAllGroups() {
     let realm = localStorage.getItem('realm');
@@ -47,7 +46,6 @@ export class UsersGroupsComponent implements OnInit {
     }, error => {
       this.snackbar.openSnackBar(error.error.message, 3000);
     });
-
   }
 
   deleteGroup(group) {
@@ -57,7 +55,7 @@ export class UsersGroupsComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(data => {
       if (data == 'true') {
-      this.subscription = this.groupService.deleteGroupByName(group, JSON.parse(realm).name).subscribe(data => {
+        this.subscription = this.groupService.deleteGroupByName(group, JSON.parse(realm).name).subscribe(data => {
 
         }, error => {
           this.snackbar.openSnackBar(error.message, 2000);

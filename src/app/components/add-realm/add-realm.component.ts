@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
-import {PasswordMatcher} from '../registration-page/PasswordMatcher';
 import {RealmService} from '../../services/realm-service/realm-service';
 import {Realm} from '../../models/Realm';
+import {SnackBarService} from '../../services/snack-bar/snack-bar-service';
 
 @Component({
   selector: 'app-add-realm',
@@ -10,26 +10,23 @@ import {Realm} from '../../models/Realm';
   styleUrls: ['./add-realm.component.css']
 })
 export class AddRealmComponent implements OnInit {
-  realm:Realm
-  constructor( private formBuilder: FormBuilder,
-               private realmService:RealmService,
-               ) { }
-
+  realm: Realm;
   newRealm: FormGroup;
 
+  constructor(private formBuilder: FormBuilder,
+              private realmService: RealmService,
+              private snackBar: SnackBarService) {
+  }
 
   ngOnInit(): void {
-
-
-
     this.newRealm = this.formBuilder.group({
       name: new FormControl('', Validators.required),
-      displayName:new FormControl('',Validators.required),
+      displayName: new FormControl('', Validators.required),
     });
   }
 
-  addNewRealm(){
-    this.realmService.addNewRealm(this.newRealm.value).subscribe();
+  addNewRealm() {
+    this.realmService.addNewRealm(this.newRealm.value).subscribe(data => {
+    }, error => this.snackBar.openSnackBar(error.error.message, 4000));
   }
-
 }

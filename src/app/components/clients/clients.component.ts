@@ -6,7 +6,6 @@ import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {DeleteDialogComponent} from '../dialogs/delete-dialog/delete-dialog.component';
 import {ClientService} from '../../services/clientService/client-service';
 import {SnackBarService} from '../../services/snack-bar/snack-bar-service';
-import {RealmService} from '../../services/realm-service/realm-service';
 import {Realm} from '../../models/Realm';
 import {Subscription} from 'rxjs';
 
@@ -19,12 +18,11 @@ import {Subscription} from 'rxjs';
 
 export class ClientsComponent implements OnInit {
   allClients: Client[];
-  errorMessage: string;
   realm: Realm;
   Client = <Client> {};
-  private subscription:Subscription;
-
+  private subscription: Subscription;
   displayedColumns: string[] = ['name'];
+
   form = new FormGroup({
     clientName: new FormControl('', Validators.required),
   });
@@ -33,13 +31,13 @@ export class ClientsComponent implements OnInit {
               private service: ClientService,
               private snackBar: SnackBarService,
               public dialog: MatDialog,
-              private clientService:ClientService) {
+              private clientService: ClientService) {
   }
 
   ngOnInit(): void {
-   this.subscription =  this.clientService.clients.subscribe(() =>{
+    this.subscription = this.clientService.clients.subscribe(() => {
       this.getAllClients();
-    })
+    });
     this.getAllClients();
   }
 
@@ -47,12 +45,12 @@ export class ClientsComponent implements OnInit {
     this.subscription.unsubscribe();
   }
 
-
   getAllClients() {
-    let realm = localStorage.getItem("realm")
-    this.clientService.getAllClients(JSON.parse(realm).name).subscribe(data =>{
-      this.allClients = data
-    })
+    let realm = localStorage.getItem('realm');
+
+    this.clientService.getAllClients(JSON.parse(realm).name).subscribe(data => {
+      this.allClients = data;
+    }, error => this.snackBar.openSnackBar(error.message, 4000));
   }
 
   updateClient(currentClientName: string) {
@@ -77,23 +75,17 @@ export class ClientsComponent implements OnInit {
     const dialogRef = this.dialog.open(DeleteDialogComponent);
     dialogRef.afterClosed().subscribe(data => {
       if (data == 'true') {
-        this.service.deleteClient(clientName,  JSON.parse(realm).name).subscribe(() => {
+        this.service.deleteClient(clientName, JSON.parse(realm).name).subscribe(() => {
+        }, error => {
+          this.snackBar.openSnackBar(error.error.message, 2000);
         });
       }
     });
   }
 
-
   onSubmit() {
-    this.addClient(this.form.value);
-  }
-
-
-  addClient(client: Client) {
     let realm = localStorage.getItem('realm');
-
-
-    this.service.addClient(client, JSON.parse(realm).name).subscribe(data => {
+    this.service.addClient(this.form.value, JSON.parse(realm).name).subscribe(data => {
     }, error => {
       this.snackBar.openSnackBar(error.error.message, 2000);
     });

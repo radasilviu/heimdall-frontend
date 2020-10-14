@@ -4,7 +4,6 @@ import {Router} from '@angular/router';
 import {AdminAuthService} from '../../services/admin-auth/admin-auth.service';
 import {IdentityProviderService} from '../../services/identity-provider-service/identity-provider-service';
 import {RealmService} from '../../services/realm-service/realm-service';
-import {Realm} from '../../models/Realm';
 
 @Component({
   selector: 'app-login',
@@ -19,13 +18,13 @@ export class LoginComponent implements OnInit {
   constructor(private identityProviderService: IdentityProviderService,
               private authService: AdminAuthService,
               private router: Router,
-              private realmService:RealmService) {
+              private realmService: RealmService) {
   }
 
   loginForm: FormGroup;
 
   ngOnInit(): void {
-    this.realm = "master0"
+    this.realm = 'master0';
 
     this.identityProviderService.getGoogleProvider().subscribe(data => {
     });
@@ -41,7 +40,7 @@ export class LoginComponent implements OnInit {
     const password = this.loginForm.get('password').value;
 
     this.authService
-      .login(username, password,this.realm)
+      .login(username, password, this.realm)
 
       .subscribe(
         user => {

@@ -7,7 +7,6 @@ import {DeleteDialogComponent} from '../../dialogs/delete-dialog/delete-dialog.c
 import {MatDialog} from '@angular/material/dialog';
 import {UserService} from '../../../services/user-service/user-service';
 import {SnackBarService} from '../../../services/snack-bar/snack-bar-service';
-import {RealmService} from '../../../services/realm-service/realm-service';
 import {Realm} from '../../../models/Realm';
 
 @Component({
@@ -17,14 +16,13 @@ import {Realm} from '../../../models/Realm';
 })
 export class GroupUsersComponent implements OnInit {
   realm: Realm;
-  private subscription
+  private subscription;
 
   constructor(private router: Router,
               private groupService: GroupService,
               private userService: UserService,
               private dialog: MatDialog,
-              private snackbar: SnackBarService,
-              private realmService: RealmService) {
+              private snackbar: SnackBarService) {
   }
 
   group: Group;
@@ -32,35 +30,34 @@ export class GroupUsersComponent implements OnInit {
   groupUsers: User[] = [];
 
   ngOnInit(): void {
-    this.subscription = this.groupService.groups.subscribe(() =>{
-      this.getGroupUsers()
+    this.subscription = this.groupService.groups.subscribe(() => {
+      this.getGroupUsers();
       this.getAllUsers();
-    })
-    this.getGroupUsers()
+    }, error => this.snackbar.openSnackBar(error.error.message, 4000));
+    this.getGroupUsers();
     this.getAllUsers();
   }
+
   ngOnDestroy() {
     this.subscription.unsubscribe();
   }
 
-  getAllUsers(){
-    let realm = localStorage.getItem("realm")
-    this.userService.getAllUsers(JSON.parse(realm).name).subscribe(data =>{
-      this.users = data
-    })
+  getAllUsers() {
+    let realm = localStorage.getItem('realm');
+    this.userService.getAllUsers(JSON.parse(realm).name).subscribe(data => {
+      this.users = data;
+    }, error => this.snackbar.openSnackBar(error.error.message, 4000));
   }
 
-  getGroupUsers(){
-    let group = localStorage.getItem("groupName")
-    let realm = localStorage.getItem("realm")
+  getGroupUsers() {
+    let group = localStorage.getItem('groupName');
+    let realm = localStorage.getItem('realm');
 
-    this.groupService.getGroupByName(group,JSON.parse(realm).name).subscribe(data =>{
-      this.group =data;
-      this.groupUsers = data.users
-    })
+    this.groupService.getGroupByName(group, JSON.parse(realm).name).subscribe(data => {
+      this.group = data;
+      this.groupUsers = data.users;
+    }, error => this.snackbar.openSnackBar(error.error.message, 4000));
   }
-
-
 
 
   addUserToGroup(user) {
@@ -74,7 +71,6 @@ export class GroupUsersComponent implements OnInit {
 
   deleteUserFromGroup(user) {
     let realm = localStorage.getItem('realm');
-
     let dialogRef = this.dialog.open(DeleteDialogComponent);
 
     dialogRef.afterClosed().subscribe(data => {

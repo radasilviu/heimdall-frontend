@@ -1,8 +1,8 @@
 import {Component, OnInit} from '@angular/core';
-import {FormControl, FormGroup, Validators, AbstractControl} from '@angular/forms';
+import {AbstractControl, FormControl, FormGroup, Validators} from '@angular/forms';
 import {ClientLoginService} from '../../services/client-login-service/client-login.service';
-import {ActivatedRoute, Router} from '@angular/router';
-import {from, Observable} from 'rxjs';
+import {ActivatedRoute} from '@angular/router';
+import {from} from 'rxjs';
 // @ts-ignore
 import {FacebookLoginProvider, GoogleLoginProvider, SocialAuthService} from 'angularx-social-login';
 import {OAuthSocialUser} from 'src/app/models/social_user.model';
@@ -35,7 +35,6 @@ export class ClientLoginComponent implements OnInit {
     this.clientSecret = this.route.snapshot.queryParamMap.get('clientSecret');
     this.redirectURL = this.route.snapshot.queryParamMap.get('redirectURL');
     this.realm = this.route.snapshot.queryParamMap.get('realm');
-
   }
 
   get username(): AbstractControl {
@@ -70,7 +69,6 @@ export class ClientLoginComponent implements OnInit {
         break;
     }
 
-
     obs.subscribe((socialUser: OAuthSocialUser) => {
 
         this.clientService.socialLogin(socialUser, this.clientId, this.clientSecret, this.realm)
@@ -82,6 +80,4 @@ export class ClientLoginComponent implements OnInit {
       }
     );
   }
-
-
 }

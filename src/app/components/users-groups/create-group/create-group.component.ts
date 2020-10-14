@@ -4,7 +4,6 @@ import {GroupService} from '../../../services/group-service/group-service';
 import {Router} from '@angular/router';
 import {SnackBarService} from '../../../services/snack-bar/snack-bar-service';
 import {Realm} from '../../../models/Realm';
-import {RealmService} from '../../../services/realm-service/realm-service';
 import {Subscription} from 'rxjs';
 
 @Component({
@@ -13,13 +12,12 @@ import {Subscription} from 'rxjs';
   styleUrls: ['./create-group.component.css']
 })
 export class CreateGroupComponent implements OnInit {
-realm:Realm;
-private subscription:Subscription
+  realm: Realm;
+  private subscription: Subscription;
 
   constructor(private groupService: GroupService,
               private router: Router,
-              private snackbar: SnackBarService,
-              private realmService:RealmService) {
+              private snackbar: SnackBarService) {
   }
 
   createGroup = new FormGroup({
@@ -27,22 +25,16 @@ private subscription:Subscription
   });
 
   ngOnInit(): void {
-
   }
 
-
   onSubmit() {
-    let realm = localStorage.getItem("realm")
-
-    this.subscription = this.groupService.addNewGroup(this.createGroup.value,JSON.parse(realm).name).subscribe(data => {
+    let realm = localStorage.getItem('realm');
+    this.subscription = this.groupService.addNewGroup(this.createGroup.value, JSON.parse(realm).name).subscribe(data => {
       this.router.navigate(['/home/users-group']);
       this.subscription.unsubscribe();
 
     }, error => {
-      console.log(error)
       this.snackbar.openSnackBar(error.error.message, 3000);
     });
   }
-
-
 }

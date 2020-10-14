@@ -1,11 +1,10 @@
 import {Component, OnInit} from '@angular/core';
-import {Router} from '@angular/router';
 import {Role} from 'src/app/models/Role';
 import {User} from 'src/app/models/User';
 import {RoleService} from '../../services/role-service/role-service';
 import {UserService} from '../../services/user-service/user-service';
-import {GroupService} from '../../services/group-service/group-service';
 import {Subscription} from 'rxjs';
+import {SnackBarService} from '../../services/snack-bar/snack-bar-service';
 
 @Component({
   selector: 'app-roles',
@@ -17,59 +16,55 @@ export class RolesComponent implements OnInit {
   userRoles: Role[];
   allRoles: Role[];
   user: User;
-  private subscription:Subscription
+  private subscription: Subscription;
 
   displayedColumns: string[] = ['Roles'];
 
 
   constructor(private roleService: RoleService,
               private userService: UserService,
-              private router: Router,
-              private groupService:GroupService) {
+              private snackBar: SnackBarService) {
   }
 
   ngOnInit() {
-   this.subscription =  this.roleService.roles.subscribe(() =>{
-      this.getAllRoles()
-      this.getUserRoles()
-    })
-    this.getUserRoles()
-    this.getAllRoles()
+    this.subscription = this.roleService.roles.subscribe(() => {
+      this.getAllRoles();
+      this.getUserRoles();
+    }, error => this.snackBar.openSnackBar(error.error.message, 4000));
+    this.getUserRoles();
+    this.getAllRoles();
   }
 
   ngOnDestroy() {
     this.subscription.unsubscribe();
   }
 
-
-
   getAllRoles() {
-    let realm = localStorage.getItem("realm")
+    let realm = localStorage.getItem('realm');
 
     this.roleService.getAllRoles(JSON.parse(realm).name).subscribe(data => {
       this.allRoles = data;
-    });
+    }, error => this.snackBar.openSnackBar(error.error.message, 4000));
   }
 
-  getUserRoles(){
-    let realm = localStorage.getItem("realm")
-    let userName = localStorage.getItem("currentUser")
-    this.userService.getUserByUsername(userName,JSON.parse(realm).name).subscribe((data:User) =>{
-      this.user = data
-      this.userRoles = data.roles
-    })
-
+  getUserRoles() {
+    let realm = localStorage.getItem('realm');
+    let userName = localStorage.getItem('currentUser');
+    this.userService.getUserByUsername(userName, JSON.parse(realm).name).subscribe((data: User) => {
+      this.user = data;
+      this.userRoles = data.roles;
+    }, error => this.snackBar.openSnackBar(error.error.message, 4000));
   }
 
   addRole(role) {
-    let realm = localStorage.getItem("realm")
-    this.roleService.addUserRole(role, this.user,JSON.parse(realm).name).subscribe(data => {
-    });
+    let realm = localStorage.getItem('realm');
+    this.roleService.addUserRole(role, this.user, JSON.parse(realm).name).subscribe(data => {
+    }, error => this.snackBar.openSnackBar(error.error.message, 4000));
   }
 
   deleteRole(role) {
-    let realm = localStorage.getItem("realm")
-    this.roleService.deleteUserRole(this.user, role,JSON.parse(realm).name).subscribe(data => {
-    });
+    let realm = localStorage.getItem('realm');
+    this.roleService.deleteUserRole(this.user, role, JSON.parse(realm).name).subscribe(data => {
+    }, error => this.snackBar.openSnackBar(error.error.message, 4000));
   }
 }

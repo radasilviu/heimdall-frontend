@@ -1,4 +1,4 @@
-import {ChangeDetectorRef, Component, Input, OnInit} from '@angular/core';
+import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
 import {MatDialog} from '@angular/material/dialog';
 import {Router} from '@angular/router';
 import {UserDialogComponent} from '../dialogs/user-dialog/user-dialog.component';
@@ -17,9 +17,9 @@ import {Subscription} from 'rxjs';
 })
 export class UsersComponent implements OnInit {
   displayedColumns = ['username', 'role'];
-   allUsers: User[];
+  allUsers: User[];
   user = <User> {};
-  private subscription:Subscription
+  private subscription: Subscription;
 
   form = new FormGroup({
     username: new FormControl('', Validators.required),
@@ -36,23 +36,22 @@ export class UsersComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.subscription = this.userService.users.subscribe(() =>{
-      this.getAllUsers()
-    })
-   this.getAllUsers();
+    this.subscription = this.userService.users.subscribe(() => {
+      this.getAllUsers();
+    });
+    this.getAllUsers();
   }
 
   ngOnDestroy() {
     this.subscription.unsubscribe();
   }
 
-  getAllUsers(){
-    let realm = localStorage.getItem("realm")
-    this.userService.getAllUsers(JSON.parse(realm).name).subscribe((data:User[]) =>{
-      this.allUsers = data
-    })
+  getAllUsers() {
+    let realm = localStorage.getItem('realm');
+    this.userService.getAllUsers(JSON.parse(realm).name).subscribe((data: User[]) => {
+      this.allUsers = data;
+    });
   }
-
 
   onSubmit() {
     this.addUser(this.form.value);
@@ -74,9 +73,6 @@ export class UsersComponent implements OnInit {
   }
 
 
-
-
-
   deleteUser(username: string) {
     let realm = localStorage.getItem('realm');
 
@@ -84,6 +80,8 @@ export class UsersComponent implements OnInit {
     dialogRef.afterClosed().subscribe(data => {
       if (data == 'true') {
         this.userService.deleteUser(username, JSON.parse(realm).name).subscribe(() => {
+        }, error => {
+          this.snackBar.openSnackBar(error.error.message, 2000);
         });
       }
     });
