@@ -1,0 +1,15 @@
+version: '3.4'
+volumes:
+  node_modules:
+
+services:
+  ui:
+    image: frontend
+    build:
+      context: ./
+      dockerfile: ./Dockerfile
+    ports:
+      - 4201:4201
+    volumes:
+      - ./src:/heimdall-frontend/src
+      - node_modules:/heimdall-frontend/node_modules
