@@ -8,6 +8,8 @@ import {MatDialog} from '@angular/material/dialog';
 import {UserService} from '../../../services/user-service/user-service';
 import {SnackBarService} from '../../../services/snack-bar/snack-bar-service';
 import {Realm} from '../../../models/Realm';
+import {RoleService} from '../../../services/role-service/role-service';
+import {Role} from '../../../models/Role';
 
 @Component({
   selector: 'app-group-users',
@@ -22,20 +24,37 @@ export class GroupUsersComponent implements OnInit {
               private groupService: GroupService,
               private userService: UserService,
               private dialog: MatDialog,
-              private snackbar: SnackBarService) {
+              private snackbar: SnackBarService,
+              private roleService:RoleService) {
   }
 
   group: Group;
   users: User[];
+  roles:Role[]
   groupUsers: User[] = [];
 
   ngOnInit(): void {
     this.subscription = this.groupService.groups.subscribe(() => {
       this.getGroupUsers();
       this.getAllUsers();
+      this.getAllRoles()
     }, error => this.snackbar.openSnackBar(error.error.message, 4000));
     this.getGroupUsers();
+    this.getAllRoles()
     this.getAllUsers();
+  }
+
+  addRoleToAllUsers(role){
+    let realm = localStorage.getItem('realm');
+    this.groupService.addRoleToGroup(JSON.parse(realm).name,this.group.name,role.name).subscribe();
+  }
+
+  getAllRoles() {
+    let realm = localStorage.getItem('realm');
+
+    this.roleService.getAllRoles(JSON.parse(realm).name).subscribe(data => {
+      this.roles = data;
+    });
   }
 
   ngOnDestroy() {

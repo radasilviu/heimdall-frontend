@@ -37,9 +37,11 @@ export class GroupService {
     }))
   }
 
-  getUsersFromGroup(groupName: string, realm: string): Observable<User[]> {
-    return this.http.get<User[]>(url + '/' + realm + '/group/' + groupName + '/users');
-  }
+ addRoleToGroup(realmName,groupName,roleName){
+   return this.http.post<Group>(url + "/" + realmName + "/group" + "/" +  groupName  + "/addRole" +"/" + roleName, {}).pipe(tap(() =>{
+     this.groups.next()
+   }))
+ }
 
   getGroupByName(group: string, realm: string): Observable<Group> {
     return this.http.get<Group>(url + '/' + realm + '/group/' + group);

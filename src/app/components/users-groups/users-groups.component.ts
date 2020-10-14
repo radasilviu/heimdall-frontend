@@ -8,6 +8,8 @@ import {SnackBarService} from '../../services/snack-bar/snack-bar-service';
 import {RealmService} from '../../services/realm-service/realm-service';
 import {Realm} from '../../models/Realm';
 import {Subscription} from 'rxjs';
+import {RoleService} from '../../services/role-service/role-service';
+import {Role} from '../../models/Role';
 
 @Component({
   selector: 'app-users-groups',
@@ -16,13 +18,15 @@ import {Subscription} from 'rxjs';
 })
 export class UsersGroupsComponent implements OnInit {
   realm: Realm;
+  roles: Role[];
   private subscription: Subscription;
 
   constructor(private groupService: GroupService,
               private router: Router,
               private realmService: RealmService,
               public dialog: MatDialog,
-              private snackbar: SnackBarService) {
+              private snackbar: SnackBarService,
+              private roleService: RoleService) {
   }
 
   allGroups: Group[];

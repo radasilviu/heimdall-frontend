@@ -5,6 +5,7 @@ import {HttpClient} from '@angular/common/http';
 import {Env} from '../../configs/env';
 import {Client} from '../../models/Client';
 import {tap} from 'rxjs/operators';
+import {Realm} from '../../models/Realm';
 
 const url = Env.apiRootURL + '/api';
 
@@ -39,8 +40,8 @@ export class UserService {
     return this.http.get<User[]>(url + '/user/' + realm);
   }
 
-  getSessionUsers(realm: string) {
-    return this.http.put(url + '/user/updateState', realm);
+  getSessionUsers(realm: Realm) {
+    return this.http.put(url + '/user/updateState', realm.name);
   }
 
   deleteUser(username: string, realm: string) {

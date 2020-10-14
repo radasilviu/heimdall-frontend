@@ -21,12 +21,11 @@ export class RoleService {
      })
    }
 
+  getRoleByname(realm,name){
+    return this.http.get<Role[]>(url + '/role/'+ realm + "/" + name, );
 
-  getRoles(realmName){
-    this.getAllRoles(realmName).subscribe(data =>{
-      this.roles.next(data)
-    })
   }
+
   constructor(private http: HttpClient) {}
 
   getAllRoles(realm:string): Observable<Role[]> {
