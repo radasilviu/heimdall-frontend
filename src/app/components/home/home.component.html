@@ -23,7 +23,7 @@
                 <div> {{realm.displayName}}</div>
               </ng-container>
               <ng-container *ngIf="!realm">
-                <div> Example Realm</div>
+                <div> Realm</div>
               </ng-container>
             </mat-panel-title>
           </mat-expansion-panel-header>
@@ -42,29 +42,29 @@
 
       <div class="d-flex flex-column">
         <li class=" d-flex justify-content-center mb-3">
-          <button type="button" [routerLink]="['realm-settings']" class="btn-block btn-primary btn-lg">Realm Settings</button>
+          <button type="button" (click)="GoToListItem('realm-settings')" class="btn-block btn-primary btn-lg">Realm Settings</button>
         </li>
         <li class=" d-flex justify-content-center mb-3">
-          <button type="button"  [routerLink]="['clients']"class="btn-block btn-primary btn-lg">Clients</button>
+          <button type="button"  (click)="GoToListItem('clients')" class="btn-block btn-primary btn-lg">Clients</button>
         </li>
         <li class=" d-flex justify-content-center mb-3">
-          <button type="button" (click)="goToUsers()" class="btn-block btn-primary btn-lg">Users</button>
+          <button type="button" (click)="GoToListItem('users')" class="btn-block btn-primary btn-lg">Users</button>
         </li>
         <li class=" d-flex justify-content-center mb-3">
-          <button type="button"  [routerLink]="['users-group']" class="btn-block btn-primary btn-lg">Users Group</button>
+          <button type="button"  (click)="GoToListItem('users-group')" class="btn-block btn-primary btn-lg">Users Group</button>
         </li>
         <li class=" d-flex justify-content-center mb-3">
-          <button type="button" [routerLink]="['roles']" class="btn-block btn-primary btn-lg">Roles</button>
+          <button type="button" (click)="GoToListItem('roles')" class="btn-block btn-primary btn-lg">Roles</button>
         </li>
         <li class=" d-flex justify-content-center mb-3">
-          <button type="button" [routerLink]="['identity-provider']" class="btn-block btn-primary btn-lg">Identity-Provider</button>
+          <button type="button" (click)="GoToListItem('identity-provider')" class="btn-block btn-primary btn-lg">Identity-Provider</button>
         </li>
         <li class=" d-flex justify-content-center mb-3">
-          <button type="button" [routerLink]="['user-session']" class="btn-block btn-primary btn-lg">Session</button>
+          <button type="button" (click)="GoToListItem('user-session')" class="btn-block btn-primary btn-lg">Session</button>
         </li>
       </div>
 
     </mat-drawer>
-    <router-outlet [allUsers]="users"></router-outlet>
+    <router-outlet ></router-outlet>
   </mat-drawer-container>
 </div>

@@ -20,8 +20,15 @@ export class RealmService {
 
   realm = new Subject();
 
-  getRealm():Subscription{
-    return this.realm.subscribe();
+  currentRealm = new Subject<Realm>();
+
+  getCurrentRealm(){
+    return this.currentRealm.asObservable()
+  }
+
+
+  setCurrentRealm(realm){
+    this.currentRealm.next(realm);
   }
 
 
@@ -30,8 +37,6 @@ export class RealmService {
       this.realm.next(data)
     })
   }
-
-
 
   getRealmByName(realm) {
     return this.http.get<Realm>(url + '/' + realm);

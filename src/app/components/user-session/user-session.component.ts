@@ -18,14 +18,11 @@ export class UserSessionComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.realmService.currentRealm.subscribe(() => {
-      this.userService.pageRefresh.subscribe(() => {
-        this.getAllSessionUsers();
-        this.getAllUsers();
-      });
-      this.getAllSessionUsers();
-      this.getAllUsers();
-    });
+    this.userService.users.subscribe(() =>{
+      this.getAllUsers()
+    })
+    this.getAllSessionUsers();
+    this.getAllUsers()
 
   }
 
@@ -38,7 +35,7 @@ export class UserSessionComponent implements OnInit {
 
   getAllUsers() {
     let realm = localStorage.getItem('realm');
-    this.userService.getAllUsers(realm).subscribe(data => {
+    this.userService.getAllUsers(JSON.parse(realm).name).subscribe(data => {
       this.users = data;
       console.log(data)
     });

@@ -9,47 +9,45 @@ import {RealmService} from '../../../services/realm-service/realm-service';
   styleUrls: ['./realm-login-setting.component.css']
 })
 export class RealmLoginSettingComponent implements OnInit {
-  realm:Realm;
+  realm: Realm;
+  subscription;
+  loginForm;
 
-  loginForm = new FormGroup({
-    userRegistration: new FormControl(false, Validators.required),
-    editUsername: new FormControl(false, Validators.required),
-    forgotPassword: new FormControl(false, Validators.required),
-    rememberMe: new FormControl(false, Validators.required),
-    verifyEmail: new FormControl(false, Validators.required),
-    loginWithEmail: new FormControl(false, Validators.required),
-  });
+  constructor(private realmService: RealmService) {}
 
-  constructor(private realmService: RealmService) {
-  }
+  ngOnInit() {
 
-
-  ngOnInit(): void {
-    this.realmService.realm.subscribe(() =>{
+    this.subscription = this.realmService.realm.subscribe(() => {
       this.getRealm();
-    })
+    });
     this.getRealm();
+
   }
 
-  getRealm(){
-    let realm = localStorage.getItem("realm")
-    this.realmService.getRealmByName(JSON.parse(realm).name).subscribe(data =>{
-      this.realm = data
-
-      this.loginForm.patchValue({
-            userRegistration: data.userRegistration,
-            editUsername: data.editUsername,
-            forgotPassword: data.forgotPassword,
-            rememberMe: data.rememberMe,
-            verifyEmail: data.verifyEmail,
-            loginWithEmail: data.loginWithEmail
-          });
-    })
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
   }
 
+  getRealm() {
+    this.realm = JSON.parse(localStorage.getItem('realm'));
 
+
+    this.loginForm = new FormGroup({
+      userRegistration: new FormControl(this.realm.userRegistration, Validators.required),
+      editUsername: new FormControl(this.realm.editUsername, Validators.required),
+      forgotPassword: new FormControl(this.realm.forgotPassword, Validators.required),
+      rememberMe: new FormControl(this.realm.rememberMe, Validators.required),
+      verifyEmail: new FormControl(this.realm.verifyEmail, Validators.required),
+      loginWithEmail: new FormControl(this.realm.loginWithEmail, Validators.required),
+    });
+  }
 
   onSubmit() {
-   this.realmService.updateLoginSettings(this.realm.name,this.loginForm.value).subscribe()
+    this.subscription = this.realmService.updateLoginSettings(this.realm.name, this.loginForm.value).subscribe((data: Realm) => {
+      localStorage.setItem('realm', JSON.stringify(data));
+      this.realm = data;
+      this.getRealm();
+      this.realmService.setCurrentRealm(data);
+    });
   }
 }
