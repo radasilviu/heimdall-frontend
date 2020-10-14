@@ -1,3 +1,13 @@
+## Docker Composer Steps
+
+####  To build image for backend
+    
+    docker build -t heimdall-frontend . 
+
+#### Compose your docker-compose file
+    docker-compose up
+
+
 # App
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 10.1.1.
