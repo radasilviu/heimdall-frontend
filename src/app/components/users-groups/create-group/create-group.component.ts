@@ -30,17 +30,19 @@ private subscription:Subscription
 
   }
 
-  ngOnDestroy() {
-    this.subscription.unsubscribe();
-  }
 
   onSubmit() {
     let realm = localStorage.getItem("realm")
 
     this.subscription = this.groupService.addNewGroup(this.createGroup.value,JSON.parse(realm).name).subscribe(data => {
+      this.router.navigate(['/home/users-group']);
+      this.subscription.unsubscribe();
+
     }, error => {
+      console.log(error)
       this.snackbar.openSnackBar(error.error.message, 3000);
     });
-    this.router.navigate(['/home/users-group']);
   }
+
+
 }

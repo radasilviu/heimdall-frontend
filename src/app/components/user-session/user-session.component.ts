@@ -29,7 +29,6 @@ export class UserSessionComponent implements OnInit {
     getAllSessionUsers(){
       let realm = localStorage.getItem("realm")
       this.userService.getSessionUsers(realm).subscribe((data:User[]) =>{
-        console.log(data)
       });
     }
 
@@ -37,7 +36,6 @@ export class UserSessionComponent implements OnInit {
     let realm = localStorage.getItem('realm');
     this.userService.getAllUsers(JSON.parse(realm).name).subscribe(data => {
       this.users = data;
-      console.log(data)
     });
   }
 
