@@ -11,6 +11,7 @@ import {interval, Subscription} from 'rxjs';
 })
 export class UserSessionComponent implements OnInit {
   users;
+
   private subscription: Subscription;
 
 
