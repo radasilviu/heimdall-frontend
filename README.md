@@ -1,8 +1,9 @@
 ## Docker Composer Steps
 
 ####  To build image for backend
-    
     docker build -t heimdall-frontend . 
+### Run container
+    docker-compose up -d
 
 #### Compose your docker-compose file
     docker run --name frontend -d -p 4201:4200 heimdall-frontend

@@ -4,7 +4,7 @@ volumes:
 
 services:
   ui:
-    image: frontend
+    image: heimdall-frontend
     build:
       context: ./
       dockerfile: ./Dockerfile
