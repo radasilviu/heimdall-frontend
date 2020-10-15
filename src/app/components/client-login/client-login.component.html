@@ -14,7 +14,11 @@
         <mat-label>Password</mat-label>
         <input matInput type="password" formControlName="password" required>
       </mat-form-field>
-      <button type="submit" [disabled]="!loginForm.valid" mat-raised-button color="primary">Submit</button>
+      <div>
+        <button class="mr-4" type="submit" [disabled]="!loginForm.valid" mat-raised-button color="primary">Login</button>
+        <button  [routerLink]="['/register']" mat-raised-button color="primary">Register</button>
+      </div>
+      <a class="mt-4" [routerLink]="['/forgot-password']">Forgot password?</a>
     </form>
   </div>
 </div>

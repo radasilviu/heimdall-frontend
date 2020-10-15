@@ -19,6 +19,7 @@ export class UserService {
 
    users = new Subject();
 
+
   setUsers(realm){
     this.getAllUsers(realm.name).subscribe(data =>{
       this.users.next(data);
@@ -26,6 +27,13 @@ export class UserService {
   }
 
 
+  logoutAllUsers(realm){
+    return this.http.put(url + "/user/"+ 'logoutAll',realm).pipe(
+      tap(() =>{
+        this.users.next();
+      })
+    )
+  }
 
 
   updateUserName(currentUserName: string, newUser: User, realm: string) {

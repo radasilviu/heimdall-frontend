@@ -12,6 +12,8 @@ import {Subscription} from 'rxjs';
 export class IdentityProviderComponent implements OnInit {
   private subscription: Subscription;
 
+
+
   constructor(private identityService: IdentityProviderService) {
   }
 

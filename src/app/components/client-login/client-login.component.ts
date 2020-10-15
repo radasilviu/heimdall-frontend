@@ -6,6 +6,9 @@ import {from} from 'rxjs';
 // @ts-ignore
 import {FacebookLoginProvider, GoogleLoginProvider, SocialAuthService} from 'angularx-social-login';
 import {OAuthSocialUser} from 'src/app/models/social_user.model';
+import {IdentityProviderService} from '../../services/identity-provider-service/identity-provider-service';
+import {User} from '../../models/User';
+import {UserService} from '../../services/user-service/user-service';
 
 
 @Component({
@@ -22,10 +25,16 @@ export class ClientLoginComponent implements OnInit {
   realm: string;
 
 
-  constructor(private clientService: ClientLoginService, private route: ActivatedRoute, private socialAuthService: SocialAuthService) {
+  constructor(private clientService: ClientLoginService,
+              private route: ActivatedRoute,
+              private socialAuthService: SocialAuthService,
+              private userService:UserService,
+              private googleIdent:IdentityProviderService) {
   }
 
   ngOnInit(): void {
+
+
     this.loginForm = new FormGroup({
       username: new FormControl('', [Validators.required]),
       password: new FormControl('', [Validators.required])
@@ -46,6 +55,7 @@ export class ClientLoginComponent implements OnInit {
   }
 
   onSubmit(): void {
+
     this.clientService
       .login(this.loginForm.value, this.clientId, this.clientSecret, this.realm)
       .subscribe(

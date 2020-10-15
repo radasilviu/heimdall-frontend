@@ -6,6 +6,8 @@ import {BehaviorSubject} from 'rxjs';
 })
 export class IdentityProviderService {
 
+
+
    google = new BehaviorSubject<boolean>(false)
 
   setGoogleProvider(google){

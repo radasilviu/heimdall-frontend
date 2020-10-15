@@ -10,12 +10,15 @@ import {PasswordMatcher} from './PasswordMatcher';
 })
 export class RegistrationPageComponent implements OnInit {
   registerForm: FormGroup;
+  homeUrl;
 
   constructor(private service: RegisterApiService, private formBuilder: FormBuilder) {
   }
 
   // tslint:disable-next-line:typedef
   ngOnInit(): void {
+    this.homeUrl = localStorage.getItem("url")
+    console.log(this.homeUrl)
     this.registerForm = this.formBuilder.group({
       username: new FormControl('', [Validators.required]),
       password: new FormControl('', [Validators.required]),
@@ -29,4 +32,5 @@ export class RegistrationPageComponent implements OnInit {
   register() {
     this.service.registerUser(this.registerForm.value).subscribe();
   }
+
 }
