@@ -18,7 +18,6 @@ export class RegistrationPageComponent implements OnInit {
   // tslint:disable-next-line:typedef
   ngOnInit(): void {
     this.homeUrl = localStorage.getItem("url")
-    console.log(this.homeUrl)
     this.registerForm = this.formBuilder.group({
       username: new FormControl('', [Validators.required]),
       password: new FormControl('', [Validators.required]),

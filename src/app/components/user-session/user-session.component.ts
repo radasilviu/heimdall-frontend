@@ -11,12 +11,8 @@ import {interval, Subscription} from 'rxjs';
 })
 export class UserSessionComponent implements OnInit {
   users;
-
   private subscription: Subscription;
-
-
   displayedColumns = ['username', 'isActive'];
-
 
   constructor(private userService: UserService,
               private snackBar: SnackBarService) {
@@ -36,12 +32,10 @@ export class UserSessionComponent implements OnInit {
     });
   }
 
-
-  logoutAllUsers(){
-    const realm = localStorage.getItem("realm")
-    this.userService.logoutAllUsers(JSON.parse(realm)).subscribe(data =>{
-      console.log(data)
-    })
+  logoutAllUsers() {
+    const realm = localStorage.getItem('realm');
+    this.userService.logoutAllUsers(JSON.parse(realm)).subscribe(data => {
+    });
   }
 
   ngOnDestroy() {
