@@ -40,6 +40,13 @@ export class HomeComponent implements OnInit {
     this.realm = JSON.parse(localStorage.getItem('realm'));
 
     this.subscription = this.realmService.realm.subscribe(() => {
+      if (localStorage.getItem('realm') == null) {
+        this.realmService.getAllRealms().subscribe(data => {
+          localStorage.setItem('realm', JSON.stringify(data[0]));
+          this.realmService.setCurrentRealm(data[0]);
+        }, error => this.snackBar.openSnackBar(error.error.message, 4000));
+      }
+
       this.getAllRealms();
     }, error => this.snackBar.openSnackBar(error.error.message, 4000));
     this.getAllRealms();
@@ -67,20 +74,8 @@ export class HomeComponent implements OnInit {
     localStorage.setItem('realm', JSON.stringify(realm));
   }
 
-  GoToListItem(path) {
-    if (localStorage.getItem('realm') != null) {
-      return this.router.navigate(['home/' + path]);
-    } else {
-      this.realmService.getAllRealms().subscribe(data => {
-        localStorage.setItem('realm', JSON.stringify(data[0]));
-        this.realmService.setCurrentRealm(data[0]);
-        this.router.navigate(['home/' + path]).then(r => {
-        }, error => this.snackBar.openSnackBar(error.error.message, 4000));
-      });
-    }
-  }
-
   logout(): void {
-    this.subscription = this.adminAuthService.logout().subscribe(() =>{},error => this.snackBar.openSnackBar(error.error.message,4000));
+    this.subscription = this.adminAuthService.logout().subscribe(() => {
+    }, error => this.snackBar.openSnackBar(error.error.message, 4000));
   }
 }
