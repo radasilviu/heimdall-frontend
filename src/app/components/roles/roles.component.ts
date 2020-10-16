@@ -20,7 +20,6 @@ export class RolesComponent implements OnInit {
 
   displayedColumns: string[] = ['Roles'];
 
-
   constructor(private roleService: RoleService,
               private userService: UserService,
               private snackBar: SnackBarService) {
@@ -50,6 +49,7 @@ export class RolesComponent implements OnInit {
   getUserRoles() {
     let realm = localStorage.getItem('realm');
     let userName = localStorage.getItem('currentUser');
+
     this.userService.getUserByUsername(userName, JSON.parse(realm).name).subscribe((data: User) => {
       this.user = data;
       this.userRoles = data.roles;
@@ -58,12 +58,14 @@ export class RolesComponent implements OnInit {
 
   addRole(role) {
     let realm = localStorage.getItem('realm');
+
     this.roleService.addUserRole(role, this.user, JSON.parse(realm).name).subscribe(data => {
     }, error => this.snackBar.openSnackBar(error.error.message, 4000));
   }
 
   deleteRole(role) {
     let realm = localStorage.getItem('realm');
+
     this.roleService.deleteUserRole(this.user, role, JSON.parse(realm).name).subscribe(data => {
     }, error => this.snackBar.openSnackBar(error.error.message, 4000));
   }

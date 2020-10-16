@@ -12,10 +12,12 @@ import {Realm} from '../../../models/Realm';
 })
 export class RealmGeneralSettingService {
 
-  constructor(private http: HttpClient, private snackBar: MatSnackBar) { }
+  constructor(private http: HttpClient,
+              private snackBar: MatSnackBar) {
+  }
 
-  update(currentRealmName,data: any): Observable<Realm> {
-    const url = Env.apiRootURL + '/api/admin/realm/general-update/' + currentRealmName ;
+  update(currentRealmName, data: any): Observable<Realm> {
+    const url = Env.apiRootURL + '/api/admin/realm/general-update/' + currentRealmName;
     const body = {
       name: data.name,
       displayName: data.displayName,

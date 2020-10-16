@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {IdentityProviderService} from '../../services/identity-provider-service/identity-provider-service';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {Subscription} from 'rxjs';
+import {SnackBarService} from '../../services/snack-bar/snack-bar-service';
 
 
 @Component({
@@ -12,9 +13,8 @@ import {Subscription} from 'rxjs';
 export class IdentityProviderComponent implements OnInit {
   private subscription: Subscription;
 
-
-
-  constructor(private identityService: IdentityProviderService) {
+  constructor(private identityService: IdentityProviderService,
+              private snackBar:SnackBarService) {
   }
 
   identityGroup = new FormGroup({
@@ -26,7 +26,7 @@ export class IdentityProviderComponent implements OnInit {
       this.identityGroup.patchValue({
         googleIsActive: data
       });
-    });
+    },error => this.snackBar.openSnackBar(error.error.message,4000));
   }
 
   ngOnDestroy() {

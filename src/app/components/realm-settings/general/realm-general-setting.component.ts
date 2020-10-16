@@ -3,6 +3,7 @@ import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {Realm} from '../../../models/Realm';
 import {RealmService} from '../../../services/realm-service/realm-service';
 import {SnackBarService} from '../../../services/snack-bar/snack-bar-service';
+import {Subscription} from 'rxjs';
 
 @Component({
   selector: 'app-realm-general-setting',
@@ -11,8 +12,8 @@ import {SnackBarService} from '../../../services/snack-bar/snack-bar-service';
 })
 export class RealmGeneralSettingComponent implements OnInit {
   generalForm: FormGroup;
-  subscription;
-  realm;
+  subscription: Subscription;
+  realm: Realm;
 
   constructor(private realmService: RealmService,
               private snackBar: SnackBarService) {
@@ -43,6 +44,7 @@ export class RealmGeneralSettingComponent implements OnInit {
 
     this.subscription = this.realmService.updateRealmByName(this.realm.name, this.generalForm.value).subscribe((data: Realm) => {
       localStorage.setItem('realm', JSON.stringify(data));
+
       this.realm = data;
       this.getRealm();
       this.realmService.setCurrentRealm(data);

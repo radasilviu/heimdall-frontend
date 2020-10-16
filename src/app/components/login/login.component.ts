@@ -3,7 +3,6 @@ import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {Router} from '@angular/router';
 import {AdminAuthService} from '../../services/admin-auth/admin-auth.service';
 import {IdentityProviderService} from '../../services/identity-provider-service/identity-provider-service';
-import {RealmService} from '../../services/realm-service/realm-service';
 
 @Component({
   selector: 'app-login',
@@ -13,15 +12,14 @@ import {RealmService} from '../../services/realm-service/realm-service';
 
 export class LoginComponent implements OnInit {
   errorMessage: boolean = false;
-  realm;
+  realm:string;
+  loginForm: FormGroup;
 
   constructor(private identityProviderService: IdentityProviderService,
               private authService: AdminAuthService,
-              private router: Router,
-              private realmService: RealmService) {
+              private router: Router) {
   }
 
-  loginForm: FormGroup;
 
   ngOnInit(): void {
     this.realm = 'master0';

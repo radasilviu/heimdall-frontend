@@ -16,9 +16,8 @@ import {Subscription} from 'rxjs';
 export class HeimdallRolesComponent implements OnInit {
   displayedColumns: string[] = ['Roles'];
   allRoles: Role[];
-  role = <Role> {};
+  role:Role
   private subscription: Subscription;
-
 
   form = new FormGroup({
     name: new FormControl('', Validators.required)
@@ -26,7 +25,7 @@ export class HeimdallRolesComponent implements OnInit {
 
   constructor(private service: RoleService,
               private snackBar: SnackBarService,
-              public dialog: MatDialog,
+              private dialog: MatDialog,
               private roleService: RoleService) {
   }
 

@@ -3,6 +3,7 @@ import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {Realm} from '../../../models/Realm';
 import {RealmService} from '../../../services/realm-service/realm-service';
 import {SnackBarService} from '../../../services/snack-bar/snack-bar-service';
+import {Subscription} from 'rxjs';
 
 @Component({
   selector: 'app-realm-login-setting',
@@ -11,15 +12,14 @@ import {SnackBarService} from '../../../services/snack-bar/snack-bar-service';
 })
 export class RealmLoginSettingComponent implements OnInit {
   realm: Realm;
-  subscription;
-  loginForm;
+  subscription: Subscription;
+  loginForm: FormGroup;
 
   constructor(private realmService: RealmService,
               private snackBar: SnackBarService) {
   }
 
   ngOnInit() {
-
     this.subscription = this.realmService.realm.subscribe(() => {
       this.getRealm();
     }, error => this.snackBar.openSnackBar(error.error.message, 4000));
@@ -46,6 +46,7 @@ export class RealmLoginSettingComponent implements OnInit {
   onSubmit() {
     this.subscription = this.realmService.updateLoginSettings(this.realm.name, this.loginForm.value).subscribe((data: Realm) => {
       localStorage.setItem('realm', JSON.stringify(data));
+
       this.realm = data;
       this.getRealm();
       this.realmService.setCurrentRealm(data);

@@ -19,7 +19,7 @@ import {Subscription} from 'rxjs';
 export class ClientsComponent implements OnInit {
   allClients: Client[];
   realm: Realm;
-  Client = <Client> {};
+  Client: Client;
   private subscription: Subscription;
   displayedColumns: string[] = ['name'];
 
@@ -30,7 +30,7 @@ export class ClientsComponent implements OnInit {
   constructor(private changeDetectorRefs: ChangeDetectorRef,
               private service: ClientService,
               private snackBar: SnackBarService,
-              public dialog: MatDialog,
+              private dialog: MatDialog,
               private clientService: ClientService) {
   }
 
@@ -71,8 +71,8 @@ export class ClientsComponent implements OnInit {
 
   deleteClient(clientName) {
     let realm = localStorage.getItem('realm');
-
     const dialogRef = this.dialog.open(DeleteDialogComponent);
+
     dialogRef.afterClosed().subscribe(data => {
       if (data == 'true') {
         this.service.deleteClient(clientName, JSON.parse(realm).name).subscribe(() => {
@@ -85,6 +85,7 @@ export class ClientsComponent implements OnInit {
 
   onSubmit() {
     let realm = localStorage.getItem('realm');
+
     this.service.addClient(this.form.value, JSON.parse(realm).name).subscribe(data => {
     }, error => {
       this.snackBar.openSnackBar(error.error.message, 2000);

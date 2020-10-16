@@ -14,7 +14,7 @@ import {RealmService} from '../realm-service';
 export class RealmLoginService {
 
 
-  constructor(private http: HttpClient, private snackBar: MatSnackBar, private realmService: RealmService) {
+  constructor(private http: HttpClient, private snackBar: MatSnackBar) {
   }
 
   update(data: any): Observable<Realm> {

@@ -25,28 +25,28 @@ export class GroupUsersComponent implements OnInit {
               private userService: UserService,
               private dialog: MatDialog,
               private snackbar: SnackBarService,
-              private roleService:RoleService) {
+              private roleService: RoleService) {
   }
 
   group: Group;
   users: User[];
-  roles:Role[]
+  roles: Role[];
   groupUsers: User[] = [];
 
   ngOnInit(): void {
     this.subscription = this.groupService.groups.subscribe(() => {
       this.getGroupUsers();
       this.getAllUsers();
-      this.getAllRoles()
+      this.getAllRoles();
     }, error => this.snackbar.openSnackBar(error.error.message, 4000));
     this.getGroupUsers();
-    this.getAllRoles()
+    this.getAllRoles();
     this.getAllUsers();
   }
 
-  addRoleToAllUsers(role){
+  addRoleToAllUsers(role) {
     let realm = localStorage.getItem('realm');
-    this.groupService.addRoleToGroup(JSON.parse(realm).name,this.group.name,role.name).subscribe();
+    this.groupService.addRoleToGroup(JSON.parse(realm).name, this.group.name, role.name).subscribe();
   }
 
   getAllRoles() {
@@ -63,6 +63,7 @@ export class GroupUsersComponent implements OnInit {
 
   getAllUsers() {
     let realm = localStorage.getItem('realm');
+
     this.userService.getAllUsers(JSON.parse(realm).name).subscribe(data => {
       this.users = data;
     }, error => this.snackbar.openSnackBar(error.error.message, 4000));
@@ -78,10 +79,10 @@ export class GroupUsersComponent implements OnInit {
     }, error => this.snackbar.openSnackBar(error.error.message, 4000));
   }
 
-
   addUserToGroup(user) {
     let realm = localStorage.getItem('realm');
     let group = localStorage.getItem('groupName');
+
     this.groupService.addUserToGroup(group, user, JSON.parse(realm).name).subscribe(data => {
     }, error => {
       this.snackbar.openSnackBar(error.error.message, 3000);
@@ -99,7 +100,7 @@ export class GroupUsersComponent implements OnInit {
           this.snackbar.openSnackBar(error.error.message, 3000);
         });
       }
-    });
+    }, error => this.snackbar.openSnackBar(error.error.message, 4000));
   }
 
   userRoles(user) {

@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {User} from '../../models/User';
 import {UserService} from '../../services/user-service/user-service';
 import {SnackBarService} from '../../services/snack-bar/snack-bar-service';
-import {interval, Subscription} from 'rxjs';
+import {Subscription} from 'rxjs';
 
 @Component({
   selector: 'app-user-session',
@@ -10,7 +10,7 @@ import {interval, Subscription} from 'rxjs';
   styleUrls: ['./user-session.component.css']
 })
 export class UserSessionComponent implements OnInit {
-  users;
+  users: User[];
   private subscription: Subscription;
   displayedColumns = ['username', 'isActive'];
 
@@ -19,23 +19,24 @@ export class UserSessionComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    const source = interval(1000);
-
-    this.subscription = source.subscribe(val => this.getSession());
+    this.subscription = this.userService.users.subscribe(data => {
+      this.getUsers();
+    }, error => this.snackBar.openSnackBar(error, 4000));
+    this.getUsers();
   }
 
-  getSession() {
+  getUsers() {
     let realm = localStorage.getItem('realm');
 
-    this.userService.getSessionUsers(JSON.parse(realm)).subscribe((data: User[]) => {
+    this.userService.getAllUsers(JSON.parse(realm).name).subscribe((data: User[]) => {
       this.users = data;
-    });
+    }, error => this.snackBar.openSnackBar(error, 4000));
   }
 
   logoutAllUsers() {
     const realm = localStorage.getItem('realm');
     this.userService.logoutAllUsers(JSON.parse(realm)).subscribe(data => {
-    });
+    }, error => this.snackBar.openSnackBar(error, 4000));
   }
 
   ngOnDestroy() {

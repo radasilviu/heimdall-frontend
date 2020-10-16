@@ -22,6 +22,7 @@ export class RealmSettingsComponent implements OnInit {
 
   ngOnInit() {
     this.realm = JSON.parse(localStorage.getItem('realm'));
+
     this.subscription = this.realmService.realm.subscribe(() => {
       this.getRealm();
     }, error => this.snackBar.openSnackBar(error.error.message, 4000));
@@ -41,6 +42,7 @@ export class RealmSettingsComponent implements OnInit {
 
   deleteRealmByName() {
     const dialogRef = this.dialog.open(DeleteDialogComponent);
+
     this.subscription = dialogRef.afterClosed().subscribe(data => {
       if (data == 'true') {
         this.realmService.getAllRealms().subscribe(data => {

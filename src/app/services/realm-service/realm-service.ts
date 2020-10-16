@@ -1,11 +1,11 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Env} from '../../configs/env';
-import {MatSnackBar} from '@angular/material/snack-bar';
-import {Observable, Subject, Subscription,} from 'rxjs';
+import {Observable, Subject,} from 'rxjs';
 import {Realm} from '../../models/Realm';
-import {Router} from '@angular/router';
 import {tap} from 'rxjs/operators';
+import {SnackBarService} from '../snack-bar/snack-bar-service';
+import {User} from '../../models/User';
 
 const url = Env.apiRootURL + '/api/admin/realm';
 
@@ -14,60 +14,55 @@ const url = Env.apiRootURL + '/api/admin/realm';
 })
 export class RealmService {
 
-
-  constructor(private http: HttpClient, private snackBar: MatSnackBar, private router: Router) {
+  constructor(private http: HttpClient,
+              private snackBar: SnackBarService) {
   }
 
   realm = new Subject();
 
   currentRealm = new Subject<Realm>();
 
-  getCurrentRealm(){
-    return this.currentRealm.asObservable()
-  }
-
-
-  setCurrentRealm(realm){
+  setCurrentRealm(realm) {
     this.currentRealm.next(realm);
   }
 
 
-  setRealm(realm){
-    this.getRealmByName(realm.name).subscribe(data =>{
-      this.realm.next(data)
-    })
+  setRealm(realm: Realm) {
+    this.getRealmByName(realm.name).subscribe(data => {
+      this.realm.next(data);
+    }, error => this.snackBar.openSnackBar(error.error.message, 4000));
   }
 
-  getRealmByName(realm) {
-    return this.http.get<Realm>(url + '/' + realm);
+  getRealmByName(realmName: string) {
+    return this.http.get<Realm>(url + '/' + realmName);
   }
 
   getAllRealms(): Observable<Realm[]> {
     return this.http.get<Realm[]>(url + '/list');
   }
 
-  updateRealmByName(currentRealmName: string, realm: Realm) {
-    return this.http.put<Realm>(url + '/general-update/' + currentRealmName, realm).pipe(tap(() =>{
-      this.realm.next()
-    }))
+  updateRealmByName(realmName: string, realm: Realm) {
+    return this.http.put<Realm>(url + '/general-update/' + realmName, realm).pipe(tap(() => {
+      this.realm.next();
+    }));
   }
 
 
-  updateLoginSettings(realm, loginForm) {
-    return this.http.put(url + '/login-update/' + realm, loginForm).pipe(tap(() =>{
-      this.realm.next()
-    }))
+  updateLoginSettings(realmName: string, User: User) {
+    return this.http.put(url + '/login-update/' + realmName, User).pipe(tap(() => {
+      this.realm.next();
+    }));
   }
 
   addNewRealm(realm: Realm) {
-    return this.http.post<Realm>(url + '/', realm).pipe(tap(() =>{
-      this.realm.next()
-    }))
+    return this.http.post<Realm>(url + '/', realm).pipe(tap(() => {
+      this.realm.next();
+    }));
   }
 
   deleteRealmByName(realm: Realm) {
-    return this.http.delete(url + '/' + realm.name).pipe(tap(() =>{
-      this.realm.next()
-    }))
+    return this.http.delete(url + '/' + realm.name).pipe(tap(() => {
+      this.realm.next();
+    }));
   }
 }

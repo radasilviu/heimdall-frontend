@@ -8,7 +8,6 @@ import {SnackBarService} from '../../services/snack-bar/snack-bar-service';
 import {RealmService} from '../../services/realm-service/realm-service';
 import {Realm} from '../../models/Realm';
 import {Subscription} from 'rxjs';
-import {RoleService} from '../../services/role-service/role-service';
 import {Role} from '../../models/Role';
 
 @Component({
@@ -24,9 +23,8 @@ export class UsersGroupsComponent implements OnInit {
   constructor(private groupService: GroupService,
               private router: Router,
               private realmService: RealmService,
-              public dialog: MatDialog,
-              private snackbar: SnackBarService,
-              private roleService: RoleService) {
+              private dialog: MatDialog,
+              private snackbar: SnackBarService) {
   }
 
   allGroups: Group[];
@@ -56,11 +54,9 @@ export class UsersGroupsComponent implements OnInit {
     let dialogRef = this.dialog.open(DeleteDialogComponent);
     let realm = localStorage.getItem('realm');
 
-
     dialogRef.afterClosed().subscribe(data => {
       if (data == 'true') {
         this.subscription = this.groupService.deleteGroupByName(group, JSON.parse(realm).name).subscribe(data => {
-
         }, error => {
           this.snackbar.openSnackBar(error.message, 2000);
         });

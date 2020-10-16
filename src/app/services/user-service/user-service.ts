@@ -3,9 +3,9 @@ import {User} from '../../models/User';
 import {Observable, Subject} from 'rxjs';
 import {HttpClient} from '@angular/common/http';
 import {Env} from '../../configs/env';
-import {Client} from '../../models/Client';
 import {tap} from 'rxjs/operators';
 import {Realm} from '../../models/Realm';
+import {SnackBarService} from '../snack-bar/snack-bar-service';
 
 const url = Env.apiRootURL + '/api';
 
@@ -14,61 +14,55 @@ const url = Env.apiRootURL + '/api';
 })
 export class UserService {
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient,
+              private snackBar: SnackBarService) {
   }
 
-   users = new Subject();
+  users = new Subject();
 
-
-  setUsers(realm){
-    this.getAllUsers(realm.name).subscribe(data =>{
+  setUsers(realm: Realm) {
+    this.getAllUsers(realm.name).subscribe(data => {
       this.users.next(data);
-    })
+    }, error => this.snackBar.openSnackBar(error.error.message, 4000));
   }
 
-
-  logoutAllUsers(realm){
-    return this.http.put(url + "/user/"+ 'logoutAll',realm).pipe(
-      tap(() =>{
+  logoutAllUsers(realm: Realm) {
+    return this.http.put(url + '/user/' + 'logoutAll', realm).pipe(
+      tap(() => {
         this.users.next();
       })
-    )
+    );
   }
 
-
-  updateUserName(currentUserName: string, newUser: User, realm: string) {
-    return this.http.put(url + '/user/' + realm + '/' + currentUserName, newUser).pipe(
-      tap(() =>{
+  updateUserName(currentUserName: string, newUser: User, realmName: string) {
+    return this.http.put(url + '/user/' + realmName + '/' + currentUserName, newUser).pipe(
+      tap(() => {
         this.users.next();
       })
-    )
+    );
   }
 
-  getAllUsers(realm: string): Observable<User[]> {
-    return this.http.get<User[]>(url + '/user/' + realm);
-  }
-
-  getSessionUsers(realm: Realm) {
-    return this.http.put(url + '/user/updateState', realm.name);
+  getAllUsers(realmName: string): Observable<User[]> {
+    return this.http.get<User[]>(url + '/user/' + realmName);
   }
 
   deleteUser(username: string, realm: string) {
     return this.http.request('delete', url + '/user/' + realm + '/' + username).pipe(
-      tap(() =>{
+      tap(() => {
         this.users.next();
       })
-    )
+    );
   }
 
-  addUser(user: User, realm: string) {
-    return this.http.post<any>(url + '/user/' + realm, user).pipe(
-      tap(() =>{
+  addUser(user: User, realmName: string) {
+    return this.http.post<any>(url + '/user/' + realmName, user).pipe(
+      tap(() => {
         this.users.next();
       })
-    )
+    );
   }
 
-  getUserByUsername(user: string, realm: string): Observable<User> {
-    return this.http.get<User>(url + '/user/' + realm + '/' + user)
+  getUserByUsername(username: string, realm: string): Observable<User> {
+    return this.http.get<User>(url + '/user/' + realm + '/' + username);
   }
 }

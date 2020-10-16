@@ -41,7 +41,7 @@ export class HomeComponent implements OnInit {
 
     this.subscription = this.realmService.realm.subscribe(() => {
       this.getAllRealms();
-    });
+    }, error => this.snackBar.openSnackBar(error.error.message, 4000));
     this.getAllRealms();
   }
 
@@ -69,7 +69,7 @@ export class HomeComponent implements OnInit {
 
   GoToListItem(path) {
     if (localStorage.getItem('realm') != null) {
-      this.router.navigate(['home/' + path]);
+      return this.router.navigate(['home/' + path]);
     } else {
       this.realmService.getAllRealms().subscribe(data => {
         localStorage.setItem('realm', JSON.stringify(data[0]));
@@ -81,6 +81,6 @@ export class HomeComponent implements OnInit {
   }
 
   logout(): void {
-    this.adminAuthService.logout().subscribe();
+    this.subscription = this.adminAuthService.logout().subscribe(() =>{},error => this.snackBar.openSnackBar(error.error.message,4000));
   }
 }

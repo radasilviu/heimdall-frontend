@@ -18,7 +18,7 @@ import {Subscription} from 'rxjs';
 export class UsersComponent implements OnInit {
   displayedColumns = ['username', 'role'];
   allUsers: User[];
-  user = <User> {};
+  user: User;
   private subscription: Subscription;
 
   form = new FormGroup({
@@ -38,7 +38,7 @@ export class UsersComponent implements OnInit {
   ngOnInit(): void {
     this.subscription = this.userService.users.subscribe(() => {
       this.getAllUsers();
-    });
+    }, error => this.snackBar.openSnackBar(error.error.message, 4000));
     this.getAllUsers();
   }
 
@@ -50,8 +50,7 @@ export class UsersComponent implements OnInit {
     let realm = localStorage.getItem('realm');
     this.userService.getAllUsers(JSON.parse(realm).name).subscribe((data: User[]) => {
       this.allUsers = data;
-
-    });
+    }, error => this.snackBar.openSnackBar(error.error.message, 4000));
   }
 
   onSubmit() {
@@ -70,7 +69,7 @@ export class UsersComponent implements OnInit {
           this.snackBar.openSnackBar(error.error.message, 2000);
         });
       }
-    });
+    }, error => this.snackBar.openSnackBar(error.error.message, 4000));
   }
 
 
