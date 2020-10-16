@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {Realm} from '../../../models/Realm';
+import {ParentRealm, Realm} from '../../../models/Realm';
 import {RealmService} from '../../../services/realm-service/realm-service';
 import {SnackBarService} from '../../../services/snack-bar/snack-bar-service';
 import {Subscription} from 'rxjs';
@@ -13,43 +13,43 @@ import {Subscription} from 'rxjs';
 export class RealmLoginSettingComponent implements OnInit {
   realm: Realm;
   subscription: Subscription;
-  loginForm: FormGroup;
+  loginForm: FormGroup = new FormGroup({
+    userRegistration: new FormControl(false, Validators.required),
+    editUsername: new FormControl(false, Validators.required),
+    forgotPassword: new FormControl(false, Validators.required),
+    rememberMe: new FormControl(false, Validators.required),
+    verifyEmail: new FormControl(false, Validators.required),
+    loginWithEmail: new FormControl(false, Validators.required)
+  });
 
   constructor(private realmService: RealmService,
               private snackBar: SnackBarService) {
   }
 
   ngOnInit() {
-    this.subscription = this.realmService.realm.subscribe(() => {
-      this.getRealm();
-    }, error => this.snackBar.openSnackBar(error.error.message, 4000));
     this.getRealm();
   }
 
-  ngOnDestroy() {
-    this.subscription.unsubscribe();
-  }
-
   getRealm() {
-    this.realm = JSON.parse(localStorage.getItem('realm'));
-
-    this.loginForm = new FormGroup({
-      userRegistration: new FormControl(this.realm.userRegistration, Validators.required),
-      editUsername: new FormControl(this.realm.editUsername, Validators.required),
-      forgotPassword: new FormControl(this.realm.forgotPassword, Validators.required),
-      rememberMe: new FormControl(this.realm.rememberMe, Validators.required),
-      verifyEmail: new FormControl(this.realm.verifyEmail, Validators.required),
-      loginWithEmail: new FormControl(this.realm.loginWithEmail, Validators.required),
+    this.realmService.getRealm.subscribe((data: ParentRealm) => {
+      this.realm = data.realm;
+      this.loginForm.patchValue({
+        userRegistration: data.realm.userRegistration,
+        editUsername: data.realm.editUsername,
+        forgotPassword: data.realm.forgotPassword,
+        rememberMe: data.realm.rememberMe,
+        verifyEmail: data.realm.verifyEmail,
+        loginWithEmail: data.realm.loginWithEmail
+      });
     });
   }
 
   onSubmit() {
-    this.subscription = this.realmService.updateLoginSettings(this.realm.name, this.loginForm.value).subscribe((data: Realm) => {
-      localStorage.setItem('realm', JSON.stringify(data));
+    this.realmService.updateLoginSettings(this.realm.name, this.loginForm.value).subscribe((data: Realm) => {
 
       this.realm = data;
       this.getRealm();
-      this.realmService.setCurrentRealm(data);
+      this.realmService.setRealm(data);
     }, error => this.snackBar.openSnackBar(error.error.message, 4000));
   }
 }

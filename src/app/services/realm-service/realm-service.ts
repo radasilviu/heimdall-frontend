@@ -1,9 +1,8 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Env} from '../../configs/env';
-import {Observable, Subject,} from 'rxjs';
-import {Realm} from '../../models/Realm';
-import {tap} from 'rxjs/operators';
+import {Observable, ReplaySubject, Subject,} from 'rxjs';
+import {ParentRealm, Realm} from '../../models/Realm';
 import {SnackBarService} from '../snack-bar/snack-bar-service';
 import {User} from '../../models/User';
 
@@ -18,23 +17,19 @@ export class RealmService {
               private snackBar: SnackBarService) {
   }
 
-  realm = new Subject();
-
-  currentRealm = new Subject<Realm>();
-
-  setCurrentRealm(realm) {
-    this.currentRealm.next(realm);
-  }
+  defaultRealm = new Subject<ParentRealm>();
+  // @ts-ignore
+  private realm = new ReplaySubject<ParentRealm>(this.defaultRealm);
+  // @ts-ignore
+  getRealm = this.realm.asObservable<ParentRealm>();
 
 
-  setRealm(realm: Realm) {
-    this.getRealmByName(realm.name).subscribe(data => {
-      this.realm.next(data);
-    }, error => this.snackBar.openSnackBar(error.error.message, 4000));
+  setRealm(realm) {
+    this.realm.next(realm);
   }
 
   getRealmByName(realmName: string) {
-    return this.http.get<Realm>(url + '/' + realmName);
+    return this.http.get<ParentRealm>(url + '/' + realmName);
   }
 
   getAllRealms(): Observable<Realm[]> {
@@ -42,27 +37,19 @@ export class RealmService {
   }
 
   updateRealmByName(realmName: string, realm: Realm) {
-    return this.http.put<Realm>(url + '/general-update/' + realmName, realm).pipe(tap(() => {
-      this.realm.next();
-    }));
+    return this.http.put<Realm>(url + '/general-update/' + realmName, realm);
   }
 
 
   updateLoginSettings(realmName: string, User: User) {
-    return this.http.put(url + '/login-update/' + realmName, User).pipe(tap(() => {
-      this.realm.next();
-    }));
+    return this.http.put(url + '/login-update/' + realmName, User);
   }
 
   addNewRealm(realm: Realm) {
-    return this.http.post<Realm>(url + '/', realm).pipe(tap(() => {
-      this.realm.next();
-    }));
+    return this.http.post<Realm>(url + '/', realm);
   }
 
   deleteRealmByName(realm: Realm) {
-    return this.http.delete(url + '/' + realm.name).pipe(tap(() => {
-      this.realm.next();
-    }));
+    return this.http.delete(url + '/' + realm.name);
   }
 }

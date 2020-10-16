@@ -3,8 +3,8 @@ import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {GroupService} from '../../../services/group-service/group-service';
 import {Router} from '@angular/router';
 import {SnackBarService} from '../../../services/snack-bar/snack-bar-service';
-import {Realm} from '../../../models/Realm';
 import {Subscription} from 'rxjs';
+import {TokenService} from '../../../services/token-service/token.service';
 
 @Component({
   selector: 'app-create-group',
@@ -12,12 +12,12 @@ import {Subscription} from 'rxjs';
   styleUrls: ['./create-group.component.css']
 })
 export class CreateGroupComponent implements OnInit {
-  realm: Realm;
   private subscription: Subscription;
-
+  realm;
   constructor(private groupService: GroupService,
               private router: Router,
-              private snackbar: SnackBarService) {
+              private snackbar: SnackBarService,
+              private tokenService: TokenService) {
   }
 
   createGroup = new FormGroup({
@@ -28,8 +28,7 @@ export class CreateGroupComponent implements OnInit {
   }
 
   onSubmit() {
-    let realm = localStorage.getItem('realm');
-    this.subscription = this.groupService.addNewGroup(this.createGroup.value, JSON.parse(realm).name).subscribe(data => {
+    this.subscription = this.groupService.addNewGroup(this.createGroup.value, this.realm.name).subscribe(data => {
       this.subscription.unsubscribe();
       this.router.navigate(['/home/users-group']);
     }, error => {

@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {Realm} from '../../../models/Realm';
+import {ParentRealm, Realm} from '../../../models/Realm';
 import {RealmService} from '../../../services/realm-service/realm-service';
 import {SnackBarService} from '../../../services/snack-bar/snack-bar-service';
 import {Subscription} from 'rxjs';
@@ -11,43 +11,36 @@ import {Subscription} from 'rxjs';
   styleUrls: ['./realm-general-setting.component.css']
 })
 export class RealmGeneralSettingComponent implements OnInit {
-  generalForm: FormGroup;
-  subscription: Subscription;
   realm: Realm;
+
+  generalForm = new FormGroup({
+    name: new FormControl('', Validators.required),
+    displayName: new FormControl('', Validators.required),
+    enabled: new FormControl('', Validators.required)
+  });
+  subscription: Subscription;
 
   constructor(private realmService: RealmService,
               private snackBar: SnackBarService) {
   }
 
   ngOnInit() {
-    this.subscription = this.realmService.realm.subscribe(() => {
-      this.getRealm();
-    }, error => this.snackBar.openSnackBar(error.error.message, 4000));
     this.getRealm();
   }
 
-  ngOnDestroy() {
-    this.subscription.unsubscribe();
-  }
-
   getRealm() {
-    this.realm = JSON.parse(localStorage.getItem('realm'));
-
-    this.generalForm = new FormGroup({
-      name: new FormControl(this.realm.name, Validators.required),
-      displayName: new FormControl(this.realm.displayName, Validators.required),
-      enabled: new FormControl(this.realm.enabled, Validators.required)
+    this.realmService.getRealm.subscribe((data: ParentRealm) => {
+      this.realm = data.realm;
+      this.generalForm.setValue({
+        name: data.realm.name,
+        displayName: data.realm.displayName,
+        enabled: data.realm.enabled
+      });
     });
   }
 
   onSubmit(): void {
-
     this.subscription = this.realmService.updateRealmByName(this.realm.name, this.generalForm.value).subscribe((data: Realm) => {
-      localStorage.setItem('realm', JSON.stringify(data));
-
-      this.realm = data;
-      this.getRealm();
-      this.realmService.setCurrentRealm(data);
     }, error => this.snackBar.openSnackBar(error.error.message, 4000));
   }
 }

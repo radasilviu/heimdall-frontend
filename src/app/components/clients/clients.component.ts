@@ -6,8 +6,8 @@ import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {DeleteDialogComponent} from '../dialogs/delete-dialog/delete-dialog.component';
 import {ClientService} from '../../services/clientService/client-service';
 import {SnackBarService} from '../../services/snack-bar/snack-bar-service';
-import {Realm} from '../../models/Realm';
-import {Subscription} from 'rxjs';
+import {ParentRealm, Realm} from '../../models/Realm';
+import {RealmService} from '../../services/realm-service/realm-service';
 
 
 @Component({
@@ -19,8 +19,7 @@ import {Subscription} from 'rxjs';
 export class ClientsComponent implements OnInit {
   allClients: Client[];
   realm: Realm;
-  Client: Client;
-  private subscription: Subscription;
+  client: Client;
   displayedColumns: string[] = ['name'];
 
   form = new FormGroup({
@@ -31,36 +30,29 @@ export class ClientsComponent implements OnInit {
               private service: ClientService,
               private snackBar: SnackBarService,
               private dialog: MatDialog,
-              private clientService: ClientService) {
+              private clientService: ClientService,
+              private realmService: RealmService) {
   }
 
   ngOnInit(): void {
-    this.subscription = this.clientService.clients.subscribe(() => {
-      this.getAllClients();
-    });
     this.getAllClients();
   }
 
-  ngOnDestroy() {
-    this.subscription.unsubscribe();
-  }
 
   getAllClients() {
-    let realm = localStorage.getItem('realm');
-
-    this.clientService.getAllClients(JSON.parse(realm).name).subscribe(data => {
-      this.allClients = data;
-    }, error => this.snackBar.openSnackBar(error.message, 4000));
+    this.realmService.getRealm.subscribe((data:ParentRealm) => {
+      this.allClients = data.clients
+      this.realm = data.realm;
+    });
   }
 
   updateClient(currentClientName: string) {
     const dialogRef = this.dialog.open(ClientDialogComponent);
-    let realm = localStorage.getItem('realm');
 
     dialogRef.afterClosed().subscribe(data => {
       if (data !== undefined) {
-        this.Client.clientName = data;
-        this.service.updateClientByName(currentClientName, this.Client, JSON.parse(realm).name).subscribe(
+        this.client.clientName = data;
+        this.service.updateClientByName(currentClientName, this.client, this.realm.name).subscribe(
           data => {
           }, error => {
             this.snackBar.openSnackBar(error.error.message, 2000);
@@ -70,12 +62,11 @@ export class ClientsComponent implements OnInit {
   }
 
   deleteClient(clientName) {
-    let realm = localStorage.getItem('realm');
     const dialogRef = this.dialog.open(DeleteDialogComponent);
 
     dialogRef.afterClosed().subscribe(data => {
       if (data == 'true') {
-        this.service.deleteClient(clientName, JSON.parse(realm).name).subscribe(() => {
+        this.service.deleteClient(clientName, this.realm.name).subscribe(() => {
         }, error => {
           this.snackBar.openSnackBar(error.error.message, 2000);
         });
@@ -84,9 +75,7 @@ export class ClientsComponent implements OnInit {
   }
 
   onSubmit() {
-    let realm = localStorage.getItem('realm');
-
-    this.service.addClient(this.form.value, JSON.parse(realm).name).subscribe(data => {
+    this.service.addClient(this.form.value, this.realm.name).subscribe(data => {
     }, error => {
       this.snackBar.openSnackBar(error.error.message, 2000);
     });

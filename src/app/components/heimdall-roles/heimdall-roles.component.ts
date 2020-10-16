@@ -6,7 +6,8 @@ import {DeleteDialogComponent} from '../dialogs/delete-dialog/delete-dialog.comp
 import {RolesDialogComponent} from '../dialogs/roles-dialog/roles-dialog.component';
 import {RoleService} from '../../services/role-service/role-service';
 import {SnackBarService} from '../../services/snack-bar/snack-bar-service';
-import {Subscription} from 'rxjs';
+import {RealmService} from '../../services/realm-service/realm-service';
+import {ParentRealm} from '../../models/Realm';
 
 @Component({
   selector: 'app-heimdall-roles',
@@ -16,8 +17,7 @@ import {Subscription} from 'rxjs';
 export class HeimdallRolesComponent implements OnInit {
   displayedColumns: string[] = ['Roles'];
   allRoles: Role[];
-  role:Role
-  private subscription: Subscription;
+  role: Role;
 
   form = new FormGroup({
     name: new FormControl('', Validators.required)
@@ -26,24 +26,17 @@ export class HeimdallRolesComponent implements OnInit {
   constructor(private service: RoleService,
               private snackBar: SnackBarService,
               private dialog: MatDialog,
-              private roleService: RoleService) {
+              private roleService: RoleService,
+              private realmService: RealmService) {
   }
 
   ngOnInit(): void {
-    this.subscription = this.roleService.roles.subscribe(() => {
-      this.getAllRoles();
-    }, error => this.snackBar.openSnackBar(error.error.message, 4000));
     this.getAllRoles();
   }
 
-  ngOnDestroy() {
-    this.subscription.unsubscribe();
-  }
-
   getAllRoles() {
-    let realm = localStorage.getItem('realm');
-    this.roleService.getAllRoles(JSON.parse(realm).name).subscribe(data => {
-      this.allRoles = data;
+    this.realmService.getRealm.subscribe((data: ParentRealm) => {
+      this.allRoles = data.roles;
     }, error => this.snackBar.openSnackBar(error.error.message, 4000));
   }
 

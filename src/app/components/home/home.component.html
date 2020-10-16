@@ -2,7 +2,6 @@
   <nav class="navbar navbar-light bg-light">
     <mat-icon class="navbar-icon mr-5" (click)="drawer.toggle()">menu</mat-icon>
     <p class="my-title user-select-none h2 p-0 m-0 mr-auto">Heimdall</p>
-    <h4 class="mr-3 mb-0">{{admin}}</h4>
     <mat-icon class="navbar-icon" [matMenuTriggerFor]="menu" aria-hidden="false" aria-label="Account Settings icon">
       account_circle
     </mat-icon>
@@ -12,7 +11,6 @@
     </mat-menu>
   </nav>
 
-
   <mat-drawer-container class="sidenav" autosize>
     <mat-drawer class="d-flex justify-content-center p-3 " #drawer mode="side">
       <mat-accordion class="d-flex justify-content-center mb-4">
@@ -20,11 +18,8 @@
                              (closed)="panelOpenState = false">
           <mat-expansion-panel-header>
             <mat-panel-title>
-              <ng-container *ngIf="realm">
-                <div> {{realm.displayName}}</div>
-              </ng-container>
-              <ng-container *ngIf="!realm">
-                <div> Realm</div>
+              <ng-container>
+                <div>{{realmTitle}}</div>
               </ng-container>
             </mat-panel-title>
           </mat-expansion-panel-header>
@@ -43,7 +38,7 @@
 
       <div class="d-flex flex-column">
         <li class=" d-flex justify-content-center mb-3">
-          <button type="button" [routerLink]="['realm-settings']" class="btn-block btn-primary btn-lg">Realm Settings
+          <button type="button" routerLink="realm-settings" class="btn-block btn-primary btn-lg">Realm Settings
           </button>
         </li>
         <li class=" d-flex justify-content-center mb-3">
@@ -67,7 +62,6 @@
           <button type="button" [routerLink]="['user-session']" class="btn-block btn-primary btn-lg">Session</button>
         </li>
       </div>
-
     </mat-drawer>
     <router-outlet></router-outlet>
   </mat-drawer-container>
