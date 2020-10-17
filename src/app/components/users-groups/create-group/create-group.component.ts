@@ -4,7 +4,6 @@ import {GroupService} from '../../../services/group-service/group-service';
 import {Router} from '@angular/router';
 import {SnackBarService} from '../../../services/snack-bar/snack-bar-service';
 import {Subscription} from 'rxjs';
-import {TokenService} from '../../../services/token-service/token.service';
 
 @Component({
   selector: 'app-create-group',
@@ -14,10 +13,10 @@ import {TokenService} from '../../../services/token-service/token.service';
 export class CreateGroupComponent implements OnInit {
   private subscription: Subscription;
   realm;
+
   constructor(private groupService: GroupService,
               private router: Router,
-              private snackbar: SnackBarService,
-              private tokenService: TokenService) {
+              private snackbar: SnackBarService) {
   }
 
   createGroup = new FormGroup({
