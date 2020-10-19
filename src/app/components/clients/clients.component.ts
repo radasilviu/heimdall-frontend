@@ -9,7 +9,6 @@ import {SnackBarService} from '../../services/snack-bar/snack-bar-service';
 import {ParentRealm, Realm} from '../../models/Realm';
 import {RealmService} from '../../services/realm-service/realm-service';
 
-
 @Component({
   selector: 'app-clients',
   templateUrl: './clients.component.html',
@@ -17,9 +16,9 @@ import {RealmService} from '../../services/realm-service/realm-service';
 })
 
 export class ClientsComponent implements OnInit {
-  realm:Realm;
+  realm: Realm;
   client: Client;
-  clients:Client[]
+  clients: Client[];
   displayedColumns: string[] = ['name'];
 
   form = new FormGroup({
@@ -35,14 +34,11 @@ export class ClientsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.realmService.realm.subscribe((data:ParentRealm) =>{
+    this.realmService.realm.subscribe((data: ParentRealm) => {
       this.clients = data.clients;
       this.realm = data.realm;
-    })
+    });
   }
-
-
-
 
   updateClient(currentClientName: string) {
     const dialogRef = this.dialog.open(ClientDialogComponent);
@@ -53,9 +49,7 @@ export class ClientsComponent implements OnInit {
         client.clientName = data;
         this.service.updateClientByName(currentClientName, client, this.realm.name).subscribe(
           data => {
-            this.realmService.getRealmByName(this.realm.name).subscribe((data:ParentRealm) =>{
-              this.clients = data.clients
-            })
+            this.realmService.setRealm(this.realm.name);
           }, error => {
             this.snackBar.openSnackBar(error.error.message, 2000);
           });
@@ -69,9 +63,7 @@ export class ClientsComponent implements OnInit {
     dialogRef.afterClosed().subscribe(data => {
       if (data == 'true') {
         this.service.deleteClient(clientName, this.realm.name).subscribe(() => {
-          this.realmService.getRealmByName(this.realm.name).subscribe((data:ParentRealm) =>{
-            this.clients = data.clients
-          })
+          this.realmService.setRealm(this.realm.name);
         }, error => {
           this.snackBar.openSnackBar(error.error.message, 2000);
         });
@@ -81,9 +73,7 @@ export class ClientsComponent implements OnInit {
 
   onSubmit() {
     this.service.addClient(this.form.value, this.realm.name).subscribe(data => {
-      this.realmService.getRealmByName(this.realm.name).subscribe((data:ParentRealm) =>{
-        this.clients = data.clients
-      })
+      this.realmService.setRealm(this.realm.name);
     }, error => {
       this.snackBar.openSnackBar(error.error.message, 2000);
     });

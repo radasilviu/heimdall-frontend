@@ -37,10 +37,14 @@ export class UsersComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.realmService.realm.subscribe((data:ParentRealm) =>{
-      this.allUsers = data.users
-      this.realm = data.realm
-    })
+    this.getRealm();
+  }
+
+  getRealm() {
+    this.realmService.realm.subscribe((data: ParentRealm) => {
+      this.allUsers = data.users;
+      this.realm = data.realm;
+    });
   }
 
   onSubmit() {
@@ -55,11 +59,7 @@ export class UsersComponent implements OnInit {
         let user = {} as User;
         user.username = data;
         this.userService.updateUserName(currentUserName, user, this.realm.name).subscribe(() => {
-          this.realmService.getRealmByName(this.realm.name).subscribe((data:ParentRealm) =>{
-            this.allUsers = data.users
-            this.realmService.realm.next(data)
-
-          })
+          this.realmService.setRealm(this.realm.name);
         }, error => {
           this.snackBar.openSnackBar(error.error.message, 2000);
         });
@@ -73,11 +73,7 @@ export class UsersComponent implements OnInit {
     dialogRef.afterClosed().subscribe(data => {
       if (data == 'true') {
         this.userService.deleteUser(username, this.realm.name).subscribe(() => {
-          this.realmService.getRealmByName(this.realm.name).subscribe((data:ParentRealm) =>{
-            this.allUsers = data.users
-            this.realmService.realm.next(data)
-
-          })
+          this.realmService.setRealm(this.realm.name);
         }, error => {
           this.snackBar.openSnackBar(error.error.message, 2000);
         });
@@ -88,19 +84,14 @@ export class UsersComponent implements OnInit {
   addUser(user: User) {
 
     this.userService.addUser(user, this.realm.name).subscribe(data => {
-      this.realmService.getRealmByName(this.realm.name).subscribe((data:ParentRealm) =>{
-        this.allUsers = data.users
-        this.realmService.realm.next(data)
-      })
+      this.realmService.setRealm(this.realm.name);
     }, error => {
       this.snackBar.openSnackBar(error.error.message, 3000);
     });
   }
 
   userRoles(user) {
-    this.userService.getUserByUsername(user.username,this.realm.name).subscribe(data =>{
-      this.userService.setUser(data)
-    })
+    this.userService.setUser(user.username, this.realm.name);
     this.router.navigate(['home/users/roles']);
   }
 }

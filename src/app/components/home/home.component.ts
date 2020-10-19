@@ -4,9 +4,8 @@ import {AdminAuthService} from 'src/app/services/admin-auth/admin-auth.service';
 import {RealmService} from 'src/app/services/realm-service/realm-service';
 import {RoleService} from '../../services/role-service/role-service';
 import {ClientService} from '../../services/clientService/client-service';
-import {Subscription} from 'rxjs';
 import {SnackBarService} from '../../services/snack-bar/snack-bar-service';
-import {ParentRealm} from '../../models/Realm';
+import {ParentRealm, Realm} from '../../models/Realm';
 
 @Component({
   selector: 'app-home',
@@ -16,10 +15,8 @@ import {ParentRealm} from '../../models/Realm';
 
 export class HomeComponent implements OnInit {
   panelOpenState = false;
-  realms;
-  currentRealm;
-
-  private subscription: Subscription;
+  realms: Realm[];
+  currentRealm: Realm;
 
   constructor(private router: Router,
               private realmService: RealmService,
@@ -30,28 +27,31 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnInit() {
-      this.realmService.getRealms().subscribe(data => {
-        this.realmService.realms$.next(data);
-        this.realmService.setRealm(data[0].name);
-        this.realmService.realm.subscribe((data:ParentRealm) => this.currentRealm = data.realm);
-
-        this.realmService.realms$.subscribe(data => {
-          if (data) {
-            this.realms = data;
-          }
-        });
-      });
+    this.setRealms();
+    this.getRealms();
   }
 
+  getRealms() {
+    this.realmService.realm.subscribe((data: ParentRealm) => this.currentRealm = data.realm);
+    this.realmService.realms$.subscribe((data: Realm[]) => {
+      this.realms = data;
+    });
+  }
+
+  setRealms() {
+    this.realmService.getRealms().subscribe(data => {
+      this.realmService.setRealms(data);
+      this.realmService.setRealm(data[0].name);
+    });
+  }
 
   changeRealm(realm) {
     this.currentRealm = realm;
-    this.realmService.getRealmByName(realm.name).subscribe(data => this.realmService.realm.next(data));
+    this.realmService.setRealm(realm.name);
   }
 
-
   logout(): void {
-    this.subscription = this.adminAuthService.logout().subscribe(() => {
+    this.adminAuthService.logout().subscribe(() => {
     }, error => this.snackBar.openSnackBar(error.error.message, 4000));
   }
 }

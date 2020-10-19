@@ -7,7 +7,7 @@ import {RolesDialogComponent} from '../dialogs/roles-dialog/roles-dialog.compone
 import {RoleService} from '../../services/role-service/role-service';
 import {SnackBarService} from '../../services/snack-bar/snack-bar-service';
 import {RealmService} from '../../services/realm-service/realm-service';
-import {ParentRealm} from '../../models/Realm';
+import {ParentRealm, Realm} from '../../models/Realm';
 
 @Component({
   selector: 'app-heimdall-roles',
@@ -17,7 +17,7 @@ import {ParentRealm} from '../../models/Realm';
 export class HeimdallRolesComponent implements OnInit {
   displayedColumns: string[] = ['Roles'];
   allRoles: Role[];
-  realm;
+  realm: Realm;
 
   form = new FormGroup({
     name: new FormControl('', Validators.required)
@@ -49,11 +49,7 @@ export class HeimdallRolesComponent implements OnInit {
         let role = {} as Role;
         role.name = data;
         this.service.updateRoleByName(currentRoleName, role, this.realm.name).subscribe(() => {
-          this.realmService.getRealmByName(this.realm.name).subscribe(data => {
-            this.allRoles = data.roles;
-            this.realmService.realm.next(data);
-
-          });
+          this.realmService.setRealm(this.realm.name);
         }, error => {
           this.snackBar.openSnackBar(error.error.message, 2000);
         });
@@ -63,11 +59,7 @@ export class HeimdallRolesComponent implements OnInit {
 
   addRole(role: Role) {
     this.service.addRole(role, this.realm.name).subscribe(() => {
-      this.realmService.getRealmByName(this.realm.name).subscribe(data => {
-        this.allRoles = data.roles;
-        this.realmService.realm.next(data);
-
-      });
+      this.realmService.setRealm(this.realm.name);
     }, error => {
       this.snackBar.openSnackBar(error.error.message, 2000);
     });
@@ -78,10 +70,7 @@ export class HeimdallRolesComponent implements OnInit {
     dialogRef.afterClosed().subscribe(data => {
       if (data == 'true') {
         this.service.deleteRole(role, this.realm.name).subscribe(() => {
-          this.realmService.getRealmByName(this.realm.name).subscribe((data: ParentRealm) => {
-            this.allRoles = data.roles;
-            this.realmService.realm.next(data);
-          });
+          this.realmService.setRealm(this.realm.name);
         }, error => {
           this.snackBar.openSnackBar(error.error.message, 4000);
         });

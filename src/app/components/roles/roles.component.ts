@@ -17,7 +17,7 @@ export class RolesComponent implements OnInit {
   userRoles: Role[];
   allRoles: Role[];
   user: User;
-  subscription : Subscription
+  subscription: Subscription;
   realm;
   displayedColumns: string[] = ['Roles'];
 
@@ -28,37 +28,33 @@ export class RolesComponent implements OnInit {
   }
 
   ngOnInit() {
-  this.getRealm();
+    this.getRealm();
   }
 
   getRealm() {
-    this.subscription =   this.realmService.realm.subscribe((data: ParentRealm) => {
+    this.subscription = this.realmService.realm.subscribe((data: ParentRealm) => {
       this.realm = data.realm;
       this.allRoles = data.roles;
-      this.userService.user.subscribe((data:User) => {
-        this.userRoles = data.roles
-        this.user = data
-      })
+    });
+    this.userService.user.subscribe((data: User) => {
+      this.userRoles = data.roles;
+      this.user = data;
     });
   }
 
-  ngOnDestroy(){
-    this.subscription.unsubscribe()
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
   }
 
   addRole(role) {
     this.roleService.addUserRole(role, this.user, this.realm.name).subscribe(data => {
-      this.userService.getUserByUsername(this.user.username, this.realm.name).subscribe((data: User) => {
-        this.userService.setUser(data)
-      });
+      this.userService.setUser(this.user.username, this.realm.name);
     }, error => this.snackBar.openSnackBar(error.error.message, 4000));
   }
 
   deleteRole(role) {
     this.roleService.deleteUserRole(this.user, role, this.realm.name).subscribe(data => {
-      this.userService.getUserByUsername(this.user.username, this.realm.name).subscribe((data: User) => {
-        this.userService.setUser(data)
-      });
+      this.userService.setUser(this.user.username, this.realm.name);
     }, error => this.snackBar.openSnackBar(error.error.message, 4000));
   }
 }

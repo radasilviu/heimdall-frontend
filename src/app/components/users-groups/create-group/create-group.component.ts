@@ -19,7 +19,7 @@ export class CreateGroupComponent implements OnInit {
   constructor(private groupService: GroupService,
               private router: Router,
               private snackbar: SnackBarService,
-              private realmService:RealmService) {
+              private realmService: RealmService) {
   }
 
   createGroup = new FormGroup({
@@ -27,17 +27,18 @@ export class CreateGroupComponent implements OnInit {
   });
 
   ngOnInit(): void {
-    this.realmService.realm.subscribe((data:ParentRealm) =>{
-      this.realm = data.realm
-    })
+    this.getRealm();
+  }
+
+  getRealm() {
+    this.realmService.realm.subscribe((data: ParentRealm) => {
+      this.realm = data.realm;
+    });
   }
 
   onSubmit() {
-    this.subscription = this.groupService.addNewGroup(this.createGroup.value, this.realm.name).subscribe(data => {
-      this.realmService.getRealmByName(this.realm.name).subscribe((data:ParentRealm) =>{
-        this.realmService.realm.next(data)
-      })
-      this.subscription.unsubscribe();
+    this.groupService.addNewGroup(this.createGroup.value, this.realm.name).subscribe(data => {
+      this.realmService.setRealm(this.realm.name);
       this.router.navigate(['/home/users-group']);
     }, error => {
       this.snackbar.openSnackBar(error.error.message, 3000);

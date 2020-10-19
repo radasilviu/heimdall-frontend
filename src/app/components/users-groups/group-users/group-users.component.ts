@@ -19,7 +19,10 @@ import {RealmService} from '../../../services/realm-service/realm-service';
 })
 export class GroupUsersComponent implements OnInit {
   realm: Realm;
-  private subscription;
+  group: Group;
+  users: User[];
+  roles: Role[];
+  groupUsers: User[] = [];
 
   constructor(private router: Router,
               private groupService: GroupService,
@@ -27,42 +30,34 @@ export class GroupUsersComponent implements OnInit {
               private dialog: MatDialog,
               private snackbar: SnackBarService,
               private roleService: RoleService,
-              private realmService:RealmService) {
+              private realmService: RealmService) {
   }
-
-  group: Group;
-  users: User[];
-  roles: Role[];
-  groupUsers: User[] = [];
 
   ngOnInit(): void {
-    this.getData()
-    this.groupService.group.subscribe((data:Group) =>{
-      this.group = data;
-      this.groupUsers = data.users
-      // @ts-ignore
-      this.realm = data.realm
-    })
+    this.getData();
   }
 
-  getData(){
-  this.realmService.realm.subscribe((data:ParentRealm) =>{
-    this.users = data.users
-    this.roles = data.roles
-  })
+  getData() {
+    this.groupService.group.subscribe((data: Group) => {
+      this.group = data;
+      this.groupUsers = data.users;
+      // @ts-ignore
+      this.realm = data.realm;
+    });
+    this.realmService.realm.subscribe((data: ParentRealm) => {
+      this.users = data.users;
+      this.roles = data.roles;
+    });
   }
 
   addRoleToAllUsers(role) {
     this.groupService.addRoleToGroup(this.realm.name, this.group.name, role.name).subscribe(() => {
-
-    },error => this.snackbar.openSnackBar(error.error.message,4000));
+    }, error => this.snackbar.openSnackBar(error.error.message, 4000));
   }
 
   addUserToGroup(user) {
     this.groupService.addUserToGroup(this.group.name, user, this.realm.name).subscribe(data => {
-      this.groupService.getGroupByName(this.group.name,this.realm.name).subscribe(data =>{
-        this.groupService.setGroup(data)
-      })
+      this.groupService.setGroup(this.group.name, this.realm.name);
     }, error => {
       this.snackbar.openSnackBar(error.error.message, 3000);
     });
@@ -73,9 +68,7 @@ export class GroupUsersComponent implements OnInit {
     dialogRef.afterClosed().subscribe(data => {
       if (data == 'true') {
         this.groupService.deleteUserFromGroup(this.group, user, this.realm.name).subscribe(data => {
-          this.groupService.getGroupByName(this.group.name,this.realm.name).subscribe(data =>{
-            this.groupService.setGroup(data)
-          })
+          this.groupService.setGroup(this.group.name, this.realm.name);
         }, error => {
           this.snackbar.openSnackBar(error.error.message, 3000);
         });
@@ -84,9 +77,7 @@ export class GroupUsersComponent implements OnInit {
   }
 
   userRoles(user) {
-    this.userService.getUserByUsername(user.username,this.realm.name).subscribe(data =>{
-      this.userService.setUser(data)
-    })
+    this.userService.setUser(user.username, this.realm.name);
     this.router.navigate(['home/users/roles']);
   }
 }

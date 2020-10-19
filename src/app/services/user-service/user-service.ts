@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {User} from '../../models/User';
-import {BehaviorSubject, Observable, ReplaySubject, Subject} from 'rxjs';
+import {Observable, ReplaySubject, Subject} from 'rxjs';
 import {HttpClient} from '@angular/common/http';
 import {Env} from '../../configs/env';
 import {tap} from 'rxjs/operators';
@@ -13,18 +13,17 @@ const url = Env.apiRootURL + '/api';
   providedIn: 'root'
 })
 export class UserService {
+  users = new Subject();
+  user = new ReplaySubject(1);
 
   constructor(private http: HttpClient,
               private snackBar: SnackBarService) {
   }
 
-  users = new Subject();
-
-  user = new ReplaySubject(1)
-
-
-  setUser(user){
-    this.user.next(user)
+  setUser(username: string, realmName: string) {
+    this.getUserByUsername(username, realmName).subscribe(data => {
+      this.user.next(data);
+    });
   }
 
   setUsers(realm: Realm) {

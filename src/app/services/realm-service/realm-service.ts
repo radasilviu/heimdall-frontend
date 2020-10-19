@@ -1,11 +1,10 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Env} from '../../configs/env';
-import {BehaviorSubject, ReplaySubject, Subject,} from 'rxjs';
+import {BehaviorSubject, ReplaySubject,} from 'rxjs';
 import {ParentRealm, Realm} from '../../models/Realm';
 import {SnackBarService} from '../snack-bar/snack-bar-service';
 import {User} from '../../models/User';
-import {map} from 'rxjs/operators';
 
 const url = Env.apiRootURL + '/api/admin/realm';
 
@@ -14,22 +13,21 @@ const url = Env.apiRootURL + '/api/admin/realm';
 })
 export class RealmService {
 
+  realms$ = new BehaviorSubject(null);
+  realm = new ReplaySubject(1);
+
   constructor(private http: HttpClient,
               private snackBar: SnackBarService) {
   }
 
-  realms$ = new ReplaySubject();
-
-  realm = new ReplaySubject(1);
-
-  setRealms(data){
-    this.realms$.next(data)
+  setRealms(data) {
+    this.realms$.next(data);
   }
 
   setRealm(realmName) {
     this.getRealmByName(realmName).subscribe(data => {
       this.realm.next(data);
-    });
+    }, error => this.snackBar.openSnackBar(error.error.message, 4000));
   }
 
   getRealms() {
@@ -44,13 +42,12 @@ export class RealmService {
     return this.http.put<Realm>(url + '/general-update/' + realmName, realm);
   }
 
-
   updateLoginSettings(realmName: string, User: User) {
     return this.http.put(url + '/login-update/' + realmName, User);
   }
 
   addNewRealm(realm: Realm) {
-    return this.http.post<Realm>(url + '/', realm).pipe(map(() => this.realms$.next()));
+    return this.http.post<Realm>(url + '/', realm);
   }
 
   deleteRealmByName(realm: Realm) {

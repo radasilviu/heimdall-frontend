@@ -13,7 +13,6 @@ import {SnackBarService} from '../../services/snack-bar/snack-bar-service';
 })
 export class RealmSettingsComponent implements OnInit {
   realm: Realm;
-  subscription: Subscription;
 
   constructor(private realmService: RealmService,
               private dialog: MatDialog,
@@ -21,21 +20,21 @@ export class RealmSettingsComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.realmService.realm.subscribe((data:ParentRealm) =>{
-      this.realm = data.realm
-    })
+    this.realmService.realm.subscribe((data: ParentRealm) => {
+      this.realm = data.realm;
+    });
   }
-
 
   deleteRealmByName() {
     const dialogRef = this.dialog.open(DeleteDialogComponent);
 
-    this.subscription = dialogRef.afterClosed().subscribe(data => {
+    dialogRef.afterClosed().subscribe(data => {
       if (data == 'true') {
-        this.realmService.deleteRealmByName(this.realm).subscribe(data =>{
-          this.realmService.getRealms().subscribe(data =>{
-            this.realmService.setRealms(data)
-          })
+        this.realmService.deleteRealmByName(this.realm).subscribe(data => {
+          this.realmService.getRealms().subscribe(data => {
+            this.realmService.setRealms(data);
+            this.realmService.setRealm(data[data.length - 1].name);
+          });
         });
       }
     }, error => this.snackBar.openSnackBar(error.error.message, 4000));
