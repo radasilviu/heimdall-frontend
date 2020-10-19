@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {User} from '../../models/User';
 import {UserService} from '../../services/user-service/user-service';
 import {SnackBarService} from '../../services/snack-bar/snack-bar-service';
-import {Subscription} from 'rxjs';
+import {Subscription, timer} from 'rxjs';
 import {RealmService} from '../../services/realm-service/realm-service';
 import {ParentRealm} from '../../models/Realm';
 
@@ -13,7 +13,9 @@ import {ParentRealm} from '../../models/Realm';
 })
 export class UserSessionComponent implements OnInit {
   users: User[];
-  private subscription: Subscription;
+  private subscription1: Subscription;
+  private subscription2: Subscription;
+
   displayedColumns = ['username', 'isActive'];
 
   constructor(private userService: UserService,
@@ -22,14 +24,24 @@ export class UserSessionComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getUsers();
+
+    const source = timer(2000, 2000);
+//output: 0
+    this.subscription1 = source.subscribe(val => {
+      this.realmService.realm.subscribe((data: ParentRealm) => {
+      this.subscription2 =  this.userService.getAllUsers(data.realm.name).subscribe(data => {
+          this.users = data;
+        });
+        // @ts-ignore
+      });
+    });
   }
 
-  getUsers() {
-    this.realmService.getRealm.subscribe((data: ParentRealm) => {
-      this.users = data.users;
-    }, error => this.snackBar.openSnackBar(error, 4000));
+  ngOnDestroy() {
+    this.subscription1.unsubscribe();
+    this.subscription2.unsubscribe();
   }
+
 
   logoutAllUsers() {
     const realm = localStorage.getItem('realm');

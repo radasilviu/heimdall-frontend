@@ -6,6 +6,7 @@ import {UserService} from '../../services/user-service/user-service';
 import {SnackBarService} from '../../services/snack-bar/snack-bar-service';
 import {RealmService} from '../../services/realm-service/realm-service';
 import {ParentRealm} from '../../models/Realm';
+import {Subscription} from 'rxjs';
 
 @Component({
   selector: 'app-roles',
@@ -13,10 +14,10 @@ import {ParentRealm} from '../../models/Realm';
   styleUrls: ['./roles.component.css']
 })
 export class RolesComponent implements OnInit {
-  currentUser: User;
   userRoles: Role[];
   allRoles: Role[];
   user: User;
+  subscription : Subscription
   realm;
   displayedColumns: string[] = ['Roles'];
 
@@ -27,27 +28,37 @@ export class RolesComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.getAllRoles();
+  this.getRealm();
   }
 
-
-  getAllRoles() {
-    this.realmService.getRealm.subscribe((data: ParentRealm) => {
-      this.allRoles = data.roles;
+  getRealm() {
+    this.subscription =   this.realmService.realm.subscribe((data: ParentRealm) => {
       this.realm = data.realm;
-    }, error => this.snackBar.openSnackBar(error.error.message, 4000));
+      this.allRoles = data.roles;
+      this.userService.user.subscribe((data:User) => {
+        this.userRoles = data.roles
+        this.user = data
+      })
+    });
+  }
+
+  ngOnDestroy(){
+    this.subscription.unsubscribe()
   }
 
   addRole(role) {
-
-
     this.roleService.addUserRole(role, this.user, this.realm.name).subscribe(data => {
+      this.userService.getUserByUsername(this.user.username, this.realm.name).subscribe((data: User) => {
+        this.userService.setUser(data)
+      });
     }, error => this.snackBar.openSnackBar(error.error.message, 4000));
   }
 
   deleteRole(role) {
-
     this.roleService.deleteUserRole(this.user, role, this.realm.name).subscribe(data => {
+      this.userService.getUserByUsername(this.user.username, this.realm.name).subscribe((data: User) => {
+        this.userService.setUser(data)
+      });
     }, error => this.snackBar.openSnackBar(error.error.message, 4000));
   }
 }

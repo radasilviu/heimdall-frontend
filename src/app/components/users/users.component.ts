@@ -37,14 +37,10 @@ export class UsersComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getAllUsers();
-  }
-
-  getAllUsers() {
-    // @ts-ignore
-    this.realmService.getRealm.subscribe((data: ParentRealm) => {
-      this.allUsers = data.users;
-    }, error => this.snackBar.openSnackBar(error.error.message, 4000));
+    this.realmService.realm.subscribe((data:ParentRealm) =>{
+      this.allUsers = data.users
+      this.realm = data.realm
+    })
   }
 
   onSubmit() {
@@ -56,8 +52,14 @@ export class UsersComponent implements OnInit {
     const dialogRef = this.dialog.open(UserDialogComponent);
     dialogRef.afterClosed().subscribe(data => {
       if (data !== undefined) {
-        this.user.username = data;
-        this.userService.updateUserName(currentUserName, this.user, this.realm.name).subscribe(data => {
+        let user = {} as User;
+        user.username = data;
+        this.userService.updateUserName(currentUserName, user, this.realm.name).subscribe(() => {
+          this.realmService.getRealmByName(this.realm.name).subscribe((data:ParentRealm) =>{
+            this.allUsers = data.users
+            this.realmService.realm.next(data)
+
+          })
         }, error => {
           this.snackBar.openSnackBar(error.error.message, 2000);
         });
@@ -67,12 +69,15 @@ export class UsersComponent implements OnInit {
 
 
   deleteUser(username: string) {
-    let realm = localStorage.getItem('realm');
-
     const dialogRef = this.dialog.open(DeleteDialogComponent);
     dialogRef.afterClosed().subscribe(data => {
       if (data == 'true') {
         this.userService.deleteUser(username, this.realm.name).subscribe(() => {
+          this.realmService.getRealmByName(this.realm.name).subscribe((data:ParentRealm) =>{
+            this.allUsers = data.users
+            this.realmService.realm.next(data)
+
+          })
         }, error => {
           this.snackBar.openSnackBar(error.error.message, 2000);
         });
@@ -81,16 +86,21 @@ export class UsersComponent implements OnInit {
   }
 
   addUser(user: User) {
-    let realm = localStorage.getItem('realm');
 
     this.userService.addUser(user, this.realm.name).subscribe(data => {
+      this.realmService.getRealmByName(this.realm.name).subscribe((data:ParentRealm) =>{
+        this.allUsers = data.users
+        this.realmService.realm.next(data)
+      })
     }, error => {
       this.snackBar.openSnackBar(error.error.message, 3000);
     });
   }
 
   userRoles(user) {
-    localStorage.setItem('currentUser', user.username);
+    this.userService.getUserByUsername(user.username,this.realm.name).subscribe(data =>{
+      this.userService.setUser(data)
+    })
     this.router.navigate(['home/users/roles']);
   }
 }

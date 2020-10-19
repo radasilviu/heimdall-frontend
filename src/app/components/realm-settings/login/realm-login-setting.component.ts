@@ -31,7 +31,7 @@ export class RealmLoginSettingComponent implements OnInit {
   }
 
   getRealm() {
-    this.realmService.getRealm.subscribe((data: ParentRealm) => {
+    this.realmService.realm.subscribe((data: ParentRealm) => {
       this.realm = data.realm;
       this.loginForm.patchValue({
         userRegistration: data.realm.userRegistration,
@@ -46,10 +46,7 @@ export class RealmLoginSettingComponent implements OnInit {
 
   onSubmit() {
     this.realmService.updateLoginSettings(this.realm.name, this.loginForm.value).subscribe((data: Realm) => {
-
       this.realm = data;
-      this.getRealm();
-      this.realmService.setRealm(data);
     }, error => this.snackBar.openSnackBar(error.error.message, 4000));
   }
 }

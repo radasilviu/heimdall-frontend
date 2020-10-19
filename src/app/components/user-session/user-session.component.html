@@ -16,8 +16,8 @@
         <ng-container matColumnDef="isActive">
           <th mat-header-cell *matHeaderCellDef> User Roles</th>
           <td mat-cell *matCellDef="let element">
-            <p class="text-success" *ngIf="element.loggedIn">Active</p>
-            <p class="text-danger" *ngIf="!element.loggedIn">Inactive</p>
+            <p class="text-success" *ngIf="element.token">Active</p>
+            <p class="text-danger" *ngIf="!element.token">Inactive</p>
           </td>
         </ng-container>
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>

@@ -17,9 +17,9 @@ import {RealmService} from '../../services/realm-service/realm-service';
 })
 
 export class ClientsComponent implements OnInit {
-  allClients: Client[];
-  realm: Realm;
+  realm:Realm;
   client: Client;
+  clients:Client[]
   displayedColumns: string[] = ['name'];
 
   form = new FormGroup({
@@ -35,25 +35,27 @@ export class ClientsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getAllClients();
-  }
-
-
-  getAllClients() {
-    this.realmService.getRealm.subscribe((data:ParentRealm) => {
-      this.allClients = data.clients
+    this.realmService.realm.subscribe((data:ParentRealm) =>{
+      this.clients = data.clients;
       this.realm = data.realm;
-    });
+    })
   }
+
+
+
 
   updateClient(currentClientName: string) {
     const dialogRef = this.dialog.open(ClientDialogComponent);
 
     dialogRef.afterClosed().subscribe(data => {
       if (data !== undefined) {
-        this.client.clientName = data;
-        this.service.updateClientByName(currentClientName, this.client, this.realm.name).subscribe(
+        let client = {} as Client;
+        client.clientName = data;
+        this.service.updateClientByName(currentClientName, client, this.realm.name).subscribe(
           data => {
+            this.realmService.getRealmByName(this.realm.name).subscribe((data:ParentRealm) =>{
+              this.clients = data.clients
+            })
           }, error => {
             this.snackBar.openSnackBar(error.error.message, 2000);
           });
@@ -67,6 +69,9 @@ export class ClientsComponent implements OnInit {
     dialogRef.afterClosed().subscribe(data => {
       if (data == 'true') {
         this.service.deleteClient(clientName, this.realm.name).subscribe(() => {
+          this.realmService.getRealmByName(this.realm.name).subscribe((data:ParentRealm) =>{
+            this.clients = data.clients
+          })
         }, error => {
           this.snackBar.openSnackBar(error.error.message, 2000);
         });
@@ -76,6 +81,9 @@ export class ClientsComponent implements OnInit {
 
   onSubmit() {
     this.service.addClient(this.form.value, this.realm.name).subscribe(data => {
+      this.realmService.getRealmByName(this.realm.name).subscribe((data:ParentRealm) =>{
+        this.clients = data.clients
+      })
     }, error => {
       this.snackBar.openSnackBar(error.error.message, 2000);
     });

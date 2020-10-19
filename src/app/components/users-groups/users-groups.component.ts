@@ -28,19 +28,21 @@ export class UsersGroupsComponent implements OnInit {
               private snackbar: SnackBarService) {
   }
 
-
-  ngOnInit(): void {
-    this.getAllGroups();
-  }
-
-  getAllGroups() {
-    this.realmService.getRealm.subscribe((data: ParentRealm) => {
+  ngOnInit() {
+    this.realmService.realm.subscribe((data: ParentRealm) => {
       this.allGroups = data.groups;
       this.realm = data.realm;
-    }, error => {
-      this.snackbar.openSnackBar(error.error.message, 3000);
+      this.roles = data.roles;
     });
   }
+
+  details(group) {
+    this.groupService.getGroupByName(group.name, this.realm.name).subscribe(data => {
+      this.groupService.setGroup(data);
+    });
+    this.router.navigate(['/home/group-users']);
+  }
+
 
   deleteGroup(group) {
     let dialogRef = this.dialog.open(DeleteDialogComponent);
@@ -48,6 +50,9 @@ export class UsersGroupsComponent implements OnInit {
     dialogRef.afterClosed().subscribe(data => {
       if (data == 'true') {
         this.subscription = this.groupService.deleteGroupByName(group, this.realm.name).subscribe(data => {
+          this.realmService.getRealmByName(this.realm.name).subscribe(data => {
+            this.realmService.realm.next(data);
+          });
         }, error => {
           this.snackbar.openSnackBar(error.message, 2000);
         });

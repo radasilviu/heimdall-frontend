@@ -2,26 +2,23 @@ import {Component, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
 import {AdminAuthService} from 'src/app/services/admin-auth/admin-auth.service';
 import {RealmService} from 'src/app/services/realm-service/realm-service';
-import {Realm} from '../../models/Realm';
 import {RoleService} from '../../services/role-service/role-service';
 import {ClientService} from '../../services/clientService/client-service';
-import {User} from '../../models/User';
 import {Subscription} from 'rxjs';
 import {SnackBarService} from '../../services/snack-bar/snack-bar-service';
+import {ParentRealm} from '../../models/Realm';
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
-  styleUrls: ['./home.component.css']
+  styleUrls: ['./home.component.css'],
 })
 
 export class HomeComponent implements OnInit {
   panelOpenState = false;
-  realms: Realm[];
-  realmTitle: string;
+  realms;
+  currentRealm;
 
-  users: User[];
-  admin: User;
   private subscription: Subscription;
 
   constructor(private router: Router,
@@ -32,28 +29,24 @@ export class HomeComponent implements OnInit {
               private snackBar: SnackBarService) {
   }
 
-  ngOnInit(): void {
-    this.getAllRealms();
-  }
+  ngOnInit() {
+      this.realmService.getRealms().subscribe(data => {
+        this.realmService.realms$.next(data);
+        this.realmService.setRealm(data[0].name);
+        this.realmService.realm.subscribe((data:ParentRealm) => this.currentRealm = data.realm);
 
-  getAllRealms() {
-    this.realmService.getAllRealms().subscribe(data => {
-      this.realms = data;
-
-      if (this.realmTitle === undefined) {
-        this.realmService.getRealmByName(data[0].name).subscribe(data => {
-          this.realmService.setRealm(data);
+        this.realmService.realms$.subscribe(data => {
+          if (data) {
+            this.realms = data;
+          }
         });
-        this.realmTitle = data[0].displayName;
-      }
-    });
+      });
   }
+
 
   changeRealm(realm) {
-    this.realmService.getRealmByName(realm.name).subscribe(data => {
-      this.realmService.setRealm(data);
-      this.realmTitle = data.realm.displayName;
-    });
+    this.currentRealm = realm;
+    this.realmService.getRealmByName(realm.name).subscribe(data => this.realmService.realm.next(data));
   }
 
 

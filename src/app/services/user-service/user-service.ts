@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {User} from '../../models/User';
-import {Observable, Subject} from 'rxjs';
+import {BehaviorSubject, Observable, ReplaySubject, Subject} from 'rxjs';
 import {HttpClient} from '@angular/common/http';
 import {Env} from '../../configs/env';
 import {tap} from 'rxjs/operators';
@@ -19,6 +19,13 @@ export class UserService {
   }
 
   users = new Subject();
+
+  user = new ReplaySubject(1)
+
+
+  setUser(user){
+    this.user.next(user)
+  }
 
   setUsers(realm: Realm) {
     this.getAllUsers(realm.name).subscribe(data => {

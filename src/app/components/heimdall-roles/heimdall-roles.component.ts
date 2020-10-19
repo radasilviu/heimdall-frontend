@@ -17,7 +17,7 @@ import {ParentRealm} from '../../models/Realm';
 export class HeimdallRolesComponent implements OnInit {
   displayedColumns: string[] = ['Roles'];
   allRoles: Role[];
-  role: Role;
+  realm;
 
   form = new FormGroup({
     name: new FormControl('', Validators.required)
@@ -31,13 +31,10 @@ export class HeimdallRolesComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getAllRoles();
-  }
-
-  getAllRoles() {
-    this.realmService.getRealm.subscribe((data: ParentRealm) => {
+    this.realmService.realm.subscribe((data: ParentRealm) => {
       this.allRoles = data.roles;
-    }, error => this.snackBar.openSnackBar(error.error.message, 4000));
+      this.realm = data.realm;
+    });
   }
 
   onSubmit() {
@@ -46,12 +43,17 @@ export class HeimdallRolesComponent implements OnInit {
 
   updateRole(currentRoleName: string) {
     const dialogRef = this.dialog.open(RolesDialogComponent);
-    let realm = localStorage.getItem('realm');
 
     dialogRef.afterClosed().subscribe(data => {
       if (data !== undefined) {
-        this.role.name = data;
-        this.service.updateRoleByName(currentRoleName, this.role, JSON.parse(realm).name).subscribe(() => {
+        let role = {} as Role;
+        role.name = data;
+        this.service.updateRoleByName(currentRoleName, role, this.realm.name).subscribe(() => {
+          this.realmService.getRealmByName(this.realm.name).subscribe(data => {
+            this.allRoles = data.roles;
+            this.realmService.realm.next(data);
+
+          });
         }, error => {
           this.snackBar.openSnackBar(error.error.message, 2000);
         });
@@ -60,21 +62,26 @@ export class HeimdallRolesComponent implements OnInit {
   }
 
   addRole(role: Role) {
-    let realm = localStorage.getItem('realm');
+    this.service.addRole(role, this.realm.name).subscribe(() => {
+      this.realmService.getRealmByName(this.realm.name).subscribe(data => {
+        this.allRoles = data.roles;
+        this.realmService.realm.next(data);
 
-    this.service.addRole(role, JSON.parse(realm).name).subscribe(() => {
+      });
     }, error => {
       this.snackBar.openSnackBar(error.error.message, 2000);
     });
   }
 
   deleteRole(role) {
-    let realm = localStorage.getItem('realm');
     const dialogRef = this.dialog.open(DeleteDialogComponent);
-
     dialogRef.afterClosed().subscribe(data => {
       if (data == 'true') {
-        this.service.deleteRole(role, JSON.parse(realm).name).subscribe(() => {
+        this.service.deleteRole(role, this.realm.name).subscribe(() => {
+          this.realmService.getRealmByName(this.realm.name).subscribe((data: ParentRealm) => {
+            this.allRoles = data.roles;
+            this.realmService.realm.next(data);
+          });
         }, error => {
           this.snackBar.openSnackBar(error.error.message, 4000);
         });

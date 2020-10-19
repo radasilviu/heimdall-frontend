@@ -26,10 +26,11 @@ export class RealmGeneralSettingComponent implements OnInit {
 
   ngOnInit() {
     this.getRealm();
+
   }
 
   getRealm() {
-    this.realmService.getRealm.subscribe((data: ParentRealm) => {
+    this.realmService.realm.subscribe((data: ParentRealm) => {
       this.realm = data.realm;
       this.generalForm.setValue({
         name: data.realm.name,
@@ -41,6 +42,12 @@ export class RealmGeneralSettingComponent implements OnInit {
 
   onSubmit(): void {
     this.subscription = this.realmService.updateRealmByName(this.realm.name, this.generalForm.value).subscribe((data: Realm) => {
+      this.realmService.getRealmByName(data.name).subscribe(data => {
+        this.realmService.realm.next(data)
+      })
+      this.realmService.getRealms().subscribe(data =>{
+        this.realmService.setRealms(data)
+      })
     }, error => this.snackBar.openSnackBar(error.error.message, 4000));
   }
 }

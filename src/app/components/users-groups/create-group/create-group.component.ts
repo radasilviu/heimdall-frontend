@@ -4,6 +4,8 @@ import {GroupService} from '../../../services/group-service/group-service';
 import {Router} from '@angular/router';
 import {SnackBarService} from '../../../services/snack-bar/snack-bar-service';
 import {Subscription} from 'rxjs';
+import {RealmService} from '../../../services/realm-service/realm-service';
+import {ParentRealm} from '../../../models/Realm';
 
 @Component({
   selector: 'app-create-group',
@@ -16,7 +18,8 @@ export class CreateGroupComponent implements OnInit {
 
   constructor(private groupService: GroupService,
               private router: Router,
-              private snackbar: SnackBarService) {
+              private snackbar: SnackBarService,
+              private realmService:RealmService) {
   }
 
   createGroup = new FormGroup({
@@ -24,10 +27,16 @@ export class CreateGroupComponent implements OnInit {
   });
 
   ngOnInit(): void {
+    this.realmService.realm.subscribe((data:ParentRealm) =>{
+      this.realm = data.realm
+    })
   }
 
   onSubmit() {
     this.subscription = this.groupService.addNewGroup(this.createGroup.value, this.realm.name).subscribe(data => {
+      this.realmService.getRealmByName(this.realm.name).subscribe((data:ParentRealm) =>{
+        this.realmService.realm.next(data)
+      })
       this.subscription.unsubscribe();
       this.router.navigate(['/home/users-group']);
     }, error => {
