@@ -7,9 +7,11 @@ import {Component, OnInit} from '@angular/core';
 })
 export class UserDialogComponent implements OnInit {
 
-  constructor() { }
+  constructor() {
+  }
 
   ngOnInit(): void {
   }
-  newUsername:string;
+
+  newUsername: string;
 }

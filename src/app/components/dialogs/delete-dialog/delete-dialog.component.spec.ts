@@ -16,9 +16,9 @@ describe('DeleteDialogComponent', () => {
         MatSnackBarModule,
         RouterTestingModule
       ],
-      declarations: [ DeleteDialogComponent ],
+      declarations: [DeleteDialogComponent],
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {

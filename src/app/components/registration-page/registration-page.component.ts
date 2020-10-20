@@ -29,7 +29,8 @@ export class RegistrationPageComponent implements OnInit {
       validator: PasswordMatcher('password', 'confirmPassword')
     });
   }
-  ngOnDestroy(){
+
+  ngOnDestroy() {
     this.subSink.unsubscribe();
   }
 

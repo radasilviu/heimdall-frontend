@@ -46,11 +46,10 @@ export class RealmGeneralSettingComponent implements OnInit {
   onSubmit(): void {
     this.subSink.add(this.realmService.updateRealmByName(this.realm.name, this.generalForm.value).subscribe((data: Realm) => {
       this.realmService.setRealm(data.name);
+      this.subSink.add(this.realmService.getRealms().subscribe(data => {
+        this.realmService.setRealms(data);
+      }));
     }, error => this.snackBar.openSnackBar(error.error.message, 4000)));
-
-    this.subSink.add(this.realmService.getRealms().subscribe(data => {
-      this.realmService.setRealms(data);
-    }));
   }
 }
 

@@ -1,25 +1,26 @@
 <div class="container-fluid background-color d-flex justify-content-center flex-column">
-    <h1 class="text-center title-color">
-        Heimdall
-    </h1>
-    <div class=" my-form d-flex justify-content-center ">
-        <form [formGroup]="loginForm" (ngSubmit)="login()" class="col-md-6 text-center border border-light p-5 d-flex justify-content-center border-0 flex-column align-items-center">
-            <h3 class="text-danger" *ngIf="errorMessage">
-                Invalid Credentials
-            </h3>
-            <mat-form-field>
-                <mat-label> Username</mat-label>
-                <input matInput type="text" formControlName="username" required>
-            </mat-form-field>
+  <h1 class="text-center title-color">
+    Heimdall
+  </h1>
+  <div class=" my-form d-flex justify-content-center ">
+    <form [formGroup]="loginForm" (ngSubmit)="login()"
+          class="col-md-6 text-center border border-light p-5 d-flex justify-content-center border-0 flex-column align-items-center">
+      <h3 class="text-danger" *ngIf="errorMessage">
+        Invalid Credentials
+      </h3>
+      <mat-form-field>
+        <mat-label> Username</mat-label>
+        <input matInput type="text" formControlName="username" required>
+      </mat-form-field>
 
-            <mat-form-field>
-                <mat-label>Password</mat-label>
-                <input matInput type="password" formControlName="password" required>
-            </mat-form-field>
-            <div>
-                <button type="submit" [disabled]="!loginForm.valid" mat-raised-button color="primary">Login</button>
-            </div>
-            <a class="mt-4" [routerLink]="['/forgot-password']">Forgot password?</a>
-        </form>
-    </div>
+      <mat-form-field>
+        <mat-label>Password</mat-label>
+        <input matInput type="password" formControlName="password" required>
+      </mat-form-field>
+      <div>
+        <button type="submit" [disabled]="!loginForm.valid" mat-raised-button color="primary">Login</button>
+      </div>
+      <a class="mt-4" [routerLink]="['/forgot-password']">Forgot password?</a>
+    </form>
+  </div>
 </div>

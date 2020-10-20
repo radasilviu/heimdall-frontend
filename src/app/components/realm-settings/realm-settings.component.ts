@@ -25,7 +25,8 @@ export class RealmSettingsComponent implements OnInit {
       this.realm = data.realm;
     }));
   }
-  ngOnDestroy(){
+
+  ngOnDestroy() {
     this.subSink.unsubscribe();
   }
 

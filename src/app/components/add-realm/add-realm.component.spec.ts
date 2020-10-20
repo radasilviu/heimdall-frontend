@@ -18,9 +18,9 @@ describe('AddRealmComponent', () => {
         RouterTestingModule,
         MatSnackBarModule,
       ],
-      declarations: [ AddRealmComponent ]
+      declarations: [AddRealmComponent]
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {

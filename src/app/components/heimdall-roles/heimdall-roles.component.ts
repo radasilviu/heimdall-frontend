@@ -38,7 +38,8 @@ export class HeimdallRolesComponent implements OnInit {
       this.realm = data.realm;
     }));
   }
-  ngOnDestroy(){
+
+  ngOnDestroy() {
     this.subSink.unsubscribe();
   }
 

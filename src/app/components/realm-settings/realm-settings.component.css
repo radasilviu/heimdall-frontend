@@ -3,6 +3,6 @@
   cursor: pointer;
 }
 
-.realm-icon:hover{
+.realm-icon:hover {
   color: var(--hover-icon-color);
 }

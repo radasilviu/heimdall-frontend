@@ -1,8 +1,8 @@
 .table-icon {
-    user-select: none;
-    cursor: pointer;
+  user-select: none;
+  cursor: pointer;
 }
 
 .table-icon:hover {
-    color: var(--hover-icon-color);
+  color: var(--hover-icon-color);
 }

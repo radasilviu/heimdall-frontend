@@ -1,9 +1,9 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { ForgotPasswordComponent } from './forgot-password.component';
+import {ForgotPasswordComponent} from './forgot-password.component';
 import {HttpClientTestingModule} from '@angular/common/http/testing';
 import {RouterTestingModule} from '@angular/router/testing';
-import {MatSnackBar, MatSnackBarModule} from '@angular/material/snack-bar';
+import {MatSnackBarModule} from '@angular/material/snack-bar';
 
 describe('ForgotPasswordComponent', () => {
   let component: ForgotPasswordComponent;
@@ -16,9 +16,9 @@ describe('ForgotPasswordComponent', () => {
         RouterTestingModule,
         MatSnackBarModule
       ],
-      declarations: [ ForgotPasswordComponent ]
+      declarations: [ForgotPasswordComponent]
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {

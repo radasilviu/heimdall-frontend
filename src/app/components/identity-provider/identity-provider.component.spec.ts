@@ -1,6 +1,6 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { IdentityProviderComponent } from './identity-provider.component';
+import {IdentityProviderComponent} from './identity-provider.component';
 
 describe('IdentityProviderComponent', () => {
   let component: IdentityProviderComponent;
@@ -8,9 +8,9 @@ describe('IdentityProviderComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ IdentityProviderComponent ]
+      declarations: [IdentityProviderComponent]
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {

@@ -7,7 +7,6 @@ import {from} from 'rxjs';
 import {FacebookLoginProvider, GoogleLoginProvider, SocialAuthService} from 'angularx-social-login';
 import {OAuthSocialUser} from 'src/app/models/social_user.model';
 import {IdentityProviderService} from '../../services/identity-provider-service/identity-provider-service';
-import {User} from '../../models/User';
 import {UserService} from '../../services/user-service/user-service';
 
 
@@ -28,8 +27,8 @@ export class ClientLoginComponent implements OnInit {
   constructor(private clientService: ClientLoginService,
               private route: ActivatedRoute,
               private socialAuthService: SocialAuthService,
-              private userService:UserService,
-              private googleIdent:IdentityProviderService) {
+              private userService: UserService,
+              private googleIdent: IdentityProviderService) {
   }
 
   ngOnInit(): void {

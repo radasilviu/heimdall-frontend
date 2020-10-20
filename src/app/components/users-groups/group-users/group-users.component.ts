@@ -39,7 +39,7 @@ export class GroupUsersComponent implements OnInit {
     this.getData();
   }
 
-  ngOnDestroy(){
+  ngOnDestroy() {
     this.subSink.unsubscribe();
   }
 

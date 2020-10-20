@@ -34,10 +34,9 @@ export class AddRealmComponent implements OnInit {
   addNewRealm() {
     this.subSink.add(
       this.realmService.addNewRealm(this.newRealm.value).subscribe(() => {
+        this.subSink.add(this.realmService.getRealms().subscribe(data => {
+          this.realmService.setRealms(data);
+        }));
       }, error => this.snackBar.openSnackBar(error.error.message, 4000)));
-
-    this.subSink.add(this.realmService.getRealms().subscribe(data => {
-      this.realmService.setRealms(data);
-    }));
   }
 }
