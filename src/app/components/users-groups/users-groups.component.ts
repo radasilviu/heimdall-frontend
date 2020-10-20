@@ -8,6 +8,7 @@ import {SnackBarService} from '../../services/snack-bar/snack-bar-service';
 import {RealmService} from '../../services/realm-service/realm-service';
 import {ParentRealm, Realm} from '../../models/Realm';
 import {Role} from '../../models/Role';
+import {SubSink} from 'subsink';
 
 @Component({
   selector: 'app-users-groups',
@@ -18,6 +19,7 @@ export class UsersGroupsComponent implements OnInit {
   realm: Realm;
   roles: Role[];
   allGroups: Group[];
+  subSink = new SubSink();
 
   constructor(private groupService: GroupService,
               private router: Router,
@@ -30,12 +32,16 @@ export class UsersGroupsComponent implements OnInit {
     this.getRealm();
   }
 
+  ngOnDestroy() {
+    this.subSink.unsubscribe();
+  }
+
   getRealm() {
-    this.realmService.realm.subscribe((data: ParentRealm) => {
+    this.subSink.add(this.realmService.realm.subscribe((data: ParentRealm) => {
       this.allGroups = data.groups;
       this.realm = data.realm;
       this.roles = data.roles;
-    });
+    }));
   }
 
   details(group) {
@@ -43,17 +49,16 @@ export class UsersGroupsComponent implements OnInit {
     this.router.navigate(['/home/group-users']);
   }
 
-
   deleteGroup(group) {
     let dialogRef = this.dialog.open(DeleteDialogComponent);
 
     dialogRef.afterClosed().subscribe(data => {
       if (data == 'true') {
-        this.groupService.deleteGroupByName(group, this.realm.name).subscribe(data => {
+        this.subSink.add(this.groupService.deleteGroupByName(group, this.realm.name).subscribe(data => {
           this.realmService.setRealm(this.realm.name);
         }, error => {
           this.snackbar.openSnackBar(error.message, 2000);
-        });
+        }));
       }
     });
   }

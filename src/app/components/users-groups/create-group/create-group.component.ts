@@ -5,7 +5,8 @@ import {Router} from '@angular/router';
 import {SnackBarService} from '../../../services/snack-bar/snack-bar-service';
 import {Subscription} from 'rxjs';
 import {RealmService} from '../../../services/realm-service/realm-service';
-import {ParentRealm} from '../../../models/Realm';
+import {ParentRealm, Realm} from '../../../models/Realm';
+import {SubSink} from 'subsink';
 
 @Component({
   selector: 'app-create-group',
@@ -14,7 +15,8 @@ import {ParentRealm} from '../../../models/Realm';
 })
 export class CreateGroupComponent implements OnInit {
   private subscription: Subscription;
-  realm;
+  realm: Realm;
+  subSink = new SubSink();
 
   constructor(private groupService: GroupService,
               private router: Router,
@@ -30,18 +32,22 @@ export class CreateGroupComponent implements OnInit {
     this.getRealm();
   }
 
+  ngOnDestroy() {
+    this.subSink.unsubscribe();
+  }
+
   getRealm() {
-    this.realmService.realm.subscribe((data: ParentRealm) => {
+    this.subSink.add(this.realmService.realm.subscribe((data: ParentRealm) => {
       this.realm = data.realm;
-    });
+    }));
   }
 
   onSubmit() {
-    this.groupService.addNewGroup(this.createGroup.value, this.realm.name).subscribe(data => {
+    this.subSink.add(this.groupService.addNewGroup(this.createGroup.value, this.realm.name).subscribe(data => {
       this.realmService.setRealm(this.realm.name);
       this.router.navigate(['/home/users-group']);
     }, error => {
       this.snackbar.openSnackBar(error.error.message, 3000);
-    });
+    }));
   }
 }

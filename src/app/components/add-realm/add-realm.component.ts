@@ -3,6 +3,7 @@ import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {RealmService} from '../../services/realm-service/realm-service';
 import {Realm} from '../../models/Realm';
 import {SnackBarService} from '../../services/snack-bar/snack-bar-service';
+import {SubSink} from 'subsink';
 
 @Component({
   selector: 'app-add-realm',
@@ -12,6 +13,7 @@ import {SnackBarService} from '../../services/snack-bar/snack-bar-service';
 export class AddRealmComponent implements OnInit {
   realm: Realm;
   newRealm: FormGroup;
+  subSink = new SubSink();
 
   constructor(private formBuilder: FormBuilder,
               private realmService: RealmService,
@@ -25,11 +27,17 @@ export class AddRealmComponent implements OnInit {
     });
   }
 
+  ngOnDestroy() {
+    this.subSink.unsubscribe();
+  }
+
   addNewRealm() {
-    this.realmService.addNewRealm(this.newRealm.value).subscribe(() => {
-    }, error => this.snackBar.openSnackBar(error.error.message, 4000));
-    this.realmService.getRealms().subscribe(data => {
+    this.subSink.add(
+      this.realmService.addNewRealm(this.newRealm.value).subscribe(() => {
+      }, error => this.snackBar.openSnackBar(error.error.message, 4000)));
+
+    this.subSink.add(this.realmService.getRealms().subscribe(data => {
       this.realmService.setRealms(data);
-    });
+    }));
   }
 }

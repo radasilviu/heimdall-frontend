@@ -8,6 +8,7 @@ import {ClientService} from '../../services/clientService/client-service';
 import {SnackBarService} from '../../services/snack-bar/snack-bar-service';
 import {ParentRealm, Realm} from '../../models/Realm';
 import {RealmService} from '../../services/realm-service/realm-service';
+import {SubSink} from 'subsink';
 
 @Component({
   selector: 'app-clients',
@@ -20,6 +21,7 @@ export class ClientsComponent implements OnInit {
   client: Client;
   clients: Client[];
   displayedColumns: string[] = ['name'];
+  subSink = new SubSink();
 
   form = new FormGroup({
     clientName: new FormControl('', Validators.required),
@@ -34,10 +36,14 @@ export class ClientsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.realmService.realm.subscribe((data: ParentRealm) => {
+    this.subSink.add(this.realmService.realm.subscribe((data: ParentRealm) => {
       this.clients = data.clients;
       this.realm = data.realm;
-    });
+    }));
+  }
+
+  ngOnDestroy() {
+    this.subSink.unsubscribe();
   }
 
   updateClient(currentClientName: string) {
@@ -47,12 +53,12 @@ export class ClientsComponent implements OnInit {
       if (data !== undefined) {
         let client = {} as Client;
         client.clientName = data;
-        this.service.updateClientByName(currentClientName, client, this.realm.name).subscribe(
+        this.subSink.add(this.service.updateClientByName(currentClientName, client, this.realm.name).subscribe(
           data => {
             this.realmService.setRealm(this.realm.name);
           }, error => {
             this.snackBar.openSnackBar(error.error.message, 2000);
-          });
+          }));
       }
     });
   }
@@ -62,20 +68,20 @@ export class ClientsComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(data => {
       if (data == 'true') {
-        this.service.deleteClient(clientName, this.realm.name).subscribe(() => {
+        this.subSink.add(this.service.deleteClient(clientName, this.realm.name).subscribe(() => {
           this.realmService.setRealm(this.realm.name);
         }, error => {
           this.snackBar.openSnackBar(error.error.message, 2000);
-        });
+        }));
       }
     });
   }
 
   onSubmit() {
-    this.service.addClient(this.form.value, this.realm.name).subscribe(data => {
+    this.subSink.add(this.service.addClient(this.form.value, this.realm.name).subscribe(data => {
       this.realmService.setRealm(this.realm.name);
     }, error => {
       this.snackBar.openSnackBar(error.error.message, 2000);
-    });
+    }));
   }
 }

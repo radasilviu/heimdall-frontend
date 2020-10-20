@@ -5,8 +5,8 @@ import {RoleService} from '../../services/role-service/role-service';
 import {UserService} from '../../services/user-service/user-service';
 import {SnackBarService} from '../../services/snack-bar/snack-bar-service';
 import {RealmService} from '../../services/realm-service/realm-service';
-import {ParentRealm} from '../../models/Realm';
-import {Subscription} from 'rxjs';
+import {ParentRealm, Realm} from '../../models/Realm';
+import {SubSink} from 'subsink';
 
 @Component({
   selector: 'app-roles',
@@ -17,8 +17,8 @@ export class RolesComponent implements OnInit {
   userRoles: Role[];
   allRoles: Role[];
   user: User;
-  subscription: Subscription;
-  realm;
+  realm: Realm;
+  subSink = new SubSink();
   displayedColumns: string[] = ['Roles'];
 
   constructor(private roleService: RoleService,
@@ -32,29 +32,31 @@ export class RolesComponent implements OnInit {
   }
 
   getRealm() {
-    this.subscription = this.realmService.realm.subscribe((data: ParentRealm) => {
+    this.subSink.add(this.realmService.realm.subscribe((data: ParentRealm) => {
       this.realm = data.realm;
       this.allRoles = data.roles;
-    });
-    this.userService.user.subscribe((data: User) => {
+    }));
+
+    this.subSink.add(this.userService.user.subscribe((data: User) => {
       this.userRoles = data.roles;
       this.user = data;
-    });
+    }));
   }
 
   ngOnDestroy() {
-    this.subscription.unsubscribe();
+    this.subSink.unsubscribe();
   }
 
   addRole(role) {
-    this.roleService.addUserRole(role, this.user, this.realm.name).subscribe(data => {
+    this.subSink.add(this.roleService.addUserRole(role, this.user, this.realm.name).subscribe(data => {
       this.userService.setUser(this.user.username, this.realm.name);
-    }, error => this.snackBar.openSnackBar(error.error.message, 4000));
+    }, error => this.snackBar.openSnackBar(error.error.message, 4000)));
   }
 
+
   deleteRole(role) {
-    this.roleService.deleteUserRole(this.user, role, this.realm.name).subscribe(data => {
+    this.subSink.add(this.roleService.deleteUserRole(this.user, role, this.realm.name).subscribe(data => {
       this.userService.setUser(this.user.username, this.realm.name);
-    }, error => this.snackBar.openSnackBar(error.error.message, 4000));
+    }, error => this.snackBar.openSnackBar(error.error.message, 4000)));
   }
 }

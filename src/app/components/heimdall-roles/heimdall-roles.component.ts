@@ -8,6 +8,7 @@ import {RoleService} from '../../services/role-service/role-service';
 import {SnackBarService} from '../../services/snack-bar/snack-bar-service';
 import {RealmService} from '../../services/realm-service/realm-service';
 import {ParentRealm, Realm} from '../../models/Realm';
+import {SubSink} from 'subsink';
 
 @Component({
   selector: 'app-heimdall-roles',
@@ -18,6 +19,7 @@ export class HeimdallRolesComponent implements OnInit {
   displayedColumns: string[] = ['Roles'];
   allRoles: Role[];
   realm: Realm;
+  subSink = new SubSink();
 
   form = new FormGroup({
     name: new FormControl('', Validators.required)
@@ -31,10 +33,13 @@ export class HeimdallRolesComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.realmService.realm.subscribe((data: ParentRealm) => {
+    this.subSink.add(this.realmService.realm.subscribe((data: ParentRealm) => {
       this.allRoles = data.roles;
       this.realm = data.realm;
-    });
+    }));
+  }
+  ngOnDestroy(){
+    this.subSink.unsubscribe();
   }
 
   onSubmit() {
@@ -48,32 +53,32 @@ export class HeimdallRolesComponent implements OnInit {
       if (data !== undefined) {
         let role = {} as Role;
         role.name = data;
-        this.service.updateRoleByName(currentRoleName, role, this.realm.name).subscribe(() => {
+        this.subSink.add(this.service.updateRoleByName(currentRoleName, role, this.realm.name).subscribe(() => {
           this.realmService.setRealm(this.realm.name);
         }, error => {
           this.snackBar.openSnackBar(error.error.message, 2000);
-        });
+        }));
       }
     });
   }
 
   addRole(role: Role) {
-    this.service.addRole(role, this.realm.name).subscribe(() => {
+    this.subSink.add(this.service.addRole(role, this.realm.name).subscribe(() => {
       this.realmService.setRealm(this.realm.name);
     }, error => {
       this.snackBar.openSnackBar(error.error.message, 2000);
-    });
+    }));
   }
 
   deleteRole(role) {
     const dialogRef = this.dialog.open(DeleteDialogComponent);
     dialogRef.afterClosed().subscribe(data => {
       if (data == 'true') {
-        this.service.deleteRole(role, this.realm.name).subscribe(() => {
+        this.subSink.add(this.service.deleteRole(role, this.realm.name).subscribe(() => {
           this.realmService.setRealm(this.realm.name);
         }, error => {
           this.snackBar.openSnackBar(error.error.message, 4000);
-        });
+        }));
       }
     });
   }

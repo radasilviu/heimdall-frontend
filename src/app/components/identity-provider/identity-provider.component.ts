@@ -1,8 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {IdentityProviderService} from '../../services/identity-provider-service/identity-provider-service';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {Subscription} from 'rxjs';
 import {SnackBarService} from '../../services/snack-bar/snack-bar-service';
+import {SubSink} from 'subsink';
 
 
 @Component({
@@ -11,10 +11,10 @@ import {SnackBarService} from '../../services/snack-bar/snack-bar-service';
   styleUrls: ['./identity-provider.component.css']
 })
 export class IdentityProviderComponent implements OnInit {
-  private subscription: Subscription;
+  subSink = new SubSink();
 
   constructor(private identityService: IdentityProviderService,
-              private snackBar:SnackBarService) {
+              private snackBar: SnackBarService) {
   }
 
   identityGroup = new FormGroup({
@@ -22,15 +22,15 @@ export class IdentityProviderComponent implements OnInit {
   });
 
   ngOnInit(): void {
-    this.subscription = this.identityService.getGoogleProvider().subscribe(data => {
+    this.subSink.add(this.identityService.getGoogleProvider().subscribe(data => {
       this.identityGroup.patchValue({
         googleIsActive: data
       });
-    },error => this.snackBar.openSnackBar(error.error.message,4000));
+    }, error => this.snackBar.openSnackBar(error.error.message, 4000)));
   }
 
   ngOnDestroy() {
-    this.subscription.unsubscribe();
+    this.subSink.unsubscribe();
   }
 
 

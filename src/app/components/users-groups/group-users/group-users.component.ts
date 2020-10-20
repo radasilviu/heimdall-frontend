@@ -11,6 +11,7 @@ import {ParentRealm, Realm} from '../../../models/Realm';
 import {RoleService} from '../../../services/role-service/role-service';
 import {Role} from '../../../models/Role';
 import {RealmService} from '../../../services/realm-service/realm-service';
+import {SubSink} from 'subsink';
 
 @Component({
   selector: 'app-group-users',
@@ -23,6 +24,7 @@ export class GroupUsersComponent implements OnInit {
   users: User[];
   roles: Role[];
   groupUsers: User[] = [];
+  subSink = new SubSink();
 
   constructor(private router: Router,
               private groupService: GroupService,
@@ -37,41 +39,45 @@ export class GroupUsersComponent implements OnInit {
     this.getData();
   }
 
+  ngOnDestroy(){
+    this.subSink.unsubscribe();
+  }
+
   getData() {
-    this.groupService.group.subscribe((data: Group) => {
+    this.subSink.add(this.groupService.group.subscribe((data: Group) => {
       this.group = data;
       this.groupUsers = data.users;
       // @ts-ignore
       this.realm = data.realm;
-    });
-    this.realmService.realm.subscribe((data: ParentRealm) => {
+    }));
+    this.subSink.add(this.realmService.realm.subscribe((data: ParentRealm) => {
       this.users = data.users;
       this.roles = data.roles;
-    });
+    }));
   }
 
   addRoleToAllUsers(role) {
-    this.groupService.addRoleToGroup(this.realm.name, this.group.name, role.name).subscribe(() => {
-    }, error => this.snackbar.openSnackBar(error.error.message, 4000));
+    this.subSink.add(this.groupService.addRoleToGroup(this.realm.name, this.group.name, role.name).subscribe(() => {
+    }, error => this.snackbar.openSnackBar(error.error.message, 4000)));
   }
 
   addUserToGroup(user) {
-    this.groupService.addUserToGroup(this.group.name, user, this.realm.name).subscribe(data => {
+    this.subSink.add(this.groupService.addUserToGroup(this.group.name, user, this.realm.name).subscribe(data => {
       this.groupService.setGroup(this.group.name, this.realm.name);
     }, error => {
       this.snackbar.openSnackBar(error.error.message, 3000);
-    });
+    }));
   }
 
   deleteUserFromGroup(user) {
     let dialogRef = this.dialog.open(DeleteDialogComponent);
     dialogRef.afterClosed().subscribe(data => {
       if (data == 'true') {
-        this.groupService.deleteUserFromGroup(this.group, user, this.realm.name).subscribe(data => {
+        this.subSink.add(this.groupService.deleteUserFromGroup(this.group, user, this.realm.name).subscribe(data => {
           this.groupService.setGroup(this.group.name, this.realm.name);
         }, error => {
           this.snackbar.openSnackBar(error.error.message, 3000);
-        });
+        }));
       }
     }, error => this.snackbar.openSnackBar(error.error.message, 4000));
   }
