@@ -10,6 +10,7 @@ import {UserService} from '../../services/user-service/user-service';
 import {SnackBarService} from '../../services/snack-bar/snack-bar-service';
 import {ParentRealm, Realm} from '../../models/Realm';
 import {SubSink} from 'subsink';
+import {JwtHelperService} from '@auth0/angular-jwt';
 
 @Component({
   selector: 'app-users',

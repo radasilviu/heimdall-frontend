@@ -7,11 +7,17 @@
       <table mat-table [dataSource]="users" class="mat-elevation-z8 w-75 client-table ">
         <ng-container matColumnDef="username">
           <th mat-header-cell *matHeaderCellDef> Username</th>
-          <td mat-cell *matCellDef="let element"> {{element.username}} </td>
+          <td class="col-3" mat-cell *matCellDef="let element"> {{element.username}} </td>
         </ng-container>
         <ng-container matColumnDef="isActive">
-          <th mat-header-cell *matHeaderCellDef> User Roles</th>
-          <td mat-cell *matCellDef="let element">
+          <th mat-header-cell *matHeaderCellDef> Session Created Date</th>
+          <td mat-cell class="col-6" *matCellDef="let element">
+            <div *ngIf="element.active">
+              {{element.active | date: 'short' }}
+            </div>
+            <div *ngIf="!element.active">
+                Session not created yet
+            </div>
           </td>
         </ng-container>
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
