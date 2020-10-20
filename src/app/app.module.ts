@@ -1,13 +1,12 @@
 import {BrowserModule} from '@angular/platform-browser';
 import {NgModule} from '@angular/core';
-import {FormsModule} from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {AppRoutingModule, routingComponents} from './app-routing.module';
 import {AppComponent} from './app.component';
 import {LoginComponent} from './components/login/login.component';
-import {HTTP_INTERCEPTORS} from '@angular/common/http';
+import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {HttpClientModule} from '@angular/common/http';
 import {MatListModule} from '@angular/material/list';
 import {MatInputModule} from '@angular/material/input';
 import {MatTableModule} from '@angular/material/table';
@@ -18,7 +17,6 @@ import {MatButtonModule} from '@angular/material/button';
 import {UsersComponent} from './components/users/users.component';
 import {RolesComponent} from './components/roles/roles.component';
 import {ClientLoginComponent} from './components/client-login/client-login.component';
-import {ReactiveFormsModule} from '@angular/forms';
 import {AuthInterceptor} from './interceptors/auth/auth.interceptor';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
@@ -40,22 +38,17 @@ import {ForgotPasswordComponent} from './components/forgot-password/forgot-passw
 import {ChangePasswordComponent} from './components/change-password/change-password.component';
 import {UserProfileComponent} from './components/user-profile/user-profile.component';
 import {UserProfileLoginComponent} from './components/user-profile-login/user-profile-login.component';
-import {NotFoundComponent} from './components/error-pages/not-found/not-found.component';
-import {RealmNotFoundComponent} from './components/error-pages/realm-not-found/realm-not-found.component';
 import {DeleteDialogComponent} from './components/dialogs/delete-dialog/delete-dialog.component';
 import {AddRealmComponent} from './components/add-realm/add-realm.component';
 
-import {SocialLoginModule, SocialAuthServiceConfig} from 'angularx-social-login';
-import {
-  GoogleLoginProvider,
-  FacebookLoginProvider,
-  AmazonLoginProvider,
-} from 'angularx-social-login';
-import { IdentityProviderComponent } from './components/identity-provider/identity-provider.component';
-import { UsersGroupsComponent } from './components/users-groups/users-groups.component';
-import { CreateGroupComponent } from './components/users-groups/create-group/create-group.component';
-import { GroupUsersComponent } from './components/users-groups/group-users/group-users.component';
-import { UserSessionComponent } from './components/user-session/user-session.component';
+import {GoogleLoginProvider, SocialAuthServiceConfig, SocialLoginModule} from 'angularx-social-login';
+import {IdentityProviderComponent} from './components/identity-provider/identity-provider.component';
+import {UsersGroupsComponent} from './components/users-groups/users-groups.component';
+import {CreateGroupComponent} from './components/users-groups/create-group/create-group.component';
+import {GroupUsersComponent} from './components/users-groups/group-users/group-users.component';
+import {UserSessionComponent} from './components/user-session/user-session.component';
+import {NotFoundComponent} from './components/error-pages/not-found/not-found.component';
+import {RealmNotFoundComponent} from './components/error-pages/realm-not-found/realm-not-found.component';
 
 @NgModule({
   declarations: [
@@ -82,6 +75,8 @@ import { UserSessionComponent } from './components/user-session/user-session.com
     DeleteDialogComponent,
     IdentityProviderComponent,
     UsersGroupsComponent,
+    NotFoundComponent,
+    RealmNotFoundComponent,
     CreateGroupComponent,
     GroupUsersComponent,
     UserSessionComponent,
