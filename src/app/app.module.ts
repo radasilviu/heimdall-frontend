@@ -40,7 +40,6 @@ import {UserProfileComponent} from './components/user-profile/user-profile.compo
 import {UserProfileLoginComponent} from './components/user-profile-login/user-profile-login.component';
 import {DeleteDialogComponent} from './components/dialogs/delete-dialog/delete-dialog.component';
 import {AddRealmComponent} from './components/add-realm/add-realm.component';
-
 import {GoogleLoginProvider, SocialAuthServiceConfig, SocialLoginModule} from 'angularx-social-login';
 import {IdentityProviderComponent} from './components/identity-provider/identity-provider.component';
 import {UsersGroupsComponent} from './components/users-groups/users-groups.component';

@@ -2,7 +2,6 @@ import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
 import {MatDialog} from '@angular/material/dialog';
 import {ClientDialogComponent} from '../dialogs/client-dialog/client-dialog.component';
 import {Client} from '../../models/Client';
-import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {DeleteDialogComponent} from '../dialogs/delete-dialog/delete-dialog.component';
 import {ClientService} from '../../services/clientService/client-service';
 import {SnackBarService} from '../../services/snack-bar/snack-bar-service';
@@ -22,10 +21,6 @@ export class ClientsComponent implements OnInit {
   clients: Client[];
   displayedColumns: string[] = ['name'];
   subSink = new SubSink();
-
-  form = new FormGroup({
-    clientName: new FormControl('', Validators.required),
-  });
 
   constructor(private changeDetectorRefs: ChangeDetectorRef,
               private service: ClientService,
@@ -47,6 +42,7 @@ export class ClientsComponent implements OnInit {
   }
 
   updateClient(currentClientName: string) {
+    localStorage.setItem('clientEdit', 'true');
     const dialogRef = this.dialog.open(ClientDialogComponent);
 
     dialogRef.afterClosed().subscribe(data => {
@@ -77,11 +73,17 @@ export class ClientsComponent implements OnInit {
     });
   }
 
-  onSubmit() {
-    this.subSink.add(this.service.addClient(this.form.value, this.realm.name).subscribe(data => {
-      this.realmService.setRealm(this.realm.name);
-    }, error => {
-      this.snackBar.openSnackBar(error.error.message, 2000);
-    }));
+  addClient() {
+    localStorage.setItem('clientEdit', '');
+    const dialogRef = this.dialog.open(ClientDialogComponent);
+    dialogRef.afterClosed().subscribe(data => {
+      if (data) {
+        this.subSink.add(this.service.addClient(data, this.realm.name).subscribe(data => {
+          this.realmService.setRealm(this.realm.name);
+        }, error => {
+          this.snackBar.openSnackBar(error.error.message, 2000);
+        }));
+      }
+    });
   }
 }

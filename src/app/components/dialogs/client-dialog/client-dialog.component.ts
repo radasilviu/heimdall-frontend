@@ -8,14 +8,12 @@ import {FormControl, FormGroup, Validators} from '@angular/forms';
   styleUrls: ['./client-dialog.component.css']
 })
 export class ClientDialogComponent implements OnInit {
-
-
+  editUser:string;
 
   newClientForm = new FormGroup({
-    clientFrontendUrl: new FormControl('',Validators.required),
-    authorizationServerFrontendURL: new FormControl('',Validators.required),
-    clientBackendURL: new FormControl("",Validators.required)
-
+    clientFrontendUrl: new FormControl('', Validators.required),
+    authorizationServerFrontendURL: new FormControl('', Validators.required),
+    clientBackendURL: new FormControl('', Validators.required)
   });
 
 
@@ -25,9 +23,10 @@ export class ClientDialogComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.editUser = localStorage.getItem("clientEdit")
   }
 
-  onSubmite(){
-    console.log(this.newClientForm.value)
+  onSubmit() {
+    this.dialogRef.close(this.newClientForm.value)
   }
 }
