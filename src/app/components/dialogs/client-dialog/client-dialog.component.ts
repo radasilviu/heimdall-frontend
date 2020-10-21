@@ -1,5 +1,6 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
+import {FormControl, FormGroup, Validators} from '@angular/forms';
 
 @Component({
   selector: 'app-client-dialog',
@@ -8,7 +9,15 @@ import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 })
 export class ClientDialogComponent implements OnInit {
 
-  newClient: string;
+
+
+  newClientForm = new FormGroup({
+    clientFrontendUrl: new FormControl('',Validators.required),
+    authorizationServerFrontendURL: new FormControl('',Validators.required),
+    clientBackendURL: new FormControl("",Validators.required)
+
+  });
+
 
   constructor(
     public dialogRef: MatDialogRef<ClientDialogComponent>,
@@ -18,7 +27,7 @@ export class ClientDialogComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  onNoClick(): void {
-    this.dialogRef.close();
+  onSubmite(){
+    console.log(this.newClientForm.value)
   }
 }

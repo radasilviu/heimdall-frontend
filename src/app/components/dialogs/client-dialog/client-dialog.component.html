@@ -1,14 +1,17 @@
-<div class="dialog">
-
-  <mat-form-field>
-    <mat-label>New Client Name</mat-label>
-    <input autocomplete="off" matInput type="text" [(ngModel)]="newClient">
-  </mat-form-field>
-  <div mat-dialog-actions>
-    <div>
-      <button mat-button [mat-dialog-close]="newClient" cdkFocusInitial>Submite</button>
-      <button mat-button [mat-dialog-close]="" cdkFocusInitial>Cancel</button>
+<div class="container-fluid">
+  <form>
+    <div class="form-group" [formGroup]="newClientForm"  (submit)="onSubmite()">
+      <h1 class="text-center font-italic mb-4">New Client</h1>
+      <input type="text" class="form-control" placeholder="Client Name">
+      <br/>
+      <input type="text" formControlName="clientFrontendUrl" class="form-control" placeholder="ClientFrontendUrl">
+      <br/>
+      <input type="text" formControlName="authorizationServerFrontendURL" class="form-control" placeholder="ClientBackendURL">
+      <br/>
+      <input type="text" formControlName="clientBackendURL" class="form-control" placeholder="AuthorizationFrontendUrl">
     </div>
-  </div>
+    <button type="submit" class="btn btn-primary float-right mb-2">Save</button>
 
+    <button class="btn btn-primary mr-3 float-right mb-2">Cancel</button>
+  </form>
 </div>
