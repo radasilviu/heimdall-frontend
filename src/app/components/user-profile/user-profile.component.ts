@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {AdminAuthService} from '../../services/admin-auth/admin-auth.service';
 import {RealmService} from '../../services/realm-service/realm-service';
 import {Realm} from '../../models/Realm';
@@ -12,10 +12,11 @@ export class UserProfileComponent implements OnInit {
 
   realm: Realm;
 
-  constructor(private adminAuthService: AdminAuthService, private realmService: RealmService) { }
+  constructor(private adminAuthService: AdminAuthService, private realmService: RealmService) {
+  }
 
   ngOnInit(): void {
-    this.realmService.getRealm.subscribe(data => this.realm =data)
+    //this.realmService.getRealm.subscribe(data => this.realm =data)
   }
 
   logout(): void {

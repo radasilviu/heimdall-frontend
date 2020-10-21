@@ -6,7 +6,9 @@ import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {DeleteDialogComponent} from '../dialogs/delete-dialog/delete-dialog.component';
 import {ClientService} from '../../services/clientService/client-service';
 import {SnackBarService} from '../../services/snack-bar/snack-bar-service';
-
+import {ParentRealm, Realm} from '../../models/Realm';
+import {RealmService} from '../../services/realm-service/realm-service';
+import {SubSink} from 'subsink';
 
 @Component({
   selector: 'app-clients',
@@ -15,11 +17,12 @@ import {SnackBarService} from '../../services/snack-bar/snack-bar-service';
 })
 
 export class ClientsComponent implements OnInit {
-  allClients: Client[];
-  errorMessage: string;
-  Client = <Client> {};
-
+  realm: Realm;
+  client: Client;
+  clients: Client[];
   displayedColumns: string[] = ['name'];
+  subSink = new SubSink();
+
   form = new FormGroup({
     clientName: new FormControl('', Validators.required),
   });
@@ -27,55 +30,58 @@ export class ClientsComponent implements OnInit {
   constructor(private changeDetectorRefs: ChangeDetectorRef,
               private service: ClientService,
               private snackBar: SnackBarService,
-              public dialog: MatDialog) {
+              private dialog: MatDialog,
+              private clientService: ClientService,
+              private realmService: RealmService) {
+  }
+
+  ngOnInit(): void {
+    this.subSink.add(this.realmService.realm.subscribe((data: ParentRealm) => {
+      this.clients = data.clients;
+      this.realm = data.realm;
+    }));
+  }
+
+  ngOnDestroy() {
+    this.subSink.unsubscribe();
   }
 
   updateClient(currentClientName: string) {
     const dialogRef = this.dialog.open(ClientDialogComponent);
+
     dialogRef.afterClosed().subscribe(data => {
       if (data !== undefined) {
-        this.Client.clientName = data;
-        this.service.updateClientByName(currentClientName, this.Client).subscribe(
+        let client = {} as Client;
+        client.clientName = data;
+        this.subSink.add(this.service.updateClientByName(currentClientName, client, this.realm.name).subscribe(
           data => {
-            this.getAllClients();
+            this.realmService.setRealm(this.realm.name);
           }, error => {
             this.snackBar.openSnackBar(error.error.message, 2000);
-          });
+          }));
       }
     });
   }
 
   deleteClient(clientName) {
     const dialogRef = this.dialog.open(DeleteDialogComponent);
+
     dialogRef.afterClosed().subscribe(data => {
       if (data == 'true') {
-        this.service.deleteClient(clientName).subscribe(() => {
-          this.getAllClients();
-        });
+        this.subSink.add(this.service.deleteClient(clientName, this.realm.name).subscribe(() => {
+          this.realmService.setRealm(this.realm.name);
+        }, error => {
+          this.snackBar.openSnackBar(error.error.message, 2000);
+        }));
       }
     });
   }
 
-  ngOnInit(): void {
-    this.getAllClients();
-  }
-
   onSubmit() {
-    this.addClient(this.form.value);
-  }
-
-  getAllClients() {
-    this.service.getAllClients()
-      .subscribe(data => {
-        this.allClients = data;
-      });
-  }
-
-  addClient(client: Client) {
-    this.service.addClient(client).subscribe(data => {
-      this.getAllClients();
+    this.subSink.add(this.service.addClient(this.form.value, this.realm.name).subscribe(data => {
+      this.realmService.setRealm(this.realm.name);
     }, error => {
       this.snackBar.openSnackBar(error.error.message, 2000);
-    });
+    }));
   }
 }

@@ -1,10 +1,10 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Env} from '../../configs/env';
-import {MatSnackBar} from '@angular/material/snack-bar';
-import {Observable, Subject,} from 'rxjs';
-import {Realm} from '../../models/Realm';
-import {Router} from '@angular/router';
+import {BehaviorSubject, ReplaySubject,} from 'rxjs';
+import {ParentRealm, Realm} from '../../models/Realm';
+import {SnackBarService} from '../snack-bar/snack-bar-service';
+import {User} from '../../models/User';
 
 const url = Env.apiRootURL + '/api/admin/realm';
 
@@ -12,38 +12,42 @@ const url = Env.apiRootURL + '/api/admin/realm';
   providedIn: 'root'
 })
 export class RealmService {
-  realms: any = new Subject<Realm>();
-  currentRealm = new Subject<Realm>();
 
-  getAllRealms = this.realms.asObservable();
+  realms$ = new BehaviorSubject(null);
+  realm = new ReplaySubject(1);
 
-  getRealm = this.currentRealm.asObservable();
-
-  editRealm(realm) {
-    this.currentRealm.next(realm);
+  constructor(private http: HttpClient,
+              private snackBar: SnackBarService) {
   }
 
-  editRealms(realms) {
-    this.realms.next(realms);
+  setRealms(data) {
+    this.realms$.next(data);
   }
 
-  constructor(private http: HttpClient, private snackBar: MatSnackBar, private router: Router) {
+  setRealm(realmName) {
+    this.getRealmByName(realmName).subscribe(data => {
+      this.realm.next(data);
+    }, error => this.snackBar.openSnackBar(error.error.message, 4000));
   }
 
-  getRealms(): Observable<Realm[]> {
+  getRealms() {
     return this.http.get<Realm[]>(url + '/list');
   }
 
-  updateRealmByName(currentRealmName: string, realm: Realm) {
-    return this.http.put<Realm>(url + '/general-update/' + currentRealmName, realm);
+  getRealmByName(realmName: string) {
+    return this.http.get<ParentRealm>(url + '/' + realmName);
   }
 
-  updateLoginSettings(realm, loginForm) {
-    return this.http.put(url + '/login-update/' + realm.name, loginForm);
+  updateRealmByName(realmName: string, realm: Realm) {
+    return this.http.put<Realm>(url + '/general-update/' + realmName, realm);
+  }
+
+  updateLoginSettings(realmName: string, User: User) {
+    return this.http.put(url + '/login-update/' + realmName, User);
   }
 
   addNewRealm(realm: Realm) {
-    return this.http.post<Realm>(url + "/", realm);
+    return this.http.post<Realm>(url + '/', realm);
   }
 
   deleteRealmByName(realm: Realm) {

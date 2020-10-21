@@ -1,7 +1,9 @@
 import {Component, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {Realm} from '../../../models/Realm';
+import {ParentRealm, Realm} from '../../../models/Realm';
 import {RealmService} from '../../../services/realm-service/realm-service';
+import {SnackBarService} from '../../../services/snack-bar/snack-bar-service';
+import {SubSink} from 'subsink';
 
 @Component({
   selector: 'app-realm-login-setting',
@@ -10,37 +12,45 @@ import {RealmService} from '../../../services/realm-service/realm-service';
 })
 export class RealmLoginSettingComponent implements OnInit {
   realm: Realm;
-  loginForm = new FormGroup({
+  subSink = new SubSink();
+  loginForm: FormGroup = new FormGroup({
     userRegistration: new FormControl(false, Validators.required),
     editUsername: new FormControl(false, Validators.required),
     forgotPassword: new FormControl(false, Validators.required),
     rememberMe: new FormControl(false, Validators.required),
     verifyEmail: new FormControl(false, Validators.required),
-    loginWithEmail: new FormControl(false, Validators.required),
+    loginWithEmail: new FormControl(false, Validators.required)
   });
 
-  constructor(private realmService: RealmService) {
+  constructor(private realmService: RealmService,
+              private snackBar: SnackBarService) {
   }
 
-  ngOnInit(): void {
-    this.realmService.getRealm.subscribe(data => this.realm = data);
-    this.realmService.getRealm.subscribe(data => {
+  ngOnInit() {
+    this.getRealm();
+  }
+
+  ngOnDestroy() {
+    this.subSink.unsubscribe();
+  }
+
+  getRealm() {
+    this.subSink.add(this.realmService.realm.subscribe((data: ParentRealm) => {
+      this.realm = data.realm;
       this.loginForm.patchValue({
-        userRegistration: data.userRegistration,
-        editUsername: data.editUsername,
-        forgotPassword: data.forgotPassword,
-        rememberMe: data.rememberMe,
-        verifyEmail: data.verifyEmail,
-        loginWithEmail: data.loginWithEmail
+        userRegistration: data.realm.userRegistration,
+        editUsername: data.realm.editUsername,
+        forgotPassword: data.realm.forgotPassword,
+        rememberMe: data.realm.rememberMe,
+        verifyEmail: data.realm.verifyEmail,
+        loginWithEmail: data.realm.loginWithEmail
       });
-    });
+    }));
   }
 
   onSubmit() {
-    this.realmService.updateLoginSettings(this.realm, this.loginForm.value).subscribe(data => {
-      this.realmService.getRealms().subscribe(data => {
-        this.realmService.editRealms(data);
-      });
-    });
+    this.subSink.add(this.realmService.updateLoginSettings(this.realm.name, this.loginForm.value).subscribe((data: Realm) => {
+      this.realm = data;
+    }, error => this.snackBar.openSnackBar(error.error.message, 4000)));
   }
 }

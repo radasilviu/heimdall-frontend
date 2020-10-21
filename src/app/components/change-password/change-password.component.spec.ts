@@ -1,10 +1,9 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { ChangePasswordComponent } from './change-password.component';
-import {HttpClientModule} from '@angular/common/http';
+import {ChangePasswordComponent} from './change-password.component';
 import {RouterTestingModule} from '@angular/router/testing';
 import {HttpClientTestingModule} from '@angular/common/http/testing';
-import {MatSnackBar, MatSnackBarModule} from '@angular/material/snack-bar';
+import {MatSnackBarModule} from '@angular/material/snack-bar';
 
 describe('ChangePasswordComponent', () => {
   let component: ChangePasswordComponent;
@@ -17,9 +16,9 @@ describe('ChangePasswordComponent', () => {
         MatSnackBarModule,
         RouterTestingModule
       ],
-      declarations: [ ChangePasswordComponent ]
+      declarations: [ChangePasswordComponent]
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {

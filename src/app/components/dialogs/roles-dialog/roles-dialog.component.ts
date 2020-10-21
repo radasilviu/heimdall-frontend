@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 
 @Component({
   selector: 'app-roles-dialog',
@@ -6,8 +6,10 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./roles-dialog.component.css']
 })
 export class RolesDialogComponent implements OnInit {
-  newRoleName:string;
-  constructor() { }
+  newRoleName: string;
+
+  constructor() {
+  }
 
   ngOnInit(): void {
   }

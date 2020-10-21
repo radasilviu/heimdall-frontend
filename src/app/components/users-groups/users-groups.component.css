@@ -1,11 +1,13 @@
-.groupNav{
+.groupNav {
   border-top-left-radius: 15px;
   border-top-right-radius: 15px;
 }
+
 .groupTable {
   table-layout: fixed;
   word-wrap: break-word;
 }
-.groupName{
-  vertical-align:middle;
+
+.groupName {
+  vertical-align: middle;
 }

@@ -1,8 +1,10 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Client} from '../../models/Client';
-import {Observable} from 'rxjs';
+import {Observable, Subject} from 'rxjs';
 import {Env} from '../../configs/env';
+import {tap} from 'rxjs/operators';
+import {SnackBarService} from '../snack-bar/snack-bar-service';
 
 const url = Env.apiRootURL + '/api';
 
@@ -11,24 +13,38 @@ const url = Env.apiRootURL + '/api';
 })
 export class ClientService {
 
-  constructor(private http: HttpClient) {}
+  clients = new Subject<Client[]>();
 
-  updateClientByName(currentClientName: string, client: Client) {
-
-    return this.http.put(url + '/client/' + currentClientName, client);
+  constructor(private http: HttpClient,
+              private snackBar: SnackBarService) {
   }
 
-  getAllClients(): Observable<Client[]> {
-    return this.http.get<Client[]>(url + '/client');
+  setClients(realm) {
+    this.getAllClients(realm.name).subscribe(data => {
+      return this.clients.next(data);
+    }, error => this.snackBar.openSnackBar(error.error.message, 4000));
+  }
+
+  updateClientByName(currentClientName: string, client: Client, realmName: string) {
+    return this.http.put(url + '/client/' + realmName + '/' + currentClientName, client).pipe(tap(() => {
+      this.clients.next();
+    }));
+  }
+
+  getAllClients(realmName: string): Observable<Client[]> {
+    return this.http.get<Client[]>(url + '/client/' + realmName);
   }
 
 
-  deleteClient(clientName: string) {
-    return this.http.request('delete', url + '/client/' + clientName);
+  deleteClient(clientName: string, realmName: string) {
+    return this.http.request('delete', url + '/client/' + realmName + '/' + clientName).pipe(tap(() => {
+      this.clients.next();
+    }));
   }
 
-  addClient(client: Client) {
-    return this.http.post<any>(url + '/client', client);
+  addClient(client: Client, realmName: string) {
+    return this.http.post<any>(url + '/client/' + realmName, client).pipe(tap(() => {
+      this.clients.next();
+    }));
   }
-
 }

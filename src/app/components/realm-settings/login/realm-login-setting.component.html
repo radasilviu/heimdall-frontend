@@ -1,10 +1,11 @@
-<form [formGroup]="loginForm" *ngIf="this.loginForm" (ngSubmit)="onSubmit()">
+<form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
   <div class="row h-100 justify-content-center align-items-center">
     <div class="col-12">
       <mat-slide-toggle color="primary" formControlName="userRegistration">
         User registration
       </mat-slide-toggle>
     </div>
+
     <div class="col-12">
       <mat-slide-toggle color="primary" formControlName="editUsername">
         Edit username

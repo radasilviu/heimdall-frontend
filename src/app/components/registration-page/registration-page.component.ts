@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {RegisterApiService} from 'src/app/services/register-service/register-api-service';
 import {PasswordMatcher} from './PasswordMatcher';
+import {SubSink} from 'subsink';
 
 @Component({
   selector: 'app-registration-page',
@@ -10,12 +11,15 @@ import {PasswordMatcher} from './PasswordMatcher';
 })
 export class RegistrationPageComponent implements OnInit {
   registerForm: FormGroup;
+  homeUrl: string;
+  subSink = new SubSink();
 
   constructor(private service: RegisterApiService, private formBuilder: FormBuilder) {
   }
 
-  // tslint:disable-next-line:typedef
   ngOnInit(): void {
+    this.homeUrl = localStorage.getItem('url');
+
     this.registerForm = this.formBuilder.group({
       username: new FormControl('', [Validators.required]),
       password: new FormControl('', [Validators.required]),
@@ -26,7 +30,13 @@ export class RegistrationPageComponent implements OnInit {
     });
   }
 
-  register() {
-    this.service.registerUser(this.registerForm.value).subscribe();
+  ngOnDestroy() {
+    this.subSink.unsubscribe();
   }
+
+  register() {
+    this.subSink.add(
+      this.service.registerUser(this.registerForm.value).subscribe());
+  }
+
 }

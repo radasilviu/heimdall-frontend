@@ -7,6 +7,7 @@ import {catchError, tap} from 'rxjs/operators';
 import {Token} from 'src/app/models/token';
 import {Constants} from 'src/app/utils/constants';
 import {Env} from '../../configs/env';
+import {Realm} from '../../models/Realm';
 
 @Injectable({
   providedIn: 'root'
@@ -17,11 +18,12 @@ export class AdminAuthService {
 
   constructor(private http: HttpClient, private snackBar: MatSnackBar,private router:Router) { }
 
-  login(username: string, password: string): Observable<Token> {
+  login(username: string, password: string,realm:string): Observable<Token> {
     const url = Env.apiRootURL + '/admin/login';
     const body = {
       username: username,
-      password: password
+      password: password,
+      realm:realm
     };
     const options = {
       headers: {

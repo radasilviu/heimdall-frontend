@@ -3,6 +3,7 @@ import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {Router} from '@angular/router';
 import {AdminAuthService} from '../../services/admin-auth/admin-auth.service';
 import {IdentityProviderService} from '../../services/identity-provider-service/identity-provider-service';
+import {SubSink} from 'subsink';
 
 @Component({
   selector: 'app-login',
@@ -12,21 +13,29 @@ import {IdentityProviderService} from '../../services/identity-provider-service/
 
 export class LoginComponent implements OnInit {
   errorMessage: boolean = false;
+  realm: string;
+  loginForm: FormGroup;
+  subSink = new SubSink();
 
   constructor(private identityProviderService: IdentityProviderService,
               private authService: AdminAuthService,
               private router: Router) {
   }
 
-  loginForm: FormGroup;
 
   ngOnInit(): void {
-    this.identityProviderService.getGoogleProvider().subscribe(data => {
-    });
+    this.realm = 'master0';
+
+    this.subSink.add(this.identityProviderService.getGoogleProvider().subscribe(data => {
+    }));
     this.loginForm = new FormGroup({
       username: new FormControl('', [Validators.required]),
       password: new FormControl('', [Validators.required])
     });
+  }
+
+  ngOnDestroy() {
+    this.subSink.unsubscribe();
   }
 
   login(): void {
@@ -34,8 +43,9 @@ export class LoginComponent implements OnInit {
     const username = this.loginForm.get('username').value;
     const password = this.loginForm.get('password').value;
 
-    this.authService
-      .login(username, password)
+    this.subSink.add(this.authService
+      .login(username, password, this.realm)
+
       .subscribe(
         user => {
           this.router.navigate(['home']);
@@ -43,6 +53,6 @@ export class LoginComponent implements OnInit {
         error => {
           this.errorMessage = true;
         }
-      );
+      ));
   }
 }

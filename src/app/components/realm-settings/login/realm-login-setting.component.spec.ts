@@ -1,6 +1,6 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { RealmLoginSettingComponent } from './realm-login-setting.component';
+import {RealmLoginSettingComponent} from './realm-login-setting.component';
 import {HttpClientTestingModule} from '@angular/common/http/testing';
 import {RouterTestingModule} from '@angular/router/testing';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
@@ -16,9 +16,9 @@ describe('RealmLoginSettingsComponent', () => {
         RouterTestingModule,
         MatSnackBarModule
       ],
-      declarations: [ RealmLoginSettingComponent ]
+      declarations: [RealmLoginSettingComponent]
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {

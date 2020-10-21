@@ -1,10 +1,9 @@
-import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { AdminAuthService } from '../../services/admin-auth/admin-auth.service';
-import { ActivatedRoute, Router } from '@angular/router';
-import { RealmService } from '../../services/realm-service/realm-service';
-import { Realm } from '../../models/Realm';
-import { Token } from '../../models/token';
+import {Component, OnInit} from '@angular/core';
+import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {AdminAuthService} from '../../services/admin-auth/admin-auth.service';
+import {Router} from '@angular/router';
+import {Realm} from '../../models/Realm';
+import {Token} from '../../models/token';
 
 @Component({
   selector: 'app-user-profile-login',
@@ -13,17 +12,19 @@ import { Token } from '../../models/token';
 })
 export class UserProfileLoginComponent implements OnInit {
 
-  loginForm: FormGroup;
+  loginForm: FormGroup = new FormGroup({
+    username: new FormControl('', [Validators.required]),
+    password: new FormControl('', [Validators.required])
+  });
+
   realm: Realm;
 
-  constructor(private authService: AdminAuthService, private router: Router, private route: ActivatedRoute,
-              private realmService: RealmService) { }
+  constructor(private authService: AdminAuthService,
+              private router: Router) {
+  }
 
   ngOnInit(): void {
-    this.loginForm = new FormGroup({
-      username: new FormControl('', [Validators.required]),
-      password: new FormControl('', [Validators.required])
-    });
+
   }
 
   login(): void {

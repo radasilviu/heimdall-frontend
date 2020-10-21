@@ -1,6 +1,6 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { RealmNotFoundComponent } from './realm-not-found.component';
+import {RealmNotFoundComponent} from './realm-not-found.component';
 
 describe('RealmNotFoundComponent', () => {
   let component: RealmNotFoundComponent;
@@ -8,9 +8,9 @@ describe('RealmNotFoundComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ RealmNotFoundComponent ]
+      declarations: [RealmNotFoundComponent]
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {

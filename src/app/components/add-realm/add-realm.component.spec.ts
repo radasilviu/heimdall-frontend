@@ -1,9 +1,9 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { AddRealmComponent } from './add-realm.component';
+import {AddRealmComponent} from './add-realm.component';
 import {HttpClientTestingModule} from '@angular/common/http/testing';
 import {RouterTestingModule} from '@angular/router/testing';
-import {FormBuilder, ReactiveFormsModule} from '@angular/forms';
+import {ReactiveFormsModule} from '@angular/forms';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
 
 describe('AddRealmComponent', () => {
@@ -18,9 +18,9 @@ describe('AddRealmComponent', () => {
         RouterTestingModule,
         MatSnackBarModule,
       ],
-      declarations: [ AddRealmComponent ]
+      declarations: [AddRealmComponent]
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {ForgotPasswordService} from '../../services/forgot-password/forgot-password.service';
 import {Router} from '@angular/router';
@@ -11,7 +11,8 @@ import {MatSnackBar} from '@angular/material/snack-bar';
 })
 export class ForgotPasswordComponent implements OnInit {
 
-  constructor(private forgotPasswordService: ForgotPasswordService, private router: Router, private snackBar: MatSnackBar) { }
+  constructor(private forgotPasswordService: ForgotPasswordService, private router: Router, private snackBar: MatSnackBar) {
+  }
 
   forgotPasswordForm: FormGroup;
 

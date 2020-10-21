@@ -5,6 +5,10 @@ import {Router} from '@angular/router';
 import {MatDialog} from '@angular/material/dialog';
 import {DeleteDialogComponent} from '../dialogs/delete-dialog/delete-dialog.component';
 import {SnackBarService} from '../../services/snack-bar/snack-bar-service';
+import {RealmService} from '../../services/realm-service/realm-service';
+import {ParentRealm, Realm} from '../../models/Realm';
+import {Role} from '../../models/Role';
+import {SubSink} from 'subsink';
 
 @Component({
   selector: 'app-users-groups',
@@ -12,25 +16,37 @@ import {SnackBarService} from '../../services/snack-bar/snack-bar-service';
   styleUrls: ['./users-groups.component.css']
 })
 export class UsersGroupsComponent implements OnInit {
+  realm: Realm;
+  roles: Role[];
+  allGroups: Group[];
+  subSink = new SubSink();
 
   constructor(private groupService: GroupService,
               private router: Router,
-              public dialog: MatDialog,
+              private realmService: RealmService,
+              private dialog: MatDialog,
               private snackbar: SnackBarService) {
   }
 
-  Groups: Group[];
-
-  ngOnInit(): void {
-    this.getAllGroups();
+  ngOnInit() {
+    this.getRealm();
   }
 
-  getAllGroups() {
-    this.groupService.getAllGroups().subscribe(data => {
-      this.Groups = data;
-    }, error => {
-      this.snackbar.openSnackBar(error.error.message, 3000);
-    });
+  ngOnDestroy() {
+    this.subSink.unsubscribe();
+  }
+
+  getRealm() {
+    this.subSink.add(this.realmService.realm.subscribe((data: ParentRealm) => {
+      this.allGroups = data.groups;
+      this.realm = data.realm;
+      this.roles = data.roles;
+    }));
+  }
+
+  details(group) {
+    this.groupService.setGroup(group.name, this.realm.name);
+    this.router.navigate(['/home/group-users']);
   }
 
   deleteGroup(group) {
@@ -38,17 +54,12 @@ export class UsersGroupsComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(data => {
       if (data == 'true') {
-        this.groupService.deleteGroupByName(group).subscribe(data => {
-          this.getAllGroups();
+        this.subSink.add(this.groupService.deleteGroupByName(group, this.realm.name).subscribe(data => {
+          this.realmService.setRealm(this.realm.name);
         }, error => {
-          this.snackbar.openSnackBar(error.error.message, 3000);
-        });
+          this.snackbar.openSnackBar(error.message, 2000);
+        }));
       }
     });
-  }
-
-  groupUsers(group) {
-    localStorage.setItem('groupName', group.name);
-    this.router.navigate(['/home/group-users']);
   }
 }
