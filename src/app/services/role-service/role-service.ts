@@ -1,9 +1,11 @@
 import {Injectable} from '@angular/core';
-import {Observable} from 'rxjs';
+import {Observable, Subject} from 'rxjs';
 import {Role} from '../../models/Role';
 import {User} from '../../models/User';
 import {HttpClient} from '@angular/common/http';
 import {Env} from '../../configs/env';
+import {tap} from 'rxjs/operators';
+import {SnackBarService} from '../snack-bar/snack-bar-service';
 
 const url = Env.apiRootURL + '/api';
 
@@ -11,30 +13,49 @@ const url = Env.apiRootURL + '/api';
   providedIn: 'root'
 })
 export class RoleService {
+  roles = new Subject<Role[]>();
 
-  constructor(private http: HttpClient) {}
-
-  getAllRoles(): Observable<Role[]> {
-    return this.http.get<Role[]>(url + '/role');
+  constructor(private http: HttpClient,
+              private snackBar: SnackBarService) {
   }
 
-  addRole(role: Role) {
-    return this.http.post<any>(url + '/role', role);
+  setRoles(realm) {
+    this.getAllRoles(realm.name).subscribe(data => {
+      return this.roles.next(data);
+    }, error => this.snackBar.openSnackBar(error.error.message, 4000));
   }
 
-  deleteRole(role: Role) {
-    return this.http.request('delete', url + '/role/' + role);
+  getAllRoles(realmName: string): Observable<Role[]> {
+    return this.http.get<Role[]>(url + '/role/' + realmName,);
   }
 
-  addUserRole(role: Role, user: User) {
-    return this.http.post<any>(url + '/user/' + user.username + '/addRole', role.name);
+  addRole(role: Role, realmName: string) {
+    return this.http.post<any>(url + '/role/' + realmName, role).pipe(tap(() => {
+      this.roles.next();
+    }));
   }
 
-  updateRoleByName(currentRoleName: string, newRole: Role) {
-    return this.http.put(url + '/role/' + currentRoleName, newRole);
+  deleteRole(role: Role, realmName: string) {
+    return this.http.request('delete', url + '/role/' + realmName + '/' + role).pipe(tap(() => {
+      this.roles.next();
+    }));
   }
 
-  deleteUserRole(user: User, role: Role) {
-    return this.http.request('delete', url + '/user/' + user.username + '/removeRole', {body: role.name});
+  addUserRole(role: Role, user: User, realmName: string) {
+    return this.http.post<any>(url + '/user/' + realmName + '/' + user.username + '/addRole', role.name).pipe(tap(() => {
+      this.roles.next();
+    }));
+  }
+
+  updateRoleByName(currentRoleName: string, newRole: Role, realmName: string) {
+    return this.http.put(url + '/role/' + realmName + '/' + currentRoleName, newRole).pipe(tap(() => {
+      this.roles.next();
+    }));
+  }
+
+  deleteUserRole(user: User, role: Role, realmName: string) {
+    return this.http.request('delete', url + '/user/' + realmName + '/' + user.username + '/removeRole', {body: role.name}).pipe(tap(() => {
+      this.roles.next();
+    }));
   }
 }

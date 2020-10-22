@@ -1,16 +1,16 @@
 .sidenav {
-    height: 93vh;
-    background-color: white;
+  height: 93vh;
+  background-color: white;
 }
 
 .navbar-icon {
-    font-size: 4vh;
-    width: auto;
-    height: auto;
-    user-select: none;
-    cursor: pointer;
+  font-size: 4vh;
+  width: auto;
+  height: auto;
+  user-select: none;
+  cursor: pointer;
 }
 
 .navbar-icon:hover {
-    color: var(--hover-icon-color)
+  color: var(--hover-icon-color)
 }

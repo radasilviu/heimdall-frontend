@@ -1,13 +1,13 @@
 .table-icon {
-    user-select: none;
-    cursor: pointer;
+  user-select: none;
+  cursor: pointer;
 }
 
 .exit-icon:hover {
-    color: var(--hover-icon-color);
-    cursor: pointer;
+  color: var(--hover-icon-color);
+  cursor: pointer;
 }
 
 .table-icon:hover {
-    color: var(--hover-icon-color)
+  color: var(--hover-icon-color)
 }

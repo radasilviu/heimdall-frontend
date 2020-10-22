@@ -1,7 +1,9 @@
 import {Component, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {Realm} from '../../../models/Realm';
+import {ParentRealm, Realm} from '../../../models/Realm';
 import {RealmService} from '../../../services/realm-service/realm-service';
+import {SnackBarService} from '../../../services/snack-bar/snack-bar-service';
+import {SubSink} from 'subsink';
 
 @Component({
   selector: 'app-realm-general-setting',
@@ -9,36 +11,45 @@ import {RealmService} from '../../../services/realm-service/realm-service';
   styleUrls: ['./realm-general-setting.component.css']
 })
 export class RealmGeneralSettingComponent implements OnInit {
-
   realm: Realm;
-  realmName: string;
+  subSink = new SubSink();
+
   generalForm = new FormGroup({
     name: new FormControl('', Validators.required),
     displayName: new FormControl('', Validators.required),
     enabled: new FormControl('', Validators.required)
   });
 
-  constructor(private realmService: RealmService) {
+  constructor(private realmService: RealmService,
+              private snackBar: SnackBarService) {
   }
 
-  ngOnInit(): void {
-    this.realmService.getRealm.subscribe(data => {
-      this.realmName = data.name;
-      this.generalForm.patchValue({
-        name: data.name,
-        displayName: data.displayName,
-        enabled: data.enabled
+  ngOnInit() {
+    this.getRealm();
+  }
+
+  ngOnDestroy() {
+    this.subSink.unsubscribe();
+  }
+
+  getRealm() {
+    this.subSink.add(this.realmService.realm.subscribe((data: ParentRealm) => {
+      this.realm = data.realm;
+      this.generalForm.setValue({
+        name: data.realm.name,
+        displayName: data.realm.displayName,
+        enabled: data.realm.enabled
       });
-    });
+    }));
   }
 
   onSubmit(): void {
-    this.realmService.updateRealmByName(this.realmName, this.generalForm.value).subscribe(data => {
-      this.realmService.editRealm(data);
-
-      this.realmService.getRealms().subscribe(data => {
-        this.realmService.editRealms(data);
-      });
-    });
+    this.subSink.add(this.realmService.updateRealmByName(this.realm.name, this.generalForm.value).subscribe((data: Realm) => {
+      this.realmService.setRealm(data.name);
+      this.subSink.add(this.realmService.getRealms().subscribe(data => {
+        this.realmService.setRealms(data);
+      }));
+    }, error => this.snackBar.openSnackBar(error.error.message, 4000)));
   }
 }
+

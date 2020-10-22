@@ -1,16 +1,16 @@
 .table-icon {
-    user-select: none;
-    cursor: pointer;
+  user-select: none;
+  cursor: pointer;
 }
 
 .table-icon:hover {
-    color: var(--hover-icon-color)
+  color: var(--hover-icon-color)
 }
 
 .client-table {
-    table-layout: fixed;
+  table-layout: fixed;
 }
 
 td {
-    overflow: hidden;
+  overflow: hidden;
 }

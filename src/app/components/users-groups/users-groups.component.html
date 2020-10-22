@@ -9,15 +9,18 @@
         <thead>
         <tr>
           <th scope="col">Group name</th>
-          <th scope="col"></th>
+          <th scope="col">
+
+          </th>
         </tr>
         </thead>
         <tbody>
-        <tr *ngFor="let group of Groups">
+        <tr *ngFor="let group of allGroups">
           <td class="groupName" scope="row">{{group.name}}
           </td>
           <td>
-            <button class="mr-4" (click)="(groupUsers(group))" mat-raised-button color="primary">Details</button>
+            <button class="mr-4" (click)="details(group)" mat-raised-button color="primary">Details
+            </button>
             <button (click)="deleteGroup(group)" mat-raised-button color="warn">Delete</button>
           </td>
         </tr>
@@ -26,5 +29,6 @@
     </div>
   </div>
 </div>
+
 
 

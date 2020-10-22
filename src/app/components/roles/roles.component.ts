@@ -1,9 +1,12 @@
 import {Component, OnInit} from '@angular/core';
-import {Router} from '@angular/router';
 import {Role} from 'src/app/models/Role';
 import {User} from 'src/app/models/User';
 import {RoleService} from '../../services/role-service/role-service';
 import {UserService} from '../../services/user-service/user-service';
+import {SnackBarService} from '../../services/snack-bar/snack-bar-service';
+import {RealmService} from '../../services/realm-service/realm-service';
+import {ParentRealm, Realm} from '../../models/Realm';
+import {SubSink} from 'subsink';
 
 @Component({
   selector: 'app-roles',
@@ -11,51 +14,49 @@ import {UserService} from '../../services/user-service/user-service';
   styleUrls: ['./roles.component.css']
 })
 export class RolesComponent implements OnInit {
-  currentUser: User;
   userRoles: Role[];
   allRoles: Role[];
   user: User;
-
+  realm: Realm;
+  subSink = new SubSink();
   displayedColumns: string[] = ['Roles'];
 
   constructor(private roleService: RoleService,
-              private userServcie: UserService,
-              private router: Router,) {
+              private userService: UserService,
+              private snackBar: SnackBarService,
+              private realmService: RealmService) {
   }
 
   ngOnInit() {
-    this.getUserRoles();
-    this.getAllRoles();
+    this.getRealm();
   }
 
-  getUserRoles() {
-    let user = localStorage.getItem('currentUser');
-    this.userServcie.getUserByUsername(user).subscribe(data => {
+  getRealm() {
+    this.subSink.add(this.realmService.realm.subscribe((data: ParentRealm) => {
+      this.realm = data.realm;
+      this.allRoles = data.roles;
+    }));
+
+    this.subSink.add(this.userService.user.subscribe((data: User) => {
       this.userRoles = data.roles;
       this.user = data;
-
-    });
+    }));
   }
 
-  getAllRoles() {
-    this.roleService.getAllRoles().subscribe(data => {
-      this.allRoles = data;
-    });
-  }
-
-  back() {
-    this.router.navigate(['home/users']);
+  ngOnDestroy() {
+    this.subSink.unsubscribe();
   }
 
   addRole(role) {
-    this.roleService.addUserRole(role, this.user).subscribe(data => {
-      this.getUserRoles();
-    });
+    this.subSink.add(this.roleService.addUserRole(role, this.user, this.realm.name).subscribe(data => {
+      this.userService.setUser(this.user.username, this.realm.name);
+    }, error => this.snackBar.openSnackBar(error.error.message, 4000)));
   }
 
+
   deleteRole(role) {
-    this.roleService.deleteUserRole(this.user, role).subscribe(data => {
-      this.getUserRoles();
-    });
+    this.subSink.add(this.roleService.deleteUserRole(this.user, role, this.realm.name).subscribe(data => {
+      this.userService.setUser(this.user.username, this.realm.name);
+    }, error => this.snackBar.openSnackBar(error.error.message, 4000)));
   }
 }

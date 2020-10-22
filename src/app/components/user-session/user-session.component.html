@@ -1,0 +1,28 @@
+<div class="container-fluid">
+  <h1 class="text-center mt-3">Session</h1>
+  <div class="row">
+  </div>
+  <div class="row mt-5">
+    <div class="col-12 d-flex justify-content-center">
+      <table mat-table [dataSource]="users" class="mat-elevation-z8 w-75 client-table ">
+        <ng-container matColumnDef="username">
+          <th mat-header-cell *matHeaderCellDef> Username</th>
+          <td class="col-3" mat-cell *matCellDef="let element"> {{element.username}} </td>
+        </ng-container>
+        <ng-container matColumnDef="isActive">
+          <th mat-header-cell *matHeaderCellDef> Session Created Date</th>
+          <td mat-cell class="col-6" *matCellDef="let element">
+            <div *ngIf="element.active">
+              {{element.active | date: 'short' }}
+            </div>
+            <div *ngIf="!element.active">
+                Session not created yet
+            </div>
+          </td>
+        </ng-container>
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+    </div>
+  </div>
+</div>

@@ -9,6 +9,15 @@
     <div class="col-10 offset-1">
       <nav class="groupNav navbar navbar-dark bg-primary ">
         <a *ngIf="group" class="navbar-brand">{{group.name}}</a>
+        <div class="dropdown usersList" *ngIf="group">
+          <button class="btn btn-light dropdown-toggle" type="button" data-toggle="dropdown"
+                  aria-haspopup="true" aria-expanded="false">
+            Add role for all users
+          </button>
+          <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+            <a (click)="addRoleToAllUsers(role)" *ngFor="let role of roles" class="dropdown-item">{{role.name}}</a>
+          </div>
+        </div>
         <div class="dropdown usersList">
           <button class="btn btn-light dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown"
                   aria-haspopup="true" aria-expanded="false">
@@ -23,7 +32,7 @@
         <thead>
         <tr>
           <th scope="col">Users</th>
-          <th scope="col">User Role</th>
+          <th scope="col">User Roles</th>
           <th scope="col"></th>
         </tr>
         </thead>

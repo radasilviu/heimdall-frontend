@@ -5,7 +5,7 @@ import {HttpClientTestingModule} from '@angular/common/http/testing';
 import {RouterTestingModule} from '@angular/router/testing';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
 
-describe('RealmServiceService', () => {
+describe('RealmService', () => {
   let service: RealmService;
 
   beforeEach(() => {

@@ -7,12 +7,13 @@ import {Env} from 'src/app/configs/env';
 const registerUrl = Env.apiRootURL + '/oauth/register';
 
 @Injectable({
-    providedIn: 'root'
-  })
+  providedIn: 'root'
+})
 
 export class RegisterApiService {
 
-  constructor(private http: HttpClient, private _snackBar: MatSnackBar) { }
+  constructor(private http: HttpClient, private _snackBar: MatSnackBar) {
+  }
 
   openSnackBar(message: string, time: number) {
     this._snackBar.open(message, '', {
@@ -20,12 +21,12 @@ export class RegisterApiService {
     });
   }
 
-  registerUser(user: User){
+  registerUser(user: User) {
     const options = {
-      headers:{
-        whitelist:"true"
+      headers: {
+        whitelist: 'true'
       }
-    }
-    return this.http.post<User>( registerUrl , user,options);
+    };
+    return this.http.post<User>(registerUrl, user, options);
   }
 }
