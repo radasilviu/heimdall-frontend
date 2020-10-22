@@ -26,6 +26,7 @@ export class ClientService {
   }
 
   updateClientByName(currentClientName: string, client: Client, realmName: string) {
+    client.clientName = currentClientName;
     return this.http.put(url + '/client/' + realmName + '/' + currentClientName, client).pipe(tap(() => {
       this.clients.next();
     }));
@@ -43,6 +44,7 @@ export class ClientService {
   }
 
   addClient(client: Client, realmName: string) {
+    console.log(client)
     return this.http.post<any>(url + '/client/' + realmName, client).pipe(tap(() => {
       this.clients.next();
     }));

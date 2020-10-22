@@ -1,5 +1,5 @@
 export interface Client {
-    clientName:string;
+  clientName:string;
   clientFrontendUrl:string;
   authorizationServerFrontendURL:string;
   clientBackendURL:string,

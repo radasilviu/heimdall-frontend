@@ -2,14 +2,14 @@
     <form>
       <div class="form-group" [formGroup]="newClientForm">
         <h1 class="text-center font-italic mb-4">New Client</h1>
-        <input type="text" class="form-control" placeholder="Client Name">
+        <input type="text" formControlName="clientName" class="form-control" placeholder="Client Name">
         <br/>
         <input type="text" formControlName="clientFrontendUrl" class="form-control" placeholder="ClientFrontendUrl">
         <br/>
-        <input type="text" formControlName="authorizationServerFrontendURL" class="form-control"
+        <input type="text" formControlName="clientBackendURL" class="form-control"
                placeholder="ClientBackendURL">
         <br/>
-        <input type="text" formControlName="clientBackendURL" class="form-control" placeholder="AuthorizationFrontendUrl">
+        <input type="text" formControlName="authorizationServerFrontendURL" class="form-control" placeholder="AuthorizationFrontendUrl">
       </div>
       <button class="mr-3" [disabled]="!newClientForm.valid" (click)="onSubmit()" mat-raised-button color="primary">Add
       </button>
@@ -20,14 +20,14 @@
     <form>
       <div class="form-group" [formGroup]="newClientForm">
         <h1 class="text-center font-italic mb-4">Update Client</h1>
-        <input type="text" class="form-control" placeholder="Client Name">
+        <input type="text" disabled formControlName="clientName" class="form-control" placeholder="Client Name">
         <br/>
         <input type="text" formControlName="clientFrontendUrl" class="form-control" placeholder="ClientFrontendUrl">
         <br/>
-        <input type="text" formControlName="authorizationServerFrontendURL" class="form-control"
+        <input type="text" formControlName="clientBackendURL" class="form-control"
                placeholder="ClientBackendURL">
         <br/>
-        <input type="text" formControlName="clientBackendURL" class="form-control" placeholder="AuthorizationFrontendUrl">
+        <input type="text" formControlName="authorizationServerFrontendURL" class="form-control" placeholder="AuthorizationFrontendUrl">
       </div>
       <button class="mr-3" [disabled]="!newClientForm.valid" (click)="onSubmit()" mat-raised-button color="primary">Save
       </button>

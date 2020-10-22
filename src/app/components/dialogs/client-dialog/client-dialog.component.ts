@@ -11,6 +11,7 @@ export class ClientDialogComponent implements OnInit {
   editUser:string;
 
   newClientForm = new FormGroup({
+    clientName:new FormControl(),
     clientFrontendUrl: new FormControl('', Validators.required),
     authorizationServerFrontendURL: new FormControl('', Validators.required),
     clientBackendURL: new FormControl('', Validators.required)

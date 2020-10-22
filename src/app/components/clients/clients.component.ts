@@ -31,6 +31,7 @@ export class ClientsComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.clientService.getAllClients(this.realm.name).subscribe();
     this.subSink.add(this.realmService.realm.subscribe((data: ParentRealm) => {
       this.clients = data.clients;
       this.realm = data.realm;
@@ -46,14 +47,12 @@ export class ClientsComponent implements OnInit {
     const dialogRef = this.dialog.open(ClientDialogComponent);
 
     dialogRef.afterClosed().subscribe(data => {
-      if (data !== undefined) {
-        let client = {} as Client;
-        client.clientName = data;
-        this.subSink.add(this.service.updateClientByName(currentClientName, client, this.realm.name).subscribe(
+      if (data) {
+        this.subSink.add(this.service.updateClientByName(currentClientName, data, this.realm.name).subscribe(
           data => {
             this.realmService.setRealm(this.realm.name);
           }, error => {
-            this.snackBar.openSnackBar(error.error.message, 2000);
+            this.snackBar.openSnackBar(error.message, 2000);
           }));
       }
     });
