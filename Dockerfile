@@ -16,5 +16,4 @@ RUN npm install -g @angular/cli@10.1.6
 COPY . /app
 
 # start app
-EXPOSE 4201
-CMD ng serve --host 0.0.0.0 --port 4201
+CMD ng serve --host 0.0.0.0
