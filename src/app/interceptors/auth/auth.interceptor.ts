@@ -56,8 +56,6 @@ export class AuthInterceptor implements HttpInterceptor {
     const opts = {
       headers: new HttpHeaders({
         'Authorization': `Bearer ${token.access_token}`,
-        'Resource': ``,
-        'Request_Type': ``
       })
     };
 

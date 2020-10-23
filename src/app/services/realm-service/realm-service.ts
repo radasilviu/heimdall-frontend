@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Env} from '../../configs/env';
-import {BehaviorSubject, ReplaySubject,} from 'rxjs';
+import {BehaviorSubject, Subject,} from 'rxjs';
 import {ParentRealm, Realm} from '../../models/Realm';
 import {SnackBarService} from '../snack-bar/snack-bar-service';
 import {User} from '../../models/User';
@@ -14,7 +14,7 @@ const url = Env.apiRootURL + '/api/admin/realm';
 export class RealmService {
 
   realms$ = new BehaviorSubject(null);
-  realm = new ReplaySubject(1);
+  realm = new Subject();
 
   constructor(private http: HttpClient,
               private snackBar: SnackBarService) {

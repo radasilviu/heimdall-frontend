@@ -5,7 +5,7 @@ import {Client} from '../../models/Client';
 import {DeleteDialogComponent} from '../dialogs/delete-dialog/delete-dialog.component';
 import {ClientService} from '../../services/clientService/client-service';
 import {SnackBarService} from '../../services/snack-bar/snack-bar-service';
-import {ParentRealm, Realm} from '../../models/Realm';
+import {ParentRealm} from '../../models/Realm';
 import {RealmService} from '../../services/realm-service/realm-service';
 import {SubSink} from 'subsink';
 
@@ -16,7 +16,7 @@ import {SubSink} from 'subsink';
 })
 
 export class ClientsComponent implements OnInit {
-  realm: Realm;
+  realm;
   client: Client;
   clients: Client[];
   displayedColumns: string[] = ['name'];
@@ -31,11 +31,17 @@ export class ClientsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.subSink.add(this.realmService.realm.subscribe((data: ParentRealm) => {
-      this.clients = data.clients;
+    this.realmService.realm.subscribe((data: ParentRealm) => {
       this.realm = data.realm;
-      this.clientService.getAllClients(data.realm.name).subscribe();
-    }));
+      this.getAllClients();
+    });
+  }
+
+  getAllClients() {
+    this.clientService.getAllClients(this.realm.name).subscribe((clients: Client[]) => {
+      this.clientService.setClients(clients);
+    });
+    this.clientService.clients.subscribe(data => this.clients = data);
   }
 
   ngOnDestroy() {
@@ -49,8 +55,8 @@ export class ClientsComponent implements OnInit {
     dialogRef.afterClosed().subscribe((data: Client) => {
       if (data !== undefined) {
         this.subSink.add(this.service.updateClientByName(currentClientName, data, this.realm.name).subscribe(
-          data => {
-            this.realmService.setRealm(this.realm.name);
+          () => {
+            this.getAllClients();
           }, error => {
             this.snackBar.openSnackBar(error.message, 2000);
           }));
@@ -64,7 +70,7 @@ export class ClientsComponent implements OnInit {
     dialogRef.afterClosed().subscribe(data => {
       if (data == 'true') {
         this.subSink.add(this.service.deleteClient(clientName, this.realm.name).subscribe(() => {
-          this.realmService.setRealm(this.realm.name);
+          this.getAllClients();
         }, error => {
           this.snackBar.openSnackBar(error.error.message, 2000);
         }));
