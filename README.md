@@ -1,3 +1,9 @@
+## Docker Composer Steps
+
+#### Just run this in your app folder (root directory)
+    docker-compose up -d --build
+
+
 # App
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 10.1.1.
