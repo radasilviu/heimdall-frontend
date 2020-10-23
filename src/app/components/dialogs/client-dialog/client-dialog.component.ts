@@ -1,6 +1,6 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
-import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {FormControl, FormGroup} from '@angular/forms';
 
 @Component({
   selector: 'app-client-dialog',
@@ -8,15 +8,11 @@ import {FormControl, FormGroup, Validators} from '@angular/forms';
   styleUrls: ['./client-dialog.component.css']
 })
 export class ClientDialogComponent implements OnInit {
-  editUser:string;
+  editUser: string;
 
   newClientForm = new FormGroup({
-    clientName:new FormControl(),
-    clientFrontendUrl: new FormControl('', Validators.required),
-    authorizationServerFrontendURL: new FormControl('', Validators.required),
-    clientBackendURL: new FormControl('', Validators.required)
+    clientName: new FormControl(),
   });
-
 
   constructor(
     public dialogRef: MatDialogRef<ClientDialogComponent>,
@@ -24,10 +20,10 @@ export class ClientDialogComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.editUser = localStorage.getItem("clientEdit")
+    this.editUser = localStorage.getItem('clientEdit');
   }
 
   onSubmit() {
-    this.dialogRef.close(this.newClientForm.value)
+    this.dialogRef.close(this.newClientForm.value);
   }
 }

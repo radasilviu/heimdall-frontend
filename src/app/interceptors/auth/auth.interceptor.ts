@@ -33,7 +33,7 @@ export class AuthInterceptor implements HttpInterceptor {
           .pipe(
             switchMap(
               token => {
-                localStorage.setItem(Constants.TOKEN_KEY, JSON.stringify(token))
+                localStorage.setItem(Constants.TOKEN_KEY, JSON.stringify(token));
                 this.authService.tokenSubject.next(token);
                 return next.handle(this.addAuthorizationHeader(request, token));
               },
@@ -50,21 +50,17 @@ export class AuthInterceptor implements HttpInterceptor {
     } else {
       return EMPTY;
     }
-
   }
-
 
   addAuthorizationHeader(request, token: Token): any {
     const opts = {
       headers: new HttpHeaders({
         'Authorization': `Bearer ${token.access_token}`,
         'Resource': ``,
-        'Request_Type':  ``
-
+        'Request_Type': ``
       })
-    }
+    };
 
-    console.log(opts)
     return request.clone(
       opts
     );

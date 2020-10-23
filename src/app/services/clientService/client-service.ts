@@ -36,7 +36,6 @@ export class ClientService {
     return this.http.get<Client[]>(url + '/client/' + realmName);
   }
 
-
   deleteClient(clientName: string, realmName: string) {
     return this.http.request('delete', url + '/client/' + realmName + '/' + clientName).pipe(tap(() => {
       this.clients.next();
@@ -44,7 +43,6 @@ export class ClientService {
   }
 
   addClient(client: Client, realmName: string) {
-    console.log(client)
     return this.http.post<any>(url + '/client/' + realmName, client).pipe(tap(() => {
       this.clients.next();
     }));

@@ -31,11 +31,12 @@ export class ClientsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.clientService.getAllClients(this.realm.name).subscribe();
     this.subSink.add(this.realmService.realm.subscribe((data: ParentRealm) => {
       this.clients = data.clients;
       this.realm = data.realm;
+      this.clientService.getAllClients(data.realm.name).subscribe();
     }));
+
   }
 
   ngOnDestroy() {
