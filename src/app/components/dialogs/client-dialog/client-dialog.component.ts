@@ -22,8 +22,4 @@ export class ClientDialogComponent implements OnInit {
   ngOnInit(): void {
     this.editUser = localStorage.getItem('clientEdit');
   }
-
-  onSubmit() {
-    this.dialogRef.close(this.newClientForm.value);
-  }
 }

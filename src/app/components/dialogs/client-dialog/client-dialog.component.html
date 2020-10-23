@@ -5,20 +5,19 @@
       <input type="text" formControlName="clientName" class="form-control" placeholder="Client Name">
       <br/>
     </div>
-    <button class="mr-3" [disabled]="!newClientForm.valid" (click)="onSubmit()" mat-raised-button color="primary">Add
-    </button>
-    <button class="btn btn-primary mr-3 float-right mb-2">Cancel</button>
+    <button class="mr-3" [mat-dialog-close]="newClientForm.value" mat-raised-button color="primary">Save</button>
+    <button [mat-dialog-close]="" class="btn btn-primary mr-3 float-right mb-2">Cancel</button>
   </form>
 </div>
 <div class="container" *ngIf="editUser">
   <form>
     <div class="form-group" [formGroup]="newClientForm">
       <h1 class="text-center font-italic mb-4">Update Client</h1>
-      <input type="text" disabled formControlName="clientName" class="form-control" placeholder="Client Name">
+      <input type="text" formControlName="clientName" class="form-control" placeholder="Client Name">
       <br/>
     </div>
-    <button class="mr-3" [disabled]="!newClientForm.valid" (click)="onSubmit()" mat-raised-button color="primary">Save
-    </button>
+    <button class="mr-3" [mat-dialog-close]="newClientForm.value" mat-raised-button color="primary">Save</button>
+    <button [mat-dialog-close]="" class="btn btn-primary mr-3 float-right mb-2">Cancel</button>
   </form>
 </div>
 

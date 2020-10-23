@@ -36,7 +36,6 @@ export class ClientsComponent implements OnInit {
       this.realm = data.realm;
       this.clientService.getAllClients(data.realm.name).subscribe();
     }));
-
   }
 
   ngOnDestroy() {
@@ -47,8 +46,8 @@ export class ClientsComponent implements OnInit {
     localStorage.setItem('clientEdit', 'true');
     const dialogRef = this.dialog.open(ClientDialogComponent);
 
-    dialogRef.afterClosed().subscribe(data => {
-      if (data) {
+    dialogRef.afterClosed().subscribe((data: Client) => {
+      if (data !== undefined) {
         this.subSink.add(this.service.updateClientByName(currentClientName, data, this.realm.name).subscribe(
           data => {
             this.realmService.setRealm(this.realm.name);
