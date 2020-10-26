@@ -5,17 +5,20 @@
       </button>
     </div>
   </div>
+
+
   <div class="row mt-4">
     <div class="col-10 offset-1">
       <nav class="groupNav navbar navbar-dark bg-primary ">
-        <a *ngIf="group" class="navbar-brand">{{group.name}}</a>
+        <a *ngIf="group | async" class="navbar-brand">{{(group |async)?.name}}</a>
         <div class="dropdown usersList" *ngIf="group">
           <button class="btn btn-light dropdown-toggle" type="button" data-toggle="dropdown"
                   aria-haspopup="true" aria-expanded="false">
             Add role for all users
           </button>
-          <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-            <a (click)="addRoleToAllUsers(role)" *ngFor="let role of roles" class="dropdown-item">{{role.name}}</a>
+          <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" *ngIf="group | async">
+            <a (click)="addRoleToAllUsers(role)" *ngFor="let role of roles | async"
+               class="dropdown-item">{{role.name}}</a>
           </div>
         </div>
         <div class="dropdown usersList">
@@ -24,7 +27,8 @@
             Add user in this group
           </button>
           <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-            <a (click)="addUserToGroup(user)" *ngFor="let user of users" class="dropdown-item">{{user.username}}</a>
+            <a (click)="addUserToGroup(user)" *ngFor="let user of users | async"
+               class="dropdown-item">{{user.username}}</a>
           </div>
         </div>
       </nav>
@@ -37,15 +41,15 @@
         </tr>
         </thead>
         <tbody>
-        <tr *ngFor="let i of groupUsers">
+        <tr *ngFor="let user of groupUsers |async ">
           <td class="groupName" scope="row">
-            {{i.username}}
+            {{user.username}}
           </td>
           <td>
-            <button (click)="userRoles(i)" userRoles mat-raised-button color="primary">Roles</button>
+            <button (click)="userRoles(user)" userRoles mat-raised-button color="primary">Roles</button>
           </td>
           <td>
-            <button (click)="deleteUserFromGroup(i)" userRoles mat-raised-button color="warn">Remove</button>
+            <button (click)="deleteUserFromGroup(user)" userRoles mat-raised-button color="warn">Remove</button>
           </td>
         </tr>
         </tbody>
@@ -53,3 +57,4 @@
     </div>
   </div>
 </div>
+

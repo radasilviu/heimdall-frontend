@@ -7,6 +7,7 @@ import {ClientService} from '../../services/clientService/client-service';
 import {SnackBarService} from '../../services/snack-bar/snack-bar-service';
 import {SubSink} from 'subsink';
 import {Realm} from '../../models/Realm';
+import {UserService} from '../../services/user-service/user-service';
 
 @Component({
   selector: 'app-home',
@@ -25,7 +26,7 @@ export class HomeComponent implements OnInit {
               private realmService: RealmService,
               private adminAuthService: AdminAuthService,
               private roleService: RoleService,
-              private clientService: ClientService,
+              private userService: UserService,
               private snackBar: SnackBarService) {
   }
 
@@ -42,10 +43,14 @@ export class HomeComponent implements OnInit {
     }));
   }
 
+
+
   setRealms() {
     this.subSink.add(this.realmService.getRealms().subscribe(data => {
       this.realmService.setRealms(data);
-      this.realmService.setRealm(data[0].name);
+      this.subSink.add(this.realmService.getRealmByName(data[0].name).subscribe(data =>{
+        this.realmService.setRealm(data)
+      }))
     }))
     ;
   }
@@ -56,7 +61,7 @@ export class HomeComponent implements OnInit {
 
   changeRealm(realm) {
     this.currentRealm = realm;
-    this.realmService.setRealm(realm.name);
+    this.realmService.setRealm(realm);
   }
 
   logout(): void {

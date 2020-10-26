@@ -43,7 +43,6 @@ export class CreateGroupComponent implements OnInit {
 
   onSubmit() {
     this.subSink.add(this.groupService.addNewGroup(this.createGroup.value, this.realm.name).subscribe(data => {
-      this.realmService.setRealm(this.realm.name);
       this.router.navigate(['/home/users-group']);
     }, error => {
       this.snackbar.openSnackBar(error.error.message, 3000);

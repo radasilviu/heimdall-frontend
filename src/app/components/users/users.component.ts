@@ -9,7 +9,6 @@ import {RealmService} from '../../services/realm-service/realm-service';
 import {UserService} from '../../services/user-service/user-service';
 import {SnackBarService} from '../../services/snack-bar/snack-bar-service';
 import {SubSink} from 'subsink';
-import {JwtHelperService} from '@auth0/angular-jwt';
 import {Realm} from '../../models/Realm';
 
 @Component({
@@ -19,7 +18,7 @@ import {Realm} from '../../models/Realm';
 })
 export class UsersComponent implements OnInit {
   displayedColumns = ['username', 'role'];
-  allUsers: User[];
+  allUsers = this.userService.users;
   user: User;
   realm: Realm;
   subSink = new SubSink();
@@ -39,22 +38,20 @@ export class UsersComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getRealm();
+    this.subSink.add(this.realmService.realm.subscribe((data: Realm) => {
+      this.realm = data;
+      this.getAlUsers();
+    }));
+  }
+
+  getAlUsers() {
+    this.subSink.add(this.userService.getAllUsers(this.realm.name).subscribe(data => {
+      this.userService.setUsers(data);
+    }));
   }
 
   ngOnDestroy() {
     this.subSink.unsubscribe();
-  }
-
-  getUsers(){
-    this.userService.getAllUsers(this.realm.name).subscribe(data => this.allUsers = data)
-  }
-
-  getRealm() {
-    this.subSink.add(this.realmService.realm.subscribe((data: Realm) => {
-      this.realm = data;
-      this.getUsers();
-    }));
   }
 
   onSubmit() {
@@ -62,47 +59,45 @@ export class UsersComponent implements OnInit {
   }
 
   updateUser(currentUserName: string) {
-
     const dialogRef = this.dialog.open(UserDialogComponent);
-    dialogRef.afterClosed().subscribe(data => {
+    this.subSink.add(dialogRef.afterClosed().subscribe(data => {
       if (data !== undefined) {
         let user = {} as User;
         user.username = data;
         this.subSink.add(this.userService.updateUserName(currentUserName, user, this.realm.name).subscribe(() => {
-          this.realmService.setRealm(this.realm.name);
+          this.getAlUsers();
         }, error => {
           this.snackBar.openSnackBar(error.error.message, 2000);
         }));
       }
-    }, error => this.snackBar.openSnackBar(error.error.message, 4000));
+    }, error => this.snackBar.openSnackBar(error.error.message, 4000)));
   }
 
 
   deleteUser(username: string) {
     const dialogRef = this.dialog.open(DeleteDialogComponent);
 
-    dialogRef.afterClosed().subscribe(data => {
+    this.subSink.add(dialogRef.afterClosed().subscribe(data => {
       if (data == 'true') {
         this.subSink.add(this.userService.deleteUser(username, this.realm.name).subscribe(() => {
-          this.realmService.setRealm(this.realm.name);
+          this.getAlUsers();
         }, error => {
           this.snackBar.openSnackBar(error.error.message, 2000);
         }));
       }
-    });
+    }));
   }
 
   addUser(user: User) {
-
-    this.subSink.add(this.userService.addUser(user, this.realm.name).subscribe(data => {
-      this.realmService.setRealm(this.realm.name);
+    this.subSink.add(this.userService.addUser(user, this.realm.name).subscribe(() => {
+      this.getAlUsers();
     }, error => {
       this.snackBar.openSnackBar(error.error.message, 3000);
     }));
   }
 
   userRoles(user) {
-    this.userService.setUser(user.username, this.realm.name);
+    this.userService.setUser(user);
     this.router.navigate(['home/users/roles']);
   }
 }

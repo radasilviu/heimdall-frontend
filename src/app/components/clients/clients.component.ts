@@ -16,9 +16,9 @@ import {Realm} from '../../models/Realm';
 })
 
 export class ClientsComponent implements OnInit {
-  realm = {} as Realm;
+  realm:Realm;
   client: Client;
-  clients: Client[];
+  clients = this.clientService.clients;
   displayedColumns: string[] = ['name'];
   subSink = new SubSink();
 
@@ -31,17 +31,14 @@ export class ClientsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.realmService.realm.subscribe((data: Realm) => {
-      this.realm = data;
-    });
     this.getAllClients();
   }
 
   getAllClients() {
-    this.clientService.getAllClients(this.realm.name).subscribe((clients: Client[]) => {
-      this.clientService.setClients(clients);
-    });
-    this.clientService.clients.subscribe(data => this.clients = data);
+    this.subSink.add(this.realmService.realm.subscribe((data: Realm) => {
+      this.realm = data;
+      this.subSink.add(this.clientService.getAllClients(data.name).subscribe(data => this.clientService.setClients(data)));
+    }));
   }
 
   ngOnDestroy() {
@@ -52,7 +49,7 @@ export class ClientsComponent implements OnInit {
     localStorage.setItem('clientEdit', 'true');
     const dialogRef = this.dialog.open(ClientDialogComponent);
 
-    dialogRef.afterClosed().subscribe((data: Client) => {
+    this.subSink.add(dialogRef.afterClosed().subscribe((data: Client) => {
       if (data !== undefined) {
         this.subSink.add(this.service.updateClientByName(currentClientName, data, this.realm.name).subscribe(
           () => {
@@ -61,13 +58,13 @@ export class ClientsComponent implements OnInit {
             this.snackBar.openSnackBar(error.message, 2000);
           }));
       }
-    });
+    }));
   }
 
   deleteClient(clientName) {
     const dialogRef = this.dialog.open(DeleteDialogComponent);
 
-    dialogRef.afterClosed().subscribe(data => {
+    this.subSink.add(dialogRef.afterClosed().subscribe(data => {
       if (data == 'true') {
         this.subSink.add(this.service.deleteClient(clientName, this.realm.name).subscribe(() => {
           this.getAllClients();
@@ -75,20 +72,20 @@ export class ClientsComponent implements OnInit {
           this.snackBar.openSnackBar(error.error.message, 2000);
         }));
       }
-    });
+    }));
   }
 
   addClient() {
     localStorage.setItem('clientEdit', '');
     const dialogRef = this.dialog.open(ClientDialogComponent);
-    dialogRef.afterClosed().subscribe(data => {
+    this.subSink.add(dialogRef.afterClosed().subscribe(data => {
       if (data) {
         this.subSink.add(this.service.addClient(data, this.realm.name).subscribe(data => {
-          this.realmService.setRealm(this.realm.name);
+          this.getAllClients();
         }, error => {
           this.snackBar.openSnackBar(error.error.message, 2000);
         }));
       }
-    });
+    }));
   }
 }

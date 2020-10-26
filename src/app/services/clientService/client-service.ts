@@ -11,10 +11,11 @@ const url = Env.apiRootURL + '/api';
 })
 export class ClientService {
 
-  clients = new ReplaySubject<Client[]>(1);
+  private clients$ = new ReplaySubject<Client[]>(1);
+  clients = this.clients$.asObservable();
 
   setClients(clients: Client[]) {
-    this.clients.next(clients);
+    this.clients$.next(clients);
   }
 
   constructor(private http: HttpClient) {

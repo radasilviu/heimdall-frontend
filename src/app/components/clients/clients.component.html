@@ -1,7 +1,7 @@
 <div class="container-fluid mt-5">
   <div class="row">
     <div class="col-12 d-flex justify-content-center">
-      <table mat-table [dataSource]="clients" class="mat-elevation-z8 w-50">
+      <table mat-table [dataSource]="clients | async" class="mat-elevation-z8 w-50">
         <ng-container matColumnDef="name">
           <th mat-header-cell *matHeaderCellDef> Client name
             <button class="float-right" (click)="addClient()" mat-raised-button color="primary">Add</button>

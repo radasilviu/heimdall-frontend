@@ -17,7 +17,7 @@ import {Realm} from '../../models/Realm';
 })
 export class HeimdallRolesComponent implements OnInit {
   displayedColumns: string[] = ['Roles'];
-  allRoles: Role[];
+  allRoles = this.roleService.roles;
   realm: Realm;
   subSink = new SubSink();
 
@@ -33,8 +33,14 @@ export class HeimdallRolesComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.getAllRoles();
+  }
+
+  getAllRoles() {
     this.subSink.add(this.realmService.realm.subscribe((data: Realm) => {
-      this.realm = data;
+      this.subSink.add(this.roleService.getAllRoles(data.name).subscribe(data => {
+        this.roleService.setRoles(data);
+      }));
     }));
   }
 
@@ -54,7 +60,7 @@ export class HeimdallRolesComponent implements OnInit {
         let role = {} as Role;
         role.name = data;
         this.subSink.add(this.service.updateRoleByName(currentRoleName, role, this.realm.name).subscribe(() => {
-          this.realmService.setRealm(this.realm.name);
+          this.getAllRoles();
         }, error => {
           this.snackBar.openSnackBar(error.error.message, 2000);
         }));
@@ -64,7 +70,8 @@ export class HeimdallRolesComponent implements OnInit {
 
   addRole(role: Role) {
     this.subSink.add(this.service.addRole(role, this.realm.name).subscribe(() => {
-      this.realmService.setRealm(this.realm.name);
+      this.getAllRoles();
+
     }, error => {
       this.snackBar.openSnackBar(error.error.message, 2000);
     }));
@@ -75,7 +82,7 @@ export class HeimdallRolesComponent implements OnInit {
     dialogRef.afterClosed().subscribe(data => {
       if (data == 'true') {
         this.subSink.add(this.service.deleteRole(role, this.realm.name).subscribe(() => {
-          this.realmService.setRealm(this.realm.name);
+          this.getAllRoles();
         }, error => {
           this.snackBar.openSnackBar(error.error.message, 4000);
         }));

@@ -15,7 +15,7 @@
         </tr>
         </thead>
         <tbody>
-        <tr *ngFor="let group of allGroups">
+        <tr *ngFor="let group of allGroups | async">
           <td class="groupName" scope="row">{{group.name}}
           </td>
           <td>
