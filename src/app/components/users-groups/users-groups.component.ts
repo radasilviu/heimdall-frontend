@@ -39,7 +39,12 @@ export class UsersGroupsComponent implements OnInit {
   getRealm() {
     this.subSink.add(this.realmService.realm.subscribe((data: Realm) => {
       this.realm = data;
+      this.getRealmGroup();
     }));
+  }
+
+  getRealmGroup() {
+    this.groupService.getAllGroups(this.realm.name).subscribe(data => this.allGroups = data)
   }
 
   details(group) {

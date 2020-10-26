@@ -16,7 +16,7 @@ import {Realm} from '../../models/Realm';
 })
 
 export class ClientsComponent implements OnInit {
-  realm;
+  realm = {} as Realm;
   client: Client;
   clients: Client[];
   displayedColumns: string[] = ['name'];
@@ -33,8 +33,8 @@ export class ClientsComponent implements OnInit {
   ngOnInit(): void {
     this.realmService.realm.subscribe((data: Realm) => {
       this.realm = data;
-      this.getAllClients();
     });
+    this.getAllClients();
   }
 
   getAllClients() {

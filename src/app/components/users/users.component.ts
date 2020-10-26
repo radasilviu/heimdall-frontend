@@ -46,9 +46,14 @@ export class UsersComponent implements OnInit {
     this.subSink.unsubscribe();
   }
 
+  getUsers(){
+    this.userService.getAllUsers(this.realm.name).subscribe(data => this.allUsers = data)
+  }
+
   getRealm() {
     this.subSink.add(this.realmService.realm.subscribe((data: Realm) => {
       this.realm = data;
+      this.getUsers();
     }));
   }
 

@@ -14,7 +14,6 @@ import {Realm} from '../../../models/Realm';
   styleUrls: ['./create-group.component.css']
 })
 export class CreateGroupComponent implements OnInit {
-  private subscription: Subscription;
   realm: Realm;
   subSink = new SubSink();
 

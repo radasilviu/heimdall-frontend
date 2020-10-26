@@ -13,7 +13,7 @@ const url = Env.apiRootURL + '/api';
   providedIn: 'root'
 })
 export class UserService {
-  users = new Subject();
+  users = new ReplaySubject();
   user = new ReplaySubject(1);
 
   constructor(private http: HttpClient,
