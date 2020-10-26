@@ -8,9 +8,9 @@ import {DeleteDialogComponent} from '../dialogs/delete-dialog/delete-dialog.comp
 import {RealmService} from '../../services/realm-service/realm-service';
 import {UserService} from '../../services/user-service/user-service';
 import {SnackBarService} from '../../services/snack-bar/snack-bar-service';
-import {ParentRealm, Realm} from '../../models/Realm';
 import {SubSink} from 'subsink';
 import {JwtHelperService} from '@auth0/angular-jwt';
+import {Realm} from '../../models/Realm';
 
 @Component({
   selector: 'app-users',
@@ -47,9 +47,8 @@ export class UsersComponent implements OnInit {
   }
 
   getRealm() {
-    this.subSink.add(this.realmService.realm.subscribe((data: ParentRealm) => {
-      this.allUsers = data.users;
-      this.realm = data.realm;
+    this.subSink.add(this.realmService.realm.subscribe((data: Realm) => {
+      this.realm = data;
     }));
   }
 

@@ -1,10 +1,10 @@
 import {Component, OnInit} from '@angular/core';
 import {RealmService} from 'src/app/services/realm-service/realm-service';
-import {ParentRealm, Realm} from '../../models/Realm';
 import {DeleteDialogComponent} from '../dialogs/delete-dialog/delete-dialog.component';
 import {MatDialog} from '@angular/material/dialog';
 import {SnackBarService} from '../../services/snack-bar/snack-bar-service';
 import {SubSink} from 'subsink';
+import {Realm} from '../../models/Realm';
 
 @Component({
   selector: 'app-realm-settings',
@@ -21,8 +21,8 @@ export class RealmSettingsComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.subSink.add(this.realmService.realm.subscribe((data: ParentRealm) => {
-      this.realm = data.realm;
+    this.subSink.add(this.realmService.realm.subscribe((data: Realm) => {
+      this.realm = data;
     }));
   }
 

@@ -5,8 +5,8 @@ import {RealmService} from 'src/app/services/realm-service/realm-service';
 import {RoleService} from '../../services/role-service/role-service';
 import {ClientService} from '../../services/clientService/client-service';
 import {SnackBarService} from '../../services/snack-bar/snack-bar-service';
-import {ParentRealm, Realm} from '../../models/Realm';
 import {SubSink} from 'subsink';
+import {Realm} from '../../models/Realm';
 
 @Component({
   selector: 'app-home',
@@ -35,7 +35,7 @@ export class HomeComponent implements OnInit {
   }
 
   getRealms() {
-    this.subSink.add(this.realmService.realm.subscribe((data: ParentRealm) => this.currentRealm = data.realm));
+    this.subSink.add(this.realmService.realm.subscribe((data: Realm) => this.currentRealm = data));
 
     this.subSink.add(this.realmService.realms$.subscribe((data: Realm[]) => {
       this.realms = data;

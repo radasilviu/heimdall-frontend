@@ -1,9 +1,9 @@
 import {Component, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {ParentRealm, Realm} from '../../../models/Realm';
 import {RealmService} from '../../../services/realm-service/realm-service';
 import {SnackBarService} from '../../../services/snack-bar/snack-bar-service';
 import {SubSink} from 'subsink';
+import {Realm} from '../../../models/Realm';
 
 @Component({
   selector: 'app-realm-login-setting',
@@ -35,15 +35,15 @@ export class RealmLoginSettingComponent implements OnInit {
   }
 
   getRealm() {
-    this.subSink.add(this.realmService.realm.subscribe((data: ParentRealm) => {
-      this.realm = data.realm;
+    this.subSink.add(this.realmService.realm.subscribe((data: Realm) => {
+      this.realm = data;
       this.loginForm.patchValue({
-        userRegistration: data.realm.userRegistration,
-        editUsername: data.realm.editUsername,
-        forgotPassword: data.realm.forgotPassword,
-        rememberMe: data.realm.rememberMe,
-        verifyEmail: data.realm.verifyEmail,
-        loginWithEmail: data.realm.loginWithEmail
+        userRegistration: data.userRegistration,
+        editUsername: data.editUsername,
+        forgotPassword: data.forgotPassword,
+        rememberMe: data.rememberMe,
+        verifyEmail: data.verifyEmail,
+        loginWithEmail: data.loginWithEmail
       });
     }));
   }

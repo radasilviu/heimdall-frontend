@@ -1,9 +1,9 @@
 import {Component, OnInit} from '@angular/core';
 import {User} from '../../models/User';
-import {ParentRealm} from '../../models/Realm';
 import {JwtHelperService} from '@auth0/angular-jwt';
 import {SubSink} from 'subsink';
 import {RealmService} from '../../services/realm-service/realm-service';
+import {Realm} from '../../models/Realm';
 
 @Component({
   selector: 'app-user-session',
@@ -18,11 +18,7 @@ export class UserSessionComponent implements OnInit {
   constructor(private realmService: RealmService) {}
 
   ngOnInit(): void {
-    this.subSink.add(this.realmService.realm.subscribe((data: ParentRealm) => {
-      this.users = data.users;
-      this.getSession();
 
-    }));
   }
 
   ngOnDestroy() {

@@ -5,9 +5,9 @@ import {Client} from '../../models/Client';
 import {DeleteDialogComponent} from '../dialogs/delete-dialog/delete-dialog.component';
 import {ClientService} from '../../services/clientService/client-service';
 import {SnackBarService} from '../../services/snack-bar/snack-bar-service';
-import {ParentRealm} from '../../models/Realm';
 import {RealmService} from '../../services/realm-service/realm-service';
 import {SubSink} from 'subsink';
+import {Realm} from '../../models/Realm';
 
 @Component({
   selector: 'app-clients',
@@ -31,8 +31,8 @@ export class ClientsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.realmService.realm.subscribe((data: ParentRealm) => {
-      this.realm = data.realm;
+    this.realmService.realm.subscribe((data: Realm) => {
+      this.realm = data;
       this.getAllClients();
     });
   }

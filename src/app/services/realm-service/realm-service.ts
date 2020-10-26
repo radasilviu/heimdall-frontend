@@ -2,9 +2,9 @@ import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Env} from '../../configs/env';
 import {BehaviorSubject, Subject,} from 'rxjs';
-import {ParentRealm, Realm} from '../../models/Realm';
 import {SnackBarService} from '../snack-bar/snack-bar-service';
 import {User} from '../../models/User';
+import {Realm} from '../../models/Realm';
 
 const url = Env.apiRootURL + '/api/admin/realm';
 
@@ -35,7 +35,7 @@ export class RealmService {
   }
 
   getRealmByName(realmName: string) {
-    return this.http.get<ParentRealm>(url + '/' + realmName);
+    return this.http.get<Realm>(url + '/' + realmName);
   }
 
   updateRealmByName(realmName: string, realm: Realm) {

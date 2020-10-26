@@ -5,8 +5,8 @@ import {RoleService} from '../../services/role-service/role-service';
 import {UserService} from '../../services/user-service/user-service';
 import {SnackBarService} from '../../services/snack-bar/snack-bar-service';
 import {RealmService} from '../../services/realm-service/realm-service';
-import {ParentRealm, Realm} from '../../models/Realm';
 import {SubSink} from 'subsink';
+import {Realm} from '../../models/Realm';
 
 @Component({
   selector: 'app-roles',
@@ -32,9 +32,8 @@ export class RolesComponent implements OnInit {
   }
 
   getRealm() {
-    this.subSink.add(this.realmService.realm.subscribe((data: ParentRealm) => {
-      this.realm = data.realm;
-      this.allRoles = data.roles;
+    this.subSink.add(this.realmService.realm.subscribe((data: Realm) => {
+      this.realm = data;
     }));
 
     this.subSink.add(this.userService.user.subscribe((data: User) => {

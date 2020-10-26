@@ -6,9 +6,9 @@ import {MatDialog} from '@angular/material/dialog';
 import {DeleteDialogComponent} from '../dialogs/delete-dialog/delete-dialog.component';
 import {SnackBarService} from '../../services/snack-bar/snack-bar-service';
 import {RealmService} from '../../services/realm-service/realm-service';
-import {ParentRealm, Realm} from '../../models/Realm';
 import {Role} from '../../models/Role';
 import {SubSink} from 'subsink';
+import {Realm} from '../../models/Realm';
 
 @Component({
   selector: 'app-users-groups',
@@ -37,10 +37,8 @@ export class UsersGroupsComponent implements OnInit {
   }
 
   getRealm() {
-    this.subSink.add(this.realmService.realm.subscribe((data: ParentRealm) => {
-      this.allGroups = data.groups;
-      this.realm = data.realm;
-      this.roles = data.roles;
+    this.subSink.add(this.realmService.realm.subscribe((data: Realm) => {
+      this.realm = data;
     }));
   }
 

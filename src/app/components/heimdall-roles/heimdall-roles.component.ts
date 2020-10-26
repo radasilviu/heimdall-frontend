@@ -7,8 +7,8 @@ import {RolesDialogComponent} from '../dialogs/roles-dialog/roles-dialog.compone
 import {RoleService} from '../../services/role-service/role-service';
 import {SnackBarService} from '../../services/snack-bar/snack-bar-service';
 import {RealmService} from '../../services/realm-service/realm-service';
-import {ParentRealm, Realm} from '../../models/Realm';
 import {SubSink} from 'subsink';
+import {Realm} from '../../models/Realm';
 
 @Component({
   selector: 'app-heimdall-roles',
@@ -33,9 +33,8 @@ export class HeimdallRolesComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.subSink.add(this.realmService.realm.subscribe((data: ParentRealm) => {
-      this.allRoles = data.roles;
-      this.realm = data.realm;
+    this.subSink.add(this.realmService.realm.subscribe((data: Realm) => {
+      this.realm = data;
     }));
   }
 

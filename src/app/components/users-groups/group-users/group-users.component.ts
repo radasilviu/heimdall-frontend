@@ -7,11 +7,11 @@ import {DeleteDialogComponent} from '../../dialogs/delete-dialog/delete-dialog.c
 import {MatDialog} from '@angular/material/dialog';
 import {UserService} from '../../../services/user-service/user-service';
 import {SnackBarService} from '../../../services/snack-bar/snack-bar-service';
-import {ParentRealm, Realm} from '../../../models/Realm';
 import {RoleService} from '../../../services/role-service/role-service';
 import {Role} from '../../../models/Role';
 import {RealmService} from '../../../services/realm-service/realm-service';
 import {SubSink} from 'subsink';
+import {Realm} from '../../../models/Realm';
 
 @Component({
   selector: 'app-group-users',
@@ -50,10 +50,7 @@ export class GroupUsersComponent implements OnInit {
       // @ts-ignore
       this.realm = data.realm;
     }));
-    this.subSink.add(this.realmService.realm.subscribe((data: ParentRealm) => {
-      this.users = data.users;
-      this.roles = data.roles;
-    }));
+
   }
 
   addRoleToAllUsers(role) {

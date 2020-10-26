@@ -1,9 +1,9 @@
 import {Component, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {ParentRealm, Realm} from '../../../models/Realm';
 import {RealmService} from '../../../services/realm-service/realm-service';
 import {SnackBarService} from '../../../services/snack-bar/snack-bar-service';
 import {SubSink} from 'subsink';
+import {Realm} from '../../../models/Realm';
 
 @Component({
   selector: 'app-realm-general-setting',
@@ -33,12 +33,12 @@ export class RealmGeneralSettingComponent implements OnInit {
   }
 
   getRealm() {
-    this.subSink.add(this.realmService.realm.subscribe((data: ParentRealm) => {
-      this.realm = data.realm;
+    this.subSink.add(this.realmService.realm.subscribe((data: Realm) => {
+      this.realm = data;
       this.generalForm.setValue({
-        name: data.realm.name,
-        displayName: data.realm.displayName,
-        enabled: data.realm.enabled
+        name: data.name,
+        displayName: data.displayName,
+        enabled: data.enabled
       });
     }));
   }
