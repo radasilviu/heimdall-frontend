@@ -14,7 +14,7 @@ export class UserService {
   users$ = new ReplaySubject();
   users = this.users$.asObservable();
 
-  user$ = new ReplaySubject(1);
+  user$ = new ReplaySubject();
   user = this.user$.asObservable();
 
   constructor(private http: HttpClient) {

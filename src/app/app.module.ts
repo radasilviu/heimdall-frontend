@@ -48,6 +48,7 @@ import {GroupUsersComponent} from './components/users-groups/group-users/group-u
 import {UserSessionComponent} from './components/user-session/user-session.component';
 import {NotFoundComponent} from './components/error-pages/not-found/not-found.component';
 import {RealmNotFoundComponent} from './components/error-pages/realm-not-found/realm-not-found.component';
+import {HttpInterceptorService} from './interceptors/http-error-interceptor/http-interceptor.service';
 
 @NgModule({
   declarations: [
@@ -119,6 +120,11 @@ import {RealmNotFoundComponent} from './components/error-pages/realm-not-found/r
     SocialLoginModule
   ],
   providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: HttpInterceptorService,
+      multi: true
+    },
     {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true},
     {
       provide: 'SocialAuthServiceConfig',

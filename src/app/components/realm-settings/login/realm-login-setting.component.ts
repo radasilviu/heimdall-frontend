@@ -1,9 +1,9 @@
 import {Component, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {RealmService} from '../../../services/realm-service/realm-service';
-import {SnackBarService} from '../../../services/snack-bar/snack-bar-service';
 import {SubSink} from 'subsink';
 import {Realm} from '../../../models/Realm';
+import {mergeMap, tap} from 'rxjs/operators';
 
 @Component({
   selector: 'app-realm-login-setting',
@@ -22,8 +22,7 @@ export class RealmLoginSettingComponent implements OnInit {
     loginWithEmail: new FormControl(false, Validators.required)
   });
 
-  constructor(private realmService: RealmService,
-              private snackBar: SnackBarService) {
+  constructor(private realmService: RealmService) {
   }
 
   ngOnInit() {
@@ -35,8 +34,7 @@ export class RealmLoginSettingComponent implements OnInit {
   }
 
   getRealm() {
-    this.subSink.add(this.realmService.realm.subscribe((data: Realm) => {
-      this.realm = data;
+    this.subSink.add(this.realmService.realm.pipe(tap(((data: Realm) => {
       this.loginForm.patchValue({
         userRegistration: data.userRegistration,
         editUsername: data.editUsername,
@@ -45,12 +43,13 @@ export class RealmLoginSettingComponent implements OnInit {
         verifyEmail: data.verifyEmail,
         loginWithEmail: data.loginWithEmail
       });
-    }));
+      this.realm = data;
+    }))).subscribe());
   }
 
   onSubmit() {
-    this.subSink.add(this.realmService.updateLoginSettings(this.realm.name, this.loginForm.value).subscribe((data: Realm) => {
-      this.realm = data;
-    }, error => this.snackBar.openSnackBar(error.error.message, 4000)));
+    this.subSink.add(this.realmService.updateLoginSettings(this.realm.name, this.loginForm.value).pipe(mergeMap(() => {
+      return this.realmService.getRealms().pipe(tap(data => this.realmService.setRealms(data)));
+    })).subscribe());
   }
 }

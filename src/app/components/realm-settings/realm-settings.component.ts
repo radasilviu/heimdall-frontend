@@ -2,9 +2,9 @@ import {Component, OnInit} from '@angular/core';
 import {RealmService} from 'src/app/services/realm-service/realm-service';
 import {DeleteDialogComponent} from '../dialogs/delete-dialog/delete-dialog.component';
 import {MatDialog} from '@angular/material/dialog';
-import {SnackBarService} from '../../services/snack-bar/snack-bar-service';
 import {SubSink} from 'subsink';
 import {Realm} from '../../models/Realm';
+import {mergeMap, tap} from 'rxjs/operators';
 
 @Component({
   selector: 'app-realm-settings',
@@ -16,14 +16,11 @@ export class RealmSettingsComponent implements OnInit {
   subSink = new SubSink();
 
   constructor(private realmService: RealmService,
-              private dialog: MatDialog,
-              private snackBar: SnackBarService) {
+              private dialog: MatDialog) {
   }
 
   ngOnInit() {
-    this.subSink.add(this.realmService.realm.subscribe((data: Realm) => {
-      this.realm = data;
-    }));
+    this.subSink.add(this.realmService.realm.pipe(tap((data: Realm) => this.realm = data)).subscribe());
   }
 
   ngOnDestroy() {
@@ -35,13 +32,13 @@ export class RealmSettingsComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(data => {
       if (data == 'true') {
-        this.subSink.add(this.realmService.deleteRealmByName(this.realm).subscribe(data => {
-          this.subSink.add(this.realmService.getRealms().subscribe(data => {
+        this.subSink.add(this.realmService.deleteRealmByName(this.realm).pipe(mergeMap(() => {
+          return this.realmService.getRealms().pipe(tap(data => {
             this.realmService.setRealms(data);
-            this.realmService.setRealm(data[data.length - 1].name);
+            this.realmService.setRealm(data[data.length - 1]);
           }));
-        }));
+        })).subscribe());
       }
-    }, error => this.snackBar.openSnackBar(error.error.message, 4000));
+    });
   }
 }

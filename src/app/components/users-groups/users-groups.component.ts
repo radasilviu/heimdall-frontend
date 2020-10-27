@@ -3,11 +3,11 @@ import {GroupService} from '../../services/group-service/group-service';
 import {Router} from '@angular/router';
 import {MatDialog} from '@angular/material/dialog';
 import {DeleteDialogComponent} from '../dialogs/delete-dialog/delete-dialog.component';
-import {SnackBarService} from '../../services/snack-bar/snack-bar-service';
 import {RealmService} from '../../services/realm-service/realm-service';
 import {SubSink} from 'subsink';
 import {Realm} from '../../models/Realm';
 import {RoleService} from '../../services/role-service/role-service';
+import {tap} from 'rxjs/operators';
 
 @Component({
   selector: 'app-users-groups',
@@ -24,25 +24,22 @@ export class UsersGroupsComponent implements OnInit {
               private router: Router,
               private realmService: RealmService,
               private dialog: MatDialog,
-              private snackbar: SnackBarService,
-              private roleService: RoleService
-  ) {
+              private roleService: RoleService) {
   }
 
   ngOnInit() {
-    this.subSink.add(this.realmService.realm.subscribe((data: Realm) => {
+    this.subSink.add(this.realmService.realm.pipe(tap((data: Realm) => {
       this.realm = data;
       this.getAllGroups();
-    }));
+    })).subscribe());
   }
 
   ngOnDestroy() {
+    this.subSink.unsubscribe();
   }
 
   getAllGroups() {
-    this.subSink.add(this.groupService.getAllGroups(this.realm.name).subscribe(data => {
-      this.groupService.setGroups(data);
-    }));
+    this.subSink.add(this.groupService.getAllGroups(this.realm.name).pipe(tap(data => this.groupService.setGroups(data))).subscribe());
   }
 
   details(group) {
@@ -54,12 +51,10 @@ export class UsersGroupsComponent implements OnInit {
   deleteGroup(group) {
     let dialogRef = this.dialog.open(DeleteDialogComponent);
 
-    this.subSink.add(dialogRef.afterClosed().subscribe(data => {
+    dialogRef.afterClosed().subscribe(data => {
       if (data == 'true') {
-        this.subSink.add(this.groupService.deleteGroupByName(group, this.realm.name).subscribe(() => {
-          this.getAllGroups();
-        }));
+        this.subSink.add(this.groupService.deleteGroupByName(group, this.realm.name).pipe(tap(() => this.getAllGroups())).subscribe());
       }
-    }));
+    });
   }
 }

@@ -1,9 +1,9 @@
 import {Component, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {RealmService} from '../../../services/realm-service/realm-service';
-import {SnackBarService} from '../../../services/snack-bar/snack-bar-service';
 import {SubSink} from 'subsink';
 import {Realm} from '../../../models/Realm';
+import {mergeMap, tap} from 'rxjs/operators';
 
 @Component({
   selector: 'app-realm-general-setting',
@@ -20,8 +20,7 @@ export class RealmGeneralSettingComponent implements OnInit {
     enabled: new FormControl('', Validators.required)
   });
 
-  constructor(private realmService: RealmService,
-              private snackBar: SnackBarService) {
+  constructor(private realmService: RealmService) {
   }
 
   ngOnInit() {
@@ -33,23 +32,21 @@ export class RealmGeneralSettingComponent implements OnInit {
   }
 
   getRealm() {
-    this.subSink.add(this.realmService.realm.subscribe((data: Realm) => {
+    this.subSink.add(this.realmService.realm.pipe(tap((data: Realm) => {
       this.realm = data;
       this.generalForm.setValue({
         name: data.name,
         displayName: data.displayName,
         enabled: data.enabled
       });
-    }));
+    })).subscribe());
   }
 
   onSubmit(): void {
-    this.subSink.add(this.realmService.updateRealmByName(this.realm.name, this.generalForm.value).subscribe((data: Realm) => {
-      this.realmService.setRealm(data.name);
-      this.subSink.add(this.realmService.getRealms().subscribe(data => {
-        this.realmService.setRealms(data);
-      }));
-    }, error => this.snackBar.openSnackBar(error.error.message, 4000)));
+    this.subSink.add(this.realmService.updateRealmByName(this.realm.name, this.generalForm.value).pipe(mergeMap((data: Realm) => {
+      this.realmService.setRealm(data);
+      return this.realmService.getRealms().pipe(tap(data => this.realmService.setRealms(data)));
+    })).subscribe());
   }
 }
 

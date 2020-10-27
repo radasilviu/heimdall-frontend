@@ -2,11 +2,10 @@ import {Component, OnInit} from '@angular/core';
 import {User} from 'src/app/models/User';
 import {RoleService} from '../../services/role-service/role-service';
 import {UserService} from '../../services/user-service/user-service';
-import {SnackBarService} from '../../services/snack-bar/snack-bar-service';
 import {RealmService} from '../../services/realm-service/realm-service';
 import {SubSink} from 'subsink';
 import {Realm} from '../../models/Realm';
-import {map} from 'rxjs/operators';
+import {map, tap} from 'rxjs/operators';
 
 @Component({
   selector: 'app-roles',
@@ -23,28 +22,27 @@ export class RolesComponent implements OnInit {
 
   constructor(private roleService: RoleService,
               private userService: UserService,
-              private snackBar: SnackBarService,
               private realmService: RealmService) {
   }
 
   ngOnInit() {
-    this.subSink.add(this.userService.user.subscribe((data: User) => this.user = data));
+    this.subSink.add(this.userService.user.pipe(tap((data: User) => this.user = data)).subscribe());
     this.getRealm();
   }
 
   getRoles() {
-    this.subSink.add(this.roleService.getAllRoles(this.realm.name).subscribe(data => this.roleService.setRoles(data)));
+    this.subSink.add(this.roleService.getAllRoles(this.realm.name).pipe(tap(data => this.roleService.setRoles(data))).subscribe());
   }
 
   updateUser() {
-    this.subSink.add(this.userService.getUserByUsername(this.user.username, this.realm.name).subscribe(data => this.userService.setUser(data)));
+    this.subSink.add(this.userService.getUserByUsername(this.user.username, this.realm.name).pipe(tap(data => this.userService.setUser(data))).subscribe());
   }
 
   getRealm() {
-    this.subSink.add(this.realmService.realm.subscribe((data: Realm) => {
+    this.subSink.add(this.realmService.realm.pipe(tap((data: Realm) => {
       this.realm = data;
       this.getRoles();
-    }));
+    })).subscribe());
   }
 
   ngOnDestroy() {
@@ -52,15 +50,11 @@ export class RolesComponent implements OnInit {
   }
 
   addRole(role) {
-    this.subSink.add(this.roleService.addUserRole(role, this.user, this.realm.name).subscribe(() => {
-      this.updateUser();
-    }, error => this.snackBar.openSnackBar(error.error.message, 4000)));
+    this.subSink.add(this.roleService.addUserRole(role, this.user, this.realm.name).pipe(tap(() => this.updateUser())).subscribe());
   }
 
 
   deleteRole(role) {
-    this.subSink.add(this.roleService.deleteUserRole(this.user, role, this.realm.name).subscribe(() => {
-      this.updateUser();
-    }, error => this.snackBar.openSnackBar(error.error.message, 4000)));
+    this.subSink.add(this.roleService.deleteUserRole(this.user, role, this.realm.name).pipe(tap(() => this.updateUser())).subscribe());
   }
 }

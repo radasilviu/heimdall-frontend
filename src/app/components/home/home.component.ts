@@ -2,12 +2,9 @@ import {Component, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
 import {AdminAuthService} from 'src/app/services/admin-auth/admin-auth.service';
 import {RealmService} from 'src/app/services/realm-service/realm-service';
-import {RoleService} from '../../services/role-service/role-service';
-import {ClientService} from '../../services/clientService/client-service';
-import {SnackBarService} from '../../services/snack-bar/snack-bar-service';
 import {SubSink} from 'subsink';
 import {Realm} from '../../models/Realm';
-import {UserService} from '../../services/user-service/user-service';
+import {mergeMap, tap} from 'rxjs/operators';
 
 @Component({
   selector: 'app-home',
@@ -24,10 +21,7 @@ export class HomeComponent implements OnInit {
 
   constructor(private router: Router,
               private realmService: RealmService,
-              private adminAuthService: AdminAuthService,
-              private roleService: RoleService,
-              private userService: UserService,
-              private snackBar: SnackBarService) {
+              private adminAuthService: AdminAuthService) {
   }
 
   ngOnInit() {
@@ -36,23 +30,18 @@ export class HomeComponent implements OnInit {
   }
 
   getRealms() {
-    this.subSink.add(this.realmService.realm.subscribe((data: Realm) => this.currentRealm = data));
-
-    this.subSink.add(this.realmService.realms$.subscribe((data: Realm[]) => {
-      this.realms = data;
-    }));
+    this.subSink.add(this.realmService.realm.pipe(tap((data: Realm) => this.currentRealm = data)).subscribe());
+    this.subSink.add(this.realmService.realms.pipe(tap((data: Realm[]) => this.realms = data)).subscribe());
   }
 
 
-
   setRealms() {
-    this.subSink.add(this.realmService.getRealms().subscribe(data => {
-      this.realmService.setRealms(data);
-      this.subSink.add(this.realmService.getRealmByName(data[0].name).subscribe(data =>{
-        this.realmService.setRealm(data)
-      }))
-    }))
-    ;
+    this.realmService.getRealms().pipe(mergeMap(
+      realms => {
+        this.realmService.setRealms(realms);
+        return this.realmService.getRealmByName(realms[0].name).pipe(tap(data => this.realmService.setRealm(data)));
+      }
+    )).subscribe();
   }
 
   ngOnDestroy() {
@@ -65,7 +54,6 @@ export class HomeComponent implements OnInit {
   }
 
   logout(): void {
-    this.subSink.add(this.adminAuthService.logout().subscribe(() => {
-    }, error => this.snackBar.openSnackBar(error.error.message, 4000)));
+    this.subSink.add(this.adminAuthService.logout().subscribe());
   }
 }
