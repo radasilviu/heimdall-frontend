@@ -19,25 +19,32 @@ export class UserSessionComponent implements OnInit {
   subSink = new SubSink();
   displayedColumns = ['username', 'isActive', 'logout'];
   realm: Realm;
-  admin: Role;
+  admin: Role = {} as Role;
+
 
   constructor(private realmService: RealmService,
               private userService: UserService,
               private roleService: RoleService) {}
 
   ngOnInit(): void {
-    this.subSink.add(this.realmService.realm.subscribe((data: ParentRealm) => {
-      this.users = data.users;
-      this.getSession();
-    }));
     this.getRealm();
-    this.getAdmin();
   }
 
   getRealm() {
     this.subSink.add(this.realmService.realm.subscribe((data: ParentRealm) => {
-      this.users = data.users;
       this.realm = data.realm;
+      this.getSession();
+      return this.subSink.add(this.roleService.getRoleByName(this.realm.name, 'ROLE_ADMIN').subscribe((role: Role)  => {
+        this.users = data.users;
+        this.admin = role;
+        for (let i = 0; i < this.users.length; i++){
+          let vb = this.users[i].roles.find(element => element.name === role.name);
+          if (vb){
+            this.users.splice(i, 1);
+          }
+        }
+
+      }));
     }));
   }
 
@@ -47,7 +54,6 @@ export class UserSessionComponent implements OnInit {
 
   logOutUser(username: string){
     let user = {} as User;
-    const role = this.getAdmin();
     this.userService.getUserByUsername(username, this.realm.name).subscribe(data => {
       user = data;
       user.token = null;
@@ -56,12 +62,24 @@ export class UserSessionComponent implements OnInit {
     }  );
 
   }
-  // tslint:disable-next-line:typedef
-  getAdmin(){
-    return this.subSink.add(this.roleService.getRoleByName(this.realm.name, 'ROLE_ADMIN').subscribe((data: Role)  => {
-      return this.admin = data;
-    }));
-  }
+  // isAdmin(user: User){
+  //   console.log(user);
+  //   let isAdmin;
+  //   if (user.roles.includes(this.admin)){
+  //     isAdmin = true;
+  //   }else{
+  //     isAdmin = false;
+  //   }
+  //   console.log(user + isAdmin);
+  //   return isAdmin;
+  // }
+  // // tslint:disable-next-line:typedef
+
+  // getAdmin(){
+  //   return this.subSink.add(this.roleService.getRoleByName(this.realm.name, 'ROLE_ADMIN').subscribe((data: Role)  => {
+  //      this.admin = data;
+  //   }));
+  // }
   getSession() {
     const helper = new JwtHelperService();
     const date = new Date();

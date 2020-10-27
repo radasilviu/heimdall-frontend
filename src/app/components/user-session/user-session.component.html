@@ -16,16 +16,16 @@
               {{element.active | date: 'short' }}
             </div>
             <div *ngIf="!element.active">
-                Session not created yet
+                Session not created
             </div>
           </td>
         </ng-container>
         <ng-container matColumnDef="logout">
           <th mat-header-cell *matHeaderCellDef> Log Out</th>
           <td mat-cell class="col-6" *matCellDef="let element">
-            <mat-icon class="float-center ml-3 table-icon" [disabled]="!element.username="admin" " (click)="logOutUser(element.username)" aria-hidden="false"
-                      aria-label="create  ">delete
-            </mat-icon>
+              <mat-icon class="float-center ml-3 table-icon" (click)="logOutUser(element.username)" aria-hidden="false"
+                        aria-label="create  ">login
+              </mat-icon>
           </td>
         </ng-container>
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
