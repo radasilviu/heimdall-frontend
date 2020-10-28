@@ -18,7 +18,14 @@ export class ForgotPasswordService {
       email: data.email
     };
 
-    return this.http.post(url, body).pipe(
+    const options = {
+      headers: {
+        whitelist: 'true'
+      }
+    };
+
+
+    return this.http.post(url, body,options).pipe(
       catchError(error => {
         return this.handleError(error, this.snackBar);
       })
