@@ -46,7 +46,7 @@ export class ClientsComponent implements OnInit {
   }
 
   updateClient(currentClientName: string) {
-    localStorage.setItem('clientEdit', 'true');
+    this.clientService.editClient.next(true);
     const dialogRef = this.dialog.open(ClientDialogComponent);
 
     dialogRef.afterClosed().subscribe((data: Client) => {
@@ -67,7 +67,8 @@ export class ClientsComponent implements OnInit {
   }
 
   addClient() {
-    localStorage.setItem('clientEdit', '');
+    this.clientService.editClient.next(false);
+
     const dialogRef = this.dialog.open(ClientDialogComponent);
 
     dialogRef.afterClosed().subscribe(data => {

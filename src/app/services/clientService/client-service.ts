@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Client} from '../../models/Client';
-import {BehaviorSubject, Observable, ReplaySubject} from 'rxjs';
+import {Observable, ReplaySubject} from 'rxjs';
 import {Env} from '../../configs/env';
 
 const url = Env.apiRootURL + '/api';
@@ -13,6 +13,8 @@ export class ClientService {
 
   private clients$ = new ReplaySubject();
   clients = this.clients$.asObservable();
+
+  editClient = new ReplaySubject();
 
   setClients(clients) {
     this.clients$.next(clients);

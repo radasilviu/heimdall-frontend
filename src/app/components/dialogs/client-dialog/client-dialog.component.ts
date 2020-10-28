@@ -1,6 +1,8 @@
 import {Component, Inject, OnInit} from '@angular/core';
-import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
+import {MAT_DIALOG_DATA} from '@angular/material/dialog';
 import {FormControl, FormGroup} from '@angular/forms';
+import {ClientService} from '../../../services/clientService/client-service';
+import {tap} from 'rxjs/operators';
 
 @Component({
   selector: 'app-client-dialog',
@@ -8,18 +10,18 @@ import {FormControl, FormGroup} from '@angular/forms';
   styleUrls: ['./client-dialog.component.css']
 })
 export class ClientDialogComponent implements OnInit {
-  editUser: string;
+  editUser;
 
   newClientForm = new FormGroup({
     clientName: new FormControl(),
   });
 
   constructor(
-    public dialogRef: MatDialogRef<ClientDialogComponent>,
+    private clientService: ClientService,
     @Inject(MAT_DIALOG_DATA) public data: any) {
   }
 
   ngOnInit(): void {
-    this.editUser = localStorage.getItem('clientEdit');
+    this.clientService.editClient.pipe(tap(edit => this.editUser = edit)).subscribe();
   }
 }
