@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Env} from '../../configs/env';
-import {BehaviorSubject, ReplaySubject, Subject,} from 'rxjs';
+import {BehaviorSubject, ReplaySubject,} from 'rxjs';
 import {User} from '../../models/User';
 import {Realm} from '../../models/Realm';
 
@@ -12,12 +12,8 @@ const url = Env.apiRootURL + '/api/admin/realm';
 })
 export class RealmService {
 
-  private realms$ = new ReplaySubject(1);
-  private realm$ = new ReplaySubject(1);
-
-  realm = this.realm$.asObservable();
-
-  realms = this.realms$.asObservable();
+  realms$ = new BehaviorSubject([]);
+  realm$ = new ReplaySubject(1);
 
   constructor(private http: HttpClient) {
   }

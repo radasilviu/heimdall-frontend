@@ -11,8 +11,6 @@ const url = Env.apiRootURL + '/api';
   providedIn: 'root'
 })
 export class UserService {
-  users$ = new ReplaySubject();
-  users = this.users$.asObservable();
 
   user$ = new ReplaySubject();
   user = this.user$.asObservable();
@@ -20,14 +18,9 @@ export class UserService {
   constructor(private http: HttpClient) {
   }
 
-  setUsers(users) {
-    this.users$.next(users);
-  }
-
   setUser(user) {
     this.user$.next(user);
   }
-
 
   logoutAllUsers(realm: Realm) {
     return this.http.put(url + '/user/' + 'logoutAll', realm);

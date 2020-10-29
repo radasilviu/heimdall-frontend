@@ -12,25 +12,11 @@ const url = Env.apiRootURL + '/api/client';
 })
 
 export class GroupService {
-  private groups$ = new ReplaySubject();
-  groups = this.groups$.asObservable();
 
-  private group$ = new ReplaySubject();
-  group = this.group$.asObservable();
-
-  currentRealm = new ReplaySubject(1);
-
-  setCurrentGroup(realm) {
-    this.currentRealm.next(realm);
-  }
+  group$ = new ReplaySubject();
 
   setGroup(group) {
     this.group$.next(group);
-  }
-
-
-  setGroups(group) {
-    this.groups$.next(group);
   }
 
   constructor(private http: HttpClient) {

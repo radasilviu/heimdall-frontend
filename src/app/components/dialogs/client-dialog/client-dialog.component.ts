@@ -2,7 +2,8 @@ import {Component, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA} from '@angular/material/dialog';
 import {FormControl, FormGroup} from '@angular/forms';
 import {ClientService} from '../../../services/clientService/client-service';
-import {tap} from 'rxjs/operators';
+import {SubSink} from 'subsink';
+import {User} from '../../../models/User';
 
 @Component({
   selector: 'app-client-dialog',
@@ -10,8 +11,8 @@ import {tap} from 'rxjs/operators';
   styleUrls: ['./client-dialog.component.css']
 })
 export class ClientDialogComponent implements OnInit {
-  editUser;
-
+  editUser: User;
+  subSink = new SubSink();
   newClientForm = new FormGroup({
     clientName: new FormControl(),
   });
@@ -22,6 +23,6 @@ export class ClientDialogComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.clientService.editClient.pipe(tap(edit => this.editUser = edit)).subscribe();
+    this.subSink.add(this.clientService.editClient.subscribe((edit:User) => this.editUser = edit));
   }
 }

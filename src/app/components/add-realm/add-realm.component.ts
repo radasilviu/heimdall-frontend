@@ -3,7 +3,6 @@ import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {RealmService} from '../../services/realm-service/realm-service';
 import {Realm} from '../../models/Realm';
 import {SubSink} from 'subsink';
-import {mergeMap, tap} from 'rxjs/operators';
 
 @Component({
   selector: 'app-add-realm',
@@ -17,6 +16,7 @@ export class AddRealmComponent implements OnInit {
 
   constructor(private formBuilder: FormBuilder,
               private realmService: RealmService) {
+    this.realmService.realm$.subscribe((realm: Realm) => this.realm = realm);
   }
 
   ngOnInit(): void {
@@ -31,8 +31,8 @@ export class AddRealmComponent implements OnInit {
   }
 
   addNewRealm() {
-    this.subSink.add(this.realmService.addNewRealm(this.newRealm.value).pipe(mergeMap(() => {
-      return this.realmService.getRealms().pipe(tap(data => this.realmService.setRealms(data)));
-    })).subscribe());
+    this.subSink.add(this.realmService.addNewRealm(this.newRealm.value).subscribe(() => {
+      this.realmService.getRealms().subscribe(realms => this.realmService.setRealms(realms));
+    }));
   }
 }

@@ -7,7 +7,6 @@ import {ClientService} from '../../services/clientService/client-service';
 import {RealmService} from '../../services/realm-service/realm-service';
 import {SubSink} from 'subsink';
 import {Realm} from '../../models/Realm';
-import {mergeMap, tap} from 'rxjs/operators';
 
 @Component({
   selector: 'app-clients',
@@ -17,8 +16,7 @@ import {mergeMap, tap} from 'rxjs/operators';
 
 export class ClientsComponent implements OnInit {
   realm: Realm;
-  client: Client;
-  clients = this.clientService.clients;
+  clients;
   displayedColumns: string[] = ['name'];
   subSink = new SubSink();
 
@@ -30,38 +28,37 @@ export class ClientsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getAllClients();
+    this.subSink.add(this.realmService.realm$.subscribe((data: Realm) => {
+      this.realm = data;
+      this.getAllClients();
+    }));
   }
 
   getAllClients() {
-    this.subSink.add(this.realmService.realm.pipe(mergeMap(
-      (realm: Realm) => {
-        this.realm = realm;
-        return this.clientService.getAllClients(realm.name).pipe(tap(clients => this.clientService.setClients(clients)));
-      })).subscribe());
+    this.subSink.add(this.clientService.getAllClients(this.realm.name).subscribe((clients: Client[]) => this.clients = clients));
   }
 
   ngOnDestroy() {
     this.subSink.unsubscribe();
   }
 
-  updateClient(currentClientName: string) {
+  updateClient(client) {
     this.clientService.editClient.next(true);
     const dialogRef = this.dialog.open(ClientDialogComponent);
 
     dialogRef.afterClosed().subscribe((data: Client) => {
       if (data !== undefined) {
-        this.subSink.add(this.service.updateClientByName(currentClientName, data, this.realm.name).pipe(tap(() => this.getAllClients())).subscribe());
+        this.subSink.add(this.service.updateClientByName(client.clientName, data, this.realm.name).subscribe(() => this.getAllClients()));
       }
     });
   }
 
-  deleteClient(clientName) {
+  deleteClient(client) {
     const dialogRef = this.dialog.open(DeleteDialogComponent);
 
     dialogRef.afterClosed().subscribe(data => {
       if (data == 'true') {
-        this.subSink.add(this.service.deleteClient(clientName, this.realm.name).pipe(tap(() => this.getAllClients())).subscribe());
+        this.subSink.add(this.service.deleteClient(client.clientName, this.realm.name).subscribe(() => this.getAllClients()));
       }
     });
   }
@@ -73,7 +70,7 @@ export class ClientsComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(data => {
       if (data) {
-        this.subSink.add(this.service.addClient(data, this.realm.name).pipe(tap(() => this.getAllClients())).subscribe());
+        this.subSink.add(this.service.addClient(data, this.realm.name).subscribe(() => this.getAllClients()));
       }
     });
   }

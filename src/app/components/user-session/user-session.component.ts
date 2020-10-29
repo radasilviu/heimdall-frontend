@@ -1,11 +1,10 @@
 import {Component, OnInit} from '@angular/core';
-import {User} from '../../models/User';
 import {JwtHelperService} from '@auth0/angular-jwt';
 import {SubSink} from 'subsink';
 import {RealmService} from '../../services/realm-service/realm-service';
 import {UserService} from '../../services/user-service/user-service';
 import {Realm} from '../../models/Realm';
-import {tap} from 'rxjs/operators';
+import {User} from '../../models/User';
 
 @Component({
   selector: 'app-user-session',
@@ -22,17 +21,12 @@ export class UserSessionComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.subSink.add(this.realmService.realm.pipe(tap((data: Realm) => {
-      this.realm = data;
-      this.getUsers();
-    })).subscribe());
-  }
-
-  getUsers() {
-    this.subSink.add(this.userService.getAllUsers(this.realm.name).pipe(tap(data => {
-      this.users = data;
-      this.getSession();
-    })).subscribe());
+    this.subSink.add(this.realmService.realm$.subscribe((realm: Realm) => {
+      this.userService.getAllUsers(realm.name).subscribe(users => {
+        this.users = users;
+        this.getSession();
+      });
+    }));
   }
 
   ngOnDestroy() {

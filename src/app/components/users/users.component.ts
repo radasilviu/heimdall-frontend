@@ -9,7 +9,6 @@ import {RealmService} from '../../services/realm-service/realm-service';
 import {UserService} from '../../services/user-service/user-service';
 import {SubSink} from 'subsink';
 import {Realm} from '../../models/Realm';
-import {tap} from 'rxjs/operators';
 
 @Component({
   selector: 'app-users',
@@ -18,7 +17,7 @@ import {tap} from 'rxjs/operators';
 })
 export class UsersComponent implements OnInit {
   displayedColumns = ['username', 'role'];
-  allUsers = this.userService.users;
+  allUsers;
   user: User;
   realm: Realm;
   subSink = new SubSink();
@@ -34,17 +33,18 @@ export class UsersComponent implements OnInit {
               private realmService: RealmService,
               private userService: UserService,
               private router: Router) {
+
   }
 
   ngOnInit(): void {
-    this.subSink.add(this.realmService.realm.pipe(tap((realm: Realm) => {
+    this.subSink.add(this.realmService.realm$.subscribe((realm: Realm) => {
       this.realm = realm;
       this.getAlUsers();
-    })).subscribe());
+    }));
   }
 
   getAlUsers() {
-    this.subSink.add(this.userService.getAllUsers(this.realm.name).pipe(tap(users => this.userService.setUsers(users))).subscribe());
+    this.subSink.add(this.userService.getAllUsers(this.realm.name).subscribe(users => this.allUsers = users));
   }
 
   ngOnDestroy() {
@@ -62,7 +62,7 @@ export class UsersComponent implements OnInit {
       if (data !== undefined) {
         let user = {} as User;
         user.username = data;
-        this.subSink.add(this.userService.updateUserName(currentUserName, user, this.realm.name).pipe(tap(() => this.getAlUsers())).subscribe());
+        this.subSink.add(this.userService.updateUserName(currentUserName, user, this.realm.name).subscribe(() => this.getAlUsers()));
       }
     }));
   }
@@ -72,13 +72,13 @@ export class UsersComponent implements OnInit {
 
     this.subSink.add(dialogRef.afterClosed().subscribe(data => {
       if (data == 'true') {
-        this.subSink.add(this.userService.deleteUser(username, this.realm.name).pipe(tap(() => this.getAlUsers())).subscribe());
+        this.subSink.add(this.userService.deleteUser(username, this.realm.name).subscribe(() => this.getAlUsers()));
       }
     }));
   }
 
   addUser(user: User) {
-    this.subSink.add(this.userService.addUser(user, this.realm.name).pipe(tap(() => this.getAlUsers())).subscribe());
+    this.subSink.add(this.userService.addUser(user, this.realm.name).subscribe(() => this.getAlUsers()));
   }
 
   userRoles(user) {

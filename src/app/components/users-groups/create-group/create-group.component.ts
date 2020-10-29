@@ -6,7 +6,6 @@ import {SnackBarService} from '../../../services/snack-bar/snack-bar-service';
 import {RealmService} from '../../../services/realm-service/realm-service';
 import {SubSink} from 'subsink';
 import {Realm} from '../../../models/Realm';
-import {tap} from 'rxjs/operators';
 
 @Component({
   selector: 'app-create-group',
@@ -36,10 +35,10 @@ export class CreateGroupComponent implements OnInit {
   }
 
   getRealm() {
-    this.subSink.add(this.realmService.realm.pipe(tap((data: Realm) => this.realm = data)).subscribe());
+    this.subSink.add(this.realmService.realm$.subscribe((data: Realm) => this.realm = data));
   }
 
   onSubmit() {
-    this.subSink.add(this.groupService.addNewGroup(this.createGroup.value, this.realm.name).pipe(tap(() => this.router.navigate(['/home/users-group']))).subscribe());
+    this.subSink.add(this.groupService.addNewGroup(this.createGroup.value, this.realm.name).subscribe(() => this.router.navigate(['/home/users-group'])));
   }
 }

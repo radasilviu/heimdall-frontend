@@ -3,8 +3,6 @@ import {Router} from '@angular/router';
 import {AdminAuthService} from 'src/app/services/admin-auth/admin-auth.service';
 import {RealmService} from 'src/app/services/realm-service/realm-service';
 import {SubSink} from 'subsink';
-import {Realm} from '../../models/Realm';
-import {mergeMap, tap} from 'rxjs/operators';
 
 @Component({
   selector: 'app-home',
@@ -14,34 +12,21 @@ import {mergeMap, tap} from 'rxjs/operators';
 
 export class HomeComponent implements OnInit {
   panelOpenState = false;
-  realms: Realm[];
-  currentRealm: Realm;
+  realms = this.realmService.realms$;
+  currentRealm = this.realmService.realm$;
 
   subSink = new SubSink();
 
   constructor(private router: Router,
               private realmService: RealmService,
               private adminAuthService: AdminAuthService) {
+    this.realmService.getRealms().subscribe(realms => {
+      this.realmService.setRealm(realms[0]);
+      this.realmService.setRealms(realms);
+    });
   }
 
   ngOnInit() {
-    this.setRealms();
-    this.getRealms();
-  }
-
-  getRealms() {
-    this.subSink.add(this.realmService.realm.pipe(tap((data: Realm) => this.currentRealm = data)).subscribe());
-    this.subSink.add(this.realmService.realms.pipe(tap((data: Realm[]) => this.realms = data)).subscribe());
-  }
-
-
-  setRealms() {
-    this.realmService.getRealms().pipe(mergeMap(
-      realms => {
-        this.realmService.setRealms(realms);
-        return this.realmService.getRealmByName(realms[0].name).pipe(tap(data => this.realmService.setRealm(data)));
-      }
-    )).subscribe();
   }
 
   ngOnDestroy() {
@@ -49,7 +34,6 @@ export class HomeComponent implements OnInit {
   }
 
   changeRealm(realm) {
-    this.currentRealm = realm;
     this.realmService.setRealm(realm);
   }
 

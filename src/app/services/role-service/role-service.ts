@@ -13,8 +13,6 @@ const url = Env.apiRootURL + '/api';
 export class RoleService {
   roles$ = new ReplaySubject<Role[]>();
 
-  roles = this.roles$.asObservable();
-
   constructor(private http: HttpClient) {
   }
 

@@ -8,7 +8,6 @@ import {RoleService} from '../../services/role-service/role-service';
 import {RealmService} from '../../services/realm-service/realm-service';
 import {SubSink} from 'subsink';
 import {Realm} from '../../models/Realm';
-import {tap} from 'rxjs/operators';
 
 @Component({
   selector: 'app-heimdall-roles',
@@ -17,7 +16,7 @@ import {tap} from 'rxjs/operators';
 })
 export class HeimdallRolesComponent implements OnInit {
   displayedColumns: string[] = ['Roles'];
-  allRoles = this.roleService.roles;
+  allRoles: Role[];
   realm: Realm;
   subSink = new SubSink();
 
@@ -32,22 +31,18 @@ export class HeimdallRolesComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.subSink.add(this.realmService.realm.pipe(tap((realm: Realm) => {
+    this.subSink.add(this.realmService.realm$.subscribe((realm: Realm) => {
       this.realm = realm;
       this.getAllRoles();
-    })).subscribe());
+    }));
   }
 
   getAllRoles() {
-    return this.subSink.add(this.roleService.getAllRoles(this.realm.name).pipe(tap(roles => this.roleService.setRoles(roles))).subscribe());
+    return this.subSink.add(this.roleService.getAllRoles(this.realm.name).subscribe(roles => this.allRoles = roles));
   }
 
   ngOnDestroy() {
     this.subSink.unsubscribe();
-  }
-
-  onSubmit() {
-    this.addRole(this.form.value);
   }
 
   updateRole(currentRoleName: string) {
@@ -57,20 +52,20 @@ export class HeimdallRolesComponent implements OnInit {
       if (data !== undefined) {
         let role = {} as Role;
         role.name = data;
-        this.subSink.add(this.service.updateRoleByName(currentRoleName, role, this.realm.name).pipe(tap(() => this.getAllRoles())).subscribe());
+        this.subSink.add(this.service.updateRoleByName(currentRoleName, role, this.realm.name).subscribe(() => this.getAllRoles()));
       }
     });
   }
 
-  addRole(role: Role) {
-    this.subSink.add(this.service.addRole(role, this.realm.name).pipe(tap(() => this.getAllRoles())).subscribe());
+  addRole() {
+    this.subSink.add(this.service.addRole(this.form.value, this.realm.name).subscribe(() => this.getAllRoles()));
   }
 
   deleteRole(role) {
     const dialogRef = this.dialog.open(DeleteDialogComponent);
     dialogRef.afterClosed().subscribe(data => {
       if (data == 'true') {
-        this.subSink.add(this.service.deleteRole(role, this.realm.name).pipe(tap(() => this.getAllRoles())).subscribe());
+        this.subSink.add(this.service.deleteRole(role, this.realm.name).subscribe(() => this.getAllRoles()));
       }
     });
   }
