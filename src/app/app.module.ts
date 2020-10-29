@@ -49,6 +49,7 @@ import {GroupUsersComponent} from './components/users-groups/group-users/group-u
 import {UserSessionComponent} from './components/user-session/user-session.component';
 import {NotFoundComponent} from './components/error-pages/not-found/not-found.component';
 import {RealmNotFoundComponent} from './components/error-pages/realm-not-found/realm-not-found.component';
+import { AccountSettingsComponent } from './components/account-settings/account-settings.component';
 
 @NgModule({
   declarations: [
@@ -80,6 +81,7 @@ import {RealmNotFoundComponent} from './components/error-pages/realm-not-found/r
     CreateGroupComponent,
     GroupUsersComponent,
     UserSessionComponent,
+    AccountSettingsComponent,
   ],
   entryComponents: [ClientDialogComponent, UserDialogComponent, RolesDialogComponent],
   imports: [

@@ -23,6 +23,7 @@ import {UsersGroupsComponent} from './components/users-groups/users-groups.compo
 import {CreateGroupComponent} from './components/users-groups/create-group/create-group.component';
 import {GroupUsersComponent} from './components/users-groups/group-users/group-users.component';
 import {UserSessionComponent} from './components/user-session/user-session.component';
+import {AccountSettingsComponent} from './components/account-settings/account-settings.component';
 
 const routes: Routes = [
   {
@@ -37,7 +38,8 @@ const routes: Routes = [
       {path: 'users-group', component: UsersGroupsComponent},
       {path: 'create-group', component: CreateGroupComponent},
       {path: 'group-users', component: GroupUsersComponent},
-      {path: 'user-session', component: UserSessionComponent}
+      {path: 'user-session', component: UserSessionComponent},
+      {path: 'account-settings', component: AccountSettingsComponent}
 
     ]
   },
