@@ -62,52 +62,6 @@ export class AccountSettingsComponent implements OnInit {
     }));
   }
 
-
-  updateUser(currentUserName: string) {
-
-    const dialogRef = this.dialog.open(UserDialogComponent);
-    dialogRef.afterClosed().subscribe(data => {
-      if (data !== undefined) {
-        let user = {} as User;
-        user.username = data;
-        this.subSink.add(this.userService.updateUserName(currentUserName, user, this.realm.name).subscribe(() => {
-          this.realmService.setRealm(this.realm.name);
-        }, error => {
-          this.snackBar.openSnackBar(error.error.message, 2000);
-        }));
-      }
-    }, error => this.snackBar.openSnackBar(error.error.message, 4000));
-  }
-
-
-  deleteUser(username: string) {
-    const dialogRef = this.dialog.open(DeleteDialogComponent);
-
-    dialogRef.afterClosed().subscribe(data => {
-      if (data == 'true') {
-        this.subSink.add(this.userService.deleteUser(username, this.realm.name).subscribe(() => {
-          this.realmService.setRealm(this.realm.name);
-        }, error => {
-          this.snackBar.openSnackBar(error.error.message, 2000);
-        }));
-      }
-    });
-  }
-
-  addUser(user: User) {
-
-    this.subSink.add(this.userService.addUser(user, this.realm.name).subscribe(data => {
-      this.realmService.setRealm(this.realm.name);
-    }, error => {
-      this.snackBar.openSnackBar(error.error.message, 3000);
-    }));
-  }
-
-  userRoles(user) {
-    this.userService.setUser(user.username, this.realm.name);
-    this.router.navigate(['home/users/roles']);
-  }
-
   getCurrentUser(){
     let token = this.authService.tokenSubject.getValue();
     this.subSink.add(this.userService.getUserByUsername(token.username,this.realm.name).subscribe( data =>{
@@ -119,7 +73,7 @@ export class AccountSettingsComponent implements OnInit {
     let form = this.emailForm.value;
     user.email = form.email;
     this.subSink.add(this.userService.updateUserName(user.username,user,this.realm.name).subscribe());
-    console.log(user);
+
   }
 
 }
