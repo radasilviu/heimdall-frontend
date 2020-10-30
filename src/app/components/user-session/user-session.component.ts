@@ -33,9 +33,10 @@ export class UserSessionComponent implements OnInit {
   getRealm() {
     this.subSink.add(this.realmService.realm.subscribe((data: ParentRealm) => {
       this.realm = data.realm;
-      this.getSession();
+
       return this.subSink.add(this.roleService.getRoleByName(this.realm.name, 'ROLE_ADMIN').subscribe((role: Role)  => {
         this.users = data.users;
+        this.getSession();
         this.admin = role;
         for (let i = 0; i < this.users.length; i++){
           let vb = this.users[i].roles.find(element => element.name === role.name);
@@ -62,28 +63,14 @@ export class UserSessionComponent implements OnInit {
     }  );
 
   }
-  // isAdmin(user: User){
-  //   console.log(user);
-  //   let isAdmin;
-  //   if (user.roles.includes(this.admin)){
-  //     isAdmin = true;
-  //   }else{
-  //     isAdmin = false;
-  //   }
-  //   console.log(user + isAdmin);
-  //   return isAdmin;
-  // }
-  // // tslint:disable-next-line:typedef
 
-  // getAdmin(){
-  //   return this.subSink.add(this.roleService.getRoleByName(this.realm.name, 'ROLE_ADMIN').subscribe((data: Role)  => {
-  //      this.admin = data;
-  //   }));
-  // }
   getSession() {
+
     const helper = new JwtHelperService();
     const date = new Date();
+
     for (const i in this.users) {
+
       if (this.users[i].token || this.users[i].refreshToken) {
         const session = this.users[i].token;
         const refresh = this.users[i].token;
