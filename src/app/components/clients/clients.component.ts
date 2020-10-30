@@ -19,6 +19,7 @@ export class ClientsComponent implements OnInit {
   clients;
   displayedColumns: string[] = ['name'];
   subSink = new SubSink();
+  edit = false;
 
   constructor(private changeDetectorRefs: ChangeDetectorRef,
               private service: ClientService,
@@ -43,12 +44,17 @@ export class ClientsComponent implements OnInit {
   }
 
   updateClient(client) {
-    this.clientService.editClient.next(true);
-    const dialogRef = this.dialog.open(ClientDialogComponent);
+    const dialogRef = this.dialog.open(ClientDialogComponent, {
+      data: {edit: this.edit}
+    });
 
     dialogRef.afterClosed().subscribe((data: Client) => {
       if (data !== undefined) {
-        this.subSink.add(this.service.updateClientByName(client.clientName, data, this.realm.name).subscribe(() => this.getAllClients()));
+        this.edit = true;
+        this.subSink.add(this.service.updateClientByName(client.clientName, data, this.realm.name).subscribe(() => {
+          this.getAllClients()
+          this.edit = false
+        }));
       }
     });
   }
@@ -64,8 +70,6 @@ export class ClientsComponent implements OnInit {
   }
 
   addClient() {
-    this.clientService.editClient.next(false);
-
     const dialogRef = this.dialog.open(ClientDialogComponent);
 
     dialogRef.afterClosed().subscribe(data => {

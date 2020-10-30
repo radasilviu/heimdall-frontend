@@ -11,7 +11,8 @@ import {User} from '../../../models/User';
   styleUrls: ['./client-dialog.component.css']
 })
 export class ClientDialogComponent implements OnInit {
-  editUser: User;
+  editUser;
+
   subSink = new SubSink();
   newClientForm = new FormGroup({
     clientName: new FormControl(),
@@ -23,6 +24,6 @@ export class ClientDialogComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.subSink.add(this.clientService.editClient.subscribe((edit:User) => this.editUser = edit));
+    this.editUser = this.data
   }
 }
