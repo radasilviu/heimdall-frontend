@@ -25,6 +25,11 @@ export class RoleService {
     }, error => this.snackBar.openSnackBar(error.error.message, 4000));
   }
 
+
+  getRoleByName(realmName,roleName){
+    return this.http.get(url  + '/role/' + realmName + "/" + roleName);
+  }
+
   getAllRoles(realmName: string): Observable<Role[]> {
     return this.http.get<Role[]>(url + '/role/' + realmName,);
   }

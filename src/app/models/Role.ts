@@ -1,3 +1,4 @@
 export interface Role {
-    name:string
+  name: string
+  roleResources: Array<any>
 }

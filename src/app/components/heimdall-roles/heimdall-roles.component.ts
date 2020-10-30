@@ -47,20 +47,28 @@ export class HeimdallRolesComponent implements OnInit {
     this.addRole(this.form.value);
   }
 
-  updateRole(currentRoleName: string) {
-    const dialogRef = this.dialog.open(RolesDialogComponent);
-
-    dialogRef.afterClosed().subscribe(data => {
-      if (data !== undefined) {
-        let role = {} as Role;
-        role.name = data;
-        this.subSink.add(this.service.updateRoleByName(currentRoleName, role, this.realm.name).subscribe(() => {
-          this.realmService.setRealm(this.realm.name);
-        }, error => {
-          this.snackBar.openSnackBar(error.error.message, 2000);
-        }));
-      }
-    });
+  updateRole(role) {
+    this.roleService.getRoleByName(this.realm.name, role.name).subscribe(data => {
+      const dialogRef = this.dialog.open(RolesDialogComponent, {
+        width: "50%",
+        height: "70%",
+        data: {
+          role: data
+        }
+      });
+      dialogRef.afterClosed().subscribe(data => {
+        console.log(data)
+        if (data !== undefined) {
+          let newRole = {} as Role;
+          newRole.name = data.newRole;
+          this.subSink.add(this.service.updateRoleByName(role.name, newRole, this.realm.name).subscribe(() => {
+            this.realmService.setRealm(this.realm.name);
+          }, error => {
+            this.snackBar.openSnackBar(error.error.message, 2000);
+          }));
+        }
+      });
+    })
   }
 
   addRole(role: Role) {
