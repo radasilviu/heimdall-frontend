@@ -29,8 +29,11 @@ export class AccountSettingsComponent implements OnInit {
 
   form = new FormGroup({
     name: new FormControl('', Validators.required),
-    password: new FormControl('', Validators.required),
-    email: new FormControl('', Validators.email)
+    form: new FormControl('', Validators.required)
+  });
+
+  emailForm = new FormGroup({
+    email: new FormControl('',Validators.required)
   });
 
   constructor(private changeDetectorRefs: ChangeDetectorRef,
@@ -59,9 +62,6 @@ export class AccountSettingsComponent implements OnInit {
     }));
   }
 
-  onSubmit() {
-    this.addUser(this.form.value);
-  }
 
   updateUser(currentUserName: string) {
 
@@ -113,6 +113,13 @@ export class AccountSettingsComponent implements OnInit {
     this.subSink.add(this.userService.getUserByUsername(token.username,this.realm.name).subscribe( data =>{
       this.user = data;
     }))
+  }
+
+  onSubmit(user: User) {
+    let form = this.emailForm.value;
+    user.email = form.email;
+    this.subSink.add(this.userService.updateUserName(user.username,user,this.realm.name).subscribe());
+    console.log(user);
   }
 
 }

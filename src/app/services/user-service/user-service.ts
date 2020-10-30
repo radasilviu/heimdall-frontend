@@ -41,6 +41,7 @@ export class UserService {
   }
 
   updateUserName(currentUserName: string, newUser: User, realmName: string) {
+
     return this.http.put(url + '/user/' + realmName + '/' + currentUserName, newUser).pipe(
       tap(() => {
         this.users.next();

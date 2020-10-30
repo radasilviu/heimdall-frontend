@@ -14,15 +14,16 @@
             <h5>Change Email</h5>
           </div>
         </div>
-
         <div class="col-12 d-flex justify-content-center align-items-center mt-1">
-          <div class="input-group-prepend" >
-            <span class="input-group-text" id="email">User Email</span>
-          </div>
-
-          <div *ngIf="user">
-            <input formControlName="name" placeholder="{{user.email}}" type="text" class="form-control mr-5">
-          </div>
+        </div>
+        <div *ngIf="user">
+        <form [formGroup]="emailForm" (ngSubmit)="onSubmit(user)">
+          <mat-form-field class="m-4">
+            <mat-label>New Email</mat-label>
+            <input aut formControlName="email" required required matInput>
+          </mat-form-field>
+          <button  mat-raised-button color="primary">Add</button>
+        </form>
         </div>
         <div class="row">
           <div class="col-12 d-flex ml-5 mt-5">
