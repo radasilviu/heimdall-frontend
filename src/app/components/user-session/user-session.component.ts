@@ -19,7 +19,6 @@ export class UserSessionComponent implements OnInit {
   subSink = new SubSink();
   displayedColumns = ['username', 'isActive', 'logout'];
   realm: Realm;
-  admin: Role = {} as Role;
 
 
   constructor(private realmService: RealmService,
@@ -37,7 +36,6 @@ export class UserSessionComponent implements OnInit {
       return this.subSink.add(this.roleService.getRoleByName(this.realm.name, 'ROLE_ADMIN').subscribe((role: Role)  => {
         this.users = data.users;
         this.getSession();
-        this.admin = role;
         for (let i = 0; i < this.users.length; i++){
           let vb = this.users[i].roles.find(element => element.name === role.name);
           if (vb){
@@ -69,21 +67,22 @@ export class UserSessionComponent implements OnInit {
     const helper = new JwtHelperService();
     const date = new Date();
 
-    for (const i in this.users) {
+    this.users.forEach(function(value){
 
-      if (this.users[i].token || this.users[i].refreshToken) {
-        const session = this.users[i].token;
-        const refresh = this.users[i].token;
+      if (value.token || value.refreshToken) {
+        const session = value.token;
+        const refresh = value.refreshToken;
 
         const sessionToken = helper.decodeToken(session);
         const refreshToken = helper.decodeToken(refresh);
 
         if (date > sessionToken.exp || date > refreshToken) {
           // @ts-ignore
-          this.users[i].active = sessionToken.iat * 1000;
+          value.active = sessionToken.iat * 1000;
         }
       }
     }
+    );
   }
 
 }
