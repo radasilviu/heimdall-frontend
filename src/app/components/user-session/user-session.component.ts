@@ -22,45 +22,34 @@ export class UserSessionComponent implements OnInit {
 
 
   constructor(private realmService: RealmService,
-              private userService: UserService,
-              private roleService: RoleService) {}
+              private userService: UserService) {}
 
   ngOnInit(): void {
-    this.getRealm();
+    this.getUsers();
+
   }
 
-  getRealm() {
+  getUsers() {
     this.subSink.add(this.realmService.realm.subscribe((data: ParentRealm) => {
       this.realm = data.realm;
-
-      return this.subSink.add(this.roleService.getRoleByName(this.realm.name, 'ROLE_ADMIN').subscribe((role: Role)  => {
-        this.users = data.users;
+      return this.userService.getUsersWithoutAdmin(this.realm.name).subscribe((users: User[]) => {
+        this.users = users;
         this.getSession();
-        for (let i = 0; i < this.users.length; i++){
-          let vb = this.users[i].roles.find(element => element.name === role.name);
-          if (vb){
-            this.users.splice(i, 1);
-          }
-        }
-
-      }));
-    }));
+      });
+  }));
   }
 
   ngOnDestroy() {
     this.subSink.unsubscribe();
   }
 
-  logOutUser(username: string){
-    let user = {} as User;
-    this.userService.getUserByUsername(username, this.realm.name).subscribe(data => {
-      user = data;
+  logOutUser(user: User){
       user.token = null;
       user.refreshToken = null;
-      this.userService.updateUserName(username, user, this.realm.name).subscribe();
-    }  );
+      this.userService.updateUserName(user.username, user, this.realm.name).subscribe();
+    }
 
-  }
+
 
   getSession() {
 
