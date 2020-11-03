@@ -39,6 +39,7 @@ export class RealmGeneralSettingComponent implements OnInit {
   onSubmit(): void {
     this.realmService.updateRealmByName(this.realm.name, this.generalForm.value).subscribe((realm) => {
       this.realmService.getAllRealms().subscribe(realms => {
+        localStorage.setItem("realm", JSON.stringify(realm))
         this.realmService.setRealms(realms);
         this.realmService.setCurrentRealm(realm);
       });
