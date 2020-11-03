@@ -50,10 +50,7 @@ export class LoginComponent implements OnInit {
 
       .subscribe(
         user => {
-          this.realmService.getAllRealms().subscribe(data => {
-            this.realmService.setCurrentRealm(data[0])
             this.router.navigate(['home']);
-          });
         },
         error => {
           this.errorMessage = true;
