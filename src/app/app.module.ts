@@ -40,7 +40,6 @@ import {UserProfileComponent} from './components/user-profile/user-profile.compo
 import {UserProfileLoginComponent} from './components/user-profile-login/user-profile-login.component';
 import {DeleteDialogComponent} from './components/dialogs/delete-dialog/delete-dialog.component';
 import {AddRealmComponent} from './components/add-realm/add-realm.component';
-
 import {GoogleLoginProvider, SocialAuthServiceConfig, SocialLoginModule} from 'angularx-social-login';
 import {IdentityProviderComponent} from './components/identity-provider/identity-provider.component';
 import {UsersGroupsComponent} from './components/users-groups/users-groups.component';
@@ -49,6 +48,7 @@ import {GroupUsersComponent} from './components/users-groups/group-users/group-u
 import {UserSessionComponent} from './components/user-session/user-session.component';
 import {NotFoundComponent} from './components/error-pages/not-found/not-found.component';
 import {RealmNotFoundComponent} from './components/error-pages/realm-not-found/realm-not-found.component';
+import {HttpInterceptorService} from './interceptors/http-error-interceptor/http-interceptor.service';
 
 @NgModule({
   declarations: [
@@ -120,6 +120,11 @@ import {RealmNotFoundComponent} from './components/error-pages/realm-not-found/r
     SocialLoginModule
   ],
   providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: HttpInterceptorService,
+      multi: true
+    },
     {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true},
     {
       provide: 'SocialAuthServiceConfig',

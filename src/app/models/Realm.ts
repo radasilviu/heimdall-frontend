@@ -1,7 +1,3 @@
-import {User} from './User';
-import {Client} from './Client';
-import {Role} from './Role';
-import {Group} from './Group';
 
 export interface Realm {
   name: string;
@@ -15,10 +11,3 @@ export interface Realm {
   loginWithEmail: boolean;
 }
 
-export interface ParentRealm{
-  users:User[]
-  clients:Client[]
-  roles:Role[]
-  groups:Group[]
-  realm:Realm
-}

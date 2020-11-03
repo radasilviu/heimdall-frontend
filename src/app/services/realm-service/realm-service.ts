@@ -1,10 +1,10 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Env} from '../../configs/env';
-import {BehaviorSubject, ReplaySubject,} from 'rxjs';
-import {ParentRealm, Realm} from '../../models/Realm';
-import {SnackBarService} from '../snack-bar/snack-bar-service';
+import {BehaviorSubject,} from 'rxjs';
 import {User} from '../../models/User';
+import {Realm} from '../../models/Realm';
+import {tap} from "rxjs/operators";
 
 const url = Env.apiRootURL + '/api/admin/realm';
 
@@ -12,38 +12,47 @@ const url = Env.apiRootURL + '/api/admin/realm';
   providedIn: 'root'
 })
 export class RealmService {
+  realms = new BehaviorSubject([]);
+  currentRealm = new BehaviorSubject({} as Realm);
 
-  realms$ = new BehaviorSubject(null);
-  realm = new ReplaySubject(1);
-
-  constructor(private http: HttpClient,
-              private snackBar: SnackBarService) {
+  constructor(private http: HttpClient) {
   }
 
   setRealms(data) {
-    this.realms$.next(data);
+    this.realms.next(data);
   }
 
-  setRealm(realmName) {
-    this.getRealmByName(realmName).subscribe(data => {
-      this.realm.next(data);
-    }, error => this.snackBar.openSnackBar(error.error.message, 4000));
+  setCurrentRealm(data?) {
+    if (data) {
+      localStorage.setItem("realm", JSON.stringify(data))
+      this.getAllRealms().subscribe(() => this.currentRealm.next(data))
+    } else {
+      const realm = JSON.parse(localStorage.getItem("realm"))
+      this.currentRealm.next(realm);
+    }
   }
 
-  getRealms() {
-    return this.http.get<Realm[]>(url + '/list');
-  }
-
-  getRealmByName(realmName: string) {
-    return this.http.get<ParentRealm>(url + '/' + realmName);
+  getAllRealms() {
+    return this.http.get<Realm[]>(url + '/list').pipe(tap((realms) => {
+      if(!localStorage.getItem("realm")){
+        this.currentRealm.next(realms[0])
+      }
+      this.realms.next(realms)
+    }));
   }
 
   updateRealmByName(realmName: string, realm: Realm) {
-    return this.http.put<Realm>(url + '/general-update/' + realmName, realm);
+    return this.http.put<Realm>(url + '/general-update/' + realmName, realm).pipe(tap(realm => {
+      localStorage.setItem("realm", JSON.stringify(realm))
+      this.setCurrentRealm(realm);
+    }))
   }
 
   updateLoginSettings(realmName: string, User: User) {
-    return this.http.put(url + '/login-update/' + realmName, User);
+    return this.http.put(url + '/login-update/' + realmName, User).pipe(tap(realm => {
+      localStorage.setItem("realm", JSON.stringify(realm))
+      this.setCurrentRealm(realm);
+    }))
   }
 
   addNewRealm(realm: Realm) {

@@ -4,7 +4,6 @@ import {Group} from '../../models/Group';
 import {HttpClient} from '@angular/common/http';
 import {Env} from '../../configs/env';
 import {User} from '../../models/User';
-import {SnackBarService} from '../snack-bar/snack-bar-service';
 
 const url = Env.apiRootURL + '/api/client';
 
@@ -13,14 +12,14 @@ const url = Env.apiRootURL + '/api/client';
 })
 
 export class GroupService {
-  group = new ReplaySubject(1);
 
-  setGroup(groupName, realmName) {
-    this.getGroupByName(groupName, realmName).subscribe(data => this.group.next(data));
+  group$ = new ReplaySubject();
+
+  setGroup(group) {
+    this.group$.next(group);
   }
 
-  constructor(private http: HttpClient,
-              private snackBar: SnackBarService) {
+  constructor(private http: HttpClient) {
   }
 
   addUserToGroup(groupName: string, user: User, realmName: string) {
