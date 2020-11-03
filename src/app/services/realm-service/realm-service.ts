@@ -29,10 +29,6 @@ export class RealmService {
     return this.http.get<Realm[]>(url + '/list');
   }
 
-  getRealmByName(realmName: string) {
-    return this.http.get<Realm>(url + '/' + realmName);
-  }
-
   updateRealmByName(realmName: string, realm: Realm) {
     return this.http.put<Realm>(url + '/general-update/' + realmName, realm);
   }
