@@ -4,6 +4,7 @@ import {Router} from '@angular/router';
 import {AdminAuthService} from '../../services/admin-auth/admin-auth.service';
 import {IdentityProviderService} from '../../services/identity-provider-service/identity-provider-service';
 import {SubSink} from 'subsink';
+import {RealmService} from "../../services/realm-service/realm-service";
 
 @Component({
   selector: 'app-login',
@@ -19,6 +20,7 @@ export class LoginComponent implements OnInit {
 
   constructor(private identityProviderService: IdentityProviderService,
               private authService: AdminAuthService,
+              private realmService: RealmService,
               private router: Router) {
   }
 
@@ -48,7 +50,10 @@ export class LoginComponent implements OnInit {
 
       .subscribe(
         user => {
-          this.router.navigate(['home']);
+          this.realmService.getAllRealms().subscribe(data => {
+            this.realmService.setCurrentRealm(data[0])
+            this.router.navigate(['home']);
+          });
         },
         error => {
           this.errorMessage = true;

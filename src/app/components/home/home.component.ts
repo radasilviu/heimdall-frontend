@@ -52,22 +52,7 @@ export class HomeComponent implements OnInit {
 
   ngOnInit() {
     this.getAllRealms()
-    if (localStorage.getItem("realm")) {
-      this.realmService
-        .setCurrentRealm()
-      this.realmService
-        .realm
-        .subscribe(data => this.currentRealm = data)
-    } else {
-      this.realmService
-        .getAllRealms()
-        .subscribe((data: Realm[]) => {
-          this.realmService
-            .setCurrentRealm(data[0])
-          this.realmService
-            .realm
-            .subscribe(data => this.currentRealm = data)
-        })
-    }
+    this.realmService.setCurrentRealm()
+    this.realmService.realm.subscribe(realm => this.currentRealm = realm)
   }
 }
