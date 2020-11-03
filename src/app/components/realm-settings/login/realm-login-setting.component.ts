@@ -51,7 +51,7 @@ export class RealmLoginSettingComponent implements OnInit {
       .updateLoginSettings(this.realm.name, this.loginForm.value)
       .subscribe(() => {
         this.realmService
-          .getRealms()
+          .getAllRealms()
           .subscribe(realms =>
             this.realmService
               .setRealms(realms));

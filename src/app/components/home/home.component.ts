@@ -15,20 +15,12 @@ export class HomeComponent implements OnInit {
   panelOpenState = false;
   realms: Realm[]
   currentRealm: Realm;
-
   subSink = new SubSink();
 
   constructor(private router: Router,
               private realmService: RealmService,
               private adminAuthService: AdminAuthService) {
-    this.realmService
-      .getRealms()
-      .subscribe(realms => {
-        this.realmService
-          .setCurrentRealm(realms[0]);
-        this.realmService
-          .setRealms(realms);
-      });
+
   }
 
   ngOnDestroy() {
@@ -39,20 +31,48 @@ export class HomeComponent implements OnInit {
   changeRealm(realm) {
     this.realmService
       .setCurrentRealm(realm);
+    localStorage
+      .setItem("realm", JSON.stringify(realm))
   }
 
   logout(): void {
-    this.subSink.add(this.adminAuthService
-      .logout()
-      .subscribe());
+    this.subSink
+      .add(this.adminAuthService
+        .logout()
+        .subscribe());
+  }
+
+  getAllRealms() {
+    this.realmService
+      .getAllRealms()
+      .subscribe(realms => {
+        this.realmService
+          .setRealms(realms)
+        this.realmService
+          .realms
+          .subscribe(data => this.realms = data)
+      })
   }
 
   ngOnInit() {
-    this.realmService
-      .realms
-      .subscribe(realms => this.realms = realms)
-    this.realmService
-      .realm
-      .subscribe(realm => this.currentRealm = realm)
+    this.getAllRealms()
+    if (localStorage.getItem("realm")) {
+      const realm = JSON.parse(localStorage.getItem("realm"))
+      this.realmService
+        .setCurrentRealm(realm)
+      this.realmService
+        .realm
+        .subscribe(data => this.currentRealm = data)
+    } else {
+      this.realmService
+        .getAllRealms()
+        .subscribe((data: Realm[]) => {
+          this.realmService
+            .setCurrentRealm(data[0])
+          this.realmService
+            .realm
+            .subscribe(data => this.currentRealm = data)
+        })
+    }
   }
 }

@@ -40,7 +40,7 @@ export class RealmSettingsComponent implements OnInit {
             .deleteRealmByName(this.realm)
             .subscribe(() => {
               this.realmService
-                .getRealms()
+                .getAllRealms()
                 .subscribe(realms => {
                   this.realmService
                     .setRealms(realms);

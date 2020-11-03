@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Env} from '../../configs/env';
-import {BehaviorSubject, ReplaySubject,} from 'rxjs';
+import {BehaviorSubject,} from 'rxjs';
 import {User} from '../../models/User';
 import {Realm} from '../../models/Realm';
 
@@ -11,9 +11,8 @@ const url = Env.apiRootURL + '/api/admin/realm';
   providedIn: 'root'
 })
 export class RealmService {
-
   realms = new BehaviorSubject([]);
-  realm = new BehaviorSubject({} as Realm);
+  realm = new BehaviorSubject({} as Realm) ;
 
   constructor(private http: HttpClient) {
   }
@@ -26,7 +25,7 @@ export class RealmService {
     this.realm.next(data);
   }
 
-  getRealms() {
+  getAllRealms() {
     return this.http.get<Realm[]>(url + '/list');
   }
 
