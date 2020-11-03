@@ -17,7 +17,7 @@ export class AddRealmComponent implements OnInit {
   constructor(private formBuilder: FormBuilder,
               private realmService: RealmService) {
     this.realmService
-      .realm
+      .currentRealm
       .subscribe((realm: Realm) => this.realm = realm);
   }
 

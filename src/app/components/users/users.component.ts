@@ -39,7 +39,7 @@ export class UsersComponent implements OnInit {
   ngOnInit(): void {
     this.subSink
       .add(this.realmService
-        .realm
+        .currentRealm
         .subscribe((realm: Realm) => {
           this.realm = realm;
           this.getAlUsers();

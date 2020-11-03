@@ -20,7 +20,7 @@ export class RealmSettingsComponent implements OnInit {
 
   ngOnInit() {
     this.realmService
-      .realm
+      .currentRealm
       .subscribe((realm: Realm) => this.realm = realm);
   }
 

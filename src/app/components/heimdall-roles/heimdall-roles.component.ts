@@ -32,7 +32,7 @@ export class HeimdallRolesComponent implements OnInit {
 
   ngOnInit(): void {
     this.subSink.add(this.realmService
-      .realm
+      .currentRealm
       .subscribe((realm: Realm) => {
         this.realm = realm;
         this.getAllRoles();

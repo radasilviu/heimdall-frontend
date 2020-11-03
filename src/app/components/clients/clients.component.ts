@@ -27,7 +27,7 @@ export class ClientsComponent implements OnInit {
               private realmService: RealmService) {
     this.subSink
       .add(this.realmService
-        .realm
+        .currentRealm
         .subscribe((data: Realm) => {
           this.realm = data;
           this.getAllClients();

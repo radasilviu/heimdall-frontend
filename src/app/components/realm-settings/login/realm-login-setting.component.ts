@@ -27,7 +27,7 @@ export class RealmLoginSettingComponent implements OnInit {
 
   ngOnInit() {
     this.subSink.add(this.realmService
-      .realm
+      .currentRealm
       .subscribe((realm: Realm) => {
         this.realm = realm;
         this.loginForm

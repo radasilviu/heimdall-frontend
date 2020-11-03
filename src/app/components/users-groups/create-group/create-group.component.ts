@@ -37,7 +37,7 @@ export class CreateGroupComponent implements OnInit {
   getRealm() {
     this.subSink
       .add(this.realmService
-        .realm
+        .currentRealm
         .subscribe((data: Realm) => this.realm = data));
   }
 

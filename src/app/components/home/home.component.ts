@@ -53,6 +53,6 @@ export class HomeComponent implements OnInit {
   ngOnInit() {
     this.getAllRealms()
     this.realmService.setCurrentRealm()
-    this.realmService.realm.subscribe(realm => this.currentRealm = realm)
+    this.realmService.currentRealm.subscribe(realm => this.currentRealm = realm)
   }
 }

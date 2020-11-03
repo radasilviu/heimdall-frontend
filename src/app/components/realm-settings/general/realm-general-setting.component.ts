@@ -22,7 +22,7 @@ export class RealmGeneralSettingComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.realmService.realm.subscribe((data: Realm) => {
+    this.realmService.currentRealm.subscribe((data: Realm) => {
       this.realm = data;
       this.generalForm.patchValue({
         name: data.name,

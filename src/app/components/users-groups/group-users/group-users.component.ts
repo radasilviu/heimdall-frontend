@@ -44,7 +44,7 @@ export class GroupUsersComponent implements OnInit {
 
     this.subSink
       .add(this.realmService
-        .realm
+        .currentRealm
         .subscribe((realm: Realm) => {
           this.realm = realm;
           this.getRoles();

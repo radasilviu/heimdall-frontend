@@ -13,7 +13,7 @@ const url = Env.apiRootURL + '/api/admin/realm';
 })
 export class RealmService {
   realms = new BehaviorSubject([]);
-  realm = new BehaviorSubject({} as Realm);
+  currentRealm = new BehaviorSubject({} as Realm);
 
   constructor(private http: HttpClient) {
   }
@@ -25,10 +25,10 @@ export class RealmService {
   setCurrentRealm(data?) {
     if (data) {
       localStorage.setItem("realm", JSON.stringify(data))
-      this.getAllRealms().subscribe(() => this.realm.next(data))
+      this.getAllRealms().subscribe(() => this.currentRealm.next(data))
     } else {
       const realm = JSON.parse(localStorage.getItem("realm"))
-      this.realm.next(realm);
+      this.currentRealm.next(realm);
     }
   }
 
