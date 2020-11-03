@@ -19,7 +19,6 @@ export class ClientsComponent implements OnInit {
   clients;
   displayedColumns: string[] = ['name'];
   subSink = new SubSink();
-  edit = false;
 
   constructor(private changeDetectorRefs: ChangeDetectorRef,
               private service: ClientService,
