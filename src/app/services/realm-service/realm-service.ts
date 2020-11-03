@@ -25,7 +25,7 @@ export class RealmService {
   setCurrentRealm(data?) {
     if (data) {
       localStorage.setItem("realm", JSON.stringify(data))
-      this.getAllRealms().subscribe(realms => this.realm.next(data))
+      this.getAllRealms().subscribe(() => this.realm.next(data))
     } else {
       const realm = JSON.parse(localStorage.getItem("realm"))
       this.realm.next(realm);
