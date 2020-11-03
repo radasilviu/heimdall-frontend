@@ -4,6 +4,7 @@ import {Env} from '../../configs/env';
 import {BehaviorSubject,} from 'rxjs';
 import {User} from '../../models/User';
 import {Realm} from '../../models/Realm';
+import {tap} from "rxjs/operators";
 
 const url = Env.apiRootURL + '/api/admin/realm';
 
@@ -12,7 +13,7 @@ const url = Env.apiRootURL + '/api/admin/realm';
 })
 export class RealmService {
   realms = new BehaviorSubject([]);
-  realm = new BehaviorSubject({} as Realm) ;
+  realm = new BehaviorSubject({} as Realm);
 
   constructor(private http: HttpClient) {
   }
@@ -21,20 +22,34 @@ export class RealmService {
     this.realms.next(data);
   }
 
-  setCurrentRealm(data) {
-    this.realm.next(data);
+  setCurrentRealm(data?) {
+    if (data) {
+      localStorage.setItem("realm", JSON.stringify(data))
+      this.getAllRealms().subscribe(realms => this.realm.next(data))
+    } else {
+      const realm = JSON.parse(localStorage.getItem("realm"))
+      this.realm.next(realm);
+    }
   }
 
   getAllRealms() {
-    return this.http.get<Realm[]>(url + '/list');
+    return this.http.get<Realm[]>(url + '/list').pipe(tap((realms) => {
+      this.realms.next(realms)
+    }));
   }
 
   updateRealmByName(realmName: string, realm: Realm) {
-    return this.http.put<Realm>(url + '/general-update/' + realmName, realm);
+    return this.http.put<Realm>(url + '/general-update/' + realmName, realm).pipe(tap(realm => {
+      localStorage.setItem("realm", JSON.stringify(realm))
+      this.setCurrentRealm(realm);
+    }))
   }
 
   updateLoginSettings(realmName: string, User: User) {
-    return this.http.put(url + '/login-update/' + realmName, User);
+    return this.http.put(url + '/login-update/' + realmName, User).pipe(tap(realm => {
+      localStorage.setItem("realm", JSON.stringify(realm))
+      this.setCurrentRealm(realm);
+    }))
   }
 
   addNewRealm(realm: Realm) {

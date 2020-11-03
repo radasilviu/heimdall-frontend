@@ -49,12 +49,6 @@ export class RealmLoginSettingComponent implements OnInit {
   onSubmit() {
     this.subSink.add(this.realmService
       .updateLoginSettings(this.realm.name, this.loginForm.value)
-      .subscribe(() => {
-        this.realmService
-          .getAllRealms()
-          .subscribe(realms =>
-            this.realmService
-              .setRealms(realms));
-      }));
+      .subscribe())
   }
 }

@@ -11,15 +11,13 @@ const url = Env.apiRootURL + '/api';
   providedIn: 'root'
 })
 export class UserService {
-
-  user$ = new ReplaySubject();
-  user = this.user$.asObservable();
+  user = new ReplaySubject();
 
   constructor(private http: HttpClient) {
   }
 
   setUser(user) {
-    this.user$.next(user);
+    this.user.next(user);
   }
 
   logoutAllUsers(realm: Realm) {

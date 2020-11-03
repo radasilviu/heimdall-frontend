@@ -39,8 +39,7 @@ export class AddRealmComponent implements OnInit {
       .subscribe(() => {
         this.realmService
           .getAllRealms()
-          .subscribe(realms => this.realmService
-            .setRealms(realms));
+          .subscribe()
       }));
   }
 }

@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Client} from '../../models/Client';
-import {Observable, Subject} from 'rxjs';
+import {Observable} from 'rxjs';
 import {Env} from '../../configs/env';
 
 const url = Env.apiRootURL + '/api';
@@ -10,8 +10,6 @@ const url = Env.apiRootURL + '/api';
   providedIn: 'root'
 })
 export class ClientService {
-
-  editClient = new Subject();
 
   constructor(private http: HttpClient) {
   }

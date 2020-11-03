@@ -31,8 +31,6 @@ export class HomeComponent implements OnInit {
   changeRealm(realm) {
     this.realmService
       .setCurrentRealm(realm);
-    localStorage
-      .setItem("realm", JSON.stringify(realm))
   }
 
   logout(): void {
@@ -45,9 +43,7 @@ export class HomeComponent implements OnInit {
   getAllRealms() {
     this.realmService
       .getAllRealms()
-      .subscribe(realms => {
-        this.realmService
-          .setRealms(realms)
+      .subscribe(() => {
         this.realmService
           .realms
           .subscribe(data => this.realms = data)
@@ -57,9 +53,8 @@ export class HomeComponent implements OnInit {
   ngOnInit() {
     this.getAllRealms()
     if (localStorage.getItem("realm")) {
-      const realm = JSON.parse(localStorage.getItem("realm"))
       this.realmService
-        .setCurrentRealm(realm)
+        .setCurrentRealm()
       this.realmService
         .realm
         .subscribe(data => this.currentRealm = data)

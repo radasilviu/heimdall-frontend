@@ -43,8 +43,6 @@ export class RealmSettingsComponent implements OnInit {
                 .getAllRealms()
                 .subscribe(realms => {
                   this.realmService
-                    .setRealms(realms);
-                  this.realmService
                     .setCurrentRealm(realms[realms.length - 1]);
                 });
             }));
