@@ -21,7 +21,7 @@ export class UserSessionComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.subSink.add(this.realmService.realm$.subscribe((realm: Realm) => {
+    this.subSink.add(this.realmService.realm.subscribe((realm: Realm) => {
       this.userService.getAllUsers(realm.name).subscribe(users => {
         this.users = users;
         this.getSession();

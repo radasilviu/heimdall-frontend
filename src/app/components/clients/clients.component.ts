@@ -26,17 +26,22 @@ export class ClientsComponent implements OnInit {
               private dialog: MatDialog,
               private clientService: ClientService,
               private realmService: RealmService) {
+    this.subSink
+      .add(this.realmService
+        .realm
+        .subscribe((data: Realm) => {
+          this.realm = data;
+          this.getAllClients();
+        }));
   }
 
   ngOnInit(): void {
-    this.subSink.add(this.realmService.realm$.subscribe((data: Realm) => {
-      this.realm = data;
-      this.getAllClients();
-    }));
   }
 
   getAllClients() {
-    this.subSink.add(this.clientService.getAllClients(this.realm.name).subscribe((clients: Client[]) => this.clients = clients));
+    this.subSink.add(this.clientService
+      .getAllClients(this.realm.name)
+      .subscribe((clients: Client[]) => this.clients = clients));
   }
 
   ngOnDestroy() {
@@ -44,38 +49,51 @@ export class ClientsComponent implements OnInit {
   }
 
   updateClient(client) {
-    const dialogRef = this.dialog.open(ClientDialogComponent, {
-      data: {edit: this.edit}
-    });
+    const dialogRef = this.dialog
+      .open(ClientDialogComponent, {
+        data: {edit: true}
+      });
 
-    dialogRef.afterClosed().subscribe((data: Client) => {
-      if (data !== undefined) {
-        this.edit = true;
-        this.subSink.add(this.service.updateClientByName(client.clientName, data, this.realm.name).subscribe(() => {
-          this.getAllClients()
-          this.edit = false
-        }));
-      }
-    });
+    dialogRef.afterClosed()
+      .subscribe((data: Client) => {
+        if (data !== undefined) {
+          this.subSink
+            .add(this.service
+              .updateClientByName(client.clientName, data, this.realm.name)
+              .subscribe(() => {
+                this.getAllClients()
+              }));
+        }
+      });
   }
 
   deleteClient(client) {
-    const dialogRef = this.dialog.open(DeleteDialogComponent);
+    const dialogRef = this.dialog
+      .open(DeleteDialogComponent);
 
-    dialogRef.afterClosed().subscribe(data => {
-      if (data == 'true') {
-        this.subSink.add(this.service.deleteClient(client.clientName, this.realm.name).subscribe(() => this.getAllClients()));
-      }
-    });
+    dialogRef.afterClosed()
+      .subscribe(data => {
+        if (data == 'true') {
+          this.subSink
+            .add(this.service
+              .deleteClient(client.clientName, this.realm.name)
+              .subscribe(() => this.getAllClients()));
+        }
+      });
   }
 
   addClient() {
-    const dialogRef = this.dialog.open(ClientDialogComponent);
+    const dialogRef = this.dialog
+      .open(ClientDialogComponent);
 
-    dialogRef.afterClosed().subscribe(data => {
-      if (data) {
-        this.subSink.add(this.service.addClient(data, this.realm.name).subscribe(() => this.getAllClients()));
-      }
-    });
+    dialogRef.afterClosed()
+      .subscribe(data => {
+        if (data) {
+          this.subSink
+            .add(this.service
+              .addClient(data, this.realm.name)
+              .subscribe(() => this.getAllClients()));
+        }
+      });
   }
 }

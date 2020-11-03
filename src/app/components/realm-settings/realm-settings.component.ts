@@ -19,25 +19,36 @@ export class RealmSettingsComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.realmService.realm$.subscribe((realm: Realm) => this.realm = realm);
+    this.realmService
+      .realm
+      .subscribe((realm: Realm) => this.realm = realm);
   }
 
   ngOnDestroy() {
-    this.subSink.unsubscribe();
+    this.subSink
+      .unsubscribe();
   }
 
   deleteRealmByName() {
-    const dialogRef = this.dialog.open(DeleteDialogComponent);
+    const dialogRef = this.dialog
+      .open(DeleteDialogComponent);
 
-    dialogRef.afterClosed().subscribe(data => {
-      if (data == 'true') {
-        this.subSink.add(this.realmService.deleteRealmByName(this.realm).subscribe(() => {
-          this.realmService.getRealms().subscribe(realms => {
-            this.realmService.setRealms(realms);
-            this.realmService.setRealm(realms[realms.length - 1]);
-          });
-        }));
-      }
-    });
+    dialogRef.afterClosed()
+      .subscribe(data => {
+        if (data == 'true') {
+          this.subSink.add(this.realmService
+            .deleteRealmByName(this.realm)
+            .subscribe(() => {
+              this.realmService
+                .getRealms()
+                .subscribe(realms => {
+                  this.realmService
+                    .setRealms(realms);
+                  this.realmService
+                    .setCurrentRealm(realms[realms.length - 1]);
+                });
+            }));
+        }
+      });
   }
 }

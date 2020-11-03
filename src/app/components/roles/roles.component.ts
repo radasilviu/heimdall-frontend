@@ -26,33 +26,50 @@ export class RolesComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.subSink.add(this.realmService.realm$.subscribe((realm: Realm) => {
-      this.realm = realm;
-      this.userService.user.subscribe((user: User) => {
-        this.userRoles = user.roles;
-        this.user = user;
-        this.getRoles();
-      });
-    }));
+    this.subSink.add(this.realmService
+      .realm
+      .subscribe((realm: Realm) => {
+        this.realm = realm;
+        this.userService
+          .user
+          .subscribe((user: User) => {
+            this.userRoles = user.roles;
+            this.user = user;
+            this.getRoles();
+          });
+      }));
   }
 
   getRoles() {
-    this.subSink.add(this.roleService.getAllRoles(this.realm.name).subscribe(roles => this.allRoles = roles));
+    this.subSink
+      .add(this.roleService
+        .getAllRoles(this.realm.name)
+        .subscribe(roles => this.allRoles = roles));
   }
 
   updateUser() {
-    this.subSink.add(this.userService.getUserByUsername(this.user.username, this.realm.name).subscribe(user => this.userService.setUser(user)));
+    this.subSink
+      .add(this.userService
+        .getUserByUsername(this.user.username, this.realm.name)
+        .subscribe(user =>
+          this.userService
+            .setUser(user)));
   }
 
   ngOnDestroy() {
-    this.subSink.unsubscribe();
+    this.subSink
+      .unsubscribe();
   }
 
   addRole(role) {
-    this.subSink.add(this.roleService.addUserRole(role, this.user, this.realm.name).subscribe(() => this.updateUser()));
+    this.subSink.add(this.roleService
+      .addUserRole(role, this.user, this.realm.name)
+      .subscribe(() => this.updateUser()));
   }
 
   deleteRole(role) {
-    this.subSink.add(this.roleService.deleteUserRole(this.user, role, this.realm.name).subscribe(() => this.updateUser()));
+    this.subSink.add(this.roleService
+      .deleteUserRole(this.user, role, this.realm.name)
+      .subscribe(() => this.updateUser()));
   }
 }

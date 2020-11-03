@@ -16,7 +16,9 @@ export class AddRealmComponent implements OnInit {
 
   constructor(private formBuilder: FormBuilder,
               private realmService: RealmService) {
-    this.realmService.realm$.subscribe((realm: Realm) => this.realm = realm);
+    this.realmService
+      .realm
+      .subscribe((realm: Realm) => this.realm = realm);
   }
 
   ngOnInit(): void {
@@ -27,12 +29,18 @@ export class AddRealmComponent implements OnInit {
   }
 
   ngOnDestroy() {
-    this.subSink.unsubscribe();
+    this.subSink
+      .unsubscribe();
   }
 
   addNewRealm() {
-    this.subSink.add(this.realmService.addNewRealm(this.newRealm.value).subscribe(() => {
-      this.realmService.getRealms().subscribe(realms => this.realmService.setRealms(realms));
-    }));
+    this.subSink.add(this.realmService
+      .addNewRealm(this.newRealm.value)
+      .subscribe(() => {
+        this.realmService
+          .getRealms()
+          .subscribe(realms => this.realmService
+            .setRealms(realms));
+      }));
   }
 }

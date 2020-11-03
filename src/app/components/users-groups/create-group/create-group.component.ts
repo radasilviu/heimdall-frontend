@@ -35,10 +35,18 @@ export class CreateGroupComponent implements OnInit {
   }
 
   getRealm() {
-    this.subSink.add(this.realmService.realm$.subscribe((data: Realm) => this.realm = data));
+    this.subSink
+      .add(this.realmService
+        .realm
+        .subscribe((data: Realm) => this.realm = data));
   }
 
   onSubmit() {
-    this.subSink.add(this.groupService.addNewGroup(this.createGroup.value, this.realm.name).subscribe(() => this.router.navigate(['/home/users-group'])));
+    this.subSink
+      .add(this.groupService
+        .addNewGroup(this.createGroup.value, this.realm.name)
+        .subscribe(() =>
+          this.router
+            .navigate(['/home/users-group'])));
   }
 }

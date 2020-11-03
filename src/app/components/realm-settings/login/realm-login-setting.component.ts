@@ -26,17 +26,20 @@ export class RealmLoginSettingComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.subSink.add(this.realmService.realm$.subscribe((realm: Realm) => {
-      this.realm = realm;
-      this.loginForm.patchValue({
-        userRegistration: realm.userRegistration,
-        editUsername: realm.editUsername,
-        forgotPassword: realm.forgotPassword,
-        rememberMe: realm.rememberMe,
-        loginWithEmail: realm.loginWithEmail,
-        verifyEmail: realm.verifyEmail
-      });
-    }));
+    this.subSink.add(this.realmService
+      .realm
+      .subscribe((realm: Realm) => {
+        this.realm = realm;
+        this.loginForm
+          .patchValue({
+            userRegistration: realm.userRegistration,
+            editUsername: realm.editUsername,
+            forgotPassword: realm.forgotPassword,
+            rememberMe: realm.rememberMe,
+            loginWithEmail: realm.loginWithEmail,
+            verifyEmail: realm.verifyEmail
+          });
+      }));
   }
 
   ngOnDestroy() {
@@ -44,8 +47,14 @@ export class RealmLoginSettingComponent implements OnInit {
   }
 
   onSubmit() {
-    this.subSink.add(this.realmService.updateLoginSettings(this.realm.name, this.loginForm.value).subscribe(() => {
-      this.realmService.getRealms().subscribe(realms => this.realmService.setRealms(realms));
-    }));
+    this.subSink.add(this.realmService
+      .updateLoginSettings(this.realm.name, this.loginForm.value)
+      .subscribe(() => {
+        this.realmService
+          .getRealms()
+          .subscribe(realms =>
+            this.realmService
+              .setRealms(realms));
+      }));
   }
 }

@@ -12,20 +12,19 @@ const url = Env.apiRootURL + '/api/admin/realm';
 })
 export class RealmService {
 
-  realms$ = new BehaviorSubject([]);
-  realm$ = new ReplaySubject(1);
+  realms = new BehaviorSubject([]);
+  realm = new BehaviorSubject({} as Realm);
 
   constructor(private http: HttpClient) {
   }
 
   setRealms(data) {
-    this.realms$.next(data);
+    this.realms.next(data);
   }
 
-  setRealm(data) {
-    this.realm$.next(data);
+  setCurrentRealm(data) {
+    this.realm.next(data);
   }
-
 
   getRealms() {
     return this.http.get<Realm[]>(url + '/list');
