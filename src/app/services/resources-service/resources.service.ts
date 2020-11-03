@@ -16,7 +16,7 @@ export class ResourcesService {
 
 
   getAllResources(role) {
-    return this.http.post(url + "/resources" + "/getResources", role);
+    return this.http.get(url + "/resources" + "/all", role);
   }
 
   addResourceToRole(resourceName, role) {
