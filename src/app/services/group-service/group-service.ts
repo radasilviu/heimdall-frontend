@@ -1,9 +1,10 @@
 import {Injectable} from '@angular/core';
-import {Observable, ReplaySubject} from 'rxjs';
+import {BehaviorSubject, Observable} from 'rxjs';
 import {Group} from '../../models/Group';
 import {HttpClient} from '@angular/common/http';
 import {Env} from '../../configs/env';
 import {User} from '../../models/User';
+import {tap} from "rxjs/operators";
 
 const url = Env.apiRootURL + '/api/client';
 
@@ -13,11 +14,7 @@ const url = Env.apiRootURL + '/api/client';
 
 export class GroupService {
 
-  group$ = new ReplaySubject();
-
-  setGroup(group) {
-    this.group$.next(group);
-  }
+  group = new BehaviorSubject({})
 
   constructor(private http: HttpClient) {
   }
@@ -35,7 +32,7 @@ export class GroupService {
   }
 
   getGroupByName(group: string, realmName: string): Observable<Group> {
-    return this.http.get<Group>(url + '/' + realmName + '/group/' + group);
+    return this.http.get<Group>(url + '/' + realmName + '/group/' + group).pipe(tap((group: Group) => this.group.next(group)));
   }
 
   getAllGroups(realmName: string): Observable<Group[]> {

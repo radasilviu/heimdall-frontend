@@ -23,6 +23,7 @@ import {UsersGroupsComponent} from './components/users-groups/users-groups.compo
 import {CreateGroupComponent} from './components/users-groups/create-group/create-group.component';
 import {GroupUsersComponent} from './components/users-groups/group-users/group-users.component';
 import {UserSessionComponent} from './components/user-session/user-session.component';
+import {RoleSettingsComponent} from "./components/role-settings/role-settings.component";
 
 const routes: Routes = [
   {
@@ -31,6 +32,7 @@ const routes: Routes = [
       {path: 'users', component: UsersComponent},
       {path: 'users/roles', component: RolesComponent},
       {path: 'identity-provider', component: IdentityProviderComponent},
+      {path: 'role-settings', component: RoleSettingsComponent},
       {path: 'roles', component: HeimdallRolesComponent},
       {path: 'realm-settings', component: RealmSettingsComponent},
       {path: 'add-realm', component: AddRealmComponent},

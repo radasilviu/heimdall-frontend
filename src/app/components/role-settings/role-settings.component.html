@@ -1,0 +1,58 @@
+<div class="container-fluid">
+  <div class="row" *ngIf="role">
+    <h2 class="text-center w-100 mt-4"> {{role.name}} </h2>
+  </div>
+  <div class="row mt-4">
+    <div class="col-6 d-flex justify-content-end">
+      <table mat-table [dataSource]="allResources" class="w-25 mat-elevation-z8 my-table">
+        <ng-container matColumnDef="Resources">
+          <th mat-header-cell *matHeaderCellDef>
+            <div class="d-flex">
+              <h5 class="align-self-md-center mb-0">
+                All Resource
+              </h5>
+              <button (click)="addNewResource()" type="button" class="btn btn-primary ml-auto">Primary</button>
+            </div>
+          </th>
+          <td class="d-flex align-content-center p-3" mat-cell *matCellDef="let resources">
+            {{resources.name }}
+            <div class="w-100">
+              <mat-icon (click)="addResourceToRole(resources)" class="table-icon float-right ml-3" aria-hidden="false"
+                        aria-label="move">
+                arrow_right_alt
+              </mat-icon>
+              <mat-icon (click)="deleteResource(resources.name)" class="table-icon ml-4 float-right" aria-hidden="false"
+                        aria-label="delete">delete
+              </mat-icon>
+            </div>
+          </td>
+        </ng-container>
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+    </div>
+    <div class="col-6">
+      <table mat-table [dataSource]="(role)?.roleResources" class="w-25 mat-elevation-z8 my-table">
+        <ng-container matColumnDef="Resources">
+          <th mat-header-cell *matHeaderCellDef>
+            <h5 class="mb-0 text-center">Role Resources</h5>
+          </th>
+          <td class="d-flex align-items-center p-3" mat-cell *matCellDef="let resources">
+            {{resources.name}}
+            <div class="w-100">
+              <mat-icon (click)="deleteRoleResource(resources)" class="table-icon ml-4 float-right" aria-hidden="false"
+                        aria-label="delete">delete
+              </mat-icon>
+
+              <mat-icon (click)="privilege(resources)" class="table-icon float-right" aria-hidden="false"
+                        aria-label="info">info
+              </mat-icon>
+            </div>
+          </td>
+        </ng-container>
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+    </div>
+  </div>
+</div>

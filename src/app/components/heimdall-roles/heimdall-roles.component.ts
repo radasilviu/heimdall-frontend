@@ -2,12 +2,13 @@ import {Component, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {MatDialog} from '@angular/material/dialog';
 import {Role} from 'src/app/models/Role';
-import {DeleteDialogComponent} from '../dialogs/delete-dialog/delete-dialog.component';
-import {RolesDialogComponent} from '../dialogs/roles-dialog/roles-dialog.component';
 import {RoleService} from '../../services/role-service/role-service';
 import {RealmService} from '../../services/realm-service/realm-service';
 import {SubSink} from 'subsink';
 import {Realm} from '../../models/Realm';
+import {Router} from '@angular/router';
+import {DeleteDialogComponent} from "../dialogs/delete-dialog/delete-dialog.component";
+
 
 @Component({
   selector: 'app-heimdall-roles',
@@ -26,6 +27,7 @@ export class HeimdallRolesComponent implements OnInit {
 
   constructor(private service: RoleService,
               private dialog: MatDialog,
+              private router: Router,
               private roleService: RoleService,
               private realmService: RealmService) {
   }
@@ -50,26 +52,9 @@ export class HeimdallRolesComponent implements OnInit {
       .unsubscribe();
   }
 
-  updateRole(role) {
-    this.roleService.getRoleByName(this.realm.name, role.name).subscribe(data => {
-      const dialogRef = this.dialog.open(RolesDialogComponent, {
-        width: "50%",
-        height: "70%",
-        data: {
-          role: data
-        }
-      });
-      dialogRef.afterClosed().subscribe(data => {
-        console.log(data)
-        if (data !== undefined) {
-          let newRole = {} as Role;
-          newRole.name = data.newRole;
-          this.subSink.add(this.service.updateRoleByName(role.name, newRole, this.realm.name).subscribe(() => {
-            this.realmService.setRealm(this.realm.name);
-          }));
-        }
-      });
-    })
+  updateRole(roleName) {
+    localStorage.setItem("currentRoleName", roleName)
+    this.router.navigate(['/home/role-settings']);
   }
 
   addRole() {

@@ -23,8 +23,32 @@ export class ResourcesService {
     return this.http.put(url + "/role/" + resourceName + "/add", role);
   }
 
-  deleteResource(resourceName,role){
-    return this.http.put(url + "/role/" + resourceName + "/remove",role)
+  deleteRoleResource(resourceName, role) {
+    return this.http.put(url + "/role/" + resourceName + "/remove", role)
+  }
+
+  addNewResource(resource) {
+    return this.http.post(url + "/resources", resource);
+  }
+
+  getAllPrivilege() {
+    return this.http.get(url + "/privilege");
+  }
+
+  getResourcePrivilege(realmName, roleName, resourceName) {
+    return this.http.get(url + "/privilege/" + realmName + "/" + roleName + "/" + resourceName,);
+  }
+
+  removePrivilegeFromResource(resourceName, privilegeName, role) {
+    return this.http.put(url + "/privilege/" + resourceName + "/" + privilegeName + "/remove", role);
+  }
+
+  addPrivilegeToRole(resourceName, privilegeName, role) {
+    return this.http.put(url + "/privilege/" + resourceName + "/" + privilegeName + "/add", role);
+  }
+
+  deleteResource(resourceName) {
+    return this.http.delete(url + "/resources/" + resourceName + "/removeAll");
   }
 
 }
