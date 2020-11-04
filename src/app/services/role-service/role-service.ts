@@ -11,30 +11,27 @@ const url = Env.apiRootURL + '/api';
   providedIn: 'root'
 })
 export class RoleService {
-  roles$ = new ReplaySubject<Role[]>();
 
   constructor(private http: HttpClient) {
-  }
-
-  setRoles(data) {
-    return this.roles$.next(data);
   }
 
   getRoleByName() {
     const roleName = localStorage.getItem("currentRoleName")
     const realm = JSON.parse(localStorage.getItem("realm"))
+
     return this.http.get(url + '/role/' + realm.name + "/" + roleName);
   }
 
   getAllRoles(realmName: string): Observable<Role[]> {
     return this.http.get<Role[]>(url + '/role/' + realmName);
   }
+
   addRole(role: Role, realmName: string) {
     return this.http.post<any>(url + '/role/' + realmName, role);
   }
 
   deleteRole(role: Role, realmName: string) {
-    return this.http.request('delete', url + '/role/' + realmName + '/' + role);
+    return this.http.delete( url + '/role/' + realmName + '/' + role);
   }
 
   addUserRole(role: Role, user: User, realmName: string) {

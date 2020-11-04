@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {ResourcesService} from "../../../services/resources-service/resources.service";
 import {RoleService} from "../../../services/role-service/role-service";
+import {SubSink} from "subsink";
 
 @Component({
   selector: 'app-privilege-dialog',
@@ -13,6 +14,7 @@ export class PrivilegeDialogComponent implements OnInit {
   resourcePrivilege;
   resourceName;
   role;
+  subSink = new SubSink()
 
   constructor(private resourceService: ResourcesService,
               private roleService: RoleService) {
@@ -23,40 +25,43 @@ export class PrivilegeDialogComponent implements OnInit {
     this.getResourcePrivilege()
     this.getRoleByName()
   }
+  ngOnDestroy(){
+    this.subSink.unsubscribe()
+  }
 
   getResourcePrivilege() {
-    this.resourceService
+    this.subSink.add(this.resourceService
       .getResourcePrivilege()
       .subscribe(data => {
         this.resourcePrivilege = data
-      })
+      }))
   }
 
   getAllPrivilege() {
-    this.resourceService
+    this.subSink.add(this.resourceService
       .getAllPrivilege()
       .subscribe(data => {
         this.allPrivileges = data
-      })
+      }))
   }
 
   getRoleByName() {
-    this.roleService
+    this.subSink.add(this.roleService
       .getRoleByName()
       .subscribe(data => {
         this.role = data
-      })
+      }))
   }
 
   removePrivilegeFromResource(privilegeName) {
-    this.resourceService
+    this.subSink.add(this.resourceService
       .removePrivilegeFromResource(privilegeName, this.role)
-      .subscribe(() => this.getResourcePrivilege())
+      .subscribe(() => this.getResourcePrivilege()))
   }
 
   addPrivilegeToResource(privilegeName) {
-    this.resourceService
+    this.subSink.add(this.resourceService
       .addPrivilegeToRole(privilegeName, this.role)
-      .subscribe(() => this.getResourcePrivilege())
+      .subscribe(() => this.getResourcePrivilege()))
   }
 }

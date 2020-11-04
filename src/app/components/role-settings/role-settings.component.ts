@@ -28,28 +28,28 @@ export class RoleSettingsComponent implements OnInit {
 
 
   getAllResources() {
-    this.resourceService.getAllResources(this.role.name)
+    this.subSink.add(this.resourceService.getAllResources(this.role.name)
       .subscribe(data => {
         this.allResources = data
-      })
+      }))
   }
 
   getRoleByName() {
-    this.roleService
+    this.subSink.add(this.roleService
       .getRoleByName()
       .subscribe(data => {
         this.role = data
         this.getAllResources()
-      })
+      }))
   }
 
   ngOnInit(): void {
-    this.realmService
+    this.subSink.add(this.realmService
       .currentRealm
       .subscribe(realm => {
         this.realm = realm
         this.getRoleByName()
-      })
+      }))
   }
 
   editResource(resourceName) {
@@ -61,39 +61,39 @@ export class RoleSettingsComponent implements OnInit {
     dialogRef.afterClosed()
       .subscribe(data => {
         if (data !== undefined) {
-          this.resourceService
+          this.subSink.add(this.resourceService
             .updateResourceByName(resourceName, data.name)
             .subscribe(() => {
               this.getAllResources()
               this.getRoleByName()
-            })
+            }))
         }
       });
   }
 
   addResourceToRole(resources) {
-    this.resourceService
+    this.subSink.add(this.resourceService
       .addResourceToRole(resources.name, this.role)
       .subscribe(() => {
         this.getRoleByName()
-      })
+      }))
   }
 
   deleteRoleResource(resources) {
-    this.resourceService
+    this.subSink.add(this.resourceService
       .deleteRoleResource(resources.name, this.role)
       .subscribe(() => {
         this.getRoleByName()
-      })
+      }))
   }
 
   deleteResource(resourceName) {
-    this.resourceService
+    this.subSink.add(this.resourceService
       .deleteResource(resourceName)
       .subscribe(() => {
         this.getAllResources()
         this.getRoleByName()
-      })
+      }))
   }
 
   addNewResource() {
@@ -105,13 +105,17 @@ export class RoleSettingsComponent implements OnInit {
     dialogRef.afterClosed()
       .subscribe(data => {
         if (data !== undefined) {
-          this.resourceService
+          this.subSink.add(this.resourceService
             .addNewResource(data)
             .subscribe(() => {
               this.getAllResources()
-            })
+            }))
         }
       });
+  }
+
+  ngOnDestroy() {
+    this.subSink.unsubscribe()
   }
 
   privilege(resources) {
@@ -125,11 +129,11 @@ export class RoleSettingsComponent implements OnInit {
     dialogRef.afterClosed()
       .subscribe((data: Client) => {
         if (data !== undefined) {
-          this.resourceService
+          this.subSink.add(this.resourceService
             .addNewResource(data)
             .subscribe(() => {
               this.getAllResources()
-            })
+            }))
         }
       });
   }
