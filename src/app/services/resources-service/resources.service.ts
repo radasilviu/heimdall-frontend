@@ -54,6 +54,6 @@ export class ResourcesService {
   }
 
   deleteResource(resourceName) {
-    return this.http.delete(url + "/resources/" + resourceName + "/removeAll");
+    return this.http.delete(url + "/role/" + resourceName + "/removeAll");
   }
 }
