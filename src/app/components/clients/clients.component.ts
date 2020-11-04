@@ -2,13 +2,11 @@ import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
 import {MatDialog} from '@angular/material/dialog';
 import {ClientDialogComponent} from '../dialogs/client-dialog/client-dialog.component';
 import {Client} from '../../models/Client';
-import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {DeleteDialogComponent} from '../dialogs/delete-dialog/delete-dialog.component';
 import {ClientService} from '../../services/clientService/client-service';
-import {SnackBarService} from '../../services/snack-bar/snack-bar-service';
-import {ParentRealm, Realm} from '../../models/Realm';
 import {RealmService} from '../../services/realm-service/realm-service';
 import {SubSink} from 'subsink';
+import {Realm} from '../../models/Realm';
 
 @Component({
   selector: 'app-clients',
@@ -18,70 +16,83 @@ import {SubSink} from 'subsink';
 
 export class ClientsComponent implements OnInit {
   realm: Realm;
-  client: Client;
-  clients: Client[];
+  clients;
   displayedColumns: string[] = ['name'];
   subSink = new SubSink();
 
-  form = new FormGroup({
-    clientName: new FormControl('', Validators.required),
-  });
-
   constructor(private changeDetectorRefs: ChangeDetectorRef,
               private service: ClientService,
-              private snackBar: SnackBarService,
               private dialog: MatDialog,
               private clientService: ClientService,
               private realmService: RealmService) {
+    this.subSink
+      .add(this.realmService
+        .currentRealm
+        .subscribe((data: Realm) => {
+          this.realm = data;
+          this.getAllClients();
+        }));
   }
 
   ngOnInit(): void {
-    this.subSink.add(this.realmService.realm.subscribe((data: ParentRealm) => {
-      this.clients = data.clients;
-      this.realm = data.realm;
-    }));
+  }
+
+  getAllClients() {
+    this.subSink.add(this.clientService
+      .getAllClients(this.realm.name)
+      .subscribe((clients: Client[]) => this.clients = clients));
   }
 
   ngOnDestroy() {
     this.subSink.unsubscribe();
   }
 
-  updateClient(currentClientName: string) {
-    const dialogRef = this.dialog.open(ClientDialogComponent);
+  updateClient(client) {
+    const dialogRef = this.dialog
+      .open(ClientDialogComponent, {
+        data: {edit: true}
+      });
 
-    dialogRef.afterClosed().subscribe(data => {
-      if (data !== undefined) {
-        let client = {} as Client;
-        client.clientName = data;
-        this.subSink.add(this.service.updateClientByName(currentClientName, client, this.realm.name).subscribe(
-          data => {
-            this.realmService.setRealm(this.realm.name);
-          }, error => {
-            this.snackBar.openSnackBar(error.error.message, 2000);
-          }));
-      }
-    });
+    dialogRef.afterClosed()
+      .subscribe((data: Client) => {
+        if (data !== undefined) {
+          this.subSink
+            .add(this.service
+              .updateClientByName(client.clientName, data, this.realm.name)
+              .subscribe(() => {
+                this.getAllClients()
+              }));
+        }
+      });
   }
 
-  deleteClient(clientName) {
-    const dialogRef = this.dialog.open(DeleteDialogComponent);
+  deleteClient(client) {
+    const dialogRef = this.dialog
+      .open(DeleteDialogComponent);
 
-    dialogRef.afterClosed().subscribe(data => {
-      if (data == 'true') {
-        this.subSink.add(this.service.deleteClient(clientName, this.realm.name).subscribe(() => {
-          this.realmService.setRealm(this.realm.name);
-        }, error => {
-          this.snackBar.openSnackBar(error.error.message, 2000);
-        }));
-      }
-    });
+    dialogRef.afterClosed()
+      .subscribe(data => {
+        if (data == 'true') {
+          this.subSink
+            .add(this.service
+              .deleteClient(client.clientName, this.realm.name)
+              .subscribe(() => this.getAllClients()));
+        }
+      });
   }
 
-  onSubmit() {
-    this.subSink.add(this.service.addClient(this.form.value, this.realm.name).subscribe(data => {
-      this.realmService.setRealm(this.realm.name);
-    }, error => {
-      this.snackBar.openSnackBar(error.error.message, 2000);
-    }));
+  addClient() {
+    const dialogRef = this.dialog
+      .open(ClientDialogComponent);
+
+    dialogRef.afterClosed()
+      .subscribe(data => {
+        if (data) {
+          this.subSink
+            .add(this.service
+              .addClient(data, this.realm.name)
+              .subscribe(() => this.getAllClients()));
+        }
+      });
   }
 }

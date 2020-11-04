@@ -8,6 +8,7 @@ import {DeleteDialogComponent} from '../dialogs/delete-dialog/delete-dialog.comp
 import {UserService} from '../../services/user-service/user-service';
 import {Role} from '../../models/Role';
 import {RoleService} from '../../services/role-service/role-service';
+import {Realm} from '../../models/Realm';
 
 @Component({
   selector: 'app-user-session',
@@ -17,26 +18,20 @@ import {RoleService} from '../../services/role-service/role-service';
 export class UserSessionComponent implements OnInit {
   users: User[];
   subSink = new SubSink();
-  displayedColumns = ['username', 'isActive', 'logout'];
+
   realm: Realm;
+  displayedColumns = ['username', 'isActive', 'logout'];
 
-
-  constructor(private realmService: RealmService,
-              private userService: UserService) {}
-
-  ngOnInit(): void {
-    this.getUsers();
-
+  constructor(private userService: UserService, private realmService: RealmService) {
   }
 
-  getUsers() {
-    this.subSink.add(this.realmService.realm.subscribe((data: ParentRealm) => {
-      this.realm = data.realm;
-      return this.userService.getUsersWithoutAdmin(this.realm.name).subscribe((users: User[]) => {
+  ngOnInit(): void {
+    this.subSink.add(this.realmService.currentRealm.subscribe((realm: Realm) => {
+      this.userService.getAllUsers(realm.name).subscribe(users => {
         this.users = users;
         this.getSession();
       });
-  }));
+    }));
   }
 
   ngOnDestroy() {
@@ -57,7 +52,6 @@ export class UserSessionComponent implements OnInit {
     const date = new Date();
 
     this.users.forEach(function(value){
-
       if (value.token || value.refreshToken) {
         const session = value.token;
         const refresh = value.refreshToken;
