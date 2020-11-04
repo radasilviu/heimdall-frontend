@@ -1,0 +1,8 @@
+.table-icon {
+  user-select: none;
+  cursor: pointer;
+}
+
+.table-icon:hover {
+  color: var(--hover-icon-color)
+}
