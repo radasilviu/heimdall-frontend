@@ -53,9 +53,7 @@ export class ResourcesService {
     return this.http.put(url + "/privilege/" + resourceName + "/" + privilegeName + "/add", role);
   }
 
-  deleteResource() {
-    const resourceName = localStorage.getItem("resource")
+  deleteResource(resourceName) {
     return this.http.delete(url + "/resources/" + resourceName + "/removeAll");
   }
-
 }

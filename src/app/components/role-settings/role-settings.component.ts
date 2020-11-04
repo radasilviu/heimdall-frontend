@@ -70,7 +70,7 @@ export class RoleSettingsComponent implements OnInit {
 
   deleteResource(resourceName) {
     this.resourceService
-      .deleteResource()
+      .deleteResource(resourceName)
       .subscribe(() => {
         this.getAllResources()
       })
