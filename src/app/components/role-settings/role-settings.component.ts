@@ -28,41 +28,52 @@ export class RoleSettingsComponent implements OnInit {
   }
 
   getAllResources() {
-    this.resourceService.getAllResources(this.role.name).subscribe(data => {
-      this.allResources = data
-    })
+    this.resourceService.getAllResources(this.role.name)
+      .subscribe(data => {
+        this.allResources = data
+      })
   }
 
   getRoleByName() {
-    let roleName = localStorage.getItem("currentRoleName")
-    this.roleService.getRoleByName(this.realm.name, roleName).subscribe(data => {
-      this.role = data
-      this.getAllResources()
-    })
+    this.roleService
+      .getRoleByName()
+      .subscribe(data => {
+        this.role = data
+        this.getAllResources()
+      })
   }
 
   ngOnInit(): void {
-    this.realmService.currentRealm.subscribe(realm => {
-      this.realm = realm
-      this.getRoleByName()
-    })
+    this.realmService
+      .currentRealm
+      .subscribe(realm => {
+        this.realm = realm
+        this.getRoleByName()
+      })
   }
 
   addResourceToRole(resources) {
-    this.resourceService.addResourceToRole(resources.name, this.role).subscribe(() => {
-      this.getRoleByName()
-    })
+    this.resourceService
+      .addResourceToRole(resources.name, this.role)
+      .subscribe(() => {
+        this.getRoleByName()
+      })
   }
 
   deleteRoleResource(resources) {
-    this.resourceService.deleteRoleResource(resources.name, this.role).subscribe(() => {
-      this.getRoleByName()
-    })
+    this.resourceService
+      .deleteRoleResource(resources.name, this.role)
+      .subscribe(() => {
+        this.getRoleByName()
+      })
   }
-  deleteResource(resourceName){
-    this.resourceService.deleteResource(resourceName).subscribe(() =>{
-      this.getAllResources()
-    })
+
+  deleteResource(resourceName) {
+    this.resourceService
+      .deleteResource()
+      .subscribe(() => {
+        this.getAllResources()
+      })
   }
 
   addNewResource() {
@@ -74,29 +85,32 @@ export class RoleSettingsComponent implements OnInit {
     dialogRef.afterClosed()
       .subscribe((data: Client) => {
         if (data !== undefined) {
-          this.resourceService.addNewResource(data).subscribe(() => {
-            this.getAllResources()
-          })
+          this.resourceService
+            .addNewResource(data)
+            .subscribe(() => {
+              this.getAllResources()
+            })
         }
       });
   }
 
-  privilege(resources){
-    localStorage.setItem("resource",resources.name)
+  privilege(resources) {
+    localStorage.setItem("resource", resources.name)
     const dialogRef = this.dialog
       .open(PrivilegeDialogComponent, {
-        width:"30vw",
+        width: "30vw",
         data: {edit: true}
       });
 
     dialogRef.afterClosed()
       .subscribe((data: Client) => {
         if (data !== undefined) {
-          this.resourceService.addNewResource(data).subscribe(() => {
-            this.getAllResources()
-          })
+          this.resourceService
+            .addNewResource(data)
+            .subscribe(() => {
+              this.getAllResources()
+            })
         }
       });
   }
-
 }

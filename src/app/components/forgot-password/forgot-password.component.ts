@@ -10,11 +10,10 @@ import {MatSnackBar} from '@angular/material/snack-bar';
   styleUrls: ['./forgot-password.component.css']
 })
 export class ForgotPasswordComponent implements OnInit {
+  forgotPasswordForm: FormGroup;
 
   constructor(private forgotPasswordService: ForgotPasswordService, private router: Router, private snackBar: MatSnackBar) {
   }
-
-  forgotPasswordForm: FormGroup;
 
   ngOnInit(): void {
     this.forgotPasswordForm = new FormGroup({

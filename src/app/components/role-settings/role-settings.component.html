@@ -4,14 +4,15 @@
   </div>
   <div class="row mt-4">
     <div class="col-6 d-flex justify-content-end">
-      <table mat-table [dataSource]="allResources" class="w-25 mat-elevation-z8 my-table">
+      <table mat-table [dataSource]="allResources" class=" mat-elevation-z8 my-table">
         <ng-container matColumnDef="Resources">
-          <th mat-header-cell *matHeaderCellDef>
+          <th class="p-4" mat-header-cell *matHeaderCellDef>
             <div class="d-flex">
-              <h5 class="align-self-md-center mb-0">
-                All Resource
+              <h5 class="align-self-md-center text-center mb-0">
+                All Resources
               </h5>
-              <button (click)="addNewResource()" type="button" class="btn btn-primary ml-auto">Primary</button>
+              <button (click)="addNewResource()" type="button" class="btn btn-sm btn-primary  ml-4">Add Resource
+              </button>
             </div>
           </th>
           <td class="d-flex align-content-center p-3" mat-cell *matCellDef="let resources">
@@ -34,7 +35,7 @@
     <div class="col-6">
       <table mat-table [dataSource]="(role)?.roleResources" class="w-25 mat-elevation-z8 my-table">
         <ng-container matColumnDef="Resources">
-          <th mat-header-cell *matHeaderCellDef>
+          <th class="p-4" mat-header-cell *matHeaderCellDef>
             <h5 class="mb-0 text-center">Role Resources</h5>
           </th>
           <td class="d-flex align-items-center p-3" mat-cell *matCellDef="let resources">

@@ -24,35 +24,39 @@ export class PrivilegeDialogComponent implements OnInit {
     this.getRoleByName()
   }
 
-
   getResourcePrivilege() {
-    const realm = JSON.parse(localStorage.getItem("realm"))
-    const roleName = localStorage.getItem("currentRoleName")
-    const resourceName = localStorage.getItem("resource")
-    this.resourceName = resourceName;
-
-    this.resourceService.getResourcePrivilege(realm.name, roleName, resourceName).subscribe(data => {
-      this.resourcePrivilege = data
-    })
+    this.resourceService
+      .getResourcePrivilege()
+      .subscribe(data => {
+        this.resourcePrivilege = data
+      })
   }
 
   getAllPrivilege() {
-    this.resourceService.getAllPrivilege().subscribe(data => {
-      this.allPrivileges = data
-    })
+    this.resourceService
+      .getAllPrivilege()
+      .subscribe(data => {
+        this.allPrivileges = data
+      })
   }
-  getRoleByName(){
-    const roleName = localStorage.getItem("currentRoleName")
-    const realm = JSON.parse(localStorage.getItem("realm"))
-    this.roleService.getRoleByName(realm.name, roleName).subscribe(data => {
-      this.role =data
-    })
+
+  getRoleByName() {
+    this.roleService
+      .getRoleByName()
+      .subscribe(data => {
+        this.role = data
+      })
   }
 
   removePrivilegeFromResource(privilegeName) {
-    this.resourceService.removePrivilegeFromResource(this.resourceName, privilegeName, this.role).subscribe(() => this.getResourcePrivilege())
+    this.resourceService
+      .removePrivilegeFromResource(privilegeName, this.role)
+      .subscribe(() => this.getResourcePrivilege())
   }
-  addPrivilegeToResource(privilegeName){
-  this.resourceService.addPrivilegeToRole(this.resourceName,privilegeName,this.role).subscribe(() => this.getResourcePrivilege())
+
+  addPrivilegeToResource(privilegeName) {
+    this.resourceService
+      .addPrivilegeToRole(privilegeName, this.role)
+      .subscribe(() => this.getResourcePrivilege())
   }
 }

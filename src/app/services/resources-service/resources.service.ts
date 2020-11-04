@@ -35,19 +35,26 @@ export class ResourcesService {
     return this.http.get(url + "/privilege");
   }
 
-  getResourcePrivilege(realmName, roleName, resourceName) {
-    return this.http.get(url + "/privilege/" + realmName + "/" + roleName + "/" + resourceName,);
+  getResourcePrivilege() {
+    const realm = JSON.parse(localStorage.getItem("realm"))
+    const roleName = localStorage.getItem("currentRoleName")
+    const resourceName = localStorage.getItem("resource")
+
+    return this.http.get(url + "/privilege/" + realm.name + "/" + roleName + "/" + resourceName,);
   }
 
-  removePrivilegeFromResource(resourceName, privilegeName, role) {
+  removePrivilegeFromResource(privilegeName, role) {
+    const resourceName = localStorage.getItem("resource")
     return this.http.put(url + "/privilege/" + resourceName + "/" + privilegeName + "/remove", role);
   }
 
-  addPrivilegeToRole(resourceName, privilegeName, role) {
+  addPrivilegeToRole(privilegeName, role) {
+    const resourceName = localStorage.getItem("resource")
     return this.http.put(url + "/privilege/" + resourceName + "/" + privilegeName + "/add", role);
   }
 
-  deleteResource(resourceName) {
+  deleteResource() {
+    const resourceName = localStorage.getItem("resource")
     return this.http.delete(url + "/resources/" + resourceName + "/removeAll");
   }
 

@@ -3,21 +3,22 @@
 </div>
 <div class="container-fluid">
   <div class="row">
-    <h2 class="text-center w-100 mt-4"> {{resourceName}} Privilege </h2>
+    <h2 class="text-center w-100 mt-4"> {{resourceName}} Privileges </h2>
   </div>
   <div class="row mt-4">
     <div class="col-6 d-flex justify-content-end">
       <table mat-table [dataSource]="allPrivileges" class=" mat-elevation-z8 my-table">
         <ng-container matColumnDef="Resources">
-          <th  mat-header-cell *matHeaderCellDef>
-              <h5 class="align-self-md-center mb-0">
-                All Privilege
-              </h5>
+          <th mat-header-cell *matHeaderCellDef>
+            <h5 class="text-center mb-0">
+              All Privileges
+            </h5>
           </th>
           <td class="d-flex align-content-center p-3" mat-cell *matCellDef="let resources">
             {{resources.name }}
             <div class="w-100">
-              <mat-icon (click)="addPrivilegeToResource(resources.name)"  class="table-icon float-right ml-3" aria-hidden="false" aria-label="move">
+              <mat-icon (click)="addPrivilegeToResource(resources.name)" class="table-icon float-right ml-3"
+                        aria-hidden="false" aria-label="move">
                 arrow_right_alt
               </mat-icon>
             </div>
@@ -31,12 +32,13 @@
       <table mat-table [dataSource]="resourcePrivilege" class=" mat-elevation-z8 my-table">
         <ng-container matColumnDef="Resources">
           <th mat-header-cell *matHeaderCellDef>
-            <h5 class="mb-0 text-center">Role Privilege</h5>
+            <h5 class="mb-0 text-center">Role Privileges</h5>
           </th>
           <td class="d-flex align-items-center p-3" mat-cell *matCellDef="let resources">
             {{resources.name}}
             <div class="w-100">
-              <mat-icon  (click)="removePrivilegeFromResource(resources.name)" class="table-icon float-right" aria-hidden="false"
+              <mat-icon (click)="removePrivilegeFromResource(resources.name)" class="table-icon float-right"
+                        aria-hidden="false"
                         aria-label="delete">delete
               </mat-icon>
             </div>

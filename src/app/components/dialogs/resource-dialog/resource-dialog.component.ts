@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {FormControl, FormGroup} from "@angular/forms";
 
 @Component({
@@ -7,13 +7,12 @@ import {FormControl, FormGroup} from "@angular/forms";
   styleUrls: ['./resource-dialog.component.css']
 })
 export class ResourceDialogComponent implements OnInit {
-
-
   resourceForm = new FormGroup({
     name: new FormControl(),
   });
 
-  constructor() { }
+  constructor() {
+  }
 
   ngOnInit(): void {
   }

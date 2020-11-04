@@ -21,8 +21,10 @@ export class RoleService {
   }
 
 
-  getRoleByName(realmName,roleName){
-    return this.http.get(url  + '/role/' + realmName + "/" + roleName);
+  getRoleByName(){
+    const roleName = localStorage.getItem("currentRoleName")
+    const realm = JSON.parse(localStorage.getItem("realm"))
+    return this.http.get(url  + '/role/' + realm.name + "/" + roleName);
   }
 
   getAllRoles(realmName: string): Observable<Role[]> {
