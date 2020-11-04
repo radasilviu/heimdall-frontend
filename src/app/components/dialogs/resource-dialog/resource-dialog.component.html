@@ -1,6 +1,8 @@
 <div class="container">
   <form>
     <div class="form-group" [formGroup]="resourceForm">
+      <h1 class="text-center font-italic mb-4" *ngIf="!data.edit">Add Resource</h1>
+      <h1 class="text-center font-italic mb-4" *ngIf="data.edit">Update Resource</h1>
       <input type="text" formControlName="name" class="form-control" placeholder="Resource Name">
       <br/>
     </div>

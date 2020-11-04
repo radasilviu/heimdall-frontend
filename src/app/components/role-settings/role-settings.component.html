@@ -18,6 +18,7 @@
           <td class="d-flex align-content-center p-3" mat-cell *matCellDef="let resources">
             {{resources.name }}
             <div class="w-100">
+
               <mat-icon data-toggle="tooltip" data-placement="top" title="Add Resource to {{role.name}}  "
                         (click)="addResourceToRole(resources)" class="table-icon float-right ml-3" aria-hidden="false"
                         aria-label="move">
@@ -26,6 +27,9 @@
               <mat-icon data-toggle="tooltip" data-placement="top" title="Delete Resource"
                         (click)="deleteResource(resources.name)" class="table-icon ml-4 float-right" aria-hidden="false"
                         aria-label="delete">delete
+              </mat-icon>
+              <mat-icon (click)="editResource(resources.name)"  data-toggle="tooltip" data-placement="top" title="Change Resource Name" class="float-right  table-icon" aria-hidden="false"
+                         aria-label="create">create
               </mat-icon>
             </div>
           </td>
@@ -43,6 +47,7 @@
           <td class="d-flex align-items-center p-3" mat-cell *matCellDef="let resources">
             {{resources.name}}
             <div class="w-100">
+
               <mat-icon data-toggle="tooltip" data-placement="top" title="Delete {{resources.name}} from {{role.name}}"
                         (click)="deleteRoleResource(resources)" class="table-icon ml-4 float-right" aria-hidden="false"
                         aria-label="delete">delete

@@ -24,8 +24,8 @@ export class RoleSettingsComponent implements OnInit {
               private resourceService: ResourcesService,
               private dialog: MatDialog,
               private roleService: RoleService) {
-
   }
+
 
   getAllResources() {
     this.resourceService.getAllResources(this.role.name)
@@ -52,6 +52,24 @@ export class RoleSettingsComponent implements OnInit {
       })
   }
 
+  editResource(resourceName) {
+    const dialogRef = this.dialog
+      .open(ResourceDialogComponent, {
+        data: {edit: true}
+      });
+
+    dialogRef.afterClosed()
+      .subscribe(data => {
+        if (data !== undefined) {
+          this.resourceService
+            .updateResourceByName(resourceName, data.name)
+            .subscribe(() => {
+              this.getAllResources()
+            })
+        }
+      });
+  }
+
   addResourceToRole(resources) {
     this.resourceService
       .addResourceToRole(resources.name, this.role)
@@ -73,17 +91,18 @@ export class RoleSettingsComponent implements OnInit {
       .deleteResource(resourceName)
       .subscribe(() => {
         this.getAllResources()
+        this.getRoleByName()
       })
   }
 
   addNewResource() {
     const dialogRef = this.dialog
       .open(ResourceDialogComponent, {
-        data: {edit: true}
+        data: {edit: false}
       });
 
     dialogRef.afterClosed()
-      .subscribe((data: Client) => {
+      .subscribe(data => {
         if (data !== undefined) {
           this.resourceService
             .addNewResource(data)

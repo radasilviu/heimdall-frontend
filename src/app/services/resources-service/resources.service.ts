@@ -5,7 +5,6 @@ import {Env} from "../../configs/env";
 
 const url = Env.apiRootURL + "/api";
 
-
 @Injectable({
   providedIn: 'root'
 })
@@ -28,6 +27,10 @@ export class ResourcesService {
 
   addNewResource(resource) {
     return this.http.post(url + "/resources", resource);
+  }
+
+  updateResourceByName(resourceName,newName){
+    return this.http.put(url + "/resources/" + resourceName,newName);
   }
 
   getAllPrivilege() {
@@ -53,6 +56,6 @@ export class ResourcesService {
   }
 
   deleteResource(resourceName) {
-    return this.http.delete(url + "/resource/" + resourceName + "/removeAll");
+    return this.http.delete(url + "/resources/" + resourceName + "/removeAll");
   }
 }
