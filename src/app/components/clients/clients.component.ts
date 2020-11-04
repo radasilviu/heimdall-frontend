@@ -25,7 +25,6 @@ export class ClientsComponent implements OnInit {
               private dialog: MatDialog,
               private clientService: ClientService,
               private realmService: RealmService) {
-
   }
 
   ngOnInit(): void {

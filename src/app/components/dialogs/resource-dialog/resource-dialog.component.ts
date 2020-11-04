@@ -16,5 +16,4 @@ export class ResourceDialogComponent implements OnInit {
 
   ngOnInit(): void {
   }
-
 }

@@ -20,7 +20,6 @@ export class RoleService {
     return this.roles$.next(data);
   }
 
-
   getRoleByName() {
     const roleName = localStorage.getItem("currentRoleName")
     const realm = JSON.parse(localStorage.getItem("realm"))

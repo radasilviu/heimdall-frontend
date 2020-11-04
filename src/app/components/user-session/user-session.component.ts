@@ -14,7 +14,6 @@ import {UserService} from '../../services/user-service/user-service';
 export class UserSessionComponent implements OnInit {
   users: User[];
   subSink = new SubSink();
-
   realm: Realm;
   displayedColumns = ['username', 'isActive', 'logout'];
 

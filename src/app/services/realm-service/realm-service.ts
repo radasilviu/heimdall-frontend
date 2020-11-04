@@ -15,7 +15,6 @@ export class RealmService {
   realms = new BehaviorSubject([]);
   currentRealm = new BehaviorSubject(null);
 
-
   constructor(private http: HttpClient) {
   }
 

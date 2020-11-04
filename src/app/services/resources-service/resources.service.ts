@@ -14,7 +14,6 @@ export class ResourcesService {
               private snackBar: SnackBarService) {
   }
 
-
   getAllResources(role) {
     return this.http.get(url + "/resources" + "/all", role);
   }
@@ -54,6 +53,6 @@ export class ResourcesService {
   }
 
   deleteResource(resourceName) {
-    return this.http.delete(url + "/role/" + resourceName + "/removeAll");
+    return this.http.delete(url + "/resource/" + resourceName + "/removeAll");
   }
 }
