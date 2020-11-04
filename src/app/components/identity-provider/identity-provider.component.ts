@@ -22,20 +22,27 @@ export class IdentityProviderComponent implements OnInit {
   });
 
   ngOnInit(): void {
-    this.subSink.add(this.identityService.getGoogleProvider().subscribe(data => {
-      this.identityGroup.patchValue({
-        googleIsActive: data
-      });
-    }, error => this.snackBar.openSnackBar(error.error.message, 4000)));
+    this.subSink
+      .add(this.identityService
+        .getGoogleProvider()
+        .subscribe(data => {
+          this.identityGroup
+            .patchValue({
+              googleIsActive: data
+            });
+        }, error =>
+          this.snackBar
+            .openSnackBar(error.error.message, 4000)));
   }
 
   ngOnDestroy() {
-    this.subSink.unsubscribe();
+    this.subSink
+      .unsubscribe();
   }
-
 
   onSubmit() {
     let googleIsActive = this.identityGroup.value;
-    this.identityService.setGoogleProvider(googleIsActive.googleIsActive);
+    this.identityService
+      .setGoogleProvider(googleIsActive.googleIsActive);
   }
 }

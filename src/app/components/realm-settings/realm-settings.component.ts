@@ -1,10 +1,9 @@
 import {Component, OnInit} from '@angular/core';
 import {RealmService} from 'src/app/services/realm-service/realm-service';
-import {ParentRealm, Realm} from '../../models/Realm';
 import {DeleteDialogComponent} from '../dialogs/delete-dialog/delete-dialog.component';
 import {MatDialog} from '@angular/material/dialog';
-import {SnackBarService} from '../../services/snack-bar/snack-bar-service';
 import {SubSink} from 'subsink';
+import {Realm} from '../../models/Realm';
 
 @Component({
   selector: 'app-realm-settings',
@@ -12,36 +11,42 @@ import {SubSink} from 'subsink';
   styleUrls: ['./realm-settings.component.css']
 })
 export class RealmSettingsComponent implements OnInit {
-  realm: Realm;
   subSink = new SubSink();
+  realm: Realm;
 
   constructor(private realmService: RealmService,
-              private dialog: MatDialog,
-              private snackBar: SnackBarService) {
+              private dialog: MatDialog) {
   }
 
   ngOnInit() {
-    this.subSink.add(this.realmService.realm.subscribe((data: ParentRealm) => {
-      this.realm = data.realm;
-    }));
+    this.realmService
+      .currentRealm
+      .subscribe((realm: Realm) => this.realm = realm);
   }
 
   ngOnDestroy() {
-    this.subSink.unsubscribe();
+    this.subSink
+      .unsubscribe();
   }
 
   deleteRealmByName() {
-    const dialogRef = this.dialog.open(DeleteDialogComponent);
+    const dialogRef = this.dialog
+      .open(DeleteDialogComponent);
 
-    dialogRef.afterClosed().subscribe(data => {
-      if (data == 'true') {
-        this.subSink.add(this.realmService.deleteRealmByName(this.realm).subscribe(data => {
-          this.subSink.add(this.realmService.getRealms().subscribe(data => {
-            this.realmService.setRealms(data);
-            this.realmService.setRealm(data[data.length - 1].name);
-          }));
-        }));
-      }
-    }, error => this.snackBar.openSnackBar(error.error.message, 4000));
+    dialogRef.afterClosed()
+      .subscribe(data => {
+        if (data == 'true') {
+          this.subSink.add(this.realmService
+            .deleteRealmByName(this.realm)
+            .subscribe(() => {
+              this.realmService
+                .getAllRealms()
+                .subscribe(realms => {
+                  this.realmService
+                    .setCurrentRealm(realms[realms.length - 1]);
+                });
+            }));
+        }
+      });
   }
 }

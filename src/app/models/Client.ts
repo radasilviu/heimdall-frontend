@@ -1,3 +1,3 @@
 export interface Client {
-    clientName:string
+  clientName: string;
 }

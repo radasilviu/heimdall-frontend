@@ -1,12 +1,11 @@
 import {Component, OnInit} from '@angular/core';
-import {Role} from 'src/app/models/Role';
 import {User} from 'src/app/models/User';
 import {RoleService} from '../../services/role-service/role-service';
 import {UserService} from '../../services/user-service/user-service';
-import {SnackBarService} from '../../services/snack-bar/snack-bar-service';
 import {RealmService} from '../../services/realm-service/realm-service';
-import {ParentRealm, Realm} from '../../models/Realm';
 import {SubSink} from 'subsink';
+import {Realm} from '../../models/Realm';
+import {Role} from '../../models/Role';
 
 @Component({
   selector: 'app-roles',
@@ -16,47 +15,61 @@ import {SubSink} from 'subsink';
 export class RolesComponent implements OnInit {
   userRoles: Role[];
   allRoles: Role[];
-  user: User;
   realm: Realm;
   subSink = new SubSink();
   displayedColumns: string[] = ['Roles'];
+  user: User;
 
   constructor(private roleService: RoleService,
               private userService: UserService,
-              private snackBar: SnackBarService,
               private realmService: RealmService) {
   }
 
   ngOnInit() {
-    this.getRealm();
+    this.subSink.add(this.realmService
+      .currentRealm
+      .subscribe((realm: Realm) => {
+        this.realm = realm;
+        this.userService
+          .user
+          .subscribe((user: User) => {
+            this.userRoles = user.roles;
+            this.user = user;
+            this.getRoles();
+          });
+      }));
   }
 
-  getRealm() {
-    this.subSink.add(this.realmService.realm.subscribe((data: ParentRealm) => {
-      this.realm = data.realm;
-      this.allRoles = data.roles;
-    }));
+  getRoles() {
+    this.subSink
+      .add(this.roleService
+        .getAllRoles(this.realm.name)
+        .subscribe(roles => this.allRoles = roles));
+  }
 
-    this.subSink.add(this.userService.user.subscribe((data: User) => {
-      this.userRoles = data.roles;
-      this.user = data;
-    }));
+  updateUser() {
+    this.subSink
+      .add(this.userService
+        .getUserByUsername(this.user.username, this.realm.name)
+        .subscribe(user =>
+          this.userService
+            .setUser(user)));
   }
 
   ngOnDestroy() {
-    this.subSink.unsubscribe();
+    this.subSink
+      .unsubscribe();
   }
 
   addRole(role) {
-    this.subSink.add(this.roleService.addUserRole(role, this.user, this.realm.name).subscribe(data => {
-      this.userService.setUser(this.user.username, this.realm.name);
-    }, error => this.snackBar.openSnackBar(error.error.message, 4000)));
+    this.subSink.add(this.roleService
+      .addUserRole(role, this.user, this.realm.name)
+      .subscribe(() => this.updateUser()));
   }
 
-
   deleteRole(role) {
-    this.subSink.add(this.roleService.deleteUserRole(this.user, role, this.realm.name).subscribe(data => {
-      this.userService.setUser(this.user.username, this.realm.name);
-    }, error => this.snackBar.openSnackBar(error.error.message, 4000)));
+    this.subSink.add(this.roleService
+      .deleteUserRole(this.user, role, this.realm.name)
+      .subscribe(() => this.updateUser()));
   }
 }

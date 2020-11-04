@@ -1,5 +1,7 @@
 import {Component, Inject, OnInit} from '@angular/core';
-import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
+import {MAT_DIALOG_DATA} from '@angular/material/dialog';
+import {FormControl, FormGroup} from '@angular/forms';
+import {SubSink} from 'subsink';
 
 @Component({
   selector: 'app-client-dialog',
@@ -7,18 +9,18 @@ import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
   styleUrls: ['./client-dialog.component.css']
 })
 export class ClientDialogComponent implements OnInit {
+  editUser;
+  subSink = new SubSink();
 
-  newClient: string;
+  newClientForm = new FormGroup({
+    clientName: new FormControl(),
+  });
 
   constructor(
-    public dialogRef: MatDialogRef<ClientDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any) {
   }
 
   ngOnInit(): void {
-  }
-
-  onNoClick(): void {
-    this.dialogRef.close();
+    this.editUser = this.data
   }
 }
