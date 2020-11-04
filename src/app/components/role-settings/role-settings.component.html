@@ -18,11 +18,13 @@
           <td class="d-flex align-content-center p-3" mat-cell *matCellDef="let resources">
             {{resources.name }}
             <div class="w-100">
-              <mat-icon (click)="addResourceToRole(resources)" class="table-icon float-right ml-3" aria-hidden="false"
+              <mat-icon data-toggle="tooltip" data-placement="top" title="Add Resource to {{role.name}}  "
+                        (click)="addResourceToRole(resources)" class="table-icon float-right ml-3" aria-hidden="false"
                         aria-label="move">
                 arrow_right_alt
               </mat-icon>
-              <mat-icon (click)="deleteResource(resources.name)" class="table-icon ml-4 float-right" aria-hidden="false"
+              <mat-icon data-toggle="tooltip" data-placement="top" title="Delete Resource"
+                        (click)="deleteResource(resources.name)" class="table-icon ml-4 float-right" aria-hidden="false"
                         aria-label="delete">delete
               </mat-icon>
             </div>
@@ -41,11 +43,13 @@
           <td class="d-flex align-items-center p-3" mat-cell *matCellDef="let resources">
             {{resources.name}}
             <div class="w-100">
-              <mat-icon (click)="deleteRoleResource(resources)" class="table-icon ml-4 float-right" aria-hidden="false"
+              <mat-icon data-toggle="tooltip" data-placement="top" title="Delete {{resources.name}} from {{role.name}}"
+                        (click)="deleteRoleResource(resources)" class="table-icon ml-4 float-right" aria-hidden="false"
                         aria-label="delete">delete
               </mat-icon>
 
-              <mat-icon (click)="privilege(resources)" class="table-icon float-right" aria-hidden="false"
+              <mat-icon data-toggle="tooltip" data-placement="top" title="Manage Role Privileges"
+                        (click)="privilege(resources)" class="table-icon float-right" aria-hidden="false"
                         aria-label="info">info
               </mat-icon>
             </div>
