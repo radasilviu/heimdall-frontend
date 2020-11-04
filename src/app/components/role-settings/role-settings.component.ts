@@ -65,6 +65,7 @@ export class RoleSettingsComponent implements OnInit {
             .updateResourceByName(resourceName, data.name)
             .subscribe(() => {
               this.getAllResources()
+              this.getRoleByName()
             })
         }
       });
