@@ -1,10 +1,14 @@
 import {Component, OnInit} from '@angular/core';
+import {User} from '../../models/User';
+import {ParentRealm, Realm} from '../../models/Realm';
 import {JwtHelperService} from '@auth0/angular-jwt';
 import {SubSink} from 'subsink';
 import {RealmService} from '../../services/realm-service/realm-service';
+import {DeleteDialogComponent} from '../dialogs/delete-dialog/delete-dialog.component';
 import {UserService} from '../../services/user-service/user-service';
+import {Role} from '../../models/Role';
+import {RoleService} from '../../services/role-service/role-service';
 import {Realm} from '../../models/Realm';
-import {User} from '../../models/User';
 
 @Component({
   selector: 'app-user-session',
@@ -14,8 +18,9 @@ import {User} from '../../models/User';
 export class UserSessionComponent implements OnInit {
   users: User[];
   subSink = new SubSink();
+
   realm: Realm;
-  displayedColumns = ['username', 'isActive'];
+  displayedColumns = ['username', 'isActive', 'logout'];
 
   constructor(private userService: UserService, private realmService: RealmService) {
   }
@@ -33,21 +38,34 @@ export class UserSessionComponent implements OnInit {
     this.subSink.unsubscribe();
   }
 
-  getSession() {
-    const helper = new JwtHelperService();
-    let date = new Date();
+  logOutUser(user: User){
+      user.token = null;
+      user.refreshToken = null;
+      this.userService.updateUserName(user.username, user, this.realm.name).subscribe();
+    }
 
-    for (let i in this.users) {
-      if (this.users[i].token || this.users[i].refreshToken) {
-        let session = this.users[i].token;
-        let refresh = this.users[i].token;
-        let sessionToken = helper.decodeToken(session);
-        let refreshToken = helper.decodeToken(refresh);
+
+
+  getSession() {
+
+    const helper = new JwtHelperService();
+    const date = new Date();
+
+    this.users.forEach(function(value){
+      if (value.token || value.refreshToken) {
+        const session = value.token;
+        const refresh = value.refreshToken;
+
+        const sessionToken = helper.decodeToken(session);
+        const refreshToken = helper.decodeToken(refresh);
+
         if (date > sessionToken.exp || date > refreshToken) {
           // @ts-ignore
-          this.users[i].active = sessionToken.iat * 1000;
+          value.active = sessionToken.iat * 1000;
         }
       }
     }
+    );
   }
+
 }

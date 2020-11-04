@@ -28,7 +28,10 @@ export class RoleService {
   }
 
   getAllRoles(realmName: string): Observable<Role[]> {
-    return this.http.get<Role[]>(url + '/role/' + realmName,);
+    return this.http.get<Role[]>(url + '/role/' + realmName);
+  }
+  getRoleByName(realmName: string, name: string): Observable<Role>{
+    return this.http.get<Role>(url + '/role/' + realmName + '/' + name);
   }
 
   addRole(role: Role, realmName: string) {
