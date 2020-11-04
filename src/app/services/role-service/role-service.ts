@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {Observable, ReplaySubject} from 'rxjs';
+import {Observable} from 'rxjs';
 import {Role} from '../../models/Role';
 import {User} from '../../models/User';
 import {HttpClient} from '@angular/common/http';
@@ -31,15 +31,17 @@ export class RoleService {
   }
 
   deleteRole(role: Role, realmName: string) {
-    return this.http.delete( url + '/role/' + realmName + '/' + role);
+    return this.http.delete(url + '/role/' + realmName + '/' + role);
   }
 
   addUserRole(role: Role, user: User, realmName: string) {
     return this.http.post<any>(url + '/user/' + realmName + '/' + user.username + '/addRole', role.name);
   }
 
-  updateRoleByName(currentRoleName: string, newRole: Role, realmName: string) {
-    return this.http.put(url + '/role/' + realmName + '/' + currentRoleName, newRole);
+  updateRoleByName(newRole: Role, realmName: string) {
+    const roleName = localStorage.getItem("currentRoleName")
+
+    return this.http.put(url + '/role/' + realmName + '/' + roleName, {name: newRole});
   }
 
   deleteUserRole(user: User, role: Role, realmName: string) {

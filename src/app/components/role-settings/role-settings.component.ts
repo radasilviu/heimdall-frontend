@@ -64,7 +64,25 @@ export class RoleSettingsComponent implements OnInit {
           this.subSink.add(this.resourceService
             .updateResourceByName(resourceName, data.name)
             .subscribe(() => {
-              this.getAllResources()
+              this.getRoleByName()
+            }))
+        }
+      });
+  }
+
+  editRoleName() {
+    const dialogRef = this.dialog
+      .open(ResourceDialogComponent, {
+        data: {edit: true}
+      });
+
+    dialogRef.afterClosed()
+      .subscribe(data => {
+        if (data !== undefined) {
+          this.subSink.add(this.roleService
+            .updateRoleByName(data.name, this.realm.name)
+            .subscribe(() => {
+              localStorage.setItem("currentRoleName", data.name)
               this.getRoleByName()
             }))
         }
@@ -91,7 +109,6 @@ export class RoleSettingsComponent implements OnInit {
     this.subSink.add(this.resourceService
       .deleteResource(resourceName)
       .subscribe(() => {
-        this.getAllResources()
         this.getRoleByName()
       }))
   }

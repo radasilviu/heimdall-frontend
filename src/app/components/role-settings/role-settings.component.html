@@ -1,6 +1,13 @@
 <div class="container-fluid" *ngIf="realm">
   <div class="row" *ngIf="role">
-    <h2 class="text-center w-100 mt-4"> {{role.name}} </h2>
+    <div class="d-flex align-items-center justify-content-center w-100 mt-4">
+      <h2 class="mb-0 mr-3"> {{role.name}}</h2>
+      <mat-icon data-toggle="tooltip" data-placement="top" title="Edit role name" (click)="editRoleName()"
+                class="table-icon float-right" aria-hidden="false"
+                aria-label="create">create
+      </mat-icon>
+    </div>
+
   </div>
   <div class="row mt-4">
     <div class="col-6 d-flex justify-content-end">
@@ -19,7 +26,7 @@
             {{resources.name }}
             <div class="w-100">
 
-              <mat-icon data-toggle="tooltip" data-placement="top" title="Add Resource to {{role.name}}  "
+              <mat-icon data-toggle="tooltip" data-placement="top" title="Add Resource to {{role.name}}"
                         (click)="addResourceToRole(resources)" class="table-icon float-right ml-3" aria-hidden="false"
                         aria-label="move">
                 arrow_right_alt
@@ -28,8 +35,9 @@
                         (click)="deleteResource(resources.name)" class="table-icon ml-4 float-right" aria-hidden="false"
                         aria-label="delete">delete
               </mat-icon>
-              <mat-icon (click)="editResource(resources.name)"  data-toggle="tooltip" data-placement="top" title="Change Resource Name" class="float-right  table-icon" aria-hidden="false"
-                         aria-label="create">create
+              <mat-icon (click)="editResource(resources.name)" data-toggle="tooltip" data-placement="top"
+                        title="Change Resource Name" class="float-right  table-icon" aria-hidden="false"
+                        aria-label="create">create
               </mat-icon>
             </div>
           </td>

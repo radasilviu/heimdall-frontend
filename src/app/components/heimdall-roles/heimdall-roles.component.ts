@@ -8,6 +8,7 @@ import {SubSink} from 'subsink';
 import {Realm} from '../../models/Realm';
 import {Router} from '@angular/router';
 import {DeleteDialogComponent} from "../dialogs/delete-dialog/delete-dialog.component";
+import {ResourceDialogComponent} from "../dialogs/resource-dialog/resource-dialog.component";
 
 
 @Component({
@@ -61,6 +62,21 @@ export class HeimdallRolesComponent implements OnInit {
     this.subSink.add(this.service
       .addRole(this.form.value, this.realm.name)
       .subscribe(() => this.getAllRoles()));
+  }
+
+  editRoleName(roleName) {
+    const dialogRef = this.dialog.open(ResourceDialogComponent, {
+      data: {edit: true}
+    });
+
+    dialogRef.afterClosed()
+      .subscribe(data => {
+        if (data == 'true') {
+          this.subSink.add(this.service
+            .updateRoleByName(data.name, this.realm.name)
+            .subscribe(() => this.getAllRoles()));
+        }
+      });
   }
 
   deleteRole(role) {
