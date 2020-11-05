@@ -1,20 +1,13 @@
 import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
 import {User} from '../../models/User';
-import {Realm} from '../../models/Realm';
 import {SubSink} from 'subsink';
-import {FormControl, FormGroup, Validators, FormBuilder} from '@angular/forms';
+import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {MatDialog} from '@angular/material/dialog';
 import {RealmService} from '../../services/realm-service/realm-service';
 import {UserService} from '../../services/user-service/user-service';
 import {SnackBarService} from '../../services/snack-bar/snack-bar-service';
 import {Router} from '@angular/router';
-import {UserDialogComponent} from '../dialogs/user-dialog/user-dialog.component';
-import {DeleteDialogComponent} from '../dialogs/delete-dialog/delete-dialog.component';
-import {JwtHelperService} from '@auth0/angular-jwt';
 import {AdminAuthService} from '../../services/admin-auth/admin-auth.service';
-import {Token} from '../../models/token';
-import {Client} from '../../models/Client';
-import {ClientService} from '../../services/clientService/client-service';
 
 @Component({
   selector: 'app-account-settings',
@@ -24,21 +17,16 @@ import {ClientService} from '../../services/clientService/client-service';
 export class AccountSettingsComponent implements OnInit {
 
   displayedColumns = ['username'];
-  allUsers: User[];
   user: User;
   realm;
   subSink = new SubSink();
 
-  form = new FormGroup({
-    name: new FormControl('', Validators.required),
-    form: new FormControl('', Validators.required)
-  });
-
   emailForm = new FormGroup({
-    email: new FormControl('', Validators.email)
+    email: new FormControl('', Validators.required)
   });
 
   passwordForm: FormGroup;
+
 
   constructor(private changeDetectorRefs: ChangeDetectorRef,
               private dialog: MatDialog,
@@ -47,14 +35,12 @@ export class AccountSettingsComponent implements OnInit {
               private snackBar: SnackBarService,
               private router: Router,
               private authService: AdminAuthService,
-              private formBuilder: FormBuilder,
-              private clientService: ClientService) {
+              private formBuilder: FormBuilder) {
 
     this.passwordForm = this.formBuilder.group({
       password: ['', [Validators.required]],
       confirmPassword: ['']
     }, {validator: this.checkPasswords});
-
 
   }
 
@@ -82,13 +68,17 @@ export class AccountSettingsComponent implements OnInit {
 
   onSubmitEmail(user: User) {
     let form = this.emailForm.value;
-    user.email = form.email;
+    let newUser = {} as User;
+    newUser.email = form.email.value;
     this.subSink.add(this.userService.updateUserName(user.username, user, this.realm.name).subscribe());
     console.log(user);
 
   }
 
   onSubmitPassword(user: User) {
+
+
+
     let form = this.passwordForm.controls.password;
     user.password = form.value;
     this.subSink.add(this.userService.updateUserName(user.username, user, this.realm.name).subscribe());

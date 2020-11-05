@@ -48,6 +48,10 @@ import {UserSessionComponent} from './components/user-session/user-session.compo
 import {NotFoundComponent} from './components/error-pages/not-found/not-found.component';
 import {RealmNotFoundComponent} from './components/error-pages/realm-not-found/realm-not-found.component';
 import {HttpInterceptorService} from './interceptors/http-error-interceptor/http-interceptor.service';
+import {RoleSettingsComponent} from './components/role-settings/role-settings.component';
+import {AccountSettingsComponent} from './components/account-settings/account-settings.component';
+import {PrivilegeDialogComponent} from './components/dialogs/privilege-dialog/privilege-dialog.component';
+import {ResourceDialogComponent} from './components/dialogs/resource-dialog/resource-dialog.component';
 
 @NgModule({
   declarations: [
