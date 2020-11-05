@@ -41,7 +41,7 @@
         </tr>
         </thead>
         <tbody>
-        <tr *ngFor="let user of groupUsers ">
+        <tr *ngFor="let user of (group)?.users ">
           <td class="groupName" scope="row">
             {{user.username}}
           </td>

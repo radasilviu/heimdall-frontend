@@ -20,7 +20,6 @@ export class HomeComponent implements OnInit {
   constructor(private router: Router,
               private realmService: RealmService,
               private adminAuthService: AdminAuthService) {
-
   }
 
   ngOnDestroy() {
@@ -53,6 +52,6 @@ export class HomeComponent implements OnInit {
   ngOnInit() {
     this.getAllRealms()
     this.realmService.setCurrentRealm()
-    this.realmService.currentRealm.subscribe(realm => this.currentRealm = realm)
+    this.realmService.currentRealm.subscribe((realm: Realm) => this.currentRealm = realm)
   }
 }

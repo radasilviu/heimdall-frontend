@@ -23,7 +23,6 @@ import {MatSnackBarModule} from '@angular/material/snack-bar';
 import {MatIconModule} from '@angular/material/icon';
 import {ClientDialogComponent} from './components/dialogs/client-dialog/client-dialog.component';
 import {UserDialogComponent} from './components/dialogs/user-dialog/user-dialog.component';
-import {RolesDialogComponent} from './components/dialogs/roles-dialog/roles-dialog.component';
 import {MatExpansionModule} from '@angular/material/expansion';
 import {MatMenuModule} from '@angular/material/menu';
 import {HeimdallRolesComponent} from './components/heimdall-roles/heimdall-roles.component';
@@ -48,7 +47,6 @@ import {GroupUsersComponent} from './components/users-groups/group-users/group-u
 import {UserSessionComponent} from './components/user-session/user-session.component';
 import {NotFoundComponent} from './components/error-pages/not-found/not-found.component';
 import {RealmNotFoundComponent} from './components/error-pages/realm-not-found/realm-not-found.component';
-import { AccountSettingsComponent } from './components/account-settings/account-settings.component';
 import {HttpInterceptorService} from './interceptors/http-error-interceptor/http-interceptor.service';
 
 @NgModule({
@@ -66,7 +64,6 @@ import {HttpInterceptorService} from './interceptors/http-error-interceptor/http
     UserProfileLoginComponent,
     UserProfileComponent,
     UserDialogComponent,
-    RolesDialogComponent,
     RealmSettingsComponent,
     RegistrationPageComponent,
     RealmGeneralSettingComponent,
@@ -81,9 +78,12 @@ import {HttpInterceptorService} from './interceptors/http-error-interceptor/http
     CreateGroupComponent,
     GroupUsersComponent,
     UserSessionComponent,
+    RoleSettingsComponent,
+    ResourceDialogComponent,
+    PrivilegeDialogComponent,
     AccountSettingsComponent,
   ],
-  entryComponents: [ClientDialogComponent, UserDialogComponent, RolesDialogComponent],
+  entryComponents: [ClientDialogComponent, UserDialogComponent, ResourceDialogComponent, PrivilegeDialogComponent],
   imports: [
     HttpClientModule,
     MatSnackBarModule,

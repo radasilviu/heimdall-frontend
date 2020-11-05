@@ -8,7 +8,6 @@ import {RoleService} from '../../../services/role-service/role-service';
 import {RealmService} from '../../../services/realm-service/realm-service';
 import {SubSink} from 'subsink';
 import {Realm} from '../../../models/Realm';
-import {Group} from '../../../models/Group';
 import {DeleteDialogComponent} from '../../dialogs/delete-dialog/delete-dialog.component';
 
 @Component({
@@ -17,11 +16,11 @@ import {DeleteDialogComponent} from '../../dialogs/delete-dialog/delete-dialog.c
   styleUrls: ['./group-users.component.css']
 })
 export class GroupUsersComponent implements OnInit {
-  realm: Realm;
+  realmName;
   group;
   users;
-  groupUsers;
   roles;
+  groupName;
   subSink = new SubSink();
 
   constructor(private router: Router,
@@ -35,42 +34,37 @@ export class GroupUsersComponent implements OnInit {
 
   ngOnInit(): void {
     this.subSink
-      .add(this.groupService
-        .group$
-        .subscribe((group: Group) => {
-          this.groupUsers = group.users;
-          this.group = group;
-        }));
-
-    this.subSink
       .add(this.realmService
         .currentRealm
         .subscribe((realm: Realm) => {
-          this.realm = realm;
+          const groupName = localStorage.getItem("currentGroupName")
+          this.realmName = realm.name;
+          this.groupName = groupName
           this.getRoles();
           this.getUsers();
+          this.getGroup()
         }));
   }
 
-  updateGroup() {
-    this.subSink
-      .add(this.groupService
-        .getGroupByName(this.group.name, this.realm.name)
-        .subscribe(data => this.groupService
-          .setGroup(data)));
+  getGroup() {
+    this.groupService
+      .getGroupByName(this.groupName, this.realmName)
+      .subscribe(() => {
+        this.group = this.groupService.group.getValue();
+      });
   }
 
   getUsers() {
     this.subSink
       .add(this.userService
-        .getAllUsers(this.realm.name)
+        .getAllUsers(this.realmName)
         .subscribe(data => this.users = data));
   }
 
   getRoles() {
     this.subSink
       .add(this.roleService
-        .getAllRoles(this.realm.name)
+        .getAllRoles(this.realmName)
         .subscribe(data => this.roles = data));
   }
 
@@ -82,15 +76,15 @@ export class GroupUsersComponent implements OnInit {
   addRoleToAllUsers(role) {
     this.subSink
       .add(this.groupService
-        .addRoleToGroup(this.realm.name, this.group.name, role.name)
-        .subscribe());
+        .addRoleToGroup(this.realmName, this.group.name, role.name)
+        .subscribe(() => this.getGroup()));
   }
 
   addUserToGroup(user) {
     this.subSink
       .add(this.groupService
-        .addUserToGroup(this.group.name, user, this.realm.name)
-        .subscribe(() => this.updateGroup()));
+        .addUserToGroup(this.group.name, user, this.realmName)
+        .subscribe(() => this.getGroup()));
   }
 
   deleteUserFromGroup(user) {
@@ -102,8 +96,8 @@ export class GroupUsersComponent implements OnInit {
         if (data == 'true') {
           this.subSink
             .add(this.groupService
-              .deleteUserFromGroup(this.group, user, this.realm.name)
-              .subscribe(() => this.updateGroup()));
+              .deleteUserFromGroup(this.group, user, this.realmName)
+              .subscribe(() => this.getGroup()));
         }
       });
   }
@@ -111,7 +105,7 @@ export class GroupUsersComponent implements OnInit {
   userRoles(user) {
     this.subSink
       .add(this.userService
-        .getUserByUsername(user.username, this.realm.name)
+        .getUserByUsername(user.username, this.realmName)
         .subscribe(data => {
           this.userService
             .setUser(data);

@@ -25,6 +25,9 @@ export class ClientsComponent implements OnInit {
               private dialog: MatDialog,
               private clientService: ClientService,
               private realmService: RealmService) {
+  }
+
+  ngOnInit(): void {
     this.subSink
       .add(this.realmService
         .currentRealm
@@ -34,17 +37,16 @@ export class ClientsComponent implements OnInit {
         }));
   }
 
-  ngOnInit(): void {
-  }
-
   getAllClients() {
-    this.subSink.add(this.clientService
-      .getAllClients(this.realm.name)
-      .subscribe((clients: Client[]) => this.clients = clients));
+    this.subSink
+      .add(this.clientService
+        .getAllClients(this.realm.name)
+        .subscribe((clients: Client[]) => this.clients = clients));
   }
 
   ngOnDestroy() {
-    this.subSink.unsubscribe();
+    this.subSink
+      .unsubscribe();
   }
 
   updateClient(client) {

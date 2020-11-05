@@ -47,8 +47,7 @@ export class UsersGroupsComponent implements OnInit {
   }
 
   details(group) {
-    this.groupService
-      .setGroup(group);
+    localStorage.setItem("currentGroupName", group.name)
     this.router.navigate(['/home/group-users']);
   }
 
