@@ -47,9 +47,11 @@ export class GroupUsersComponent implements OnInit {
   }
 
   getGroup() {
-    this.groupService.getGroupByName(this.groupName, this.realmName).subscribe(() => {
-      this.groupService.group.subscribe(data => this.group = data)
-    });
+    this.groupService
+      .getGroupByName(this.groupName, this.realmName)
+      .subscribe(() => {
+        this.group = this.groupService.group.getValue();
+      });
   }
 
   getUsers() {

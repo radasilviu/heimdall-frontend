@@ -18,10 +18,6 @@ export class RealmService {
   constructor(private http: HttpClient) {
   }
 
-  setRealms(data) {
-    this.realms.next(data);
-  }
-
   setCurrentRealm(data?) {
     if (data) {
       localStorage.setItem("realm", JSON.stringify(data))

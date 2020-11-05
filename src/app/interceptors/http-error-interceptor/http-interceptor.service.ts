@@ -16,7 +16,7 @@ export class HttpInterceptorService implements HttpInterceptor {
 
     return next.handle(req).pipe(
       catchError((error: HttpErrorResponse) => {
-        return throwError(this.snackbar.openSnackBar(error.message, 4000));
+        return throwError(this.snackbar.openSnackBar(error.error.message, 4000));
       })
     );
   }

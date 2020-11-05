@@ -13,7 +13,6 @@ const url = Env.apiRootURL + '/api/client';
 })
 
 export class GroupService {
-
   group = new BehaviorSubject({})
 
   constructor(private http: HttpClient) {

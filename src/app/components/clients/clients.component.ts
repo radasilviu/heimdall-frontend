@@ -38,13 +38,15 @@ export class ClientsComponent implements OnInit {
   }
 
   getAllClients() {
-    this.subSink.add(this.clientService
-      .getAllClients(this.realm.name)
-      .subscribe((clients: Client[]) => this.clients = clients));
+    this.subSink
+      .add(this.clientService
+        .getAllClients(this.realm.name)
+        .subscribe((clients: Client[]) => this.clients = clients));
   }
 
   ngOnDestroy() {
-    this.subSink.unsubscribe();
+    this.subSink
+      .unsubscribe();
   }
 
   updateClient(client) {

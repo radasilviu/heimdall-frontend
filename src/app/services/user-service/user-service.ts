@@ -43,8 +43,4 @@ export class UserService {
   getUserByUsername(username: string, realm: string): Observable<User> {
     return this.http.get<User>(url + '/user/' + realm + '/' + username);
   }
-
-  getUsersWithoutAdmin(realm: string): Observable<User[]> {
-    return this.http.get<User[]>(url + '/user/' + realm + '/' + 'getUsersWithoutAdmin');
-  }
 }
