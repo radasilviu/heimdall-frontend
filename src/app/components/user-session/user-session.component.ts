@@ -1,6 +1,5 @@
 import {Component, OnInit} from '@angular/core';
 import {User} from '../../models/User';
-import {ParentRealm, Realm} from '../../models/Realm';
 import {JwtHelperService} from '@auth0/angular-jwt';
 import {SubSink} from 'subsink';
 import {RealmService} from '../../services/realm-service/realm-service';
@@ -9,6 +8,7 @@ import {UserService} from '../../services/user-service/user-service';
 import {Role} from '../../models/Role';
 import {RoleService} from '../../services/role-service/role-service';
 import {Realm} from '../../models/Realm';
+
 
 @Component({
   selector: 'app-user-session',
