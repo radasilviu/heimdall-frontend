@@ -22,7 +22,7 @@
         <ng-container matColumnDef="Roles">
           <th mat-header-cell *matHeaderCellDef> User Roles</th>
           <td class="d-flex align-items-center p-3" mat-cell *matCellDef="let role">
-            {{role.name }}
+            {{role.name}}
             <div class="w-100">
               <mat-icon (click)="deleteRole(role)" class="table-icon float-right" aria-hidden="false"
                         aria-label="delete">delete

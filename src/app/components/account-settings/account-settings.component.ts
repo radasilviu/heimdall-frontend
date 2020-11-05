@@ -2,7 +2,7 @@ import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
 import {User} from '../../models/User';
 import {ParentRealm, Realm} from '../../models/Realm';
 import {SubSink} from 'subsink';
-import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {FormControl, FormGroup, Validators, FormBuilder} from '@angular/forms';
 import {MatDialog} from '@angular/material/dialog';
 import {RealmService} from '../../services/realm-service/realm-service';
 import {UserService} from '../../services/user-service/user-service';
@@ -33,8 +33,10 @@ export class AccountSettingsComponent implements OnInit {
   });
 
   emailForm = new FormGroup({
-    email: new FormControl('',Validators.required)
+    email: new FormControl('',Validators.email)
   });
+
+  passwordForm : FormGroup;
 
   constructor(private changeDetectorRefs: ChangeDetectorRef,
               private dialog: MatDialog,
@@ -42,7 +44,14 @@ export class AccountSettingsComponent implements OnInit {
               private userService: UserService,
               private snackBar: SnackBarService,
               private router: Router,
-              private authService: AdminAuthService) {
+              private authService: AdminAuthService,
+              private formBuilder: FormBuilder) {
+
+    this.passwordForm = this.formBuilder.group({
+      password: ['', [Validators.required]],
+      confirmPassword: ['']
+    }, { validator: this.checkPasswords });
+
   }
 
   ngOnInit(): void {
@@ -69,11 +78,22 @@ export class AccountSettingsComponent implements OnInit {
     }))
   }
 
-  onSubmit(user: User) {
+  onSubmitEmail(user: User) {
     let form = this.emailForm.value;
     user.email = form.email;
     this.subSink.add(this.userService.updateUserName(user.username,user,this.realm.name).subscribe());
+  }
+  onSubmitPassword(user: User){
+    let form = this.passwordForm.controls.password;
+    user.password = form.value;
+    this.subSink.add(this.userService.updateUserName(user.username,user,this.realm.name).subscribe());
 
+  }
+
+  checkPasswords(group: FormGroup) {
+    let pass = group.controls.password.value;
+    let confirmPass = group.controls.confirmPassword.value;
+    return pass === confirmPass ? null : { notSame: true }
   }
 
 }
