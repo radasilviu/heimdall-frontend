@@ -7,7 +7,6 @@ import {catchError, tap} from 'rxjs/operators';
 import {Token} from 'src/app/models/token';
 import {Constants} from 'src/app/utils/constants';
 import {Env} from '../../configs/env';
-import {Realm} from '../../models/Realm';
 
 @Injectable({
   providedIn: 'root'

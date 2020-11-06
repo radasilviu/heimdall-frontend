@@ -4,6 +4,7 @@ import {Observable, ReplaySubject} from 'rxjs';
 import {HttpClient} from '@angular/common/http';
 import {Env} from '../../configs/env';
 import {Realm} from '../../models/Realm';
+import {tap} from "rxjs/operators";
 
 const url = Env.apiRootURL + '/api';
 
@@ -27,7 +28,7 @@ export class UserService {
   updateUserName(currentUserName: string, newUser: User, realmName: string) {
     return this.http.put(url + '/user/' + realmName + '/' + currentUserName, newUser).pipe(
       tap(() => {
-        this.users.next();
+        this.user.next();
       })
     );
   }
@@ -48,7 +49,7 @@ export class UserService {
     return this.http.get<User>(url + '/user/' + realm + '/' + username);
   }
 
-  getUsersWithoutAdmin(realm: string): Observable<User[]>{
+  getUsersWithoutAdmin(realm: string): Observable<User[]> {
     return this.http.get<User[]>(url + '/user/' + realm + '/' + 'getUsersWithoutAdmin');
   }
 }

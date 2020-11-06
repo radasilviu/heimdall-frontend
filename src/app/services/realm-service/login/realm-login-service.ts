@@ -5,7 +5,6 @@ import {Observable, throwError} from 'rxjs';
 import {Realm} from '../../../models/Realm';
 import {Env} from '../../../configs/env';
 import {catchError} from 'rxjs/operators';
-import {RealmService} from '../realm-service';
 
 
 @Injectable({
