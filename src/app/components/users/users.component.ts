@@ -15,13 +15,13 @@ import {Realm} from '../../models/Realm';
   templateUrl: './users.component.html',
   styleUrls: ['./users.component.css']
 })
+
 export class UsersComponent implements OnInit {
   displayedColumns = ['username', 'role'];
   allUsers;
   user: User;
   realm: Realm;
   subSink = new SubSink();
-
   form = new FormGroup({
     username: new FormControl('', Validators.required),
     password: new FormControl('', Validators.required),
@@ -62,7 +62,6 @@ export class UsersComponent implements OnInit {
     this.addUser(this.form.value);
   }
 
-
   deleteUser(username: string) {
     const dialogRef = this.dialog
       .open(DeleteDialogComponent);
@@ -93,21 +92,20 @@ export class UsersComponent implements OnInit {
       .navigate(['home/users/roles']);
   }
 
-  getUserByUsername(username : string, newUsername){
+  getUserByUsername(username: string, newUsername) {
     this.subSink.add(this.userService.getUserByUsername(username, this.realm.name).subscribe(data => {
-     this.setNewUser(data,newUsername)
+      this.setNewUser(data, newUsername);
     }));
-
   }
 
-  setNewUser(data, newUsername){
+  setNewUser(data, newUsername) {
     let username = data.username;
     data.username = newUsername;
     this.subSink
       .add(this.userService
         .updateUserName(username, data, this.realm.name)
         .subscribe(() => {
-          this.getAlUsers()
+          this.getAlUsers();
         }));
   }
 
@@ -119,10 +117,8 @@ export class UsersComponent implements OnInit {
       .add(dialogRef.afterClosed()
         .subscribe(data => {
           if (data !== undefined) {
-            this.getUserByUsername(currentUserName, data)
-
+            this.getUserByUsername(currentUserName, data);
           }
         }));
   }
-
 }

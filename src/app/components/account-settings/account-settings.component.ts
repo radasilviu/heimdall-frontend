@@ -63,25 +63,22 @@ export class AccountSettingsComponent implements OnInit {
     let token = this.authService.tokenSubject.getValue();
     this.subSink.add(this.userService.getUserByUsername(token.username, this.realm.name).subscribe(data => {
       this.user = data;
+
     }));
+
   }
 
-  onSubmitEmail(user: User) {
+  onSubmitEmail() {
     let form = this.emailForm.value;
-    let newUser = {} as User;
-    newUser.email = form.email.value;
-    this.subSink.add(this.userService.updateUserName(user.username, user, this.realm.name).subscribe());
-    console.log(user);
+    this.user.email = form.email;
+    this.subSink.add(this.userService.updateUserName(this.user.username, this.user, this.realm.name).subscribe());
 
   }
 
-  onSubmitPassword(user: User) {
-
-
-
+  onSubmitPassword() {
     let form = this.passwordForm.controls.password;
-    user.password = form.value;
-    this.subSink.add(this.userService.updateUserName(user.username, user, this.realm.name).subscribe());
+    this.user.password = form.value;
+    this.subSink.add(this.userService.updateUserName(this.user.username, this.user, this.realm.name).subscribe());
 
   }
 

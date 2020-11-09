@@ -1,4 +1,4 @@
-import {HttpClient, HttpErrorResponse} from '@angular/common/http';
+import {HttpClient, HttpErrorResponse, HttpResponse} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {Router} from '@angular/router';
@@ -8,6 +8,7 @@ import {Token} from 'src/app/models/token';
 import {Constants} from 'src/app/utils/constants';
 import {Env} from '../../configs/env';
 import {Realm} from '../../models/Realm';
+import {User} from '../../models/User';
 
 @Injectable({
   providedIn: 'root'
@@ -25,6 +26,7 @@ export class AdminAuthService {
       password: password,
       realm:realm
     };
+
     const options = {
       headers: {
         'whitelist': 'true'
@@ -112,4 +114,16 @@ export class AdminAuthService {
       })
     );
   }
+
+  // readCookie(){
+  //   const url = Env.apiRootURL + '/admin/all-cookies';
+  //   return this.http.get(url);
+  // }
+
+  writeCookie(username: string){
+    const url = Env.apiRootURL + '/admin/setCredentials/' + username;
+    return this.http.get(url);
+  }
+
+
 }

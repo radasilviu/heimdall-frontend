@@ -39,6 +39,11 @@ export class HomeComponent implements OnInit {
         .subscribe());
   }
 
+
+  getCookies(){
+    this.subSink.add(this.adminAuthService.writeCookie( "test").subscribe());
+  }
+
   getAllRealms() {
     this.realmService
       .getAllRealms()
@@ -49,9 +54,12 @@ export class HomeComponent implements OnInit {
       })
   }
 
+
+
   ngOnInit() {
     this.getAllRealms()
     this.realmService.setCurrentRealm()
     this.realmService.currentRealm.subscribe((realm: Realm) => this.currentRealm = realm)
+    this.getCookies();
   }
 }

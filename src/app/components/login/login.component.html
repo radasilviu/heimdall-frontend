@@ -18,6 +18,9 @@
         <input matInput type="password" formControlName="password" required>
       </mat-form-field>
       <div>
+        <mat-checkbox id="remember-me" name="remember-me" class="example-margin">Check me!</mat-checkbox>
+      </div>
+      <div>
         <button type="submit" [disabled]="!loginForm.valid" mat-raised-button color="primary">Login</button>
       </div>
       <a class="mt-4" [routerLink]="['/forgot-password']">Forgot password?</a>
