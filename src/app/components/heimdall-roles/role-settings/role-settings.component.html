@@ -1,14 +1,16 @@
-<div class="row">
-  <div class="col-6 offset-4 mt-5">
-    <mat-icon [routerLink]="['/home/roles']" class="table-icon float-right" aria-hidden="false"
-              aria-label="delete"> exit_to_app
-    </mat-icon>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-6 offset-4 mt-5">
+      <mat-icon [routerLink]="['/home/roles']" class="table-icon float-right" aria-hidden="false"
+                aria-label="delete"> exit_to_app
+      </mat-icon>
+    </div>
   </div>
 </div>
 
 <h1 class="d-flex justify-content-center align-items-center" *ngIf="currentRole">Resource Settings for
   role: {{currentRole.name}}
-  <mat-icon (click)="updateRoleName()" class="table-icon ml-3 " aria-hidden="false"
+  <mat-icon (click)="updateRoleName()" class="table-icon" aria-hidden="false"
             aria-label="create">create
   </mat-icon>
 </h1>
