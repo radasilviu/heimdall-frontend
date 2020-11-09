@@ -1,7 +1,7 @@
 import {Component, Inject, OnInit} from '@angular/core';
-import {MAT_DIALOG_DATA, MatDialog} from "@angular/material/dialog";
+import {MAT_DIALOG_DATA} from "@angular/material/dialog";
 import {PrivilegesService} from "../../../services/resources-service/privileges.service";
-import {ResourcesService} from "../../../services/resources-service/resources.service";
+import {SubSink} from "subsink";
 
 @Component({
   selector: 'app-resource-dialog',
@@ -10,15 +10,14 @@ import {ResourcesService} from "../../../services/resources-service/resources.se
 })
 export class PrivilegesDialogComponent implements OnInit {
   displayedColumns: string[] = ['Roles'];
+  subSink = new SubSink();
   allPrivileges
   resourcePrivileges
   currentResourceName;
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
-    private privilegesService: PrivilegesService,
-    private dialog: MatDialog,
-    private resourceService: ResourcesService) {
+    private privilegesService: PrivilegesService) {
   }
 
   ngOnInit(): void {
@@ -27,27 +26,40 @@ export class PrivilegesDialogComponent implements OnInit {
     this.getResourcePrivileges();
   }
 
+  ngOnDestroy() {
+    this.subSink
+      .unsubscribe();
+  }
+
   getAllPrivileges() {
-    this.privilegesService.getAllPrivileges().subscribe(data => {
-      this.allPrivileges = data
-    })
+    this.subSink.add(this.privilegesService
+      .getAllPrivileges()
+      .subscribe(data => {
+        this.allPrivileges = data
+      }))
   }
 
   getResourcePrivileges() {
-    this.privilegesService.getResourcePrivileges(this.data.realm, this.data.role.name, this.data.resource).subscribe(data => {
-      this.resourcePrivileges = data
-    })
+    this.subSink.add(this.privilegesService
+      .getResourcePrivileges(this.data.realm, this.data.role.name, this.data.resource)
+      .subscribe(data => {
+        this.resourcePrivileges = data
+      }))
   }
 
   addPrivilegeToResource(privilege) {
-    this.privilegesService.addPrivilegeToResource(this.data.resource, privilege.name, this.data.role).subscribe(() => {
-      this.getResourcePrivileges()
-    })
+    this.subSink.add(this.privilegesService
+      .addPrivilegeToResource(this.data.resource, privilege.name, this.data.role)
+      .subscribe(() => {
+        this.getResourcePrivileges()
+      }))
   }
 
   deletePrivilegeFromResource(privilege) {
-    this.privilegesService.deletePrivilegeFromResource(this.data.resource, privilege.name, this.data.role).subscribe(() => {
-      this.getResourcePrivileges()
-    })
+    this.subSink.add(this.privilegesService
+      .deletePrivilegeFromResource(this.data.resource, privilege.name, this.data.role)
+      .subscribe(() => {
+        this.getResourcePrivileges()
+      }))
   }
 }

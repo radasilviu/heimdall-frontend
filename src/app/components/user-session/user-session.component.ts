@@ -22,22 +22,28 @@ export class UserSessionComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.subSink.add(this.realmService.currentRealm.subscribe((realm: Realm) => {
-      this.userService.getAllUsers(realm.name).subscribe(users => {
-        this.users = users;
-        this.getSession();
-      });
-    }));
+    this.subSink
+      .add(this.realmService.currentRealm.subscribe((realm: Realm) => {
+        this.userService
+          .getAllUsers(realm.name)
+          .subscribe(users => {
+            this.users = users;
+            this.getSession();
+          });
+      }));
   }
 
   ngOnDestroy() {
-    this.subSink.unsubscribe();
+    this.subSink
+      .unsubscribe();
   }
 
   logOutUser(user: User) {
     user.token = null;
     user.refreshToken = null;
-    this.userService.updateUserName(user.username, user, this.realm.name).subscribe();
+    this.userService
+      .updateUserName(user.username, user, this.realm.name)
+      .subscribe();
   }
 
 

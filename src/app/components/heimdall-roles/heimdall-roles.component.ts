@@ -31,18 +31,20 @@ export class HeimdallRolesComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.subSink.add(this.realmService
-      .currentRealm
-      .subscribe((realm: Realm) => {
-        this.realm = realm;
-        this.getAllRoles();
-      }));
+    this.subSink
+      .add(this.realmService
+        .currentRealm
+        .subscribe((realm: Realm) => {
+          this.realm = realm;
+          this.getAllRoles();
+        }));
   }
 
   getAllRoles() {
-    return this.subSink.add(this.roleService
-      .getAllRoles(this.realm.name)
-      .subscribe(roles => this.allRoles = roles));
+    return this.subSink
+      .add(this.roleService
+        .getAllRoles(this.realm.name)
+        .subscribe(roles => this.allRoles = roles));
   }
 
   ngOnDestroy() {
@@ -51,13 +53,16 @@ export class HeimdallRolesComponent implements OnInit {
   }
 
   addRole() {
-    this.subSink.add(this.service
-      .addRole(this.form.value, this.realm.name)
-      .subscribe(() => this.getAllRoles()));
+    this.subSink
+      .add(this.service
+        .addRole(this.form.value, this.realm.name)
+        .subscribe(() => this.getAllRoles()));
   }
 
   roleSettings(role) {
-    localStorage.setItem("currentRole", JSON.stringify(role))
-    this.router.navigate(['home/roles/role-settings']);
+    localStorage
+      .setItem("currentRole", JSON.stringify(role))
+    this.router
+      .navigate(['home/roles/role-settings']);
   }
 }
