@@ -2,12 +2,11 @@ import {Component, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {MatDialog} from '@angular/material/dialog';
 import {Role} from 'src/app/models/Role';
-import {DeleteDialogComponent} from '../dialogs/delete-dialog/delete-dialog.component';
-import {RolesDialogComponent} from '../dialogs/roles-dialog/roles-dialog.component';
 import {RoleService} from '../../services/role-service/role-service';
 import {RealmService} from '../../services/realm-service/realm-service';
 import {SubSink} from 'subsink';
 import {Realm} from '../../models/Realm';
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-heimdall-roles',
@@ -26,6 +25,7 @@ export class HeimdallRolesComponent implements OnInit {
 
   constructor(private service: RoleService,
               private dialog: MatDialog,
+              private router: Router,
               private roleService: RoleService,
               private realmService: RealmService) {
   }
@@ -50,36 +50,14 @@ export class HeimdallRolesComponent implements OnInit {
       .unsubscribe();
   }
 
-  updateRole(currentRoleName: string) {
-    const dialogRef = this.dialog.open(RolesDialogComponent);
-
-    dialogRef.afterClosed()
-      .subscribe(data => {
-        if (data !== undefined) {
-          let role = {} as Role;
-          role.name = data;
-          this.subSink.add(this.service
-            .updateRoleByName(currentRoleName, role, this.realm.name)
-            .subscribe(() => this.getAllRoles()));
-        }
-      });
-  }
-
   addRole() {
     this.subSink.add(this.service
       .addRole(this.form.value, this.realm.name)
       .subscribe(() => this.getAllRoles()));
   }
 
-  deleteRole(role) {
-    const dialogRef = this.dialog.open(DeleteDialogComponent);
-    dialogRef.afterClosed()
-      .subscribe(data => {
-        if (data == 'true') {
-          this.subSink.add(this.service
-            .deleteRole(role, this.realm.name)
-            .subscribe(() => this.getAllRoles()));
-        }
-      });
+  roleSettings(role) {
+    localStorage.setItem("currentRole", JSON.stringify(role))
+    this.router.navigate(['home/roles/role-settings']);
   }
 }

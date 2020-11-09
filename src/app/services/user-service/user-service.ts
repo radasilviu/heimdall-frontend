@@ -25,11 +25,7 @@ export class UserService {
   }
 
   updateUserName(currentUserName: string, newUser: User, realmName: string) {
-    return this.http.put(url + '/user/' + realmName + '/' + currentUserName, newUser).pipe(
-      tap(() => {
-        this.users.next();
-      })
-    );
+    return this.http.put(url + '/user/' + realmName + '/' + currentUserName, newUser)
   }
 
   getAllUsers(realmName: string): Observable<User[]> {
@@ -46,9 +42,5 @@ export class UserService {
 
   getUserByUsername(username: string, realm: string): Observable<User> {
     return this.http.get<User>(url + '/user/' + realm + '/' + username);
-  }
-
-  getUsersWithoutAdmin(realm: string): Observable<User[]>{
-    return this.http.get<User[]>(url + '/user/' + realm + '/' + 'getUsersWithoutAdmin');
   }
 }

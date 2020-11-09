@@ -1,9 +1,10 @@
 import {Injectable} from '@angular/core';
-import {Observable, ReplaySubject} from 'rxjs';
+import {BehaviorSubject, Observable} from 'rxjs';
 import {Role} from '../../models/Role';
 import {User} from '../../models/User';
 import {HttpClient} from '@angular/common/http';
 import {Env} from '../../configs/env';
+import {tap} from "rxjs/operators";
 
 const url = Env.apiRootURL + '/api';
 
@@ -11,20 +12,17 @@ const url = Env.apiRootURL + '/api';
   providedIn: 'root'
 })
 export class RoleService {
-  roles$ = new ReplaySubject<Role[]>();
+  role = new BehaviorSubject(null);
 
   constructor(private http: HttpClient) {
-  }
-
-  setRoles(data) {
-    return this.roles$.next(data);
   }
 
   getAllRoles(realmName: string): Observable<Role[]> {
     return this.http.get<Role[]>(url + '/role/' + realmName);
   }
-  getRoleByName(realmName: string, name: string): Observable<Role>{
-    return this.http.get<Role>(url + '/role/' + realmName + '/' + name);
+
+  getRoleByName(realmName: string, name: string): Observable<Role> {
+    return this.http.get<Role>(url + '/role/' + realmName + '/' + name).pipe(tap(role => this.role.next(role)));
   }
 
   addRole(role: Role, realmName: string) {

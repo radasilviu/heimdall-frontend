@@ -1,0 +1,18 @@
+<h1 class="ml-4 mt-5">Create new Resource</h1>
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-2">
+      <form [formGroup]="formGroup">
+        <div class="form-group ml-5 mt-5">
+          <label for="exampleFormControlInput1">Resource Name</label>
+          <input formControlName="name" type="email" class="form-control" id="exampleFormControlInput1">
+        </div>
+        <button (click)="addNewResource()" type="button" class="btn btn-primary float-right ">save</button>
+        <button [routerLink]="['/home/roles/role-settings']" type="button" class="btn btn-secondary float-right mr-3">
+          cancel
+        </button>
+      </form>
+    </div>
+  </div>
+</div>

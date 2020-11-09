@@ -1,12 +1,12 @@
 <div class="dialog">
-
-  <mat-form-field>
-    <mat-label>New Role Name</mat-label>
-    <input autocomplete="off" matInput type="text" [(ngModel)]="newRoleName">
-  </mat-form-field>
-  <div mat-dialog-actions>
-    <button mat-button [mat-dialog-close]="newRoleName" cdkFocusInitial>Submit</button>
-    <button mat-button [mat-dialog-close]="" cdkFocusInitial>Cancel</button>
-  </div>
-
+  <form [formGroup]="roleForm">
+    <mat-form-field>
+      <mat-label>New Name</mat-label>
+      <input autocomplete="off" matInput type="text" formControlName="name">
+    </mat-form-field>
+    <div mat-dialog-actions class="d-flex justify-content-between">
+      <button mat-button [mat-dialog-close]="roleForm.value" cdkFocusInitial>Save</button>
+      <button mat-button [mat-dialog-close]="" cdkFocusInitial>Cancel</button>
+    </div>
+  </form>
 </div>

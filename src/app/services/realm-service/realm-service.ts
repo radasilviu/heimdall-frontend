@@ -34,7 +34,8 @@ export class RealmService {
 
   getAllRealms() {
     return this.http.get<Realm[]>(url + '/list').pipe(tap((realms) => {
-      if(!localStorage.getItem("realm")){
+      if (!localStorage.getItem("realm")) {
+        localStorage.setItem("realm", JSON.stringify(realms[0]))
         this.currentRealm.next(realms[0])
       }
       this.realms.next(realms)

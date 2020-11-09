@@ -49,99 +49,105 @@ import {UserSessionComponent} from './components/user-session/user-session.compo
 import {NotFoundComponent} from './components/error-pages/not-found/not-found.component';
 import {RealmNotFoundComponent} from './components/error-pages/realm-not-found/realm-not-found.component';
 import {HttpInterceptorService} from './interceptors/http-error-interceptor/http-interceptor.service';
+import {RoleSettingsComponent} from './components/heimdall-roles/role-settings/role-settings.component';
+import {PrivilegesDialogComponent} from './components/dialogs/privileges-dialog/privileges-dialog.component';
+import {AddResourceComponent} from './components/heimdall-roles/add-resource/add-resource.component';
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    ClientsComponent,
-    routingComponents,
-    LoginComponent,
-    UsersComponent,
-    RolesComponent,
-    HeimdallRolesComponent,
-    ClientLoginComponent,
-    AddRealmComponent,
-    ClientDialogComponent,
-    UserProfileLoginComponent,
-    UserProfileComponent,
-    UserDialogComponent,
-    RolesDialogComponent,
-    RealmSettingsComponent,
-    RegistrationPageComponent,
-    RealmGeneralSettingComponent,
-    RealmLoginSettingComponent,
-    ForgotPasswordComponent,
-    ChangePasswordComponent,
-    DeleteDialogComponent,
-    IdentityProviderComponent,
-    UsersGroupsComponent,
-    NotFoundComponent,
-    RealmNotFoundComponent,
-    CreateGroupComponent,
-    GroupUsersComponent,
-    UserSessionComponent,
-  ],
-  entryComponents: [ClientDialogComponent, UserDialogComponent, RolesDialogComponent],
-  imports: [
-    HttpClientModule,
-    MatSnackBarModule,
-    MatExpansionModule,
-    MatMenuModule,
-    MatIconModule,
-    FormsModule,
-    MatTableModule,
-    HttpClientModule,
-    ReactiveFormsModule,
-    MatToolbarModule,
-    MatSidenavModule,
-    MatListModule,
-    MatButtonModule,
-    MatTableModule,
-    MatDialogModule,
-    MatCheckboxModule,
-    MatInputModule,
-    BrowserAnimationsModule,
-    BrowserModule,
-    AppRoutingModule,
-    BrowserModule,
-    BrowserAnimationsModule,
-    HttpClientModule,
-    AppRoutingModule,
-    FormsModule,
-    ReactiveFormsModule,
-    MatToolbarModule,
-    MatSidenavModule,
-    MatListModule,
-    MatButtonModule,
-    MatIconModule,
-    MatTabsModule,
-    MatCardModule,
-    MatSlideToggleModule,
-    SocialLoginModule
-  ],
-  providers: [
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: HttpInterceptorService,
-      multi: true
-    },
-    {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true},
-    {
-      provide: 'SocialAuthServiceConfig',
-      useValue: {
-        autoLogin: false,
-        providers: [
-          {
-            id: GoogleLoginProvider.PROVIDER_ID,
-            provider: new GoogleLoginProvider(
-              '381043353625-kvdt5on5nhj6o991pui9ktnmi65vq409.apps.googleusercontent.com'
-            ),
-          },
-        ],
-      } as SocialAuthServiceConfig
-    }
-  ],
-  bootstrap: [AppComponent]
+    declarations: [
+        AppComponent,
+        ClientsComponent,
+        routingComponents,
+        LoginComponent,
+        UsersComponent,
+        RolesComponent,
+        HeimdallRolesComponent,
+        ClientLoginComponent,
+        AddRealmComponent,
+        ClientDialogComponent,
+        UserProfileLoginComponent,
+        UserProfileComponent,
+        UserDialogComponent,
+        RolesDialogComponent,
+        RealmSettingsComponent,
+        RegistrationPageComponent,
+        RealmGeneralSettingComponent,
+        RealmLoginSettingComponent,
+        ForgotPasswordComponent,
+        ChangePasswordComponent,
+        DeleteDialogComponent,
+        IdentityProviderComponent,
+        UsersGroupsComponent,
+        NotFoundComponent,
+        RealmNotFoundComponent,
+        CreateGroupComponent,
+        GroupUsersComponent,
+        UserSessionComponent,
+        RoleSettingsComponent,
+        PrivilegesDialogComponent,
+        AddResourceComponent,
+    ],
+    entryComponents: [ClientDialogComponent, UserDialogComponent, RolesDialogComponent],
+    imports: [
+        HttpClientModule,
+        MatSnackBarModule,
+        MatExpansionModule,
+        MatMenuModule,
+        MatIconModule,
+        FormsModule,
+        MatTableModule,
+        HttpClientModule,
+        ReactiveFormsModule,
+        MatToolbarModule,
+        MatSidenavModule,
+        MatListModule,
+        MatButtonModule,
+        MatTableModule,
+        MatDialogModule,
+        MatCheckboxModule,
+        MatInputModule,
+        BrowserAnimationsModule,
+        BrowserModule,
+        AppRoutingModule,
+        BrowserModule,
+        BrowserAnimationsModule,
+        HttpClientModule,
+        AppRoutingModule,
+        FormsModule,
+        ReactiveFormsModule,
+        MatToolbarModule,
+        MatSidenavModule,
+        MatListModule,
+        MatButtonModule,
+        MatIconModule,
+        MatTabsModule,
+        MatCardModule,
+        MatSlideToggleModule,
+        SocialLoginModule
+    ],
+    providers: [
+        {
+            provide: HTTP_INTERCEPTORS,
+            useClass: HttpInterceptorService,
+            multi: true
+        },
+        {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true},
+        {
+            provide: 'SocialAuthServiceConfig',
+            useValue: {
+                autoLogin: false,
+                providers: [
+                    {
+                        id: GoogleLoginProvider.PROVIDER_ID,
+                        provider: new GoogleLoginProvider(
+                            '381043353625-kvdt5on5nhj6o991pui9ktnmi65vq409.apps.googleusercontent.com'
+                        ),
+                    },
+                ],
+            } as SocialAuthServiceConfig
+        }
+    ],
+    bootstrap: [AppComponent]
 })
 export class AppModule {
 }
