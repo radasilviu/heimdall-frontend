@@ -15,62 +15,59 @@
   </mat-icon>
 </h1>
 
-<div class="container-fluid">
-  <div class="row mt-4">
-    <div class="col-6 d-flex justify-content-end">
-      <table mat-table [dataSource]="allResource" class="w-25 mat-elevation-z8 my-table">
-        <ng-container matColumnDef="Roles">
-          <th class="text align-items-center" mat-header-cell *matHeaderCellDef>
-            <p class="position-relative m-0 ">
-              All Resources
-              <button [routerLink]="['/home/roles/add-resource']" type="button" class="btn btn-light float-right">+
-              </button>
-            </p>
-          </th>
+<div class="container-fluid d-flex row justify-content-around">
+  <div class="row d-flex justify-content-around">
+    <table mat-table [dataSource]="allResource" class="mat-elevation-z8 my-table m-3">
+      <ng-container matColumnDef="Roles">
+        <th class="text align-items-center" mat-header-cell *matHeaderCellDef>
+          <p class="position-relative m-0">
+            All Resources
+            <button [routerLink]="['/home/roles/add-resource']" type="button" class="btn btn-light float-right">+
+            </button>
+          </p>
+        </th>
 
-          <td class="d-flex align-content-center p-3" mat-cell *matCellDef="let resource">
-            {{resource.name }}
-            <div class="w-100">
-              <mat-icon (click)="addRoleResource(resource.name)" class="table-icon float-right" aria-hidden="false"
-                        aria-label="move">
-                arrow_right_alt
-              </mat-icon>
-              <mat-icon (click)="removeResource(resource.name)" class="table-icon float-right mr-3" aria-hidden="false"
-                        aria-label="move">
-                delete
-              </mat-icon>
-              <mat-icon (click)="updateResourceName(resource)" class="table-icon float-right mr-3" aria-hidden="false"
-                        aria-label="move">
-                create
-              </mat-icon>
-            </div>
-          </td>
-        </ng-container>
-        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-      </table>
-    </div>
-    <div class="col-6">
-      <table mat-table [dataSource]="roleResources" class="w-25 mat-elevation-z8 my-table">
-        <ng-container matColumnDef="Roles">
-          <th mat-header-cell *matHeaderCellDef>Role Resources</th>
-          <td class="d-flex align-items-center p-3" mat-cell *matCellDef="let resource">
-            {{resource.name}}
-            <div class="w-100">
-              <mat-icon (click)="deleteRoleResource(resource.name)" class="table-icon float-right ml-3"
-                        aria-hidden="false"
-                        aria-label="delete">delete
-              </mat-icon>
-              <mat-icon (click)="managePrivileges(resource)" class="table-icon float-right" aria-hidden="false"
-                        aria-label="delete">info
-              </mat-icon>
-            </div>
-          </td>
-        </ng-container>
-        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-      </table>
-    </div>
+        <td class="d-flex align-content-center p-3" mat-cell *matCellDef="let resource">
+          {{resource.name }}
+          <div class="w-100 ml-3">
+            <mat-icon (click)="addRoleResource(resource.name)" class="table-icon float-right" aria-hidden="false"
+                      aria-label="move">
+              arrow_right_alt
+            </mat-icon>
+            <mat-icon (click)="removeResource(resource.name)" class="table-icon float-right mr-3" aria-hidden="false"
+                      aria-label="move">
+              delete
+            </mat-icon>
+            <mat-icon (click)="updateResourceName(resource)" class="table-icon float-right mr-3" aria-hidden="false"
+                      aria-label="move">
+              create
+            </mat-icon>
+          </div>
+        </td>
+      </ng-container>
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+
+    <table mat-table [dataSource]="roleResources" class="mat-elevation-z8 my-table m-3">
+      <ng-container matColumnDef="Roles">
+        <th mat-header-cell *matHeaderCellDef>Role Resources</th>
+        <td class="d-flex align-items-center p-3 " mat-cell *matCellDef="let resource">
+          {{resource.name}}
+          <div class="w-100 ml-3">
+            <mat-icon (click)="deleteRoleResource(resource.name)" class="table-icon float-right ml-3"
+                      aria-hidden="false"
+                      aria-label="delete">delete
+            </mat-icon>
+            <mat-icon (click)="managePrivileges(resource)" class="table-icon float-right" aria-hidden="false"
+                      aria-label="delete">info
+            </mat-icon>
+          </div>
+        </td>
+      </ng-container>
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
   </div>
 </div>
 
