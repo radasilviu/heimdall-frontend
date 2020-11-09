@@ -21,8 +21,9 @@ export class AccountSettingsComponent implements OnInit {
   realm;
   subSink = new SubSink();
 
+
   emailForm = new FormGroup({
-    email: new FormControl('', Validators.required)
+    email: new FormControl('', Validators.email)
   });
 
   passwordForm: FormGroup;
@@ -35,10 +36,11 @@ export class AccountSettingsComponent implements OnInit {
               private snackBar: SnackBarService,
               private router: Router,
               private authService: AdminAuthService,
-              private formBuilder: FormBuilder) {
+              private formBuilder: FormBuilder,
+              private snackBarService: SnackBarService) {
 
     this.passwordForm = this.formBuilder.group({
-      password: ['', [Validators.required]],
+      password: ['', []],
       confirmPassword: ['']
     }, {validator: this.checkPasswords});
 
@@ -68,10 +70,12 @@ export class AccountSettingsComponent implements OnInit {
 
   onSubmitEmail(user: User) {
     let form = this.emailForm.value;
-    let newUser = {} as User;
-    newUser.email = form.email.value;
-    this.subSink.add(this.userService.updateUserName(user.username, user, this.realm.name).subscribe());
-    console.log(user);
+    user.email = form.email;
+    this.subSink.add(this.userService.updateUserName(user.username, user, this.realm.name).subscribe(()=>{
+      this.snackBar.openSnackBar("Email saved successfully",3000);
+    },));
+    this.emailForm.reset();
+
 
   }
 
@@ -81,7 +85,10 @@ export class AccountSettingsComponent implements OnInit {
 
     let form = this.passwordForm.controls.password;
     user.password = form.value;
-    this.subSink.add(this.userService.updateUserName(user.username, user, this.realm.name).subscribe());
+    this.subSink.add(this.userService.updateUserName(user.username, user, this.realm.name).subscribe(() =>{
+      this.snackBar.openSnackBar("Password reset successsfully", 3000);
+    }));
+    this.passwordForm.reset();
 
   }
 
