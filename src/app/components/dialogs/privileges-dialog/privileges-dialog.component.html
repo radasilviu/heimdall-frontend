@@ -7,7 +7,7 @@
     <div class="col-6 d-flex justify-content-end">
       <table mat-table [dataSource]="allPrivileges" class="w-25 mat-elevation-z8 my-table">
         <ng-container matColumnDef="Roles">
-          <th mat-header-cell *matHeaderCellDef> All Roles
+          <th mat-header-cell *matHeaderCellDef> All Privileges
           </th>
           <td class="d-flex align-content-center p-3" mat-cell *matCellDef="let privilege">
             {{privilege.name }}
@@ -26,7 +26,7 @@
     <div class="col-6">
       <table mat-table [dataSource]="resourcePrivileges" class="w-25 mat-elevation-z8 my-table">
         <ng-container matColumnDef="Roles">
-          <th mat-header-cell *matHeaderCellDef> User Roles</th>
+          <th mat-header-cell *matHeaderCellDef> Role Privileges</th>
           <td class="d-flex align-items-center p-3" mat-cell *matCellDef="let privilege">
             {{privilege.name}}
             <div class="w-100">

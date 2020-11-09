@@ -55,7 +55,7 @@ export class AuthInterceptor implements HttpInterceptor {
   addAuthorizationHeader(request, token: Token): any {
     const opts = {
       headers: new HttpHeaders({
-        'Authorization': `Bearer ${token.access_token}`,
+        'Authorization': `Basic ${token.access_token}`,
       })
     };
 
