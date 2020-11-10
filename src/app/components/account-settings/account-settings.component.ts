@@ -20,14 +20,10 @@ export class AccountSettingsComponent implements OnInit {
   user: User;
   realm;
   subSink = new SubSink();
-
-
   emailForm = new FormGroup({
     email: new FormControl('', Validators.email)
   });
-
   passwordForm: FormGroup;
-
 
   constructor(private changeDetectorRefs: ChangeDetectorRef,
               private dialog: MatDialog,
@@ -45,7 +41,6 @@ export class AccountSettingsComponent implements OnInit {
     }, {validator: this.checkPasswords});
 
   }
-
 
   ngOnInit(): void {
     this.realm = this.realmService
@@ -73,8 +68,6 @@ export class AccountSettingsComponent implements OnInit {
       this.snackBar.openSnackBar("Email saved successfully",3000);
     },));
     this.emailForm.reset();
-
-
   }
 
   onSubmitPassword(user: User) {
@@ -84,7 +77,6 @@ export class AccountSettingsComponent implements OnInit {
       this.snackBar.openSnackBar("Password reset successsfully", 3000);
     }));
     this.passwordForm.reset();
-
   }
 
   checkPasswords(group: FormGroup) {
