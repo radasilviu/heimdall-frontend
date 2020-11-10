@@ -9,9 +9,8 @@ import {SubSink} from "subsink";
   styleUrls: ['./add-resource.component.css']
 })
 export class AddResourceComponent {
-  subSink = new SubSink()
-  @Input() create;
   @Output() message = new EventEmitter();
+  subSink = new SubSink()
   isCreated = false
   formGroup = new FormGroup({
     name: new FormControl('')
