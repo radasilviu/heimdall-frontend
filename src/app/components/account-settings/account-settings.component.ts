@@ -64,8 +64,8 @@ export class AccountSettingsComponent implements OnInit {
   onSubmitEmail(user: User) {
     let form = this.emailForm.value;
     user.email = form.email;
-    this.subSink.add(this.userService.updateUserName(user.username, user, this.realm.name).subscribe(()=>{
-      this.snackBar.openSnackBar("Email saved successfully",3000);
+    this.subSink.add(this.userService.updateUserName(user.username, user, this.realm.name).subscribe(() => {
+      this.snackBar.openSnackBar('Email saved successfully', 3000);
     },));
     this.emailForm.reset();
   }
@@ -73,8 +73,8 @@ export class AccountSettingsComponent implements OnInit {
   onSubmitPassword(user: User) {
     let form = this.passwordForm.controls.password;
     user.password = form.value;
-    this.subSink.add(this.userService.updateUserName(user.username, user, this.realm.name).subscribe(() =>{
-      this.snackBar.openSnackBar("Password reset successsfully", 3000);
+    this.subSink.add(this.userService.updateUserName(user.username, user, this.realm.name).subscribe(() => {
+      this.snackBar.openSnackBar('Password reset successsfully', 3000);
     }));
     this.passwordForm.reset();
   }
