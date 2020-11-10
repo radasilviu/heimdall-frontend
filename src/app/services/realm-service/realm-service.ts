@@ -13,13 +13,9 @@ const url = Env.apiRootURL + '/api/admin/realm';
 })
 export class RealmService {
   realms = new BehaviorSubject([]);
-  currentRealm = new BehaviorSubject({} as Realm);
+  currentRealm = new BehaviorSubject(null);
 
   constructor(private http: HttpClient) {
-  }
-
-  setRealms(data) {
-    this.realms.next(data);
   }
 
   setCurrentRealm(data?) {
@@ -34,8 +30,9 @@ export class RealmService {
 
   getAllRealms() {
     return this.http.get<Realm[]>(url + '/list').pipe(tap((realms) => {
-      if(!localStorage.getItem("realm")){
+      if (!localStorage.getItem("realm")) {
         this.currentRealm.next(realms[0])
+        localStorage.setItem("realm", JSON.stringify(realms[0]))
       }
       this.realms.next(realms)
     }));

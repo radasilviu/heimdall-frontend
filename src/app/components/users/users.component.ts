@@ -62,23 +62,6 @@ export class UsersComponent implements OnInit {
     this.addUser(this.form.value);
   }
 
-  updateUser(currentUserName: string) {
-    const dialogRef = this.dialog
-      .open(UserDialogComponent);
-
-    this.subSink
-      .add(dialogRef.afterClosed()
-        .subscribe(data => {
-          if (data !== undefined) {
-            let user = {} as User;
-            user.username = data;
-            this.subSink
-              .add(this.userService
-                .updateUserName(currentUserName, user, this.realm.name)
-                .subscribe(() => this.getAlUsers()));
-          }
-        }));
-  }
 
   deleteUser(username: string) {
     const dialogRef = this.dialog
@@ -109,4 +92,37 @@ export class UsersComponent implements OnInit {
     this.router
       .navigate(['home/users/roles']);
   }
+
+  getUserByUsername(username : string, newUsername){
+    this.subSink.add(this.userService.getUserByUsername(username, this.realm.name).subscribe(data => {
+     this.setNewUser(data,newUsername)
+    }));
+
+  }
+
+  setNewUser(data, newUsername){
+    let username = data.username;
+    data.username = newUsername;
+    this.subSink
+      .add(this.userService
+        .updateUserName(username, data, this.realm.name)
+        .subscribe(() => {
+          this.getAlUsers()
+        }));
+  }
+
+  updateUser(currentUserName: string) {
+    const dialogRef = this.dialog
+      .open(UserDialogComponent);
+
+    this.subSink
+      .add(dialogRef.afterClosed()
+        .subscribe(data => {
+          if (data !== undefined) {
+            this.getUserByUsername(currentUserName, data)
+
+          }
+        }));
+  }
+
 }

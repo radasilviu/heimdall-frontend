@@ -1,0 +1,12 @@
+<div class="container">
+  <form>
+    <div class="form-group" [formGroup]="resourceForm">
+      <h1 class="text-center font-italic mb-4" *ngIf="!data.edit">Add</h1>
+      <h1 class="text-center font-italic mb-4" *ngIf="data.edit">Update</h1>
+      <input type="text" formControlName="name" class="form-control" placeholder="New Name">
+      <br/>
+    </div>
+    <button class="mr-3" [mat-dialog-close]="resourceForm.value" mat-raised-button color="primary">Save</button>
+    <button [mat-dialog-close]="" class="btn btn-primary mr-3 float-right mb-2">Cancel</button>
+  </form>
+</div>
