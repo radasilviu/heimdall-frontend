@@ -1,7 +1,6 @@
-import {Component} from '@angular/core';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {FormControl, FormGroup} from "@angular/forms";
 import {ResourcesService} from "../../../services/resources-service/resources.service";
-import {Router} from "@angular/router";
 import {SubSink} from "subsink";
 
 @Component({
@@ -11,15 +10,15 @@ import {SubSink} from "subsink";
 })
 export class AddResourceComponent {
   subSink = new SubSink()
-
+  @Input() create;
+  @Output() message = new EventEmitter();
+  isCreated = false
   formGroup = new FormGroup({
     name: new FormControl('')
   })
 
   constructor(
-    private resourceService: ResourcesService,
-    private router: Router
-  ) {
+    private resourceService: ResourcesService) {
   }
 
   addNewResource() {
@@ -27,9 +26,12 @@ export class AddResourceComponent {
       .add(this.resourceService
         .addNewResource(this.formGroup.value)
         .subscribe(() => {
-          this.router
-            .navigate(['home/roles/role-settings']);
+          this.goBack()
         }))
+  }
+
+  goBack() {
+    this.message.emit(this.isCreated)
   }
 
   ngOnDestroy() {

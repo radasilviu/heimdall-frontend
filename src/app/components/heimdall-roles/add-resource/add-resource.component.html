@@ -9,7 +9,7 @@
           <input formControlName="name" type="email" class="form-control" id="exampleFormControlInput1">
         </div>
         <button (click)="addNewResource()" type="button" class="btn btn-primary float-right ">save</button>
-        <button [routerLink]="['/home/roles/role-settings']" type="button" class="btn btn-secondary float-right mr-3">
+        <button (click)="goBack()" type="button" class="btn btn-secondary float-right mr-3">
           cancel
         </button>
       </form>

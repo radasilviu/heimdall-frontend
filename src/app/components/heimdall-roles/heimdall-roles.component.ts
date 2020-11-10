@@ -18,6 +18,8 @@ export class HeimdallRolesComponent implements OnInit {
   allRoles: Role[];
   realm: Realm;
   subSink = new SubSink();
+  editRole = false;
+  currentRole = {} as Role;
 
   form = new FormGroup({
     name: new FormControl('', Validators.required)
@@ -40,6 +42,10 @@ export class HeimdallRolesComponent implements OnInit {
         }));
   }
 
+  receiveMessage($event) {
+    this.editRole = $event
+  }
+
   getAllRoles() {
     return this.subSink
       .add(this.roleService
@@ -60,9 +66,7 @@ export class HeimdallRolesComponent implements OnInit {
   }
 
   roleSettings(role) {
-    localStorage
-      .setItem("currentRole", JSON.stringify(role))
-    this.router
-      .navigate(['home/roles/role-settings']);
+    this.currentRole = role
+    this.editRole = true
   }
 }

@@ -23,6 +23,10 @@ export class ResourcesService {
     return this.http.put(url + '/role/' + resourceName + "/remove", role);
   }
 
+  getRoleResource(realmName, roleName) {
+    return this.http.get(url + '/resources/' + realmName + "/" + roleName);
+  }
+
   addRoleResource(resourceName, role) {
     return this.http.put(url + '/role/' + resourceName + "/add", role);
   }

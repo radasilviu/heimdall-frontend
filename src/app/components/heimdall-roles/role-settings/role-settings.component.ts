@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {RoleService} from "../../../services/role-service/role-service";
 import {ResourcesService} from "../../../services/resources-service/resources.service";
 import {MatDialog} from "@angular/material/dialog";
@@ -6,6 +6,7 @@ import {RolesDialogComponent} from "../../dialogs/roles-dialog/roles-dialog.comp
 import {PrivilegesDialogComponent} from "../../dialogs/privileges-dialog/privileges-dialog.component";
 import {Router} from "@angular/router";
 import {SubSink} from "subsink";
+import {Role} from "../../../models/Role";
 
 @Component({
   selector: 'app-role-settings',
@@ -13,11 +14,12 @@ import {SubSink} from "subsink";
   styleUrls: ['./role-settings.component.css']
 })
 export class RoleSettingsComponent implements OnInit {
-  currentRole;
-  realm;
-  roleResources;
-  allResource;
+  @Output() message = new EventEmitter();
+  @Input() role: Role;
   subSink = new SubSink()
+  edit = false;
+  isCreate = false;
+  allResource;
   displayedColumns: string[] = ['Roles'];
 
   constructor(
@@ -29,7 +31,6 @@ export class RoleSettingsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getCurrentRole();
     this.getAllResources()
   }
 
@@ -38,25 +39,14 @@ export class RoleSettingsComponent implements OnInit {
       .unsubscribe()
   }
 
-  getCurrentRole() {
-    let role = JSON
-      .parse(localStorage
-        .getItem("currentRole"));
-
-    this.subSink
-      .add(this.roleService.getRoleByName(role.realm.name, role.name)
-        .subscribe(() => {
-          this.setCurrentRole()
-        }))
+  createNewResource() {
+    this.isCreate = true
   }
 
-  setCurrentRole() {
-    this.subSink
-      .add(this.roleService.role.subscribe(role => {
-        this.currentRole = role
-        this.realm = this.currentRole.realm
-        this.roleResources = this.currentRole.roleResources
-      }))
+  getRoleResources() {
+    this.resourceService.getRoleResource(this.role.realm.name, this.role.name).subscribe(data => {
+      this.role.roleResources = data
+    })
   }
 
   getAllResources() {
@@ -70,15 +60,15 @@ export class RoleSettingsComponent implements OnInit {
   deleteRoleResource(resourceName) {
     this.subSink
       .add(this.resourceService
-        .deleteRoleResource(resourceName, this.currentRole)
+        .deleteRoleResource(resourceName, this.role)
         .subscribe(() => {
-          this.getCurrentRole()
+          this.getRoleResources()
         }))
   }
 
   addRoleResource(resourceName) {
-    this.subSink.add(this.resourceService.addRoleResource(resourceName, this.currentRole).subscribe(() => {
-      this.getCurrentRole()
+    this.subSink.add(this.resourceService.addRoleResource(resourceName, this.role).subscribe(() => {
+      this.getRoleResources()
     }))
   }
 
@@ -88,7 +78,7 @@ export class RoleSettingsComponent implements OnInit {
         .deleteResource(resourceName)
         .subscribe(() => {
           this.getAllResources()
-          this.getCurrentRole()
+          this.getRoleResources()
         }))
   }
 
@@ -103,14 +93,21 @@ export class RoleSettingsComponent implements OnInit {
         if (data !== undefined) {
           this.subSink
             .add(this.roleService
-              .updateRoleByName(this.currentRole.name, data, this.currentRole.realm.name)
+              .updateRoleByName(this.role.name, data, this.role.realm.name)
               .subscribe(() => {
-                this.currentRole.name = data.name
-                localStorage.setItem("currentRole", JSON.stringify(this.currentRole))
-                this.getCurrentRole();
+                this.role.name = data.name
               }))
         }
       });
+  }
+
+  receiveMessage($event) {
+    this.isCreate = $event
+    this.getAllResources()
+  }
+
+  back() {
+    this.message.emit(this.edit)
   }
 
   updateResourceName(resource) {
@@ -126,7 +123,7 @@ export class RoleSettingsComponent implements OnInit {
             .add(this.resourceService.updateResourceByName(resource.name, data.name)
               .subscribe(() => {
                 this.getAllResources()
-                this.getCurrentRole()
+                this.getRoleResources()
               }))
         }
       });
@@ -138,8 +135,8 @@ export class RoleSettingsComponent implements OnInit {
       .open(PrivilegesDialogComponent, {
         data: {
           resource: resource.name,
-          realm: this.currentRole.realm.name,
-          role: this.currentRole
+          realm: this.role.realm.name,
+          role: this.role
         }
       });
 
@@ -147,7 +144,6 @@ export class RoleSettingsComponent implements OnInit {
       .subscribe(data => {
         if (data !== undefined) {
           this.getAllResources()
-          this.getCurrentRole()
         }
       });
   }
