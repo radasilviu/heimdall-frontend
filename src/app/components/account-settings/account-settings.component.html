@@ -20,7 +20,7 @@
     <form [formGroup]="emailForm" (ngSubmit)="onSubmitEmail(user)">
       <mat-form-field class="ml-4 mt-0">
         <mat-label>New Email</mat-label>
-        <input type="email" [(ngModel)]="emailInput" matInput placeholder="Ex. Pizza" aut formControlName="email">
+        <input type="email" matInput placeholder="Ex. Pizza" aut formControlName="email">
       </mat-form-field>
       <button class="ml-2" [disabled]="!emailForm.valid" mat-raised-button color="primary">Submit</button>
     </form>

@@ -48,7 +48,6 @@ export class AccountSettingsComponent implements OnInit {
 
 
   ngOnInit(): void {
-
     this.realm = this.realmService
       .currentRealm
       .getValue();
@@ -61,7 +60,6 @@ export class AccountSettingsComponent implements OnInit {
   }
 
   getCurrentUser() {
-
     let token = this.authService.tokenSubject.getValue();
     this.subSink.add(this.userService.getUserByUsername(token.username, this.realm.name).subscribe(data => {
       this.user = data;
@@ -80,9 +78,6 @@ export class AccountSettingsComponent implements OnInit {
   }
 
   onSubmitPassword(user: User) {
-
-
-
     let form = this.passwordForm.controls.password;
     user.password = form.value;
     this.subSink.add(this.userService.updateUserName(user.username, user, this.realm.name).subscribe(() =>{
