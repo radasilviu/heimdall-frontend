@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {User} from '../../models/User';
 import {Observable, ReplaySubject} from 'rxjs';
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpHeaders, HttpResponse} from '@angular/common/http';
 import {Env} from '../../configs/env';
 import {Realm} from '../../models/Realm';
 import {tap} from 'rxjs/operators';
@@ -44,6 +44,8 @@ export class UserService {
   getUserByUsername(username: string, realm: string): Observable<User> {
     return this.http.get<User>(url + '/user/' + realm + '/' + username);
   }
+
+
 
 
 }

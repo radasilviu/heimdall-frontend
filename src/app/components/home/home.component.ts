@@ -4,6 +4,8 @@ import {AdminAuthService} from 'src/app/services/admin-auth/admin-auth.service';
 import {RealmService} from 'src/app/services/realm-service/realm-service';
 import {SubSink} from 'subsink';
 import {Realm} from "../../models/Realm";
+import {HttpHeaders, HttpResponse} from '@angular/common/http';
+import {UserService} from '../../services/user-service/user-service';
 
 @Component({
   selector: 'app-home',
@@ -19,7 +21,8 @@ export class HomeComponent implements OnInit {
 
   constructor(private router: Router,
               private realmService: RealmService,
-              private adminAuthService: AdminAuthService) {
+              private adminAuthService: AdminAuthService,
+              private userService: UserService) {
   }
 
   ngOnDestroy() {
@@ -53,6 +56,7 @@ export class HomeComponent implements OnInit {
           .subscribe(data => this.realms = data)
       })
   }
+
 
 
 

@@ -1,4 +1,4 @@
-import {HttpClient, HttpErrorResponse, HttpResponse} from '@angular/common/http';
+import {HttpClient, HttpErrorResponse, HttpHeaders, HttpParams, HttpResponse} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {Router} from '@angular/router';
@@ -19,18 +19,23 @@ export class AdminAuthService {
 
   constructor(private http: HttpClient, private snackBar: MatSnackBar,private router:Router) { }
 
-  login(username: string, password: string,realm:string): Observable<Token> {
+  login(username: string, password: string,realm:string, rememberMe:boolean): Observable<Token> {
     const url = Env.apiRootURL + '/admin/login';
+    let headers = new HttpHeaders();
+    headers = headers.append('Authorization', 'Basic ' + btoa(username + ':' + password));
+    headers = headers.append('X-Requested-With', 'XMLHttpRequest');
+    headers = headers.append('whitelist','true');
+
     const body = {
       username: username,
       password: password,
       realm:realm
     };
 
+    const params = new HttpParams().append('remember-me', (rememberMe ? 'true' : 'false' ));
     const options = {
-      headers: {
-        'whitelist': 'true'
-      }
+      params,
+      headers
     };
     return this.http.post<Token>(url, body, options).pipe(
       tap((token: Token) => {

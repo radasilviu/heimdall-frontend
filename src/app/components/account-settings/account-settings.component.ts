@@ -51,7 +51,6 @@ export class AccountSettingsComponent implements OnInit {
       .currentRealm
       .getValue();
     this.getCurrentUser();
-
   }
 
   ngOnDestroy() {

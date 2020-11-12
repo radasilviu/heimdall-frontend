@@ -34,19 +34,23 @@ export class LoginComponent implements OnInit {
       username: new FormControl('', [Validators.required]),
       password: new FormControl('', [Validators.required])
     });
+    this.getCookies();
   }
 
   ngOnDestroy() {
     this.subSink.unsubscribe();
   }
 
+  getCookies(){
+    this.subSink.add(this.authService.writeCookie( "test").subscribe());
+  }
+
   login(): void {
 
     const username = this.loginForm.get('username').value;
     const password = this.loginForm.get('password').value;
-
     this.subSink.add(this.authService
-      .login(username, password, this.realm)
+      .login(username, password, this.realm, true)
 
       .subscribe(
         user => {
@@ -57,4 +61,6 @@ export class LoginComponent implements OnInit {
         }
       ));
   }
+
+
 }
